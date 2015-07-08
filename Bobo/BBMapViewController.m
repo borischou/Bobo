@@ -9,6 +9,8 @@
 #import "BBMapViewController.h"
 #import <BaiduMapAPI/BMapKit.h>
 
+#import "BBBaiduCustomPaopaoView.h"
+
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
@@ -16,6 +18,7 @@
 
 @property (strong, nonatomic) BMKMapView *mapView;
 @property (strong, nonatomic) BMKPointAnnotation *curAnnotation;
+@property (strong, nonatomic) BMKPinAnnotationView *curPinView;
 @property (strong, nonatomic) BMKLocationService *locService;
 
 @end
@@ -75,24 +78,33 @@
 
 #pragma mark - BMKLocationServiceDelegate
 
--(void)didUpdateUserHeading:(BMKUserLocation *)userLocation
-{
-
-}
-
 -(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
 {
     _curAnnotation.coordinate = userLocation.location.coordinate;
-    _curAnnotation.title = @"You are here";
+    _curAnnotation.title = @"Test";
 }
 
 #pragma mark - BMKMapViewDelegate
 
 -(BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id<BMKAnnotation>)annotation
 {
-    BMKPinAnnotationView *pinView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"curAnnotation"];
-    pinView.pinColor = BMKPinAnnotationColorPurple;
-    return pinView;
+    if ([annotation isEqual:_curAnnotation]) {
+        _curPinView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"curAnnotation"];
+        _curPinView.pinColor = BMKPinAnnotationColorPurple;
+        BBBaiduCustomPaopaoView *baiducpv = [[BBBaiduCustomPaopaoView alloc] initWithFrame:CGRectMake(0, 0, 200, 100)];
+        BMKActionPaopaoView *customePaopaoView = [[BMKActionPaopaoView alloc] initWithCustomView:baiducpv];
+        _curPinView.paopaoView = customePaopaoView;
+        _curPinView.canShowCallout = YES;
+        return _curPinView;
+    }
+    return nil;
+}
+
+-(void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
+{
+    if ([view isEqual:_curPinView]) {
+        mapView.centerCoordinate = view.annotation.coordinate;
+    }
 }
 
 @end
