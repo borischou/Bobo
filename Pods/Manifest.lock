@@ -1,0 +1,53 @@
+PODS:
+  - AFNetworking (2.5.4):
+    - AFNetworking/NSURLConnection (= 2.5.4)
+    - AFNetworking/NSURLSession (= 2.5.4)
+    - AFNetworking/Reachability (= 2.5.4)
+    - AFNetworking/Security (= 2.5.4)
+    - AFNetworking/Serialization (= 2.5.4)
+    - AFNetworking/UIKit (= 2.5.4)
+  - AFNetworking/NSURLConnection (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.4)
+  - AFNetworking/Security (2.5.4)
+  - AFNetworking/Serialization (2.5.4)
+  - AFNetworking/UIKit (2.5.4):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - JSONKit-NoWarning (1.2)
+  - MBProgressHUD (0.9.1)
+  - MJRefresh (2.0.1)
+  - pop (1.0.7)
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
+  - UberKit (0.2)
+  - UITableView+FDTemplateLayoutCell (1.3)
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.0)
+  - JSONKit-NoWarning (~> 1.1)
+  - MBProgressHUD (~> 0.9.1)
+  - MJRefresh
+  - pop (~> 1.0)
+  - SDWebImage (~> 3.7)
+  - UberKit
+  - UITableView+FDTemplateLayoutCell (~> 1.3)
+
+SPEC CHECKSUMS:
+  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  JSONKit-NoWarning: 3d27e6f9e6846ecf741e8c64dcadd7d5aa7193cb
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  MJRefresh: ba114191a0ce34bcc9c1853aa1d3781532c9bc3f
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  UberKit: 3c4767f8c2b317be450c3de48acbe6b632306004
+  UITableView+FDTemplateLayoutCell: d5be6056b5060313f5955a2590ecd33142ad713d
+
+COCOAPODS: 0.37.2

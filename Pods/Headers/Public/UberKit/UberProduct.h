@@ -1,0 +1,1 @@
+../../../UberKit/UberKit/Model/UberProduct.h
