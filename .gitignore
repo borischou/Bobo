@@ -24,6 +24,7 @@ xcuserdata
 *.xcscmblueprint
 *.xcodeproj
 *.pbxproj
+*.lock
 
 ## Obj-C/Swift specific
 *.hmap
@@ -32,6 +33,7 @@ xcuserdata
 #My configurations
 project.pbxproj
 Bobo.xcodeproj/project.pbxproj
+.DS_Store
 
 # CocoaPods
 #

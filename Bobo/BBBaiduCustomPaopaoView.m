@@ -15,13 +15,15 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        [self setPaopaoViewLayout];
     }
     return self;
 }
 
 -(void)setPaopaoViewLayout
 {
+    self.backgroundColor = [UIColor whiteColor];
+    
     _setStartPointBtn = [[UIButton alloc] initWithFrame:CGRectMake(5, self.frame.size.height - 25, 40, 20) andTitle:@"Start" withBackgroundColor:[UIColor redColor] andTintColor:[UIColor greenColor]];
     [self addSubview:_setStartPointBtn];
     

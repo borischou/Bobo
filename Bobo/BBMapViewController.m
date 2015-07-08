@@ -91,7 +91,7 @@
     if ([annotation isEqual:_curAnnotation]) {
         _curPinView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"curAnnotation"];
         _curPinView.pinColor = BMKPinAnnotationColorPurple;
-        BBBaiduCustomPaopaoView *baiducpv = [[BBBaiduCustomPaopaoView alloc] initWithFrame:CGRectMake(0, 0, 200, 100)];
+        BBBaiduCustomPaopaoView *baiducpv = [[BBBaiduCustomPaopaoView alloc] initWithFrame:CGRectMake(0, 0, 93, 100)];
         BMKActionPaopaoView *customePaopaoView = [[BMKActionPaopaoView alloc] initWithCustomView:baiducpv];
         _curPinView.paopaoView = customePaopaoView;
         _curPinView.canShowCallout = YES;
