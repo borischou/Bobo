@@ -83,6 +83,7 @@
 -(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
 {
     _curAnnotation.coordinate = userLocation.location.coordinate;
+    _curAnnotation.title = @"You are here";
 }
 
 #pragma mark - BMKMapViewDelegate
