@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <UberKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (strong, nonatomic) NSString *wbToken;
+@property (strong, nonatomic) NSString *wbCurrentUserID;
+@property BOOL isLoggedIn;
 
 @end
 

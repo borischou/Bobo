@@ -8,12 +8,47 @@
 
 /* Begin PBXBuildFile section */
 		451441D31B295CA9000532DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D21B295CA9000532DD /* main.m */; };
-		451441D61B295CA9000532DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.m */; };
-		451441D91B295CA9000532DD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D81B295CA9000532DD /* ViewController.m */; };
-		451441DC1B295CA9000532DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 451441DA1B295CA9000532DD /* Main.storyboard */; };
+		451441D61B295CA9000532DD /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.mm */; };
 		451441DE1B295CA9000532DD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 451441DD1B295CA9000532DD /* Images.xcassets */; };
 		451441E11B295CA9000532DD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 451441DF1B295CA9000532DD /* LaunchScreen.xib */; };
 		451441ED1B295CA9000532DD /* BoboTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441EC1B295CA9000532DD /* BoboTests.m */; };
+		451442061B295E8B000532DD /* BBWeiboListTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 451442051B295E8B000532DD /* BBWeiboListTableVC.m */; };
+		451442121B29635B000532DD /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442071B29635B000532DD /* libWeiboSDK.a */; };
+		451442131B29635B000532DD /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4514420F1B29635B000532DD /* WeiboSDK.bundle */; };
+		451442151B2963D4000532DD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442141B2963D4000532DD /* QuartzCore.framework */; };
+		451442171B2963DB000532DD /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442161B2963DA000532DD /* ImageIO.framework */; };
+		451442191B2963E3000532DD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442181B2963E3000532DD /* SystemConfiguration.framework */; };
+		4514421B1B2963ED000532DD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4514421A1B2963ED000532DD /* Security.framework */; };
+		4514421D1B2963F4000532DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4514421C1B2963F4000532DD /* UIKit.framework */; };
+		4514421F1B2963FA000532DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4514421E1B2963FA000532DD /* Foundation.framework */; };
+		451442211B296401000532DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442201B296401000532DD /* CoreGraphics.framework */; };
+		453035D01B4A51A500647ACC /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 453035CF1B4A51A500647ACC /* mapapi.bundle */; };
+		45435E5C1B4BDC8600AA4C3B /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */; };
+		454E93E81B3FCD72001126E4 /* NSString+UrlConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+UrlConvert.m */; };
+		455CE9221B4A28D70057A390 /* UberRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 455CE9211B4A28D70057A390 /* UberRequest.m */; };
+		455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */; };
+		455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE81B3404540007B883 /* BBNetworkUtils.m */; };
+		45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */; };
+		4566BC4B1B37ACD5008CF8D5 /* BBProfileTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4A1B37ACD5008CF8D5 /* BBProfileTableVC.m */; };
+		4566BC4E1B37E336008CF8D5 /* BBAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4D1B37E336008CF8D5 /* BBAvatarCell.m */; };
+		4566BC511B37EDC8008CF8D5 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC501B37EDC8008CF8D5 /* UserModel.m */; };
+		4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */; };
+		456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C0FDA1B31570C007B5CFB /* CoreText.framework */; };
+		456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C77E21B2A88110055FBE8 /* libz.dylib */; };
+		456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */; };
+		456C77EC1B2AE45D0055FBE8 /* StatusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77EB1B2AE45D0055FBE8 /* StatusModel.m */; };
+		45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45702AD11B2B37F200B81F90 /* CFNetwork.framework */; };
+		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
+		45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */; };
+		4588F7331B3B9B5A00EE32D0 /* WeiboCountsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */; };
+		4588F7361B3BBF7C00EE32D0 /* BBUberTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7351B3BBF7C00EE32D0 /* BBUberTableVC.m */; };
+		4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F7451B3BC45500EE32D0 /* car@3x.png */; };
+		4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */; };
+		45A052131B3A5CB200A1488D /* timeline_image_loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */; };
+		45A052161B3A898200A1488D /* BBCountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountCell.m */; };
+		45DB7E4E1B4C0CED0038701B /* BBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DB7E4D1B4C0CED0038701B /* BBMapViewController.m */; };
+		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
+		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,19 +62,83 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		451441CD1B295CA9000532DD /* Bobo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bobo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		451441D11B295CA9000532DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		451441D21B295CA9000532DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		451441D41B295CA9000532DD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		451441D51B295CA9000532DD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		451441D71B295CA9000532DD /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		451441D81B295CA9000532DD /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		451441DB1B295CA9000532DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		451441D51B295CA9000532DD /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		451441DD1B295CA9000532DD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		451441E01B295CA9000532DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		451441E61B295CA9000532DD /* BoboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		451441EB1B295CA9000532DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		451441EC1B295CA9000532DD /* BoboTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoboTests.m; sourceTree = "<group>"; };
+		451442041B295E8B000532DD /* BBWeiboListTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWeiboListTableVC.h; sourceTree = "<group>"; };
+		451442051B295E8B000532DD /* BBWeiboListTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWeiboListTableVC.m; sourceTree = "<group>"; };
+		451442071B29635B000532DD /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		451442081B29635B000532DD /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
+		451442091B29635B000532DD /* WBHttpRequest+WeiboShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboShare.h"; sourceTree = "<group>"; };
+		4514420A1B29635B000532DD /* WBHttpRequest+WeiboToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboToken.h"; sourceTree = "<group>"; };
+		4514420B1B29635B000532DD /* WBHttpRequest+WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboUser.h"; sourceTree = "<group>"; };
+		4514420C1B29635B000532DD /* WBSDKBasicButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKBasicButton.h; sourceTree = "<group>"; };
+		4514420D1B29635B000532DD /* WBSDKCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKCommentButton.h; sourceTree = "<group>"; };
+		4514420E1B29635B000532DD /* WBSDKRelationshipButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKRelationshipButton.h; sourceTree = "<group>"; };
+		4514420F1B29635B000532DD /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
+		451442101B29635B000532DD /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
+		451442111B29635B000532DD /* WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboUser.h; sourceTree = "<group>"; };
+		451442141B2963D4000532DD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		451442161B2963DA000532DD /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		451442181B2963E3000532DD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		4514421A1B2963ED000532DD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		4514421C1B2963F4000532DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4514421E1B2963FA000532DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		451442201B296401000532DD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		453035CD1B4A4FB100647ACC /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = "Bobo/Release-iphoneos/BaiduMapAPI.framework"; sourceTree = "<group>"; };
+		453035CF1B4A51A500647ACC /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
+		453035D21B4A609400647ACC /* Release-iphoneos */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Release-iphoneos"; path = "Bobo/Release-iphoneos"; sourceTree = "<group>"; };
+		45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = Bobo/BaiduMapAPI.framework; sourceTree = "<group>"; };
+		454E93E61B3FCD72001126E4 /* NSString+UrlConvert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UrlConvert.h"; sourceTree = "<group>"; };
+		454E93E71B3FCD72001126E4 /* NSString+UrlConvert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UrlConvert.m"; sourceTree = "<group>"; };
+		455CE9201B4A28D70057A390 /* UberRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberRequest.h; sourceTree = "<group>"; };
+		455CE9211B4A28D70057A390 /* UberRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberRequest.m; sourceTree = "<group>"; };
+		455FFAE31B33F4480007B883 /* UIButton+Bobtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Bobtn.h"; sourceTree = "<group>"; };
+		455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Bobtn.m"; sourceTree = "<group>"; };
+		455FFAE71B3404540007B883 /* BBNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNetworkUtils.h; sourceTree = "<group>"; };
+		455FFAE81B3404540007B883 /* BBNetworkUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBNetworkUtils.m; sourceTree = "<group>"; };
+		45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chunvzuo@3x.png"; sourceTree = "<group>"; };
+		4566BC491B37ACD5008CF8D5 /* BBProfileTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileTableVC.h; sourceTree = "<group>"; };
+		4566BC4A1B37ACD5008CF8D5 /* BBProfileTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileTableVC.m; sourceTree = "<group>"; };
+		4566BC4C1B37E336008CF8D5 /* BBAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAvatarCell.h; sourceTree = "<group>"; };
+		4566BC4D1B37E336008CF8D5 /* BBAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAvatarCell.m; sourceTree = "<group>"; };
+		4566BC4F1B37EDC8008CF8D5 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		4566BC501B37EDC8008CF8D5 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gerenshiwu@3x.png"; sourceTree = "<group>"; };
+		456C0FDA1B31570C007B5CFB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		456C77E21B2A88110055FBE8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		456C77E61B2AC5B90055FBE8 /* BBHomelistTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBHomelistTableViewCell.h; sourceTree = "<group>"; };
+		456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBHomelistTableViewCell.m; sourceTree = "<group>"; };
+		456C77EA1B2AE45D0055FBE8 /* StatusModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusModel.h; sourceTree = "<group>"; };
+		456C77EB1B2AE45D0055FBE8 /* StatusModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusModel.m; sourceTree = "<group>"; };
+		45702AD11B2B37F200B81F90 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		4572E1C11B3C59F900348866 /* BBImageBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBImageBrowserView.h; sourceTree = "<group>"; };
+		4572E1C21B3C59F900348866 /* BBImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBImageBrowserView.m; sourceTree = "<group>"; };
+		45731F0A1B32BD56002EECA6 /* BBButtonbarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBButtonbarCell.h; sourceTree = "<group>"; };
+		45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBButtonbarCell.m; sourceTree = "<group>"; };
+		4588F7311B3B9B5A00EE32D0 /* WeiboCountsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboCountsModel.h; sourceTree = "<group>"; };
+		4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeiboCountsModel.m; sourceTree = "<group>"; };
+		4588F7341B3BBF7C00EE32D0 /* BBUberTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUberTableVC.h; sourceTree = "<group>"; };
+		4588F7351B3BBF7C00EE32D0 /* BBUberTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBUberTableVC.m; sourceTree = "<group>"; };
+		4588F7451B3BC45500EE32D0 /* car@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@3x.png"; sourceTree = "<group>"; };
+		4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-uber@3x.png"; sourceTree = "<group>"; };
+		45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_image_loading@2x.png"; sourceTree = "<group>"; };
+		45A052141B3A898200A1488D /* BBCountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountCell.h; sourceTree = "<group>"; };
+		45A052151B3A898200A1488D /* BBCountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountCell.m; sourceTree = "<group>"; };
+		45DB7E4C1B4C0CED0038701B /* BBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMapViewController.h; sourceTree = "<group>"; };
+		45DB7E4D1B4C0CED0038701B /* BBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMapViewController.m; sourceTree = "<group>"; };
+		45F07DB71B49858900327E6D /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = "../../../Downloads/frameworks projects/BaiduMap_IOSSDK_v2.8.0_All/BaiduMap_IOSSDK_v2.8.0_Lib/Release-iphoneos/BaiduMapAPI.framework"; sourceTree = "<group>"; };
+		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		68ADFD39DDA092351BC9F4D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A514AEC441207DBA08E4A83B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +146,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45435E5C1B4BDC8600AA4C3B /* BaiduMapAPI.framework in Frameworks */,
+				45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */,
+				456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */,
+				45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */,
+				456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */,
+				451442211B296401000532DD /* CoreGraphics.framework in Frameworks */,
+				4514421F1B2963FA000532DD /* Foundation.framework in Frameworks */,
+				4514421D1B2963F4000532DD /* UIKit.framework in Frameworks */,
+				4514421B1B2963ED000532DD /* Security.framework in Frameworks */,
+				451442191B2963E3000532DD /* SystemConfiguration.framework in Frameworks */,
+				451442171B2963DB000532DD /* ImageIO.framework in Frameworks */,
+				451442151B2963D4000532DD /* QuartzCore.framework in Frameworks */,
+				451442121B29635B000532DD /* libWeiboSDK.a in Frameworks */,
+				FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +173,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B724CE50D0FC385A918684B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */,
+				453035D21B4A609400647ACC /* Release-iphoneos */,
+				453035CD1B4A4FB100647ACC /* BaiduMapAPI.framework */,
+				45F07DB91B4985B800327E6D /* OpenGLES.framework */,
+				45F07DB71B49858900327E6D /* BaiduMapAPI.framework */,
+				456C0FDA1B31570C007B5CFB /* CoreText.framework */,
+				45702AD11B2B37F200B81F90 /* CFNetwork.framework */,
+				456C77E21B2A88110055FBE8 /* libz.dylib */,
+				68ADFD39DDA092351BC9F4D9 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		33CB51E8FA4629747EC83665 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */,
+				A514AEC441207DBA08E4A83B /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		451441C41B295CA9000532DD = {
 			isa = PBXGroup;
 			children = (
 				451441CF1B295CA9000532DD /* Bobo */,
 				451441E91B295CA9000532DD /* BoboTests */,
 				451441CE1B295CA9000532DD /* Products */,
+				33CB51E8FA4629747EC83665 /* Pods */,
+				0B724CE50D0FC385A918684B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,11 +221,15 @@
 		451441CF1B295CA9000532DD /* Bobo */ = {
 			isa = PBXGroup;
 			children = (
+				455CE9161B4A25F90057A390 /* UberRequests */,
+				45620D3C1B3706BF00B9F9F2 /* Images */,
+				455FFAE61B34040E0007B883 /* Networks */,
+				45617A671B2ECA1600BDFE7F /* Catagories */,
+				456C77E91B2AE3E30055FBE8 /* Models */,
+				456C77E51B2AC59B0055FBE8 /* Views */,
+				456C77E41B2AC5500055FBE8 /* Controllers */,
 				451441D41B295CA9000532DD /* AppDelegate.h */,
-				451441D51B295CA9000532DD /* AppDelegate.m */,
-				451441D71B295CA9000532DD /* ViewController.h */,
-				451441D81B295CA9000532DD /* ViewController.m */,
-				451441DA1B295CA9000532DD /* Main.storyboard */,
+				451441D51B295CA9000532DD /* AppDelegate.mm */,
 				451441DD1B295CA9000532DD /* Images.xcassets */,
 				451441DF1B295CA9000532DD /* LaunchScreen.xib */,
 				451441D01B295CA9000532DD /* Supporting Files */,
@@ -96,6 +240,9 @@
 		451441D01B295CA9000532DD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				453035CF1B4A51A500647ACC /* mapapi.bundle */,
+				451442221B296413000532DD /* syslib */,
+				451442031B295E3C000532DD /* libWeiboSDK */,
 				451441D11B295CA9000532DD /* Info.plist */,
 				451441D21B295CA9000532DD /* main.m */,
 			);
@@ -119,6 +266,124 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		451442031B295E3C000532DD /* libWeiboSDK */ = {
+			isa = PBXGroup;
+			children = (
+				451442071B29635B000532DD /* libWeiboSDK.a */,
+				451442081B29635B000532DD /* WBHttpRequest.h */,
+				451442091B29635B000532DD /* WBHttpRequest+WeiboShare.h */,
+				4514420A1B29635B000532DD /* WBHttpRequest+WeiboToken.h */,
+				4514420B1B29635B000532DD /* WBHttpRequest+WeiboUser.h */,
+				4514420C1B29635B000532DD /* WBSDKBasicButton.h */,
+				4514420D1B29635B000532DD /* WBSDKCommentButton.h */,
+				4514420E1B29635B000532DD /* WBSDKRelationshipButton.h */,
+				4514420F1B29635B000532DD /* WeiboSDK.bundle */,
+				451442101B29635B000532DD /* WeiboSDK.h */,
+				451442111B29635B000532DD /* WeiboUser.h */,
+			);
+			name = libWeiboSDK;
+			sourceTree = "<group>";
+		};
+		451442221B296413000532DD /* syslib */ = {
+			isa = PBXGroup;
+			children = (
+				451442201B296401000532DD /* CoreGraphics.framework */,
+				4514421E1B2963FA000532DD /* Foundation.framework */,
+				4514421C1B2963F4000532DD /* UIKit.framework */,
+				4514421A1B2963ED000532DD /* Security.framework */,
+				451442181B2963E3000532DD /* SystemConfiguration.framework */,
+				451442161B2963DA000532DD /* ImageIO.framework */,
+				451442141B2963D4000532DD /* QuartzCore.framework */,
+			);
+			name = syslib;
+			sourceTree = "<group>";
+		};
+		455CE9161B4A25F90057A390 /* UberRequests */ = {
+			isa = PBXGroup;
+			children = (
+				455CE9201B4A28D70057A390 /* UberRequest.h */,
+				455CE9211B4A28D70057A390 /* UberRequest.m */,
+			);
+			name = UberRequests;
+			sourceTree = "<group>";
+		};
+		455FFAE61B34040E0007B883 /* Networks */ = {
+			isa = PBXGroup;
+			children = (
+				455FFAE71B3404540007B883 /* BBNetworkUtils.h */,
+				455FFAE81B3404540007B883 /* BBNetworkUtils.m */,
+			);
+			name = Networks;
+			sourceTree = "<group>";
+		};
+		45617A671B2ECA1600BDFE7F /* Catagories */ = {
+			isa = PBXGroup;
+			children = (
+				455FFAE31B33F4480007B883 /* UIButton+Bobtn.h */,
+				455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */,
+				454E93E61B3FCD72001126E4 /* NSString+UrlConvert.h */,
+				454E93E71B3FCD72001126E4 /* NSString+UrlConvert.m */,
+			);
+			name = Catagories;
+			sourceTree = "<group>";
+		};
+		45620D3C1B3706BF00B9F9F2 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */,
+				45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */,
+				45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */,
+				4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */,
+				4588F7451B3BC45500EE32D0 /* car@3x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		456C77E41B2AC5500055FBE8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				451442041B295E8B000532DD /* BBWeiboListTableVC.h */,
+				451442051B295E8B000532DD /* BBWeiboListTableVC.m */,
+				45DB7E4C1B4C0CED0038701B /* BBMapViewController.h */,
+				45DB7E4D1B4C0CED0038701B /* BBMapViewController.m */,
+				4566BC491B37ACD5008CF8D5 /* BBProfileTableVC.h */,
+				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableVC.m */,
+				4588F7341B3BBF7C00EE32D0 /* BBUberTableVC.h */,
+				4588F7351B3BBF7C00EE32D0 /* BBUberTableVC.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		456C77E51B2AC59B0055FBE8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				456C77E61B2AC5B90055FBE8 /* BBHomelistTableViewCell.h */,
+				456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */,
+				45731F0A1B32BD56002EECA6 /* BBButtonbarCell.h */,
+				45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */,
+				4566BC4C1B37E336008CF8D5 /* BBAvatarCell.h */,
+				4566BC4D1B37E336008CF8D5 /* BBAvatarCell.m */,
+				45A052141B3A898200A1488D /* BBCountCell.h */,
+				45A052151B3A898200A1488D /* BBCountCell.m */,
+				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
+				4572E1C21B3C59F900348866 /* BBImageBrowserView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		456C77E91B2AE3E30055FBE8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				456C77EA1B2AE45D0055FBE8 /* StatusModel.h */,
+				456C77EB1B2AE45D0055FBE8 /* StatusModel.m */,
+				4566BC4F1B37EDC8008CF8D5 /* UserModel.h */,
+				4566BC501B37EDC8008CF8D5 /* UserModel.m */,
+				4588F7311B3B9B5A00EE32D0 /* WeiboCountsModel.h */,
+				4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +391,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 451441F01B295CA9000532DD /* Build configuration list for PBXNativeTarget "Bobo" */;
 			buildPhases = (
+				804D686669BF22252DBB1DB3 /* Check Pods Manifest.lock */,
 				451441C91B295CA9000532DD /* Sources */,
 				451441CA1B295CA9000532DD /* Frameworks */,
 				451441CB1B295CA9000532DD /* Resources */,
+				177A083A0901C2B21D616B0A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -199,9 +466,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				451441DC1B295CA9000532DD /* Main.storyboard in Resources */,
 				451441E11B295CA9000532DD /* LaunchScreen.xib in Resources */,
+				4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */,
 				451441DE1B295CA9000532DD /* Images.xcassets in Resources */,
+				453035D01B4A51A500647ACC /* mapapi.bundle in Resources */,
+				451442131B29635B000532DD /* WeiboSDK.bundle in Resources */,
+				45A052131B3A5CB200A1488D /* timeline_image_loading@2x.png in Resources */,
+				4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */,
+				4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */,
+				45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,14 +487,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		177A083A0901C2B21D616B0A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		804D686669BF22252DBB1DB3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		451441C91B295CA9000532DD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				451441D91B295CA9000532DD /* ViewController.m in Sources */,
-				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,
+				45A052161B3A898200A1488D /* BBCountCell.m in Sources */,
+				45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */,
+				4566BC511B37EDC8008CF8D5 /* UserModel.m in Sources */,
+				4566BC4E1B37E336008CF8D5 /* BBAvatarCell.m in Sources */,
+				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
+				45DB7E4E1B4C0CED0038701B /* BBMapViewController.m in Sources */,
+				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
+				4588F7331B3B9B5A00EE32D0 /* WeiboCountsModel.m in Sources */,
+				454E93E81B3FCD72001126E4 /* NSString+UrlConvert.m in Sources */,
+				4588F7361B3BBF7C00EE32D0 /* BBUberTableVC.m in Sources */,
+				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableVC.m in Sources */,
+				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
+				456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */,
+				456C77EC1B2AE45D0055FBE8 /* StatusModel.m in Sources */,
+				451441D61B295CA9000532DD /* AppDelegate.mm in Sources */,
+				451442061B295E8B000532DD /* BBWeiboListTableVC.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,
+				455CE9221B4A28D70057A390 /* UberRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,14 +565,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		451441DA1B295CA9000532DD /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				451441DB1B295CA9000532DD /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		451441DF1B295CA9000532DD /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -304,6 +617,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -342,26 +656,63 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
 		451441F11B295CA9000532DD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/zhouboli/Documents/untitled,
+					"folder/Bobo/Bobo/Release-iphoneos",
+					"$(PROJECT_DIR)/Bobo/Release-iphoneos",
+					"$(PROJECT_DIR)/Bobo",
+				);
 				INFOPLIST_FILE = Bobo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Bobo",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
 		451441F21B295CA9000532DD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A514AEC441207DBA08E4A83B /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/zhouboli/Documents/untitled,
+					"folder/Bobo/Bobo/Release-iphoneos",
+					"$(PROJECT_DIR)/Bobo/Release-iphoneos",
+					"$(PROJECT_DIR)/Bobo",
+				);
 				INFOPLIST_FILE = Bobo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Bobo",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -418,6 +769,7 @@
 				451441F21B295CA9000532DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		451441F31B295CA9000532DD /* Build configuration list for PBXNativeTarget "BoboTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +778,7 @@
 				451441F51B295CA9000532DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
