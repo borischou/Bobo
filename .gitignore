@@ -22,11 +22,12 @@ xcuserdata
 *.moved-aside
 *.xcuserstate
 *.xcscmblueprint
+*.xcodeproj
+*.pbxproj
 
 ## Obj-C/Swift specific
 *.hmap
 *.ipa
-*.pbxproj
 
 # CocoaPods
 #
