@@ -29,6 +29,9 @@ xcuserdata
 *.hmap
 *.ipa
 
+#My configurations
+project.pbxproj
+
 # CocoaPods
 #
 # We recommend against adding the Pods directory to your .gitignore. However
