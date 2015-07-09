@@ -46,6 +46,7 @@
 		4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */; };
 		45A052131B3A5CB200A1488D /* timeline_image_loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */; };
 		45A052161B3A898200A1488D /* BBCountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountCell.m */; };
+		45A9953A1B4D0FBE00FED64E /* BBBaiduCustomPaopaoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A995391B4D0FBE00FED64E /* BBBaiduCustomPaopaoView.m */; };
 		45DB7E4E1B4C0CED0038701B /* BBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DB7E4D1B4C0CED0038701B /* BBMapViewController.m */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
@@ -133,6 +134,8 @@
 		45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_image_loading@2x.png"; sourceTree = "<group>"; };
 		45A052141B3A898200A1488D /* BBCountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountCell.h; sourceTree = "<group>"; };
 		45A052151B3A898200A1488D /* BBCountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountCell.m; sourceTree = "<group>"; };
+		45A995381B4D0FBE00FED64E /* BBBaiduCustomPaopaoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBBaiduCustomPaopaoView.h; sourceTree = "<group>"; };
+		45A995391B4D0FBE00FED64E /* BBBaiduCustomPaopaoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBBaiduCustomPaopaoView.m; sourceTree = "<group>"; };
 		45DB7E4C1B4C0CED0038701B /* BBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMapViewController.h; sourceTree = "<group>"; };
 		45DB7E4D1B4C0CED0038701B /* BBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMapViewController.m; sourceTree = "<group>"; };
 		45F07DB71B49858900327E6D /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = "../../../Downloads/frameworks projects/BaiduMap_IOSSDK_v2.8.0_All/BaiduMap_IOSSDK_v2.8.0_Lib/Release-iphoneos/BaiduMapAPI.framework"; sourceTree = "<group>"; };
@@ -367,6 +370,8 @@
 				45A052151B3A898200A1488D /* BBCountCell.m */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
 				4572E1C21B3C59F900348866 /* BBImageBrowserView.m */,
+				45A995381B4D0FBE00FED64E /* BBBaiduCustomPaopaoView.h */,
+				45A995391B4D0FBE00FED64E /* BBBaiduCustomPaopaoView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -536,6 +541,7 @@
 				454E93E81B3FCD72001126E4 /* NSString+UrlConvert.m in Sources */,
 				4588F7361B3BBF7C00EE32D0 /* BBUberTableVC.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableVC.m in Sources */,
+				45A9953A1B4D0FBE00FED64E /* BBBaiduCustomPaopaoView.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */,
 				456C77EC1B2AE45D0055FBE8 /* StatusModel.m in Sources */,

@@ -130,17 +130,17 @@
 {
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginBtnPressed)];
+    UIBarButtonItem *rightItem_2 = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginBtnPressed)];
     
-    UIBarButtonItem *leftItem_second = [[UIBarButtonItem alloc] initWithTitle:@"Uber Cars" style:UIBarButtonItemStylePlain target:self action:@selector(uberCarPressed)];
+    UIBarButtonItem *rightItem_3 = [[UIBarButtonItem alloc] initWithTitle:@"Uber Cars" style:UIBarButtonItemStylePlain target:self action:@selector(uberCarPressed)];
     
-    self.navigationItem.leftBarButtonItems = @[leftItem, leftItem_second];
+    //self.navigationItem.leftBarButtonItems = @[leftItem, leftItem_second];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(profileBtnPressed)];
+    UIBarButtonItem *rightItem_0 = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(profileBtnPressed)];
     
-    UIBarButtonItem *rightItem_second = [[UIBarButtonItem alloc] initWithTitle:@"Open Uber" style:UIBarButtonItemStylePlain target:self action:@selector(openUberApp)];
+    UIBarButtonItem *rightItem_1 = [[UIBarButtonItem alloc] initWithTitle:@"Open Uber" style:UIBarButtonItemStylePlain target:self action:@selector(openUberApp)];
     
-    self.navigationItem.rightBarButtonItems = @[rightItem, rightItem_second];
+    self.navigationItem.rightBarButtonItems = @[rightItem_0, rightItem_1, rightItem_2, rightItem_3];
 }
 
 -(void)setUberAuthParams
@@ -259,6 +259,12 @@
 
 -(void)uberCarPressed
 {
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"access_token"];
+    if (token) {
+        _accessToken = token;
+        [[UberKit sharedInstance] setAuthTokenWith:token];
+        [self fetchUserProfile];
+    }
     [self.tableView reloadData];
 }
 
@@ -277,6 +283,8 @@
 {
     NSLog(@"Received access token: %@", accessToken);
     _accessToken = accessToken;
+    [[NSUserDefaults standardUserDefaults] setObject:accessToken forKey:@"access_token"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self fetchUserProfile];
     [self fetchUserActivityOfVersion11];
 }

@@ -94,6 +94,11 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     return _accessToken;
 }
 
+- (void) setAuthTokenWith:(NSString *)token
+{
+    _accessToken = token;
+}
+
 #pragma mark - Product Types
 
 - (void) getProductsForLocation:(CLLocation *)location withCompletionHandler:(CompletionHandler)completion
@@ -259,7 +264,6 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 - (BOOL) handleLoginRedirectFromUrl:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 {
     NSLog(@"url.absoluteURL.host is %@", url.absoluteURL.host);
-    //[url.absoluteURL.host hasPrefix:_redirectURL]
     if ([sourceApplication isEqualToString:mobile_safari_string] && [url.absoluteString hasPrefix:_redirectURL])
     {
         NSString *code = nil;

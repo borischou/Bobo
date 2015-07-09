@@ -9,6 +9,9 @@
 #import "BBMapViewController.h"
 #import <BaiduMapAPI/BMapKit.h>
 
+#import "BBBaiduCustomPaopaoView.h"
+#import "BBUberTableVC.h"
+
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
@@ -16,6 +19,7 @@
 
 @property (strong, nonatomic) BMKMapView *mapView;
 @property (strong, nonatomic) BMKPointAnnotation *curAnnotation;
+@property (strong, nonatomic) BMKPinAnnotationView *curPinView;
 @property (strong, nonatomic) BMKLocationService *locService;
 
 @end
@@ -26,6 +30,8 @@
     [super viewDidLoad];
     [self initBaiduMapView];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"Make Order" style:UIBarButtonItemStylePlain target:self action:@selector(orderPressed)];
+    self.navigationItem.leftBarButtonItems = @[leftItem];
     [self startBaiduLocationService];
 }
 
@@ -57,6 +63,13 @@
 
 #pragma mark - Helpers
 
+-(void)orderPressed
+{
+    BBUberTableVC *utvc = [[BBUberTableVC alloc] initWithStyle:UITableViewStylePlain];
+    utvc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:utvc animated:YES];
+}
+
 -(void)initBaiduMapView
 {
     _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
@@ -75,23 +88,33 @@
 
 #pragma mark - BMKLocationServiceDelegate
 
--(void)didUpdateUserHeading:(BMKUserLocation *)userLocation
-{
-
-}
-
 -(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
 {
     _curAnnotation.coordinate = userLocation.location.coordinate;
+    _curAnnotation.title = @"Test";
 }
 
 #pragma mark - BMKMapViewDelegate
 
 -(BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id<BMKAnnotation>)annotation
 {
-    BMKPinAnnotationView *pinView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"curAnnotation"];
-    pinView.pinColor = BMKPinAnnotationColorPurple;
-    return pinView;
+    if ([annotation isEqual:_curAnnotation]) {
+        _curPinView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"curAnnotation"];
+        _curPinView.pinColor = BMKPinAnnotationColorPurple;
+        BBBaiduCustomPaopaoView *baiducpv = [[BBBaiduCustomPaopaoView alloc] init];
+        BMKActionPaopaoView *customePaopaoView = [[BMKActionPaopaoView alloc] initWithCustomView:baiducpv];
+        _curPinView.paopaoView = customePaopaoView;
+        _curPinView.canShowCallout = YES;
+        return _curPinView;
+    }
+    return nil;
+}
+
+-(void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
+{
+    if ([view isEqual:_curPinView]) {
+        mapView.centerCoordinate = view.annotation.coordinate;
+    }
 }
 
 @end

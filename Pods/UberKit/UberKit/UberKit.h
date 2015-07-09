@@ -70,6 +70,7 @@ typedef void (^PromotionHandler) (UberPromotion *promotion, NSURLResponse *respo
 
 - (void) startLogin;
 - (NSString *) getStoredAuthToken;
+- (void) setAuthTokenWith:(NSString *)token;
 
 #pragma mark - Product Types
 
