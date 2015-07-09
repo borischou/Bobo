@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>656BC915-FB63-4DD9-82A8-D63664ECEF58</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Bobo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>D0C9A42E34CBDEEE5BD68A92A014210DE2BB9F06</key>
+		<string>github.com:borischou/bobo-uber.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Bobo.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>D0C9A42E34CBDEEE5BD68A92A014210DE2BB9F06</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:borischou/bobo-uber.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>D0C9A42E34CBDEEE5BD68A92A014210DE2BB9F06</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D0C9A42E34CBDEEE5BD68A92A014210DE2BB9F06</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Bobo</string>
+		</dict>
+	</array>
+</dict>
+</plist>
