@@ -10,6 +10,7 @@
 #import <BaiduMapAPI/BMapKit.h>
 
 #import "BBBaiduCustomPaopaoView.h"
+#import "BBUberTableVC.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -29,6 +30,8 @@
     [super viewDidLoad];
     [self initBaiduMapView];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"Make Order" style:UIBarButtonItemStylePlain target:self action:@selector(orderPressed)];
+    self.navigationItem.leftBarButtonItems = @[leftItem];
     [self startBaiduLocationService];
 }
 
@@ -59,6 +62,13 @@
 }
 
 #pragma mark - Helpers
+
+-(void)orderPressed
+{
+    BBUberTableVC *utvc = [[BBUberTableVC alloc] initWithStyle:UITableViewStylePlain];
+    utvc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:utvc animated:YES];
+}
 
 -(void)initBaiduMapView
 {
@@ -91,7 +101,7 @@
     if ([annotation isEqual:_curAnnotation]) {
         _curPinView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"curAnnotation"];
         _curPinView.pinColor = BMKPinAnnotationColorPurple;
-        BBBaiduCustomPaopaoView *baiducpv = [[BBBaiduCustomPaopaoView alloc] initWithFrame:CGRectMake(0, 0, 93, 100)];
+        BBBaiduCustomPaopaoView *baiducpv = [[BBBaiduCustomPaopaoView alloc] init];
         BMKActionPaopaoView *customePaopaoView = [[BMKActionPaopaoView alloc] initWithCustomView:baiducpv];
         _curPinView.paopaoView = customePaopaoView;
         _curPinView.canShowCallout = YES;
