@@ -361,14 +361,6 @@ SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2014 Sachin Kesiraju</string>
-			<key>Title</key>
-			<string>UberKit</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
 			<string>BSD License
 
 For Pop software

@@ -11,11 +11,11 @@
 //  the full licence.
 //
 
-#if TARGET_OS_IPHONE
+//#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
-#else
-#import <Cocoa/Cocoa.h>
-#endif
+//#else
+//#import <Cocoa/Cocoa.h>
+//#endif
 
 
 #import "NXOAuth2Client.h"
