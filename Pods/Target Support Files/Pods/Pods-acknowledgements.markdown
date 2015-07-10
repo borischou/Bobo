@@ -324,10 +324,6 @@ SOFTWARE.
 
 
 
-## UberKit
-
-Copyright 2014 Sachin Kesiraju
-
 ## pop
 
 BSD License

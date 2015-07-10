@@ -84,12 +84,6 @@
 #define COCOAPODS_VERSION_MINOR_UITableView_FDTemplateLayoutCell 3
 #define COCOAPODS_VERSION_PATCH_UITableView_FDTemplateLayoutCell 0
 
-// UberKit
-#define COCOAPODS_POD_AVAILABLE_UberKit
-#define COCOAPODS_VERSION_MAJOR_UberKit 0
-#define COCOAPODS_VERSION_MINOR_UberKit 2
-#define COCOAPODS_VERSION_PATCH_UberKit 0
-
 // pop
 #define COCOAPODS_POD_AVAILABLE_pop
 #define COCOAPODS_VERSION_MAJOR_pop 1

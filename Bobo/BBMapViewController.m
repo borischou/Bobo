@@ -22,6 +22,9 @@
 @property (strong, nonatomic) BMKPinAnnotationView *curPinView;
 @property (strong, nonatomic) BMKLocationService *locService;
 
+@property (nonatomic) CGFloat bd_destLat;
+@property (nonatomic) CGFloat bd_destLon;
+
 @end
 
 @implementation BBMapViewController
@@ -30,8 +33,8 @@
     [super viewDidLoad];
     [self initBaiduMapView];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"Make Order" style:UIBarButtonItemStylePlain target:self action:@selector(orderPressed)];
-    self.navigationItem.leftBarButtonItems = @[leftItem];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Available Cars" style:UIBarButtonItemStylePlain target:self action:@selector(checkCarsPressed)];
+    self.navigationItem.rightBarButtonItems = @[rightItem];
     [self startBaiduLocationService];
 }
 
@@ -63,10 +66,14 @@
 
 #pragma mark - Helpers
 
--(void)orderPressed
+-(void)checkCarsPressed
 {
-    BBUberTableVC *utvc = [[BBUberTableVC alloc] initWithStyle:UITableViewStylePlain];
+    BBUberTableVC *utvc = [[BBUberTableVC alloc] initWithStyle:UITableViewStyleGrouped];
     utvc.hidesBottomBarWhenPushed = YES;
+    utvc.bd_startLat = _curAnnotation.coordinate.latitude;
+    utvc.bd_startLon = _curAnnotation.coordinate.longitude;
+    utvc.bd_destLat = _bd_destLat;
+    utvc.bd_destLon = _bd_destLon;
     [self.navigationController pushViewController:utvc animated:YES];
 }
 
@@ -91,7 +98,6 @@
 -(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
 {
     _curAnnotation.coordinate = userLocation.location.coordinate;
-    _curAnnotation.title = @"Test";
 }
 
 #pragma mark - BMKMapViewDelegate
@@ -115,6 +121,13 @@
     if ([view isEqual:_curPinView]) {
         mapView.centerCoordinate = view.annotation.coordinate;
     }
+}
+
+- (void)mapview:(BMKMapView *)mapView onLongClick:(CLLocationCoordinate2D)coordinate
+{
+    [[[UIAlertView alloc] initWithTitle:@"Destination" message:[NSString stringWithFormat:@"You just chose %f, %f as your destination.", coordinate.latitude, coordinate.longitude] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    _bd_destLat = coordinate.latitude;
+    _bd_destLon = coordinate.longitude;
 }
 
 @end
