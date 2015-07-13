@@ -169,7 +169,7 @@
     CGSize postSize = [postBodyLbl sizeThatFits:CGSizeMake(postBodyLbl.frame.size.width, MAXFLOAT)];
     postBodyLbl.frame = CGRectMake(bBigGap, bBigGap + bAvatarHeight + bBigGap, bWidth - bBigGap * 2, postSize.height);
     repostView.hidden = YES;
-    if (_status.retweeted_status.user.name) { //retweeted_status
+    if (_status.retweeted_status) { //retweeted_status
         repostView.hidden = NO;
         [self resetImageViews:statusImgViews];
         CGSize repostSize = [repostLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];

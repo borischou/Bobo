@@ -111,8 +111,8 @@ static NSString *reuseBarCellId = @"barCell";
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
                 
                 Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
-                [_statuses insertObject:tmp_status atIndex:i];
-                [_users insertObject:tmp_status.user atIndex:i];
+                [self.statuses insertObject:tmp_status atIndex:i];
+                [self.users insertObject:tmp_status.user atIndex:i];
                 
                 if ([downloadedStatuses count] - 1 == i) {
                     _currentLastStatusId = tmp_status.status_id;
@@ -129,7 +129,7 @@ static NSString *reuseBarCellId = @"barCell";
             NSLog(@"History statuses: %@", historyStatuses);
             for (int i = 0; i < [historyStatuses count]; i ++) {
                 Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
-                [_statuses addObject:tmp_status];
+                [self.statuses addObject:tmp_status];
                 if ([historyStatuses count] - 1 == i) {
                     _currentLastStateIdStr = tmp_status.idstr;
                     _currentLastStatusId = tmp_status.status_id;
@@ -275,8 +275,8 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    if ([_statuses count]) {
-        return [_statuses count];
+    if ([self.statuses count]) {
+        return [self.statuses count];
     } else return 10;
 }
 
@@ -291,8 +291,8 @@ static NSString *reuseBarCellId = @"barCell";
         BBHomelistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
         cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([_statuses count]) {
-            Status *status = [_statuses objectAtIndex:indexPath.section];
+        if ([self.statuses count]) {
+            Status *status = [self.statuses objectAtIndex:indexPath.section];
             cell.status = status;
             //avatar
             if (status.user.avatar != nil) {
@@ -352,8 +352,9 @@ static NSString *reuseBarCellId = @"barCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (0 == indexPath.row) {
-        if ([_statuses count]) {
+        if ([self.statuses count]) {
             Status *status = [self.statuses objectAtIndex:indexPath.section];
+            NSLog(@"status.height: %f", status.height);
             return status.height;
         }
         else return 80;
