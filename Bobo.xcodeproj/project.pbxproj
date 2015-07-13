@@ -39,6 +39,12 @@
 		45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45702AD11B2B37F200B81F90 /* CFNetwork.framework */; };
 		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
 		45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */; };
+		457BE7A41B528EA6000C884A /* UberEstimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 457BE7A31B528EA6000C884A /* UberEstimate.m */; };
+		457BE7A71B528EF1000C884A /* UberEstimatedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 457BE7A61B528EF1000C884A /* UberEstimatedPrice.m */; };
+		457BE7AA1B529023000C884A /* UberTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = 457BE7A91B529023000C884A /* UberTrip.m */; };
+		457BE7AF1B52B0C1000C884A /* UberMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 457BE7AE1B52B0C1000C884A /* UberMap.m */; };
+		457BE7B21B52B336000C884A /* UberCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 457BE7B11B52B336000C884A /* UberCharge.m */; };
+		457BE7B51B52B4E6000C884A /* UberReceipt.m in Sources */ = {isa = PBXBuildFile; fileRef = 457BE7B41B52B4E6000C884A /* UberReceipt.m */; };
 		4588F7331B3B9B5A00EE32D0 /* WeiboCountsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */; };
 		4588F7361B3BBF7C00EE32D0 /* BBUberTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7351B3BBF7C00EE32D0 /* BBUberTableVC.m */; };
 		4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F7451B3BC45500EE32D0 /* car@3x.png */; };
@@ -147,6 +153,18 @@
 		4572E1C21B3C59F900348866 /* BBImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBImageBrowserView.m; sourceTree = "<group>"; };
 		45731F0A1B32BD56002EECA6 /* BBButtonbarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBButtonbarCell.h; sourceTree = "<group>"; };
 		45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBButtonbarCell.m; sourceTree = "<group>"; };
+		457BE7A21B528EA6000C884A /* UberEstimate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberEstimate.h; sourceTree = "<group>"; };
+		457BE7A31B528EA6000C884A /* UberEstimate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberEstimate.m; sourceTree = "<group>"; };
+		457BE7A51B528EF1000C884A /* UberEstimatedPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberEstimatedPrice.h; sourceTree = "<group>"; };
+		457BE7A61B528EF1000C884A /* UberEstimatedPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberEstimatedPrice.m; sourceTree = "<group>"; };
+		457BE7A81B529023000C884A /* UberTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberTrip.h; sourceTree = "<group>"; };
+		457BE7A91B529023000C884A /* UberTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberTrip.m; sourceTree = "<group>"; };
+		457BE7AD1B52B0C1000C884A /* UberMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberMap.h; sourceTree = "<group>"; };
+		457BE7AE1B52B0C1000C884A /* UberMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberMap.m; sourceTree = "<group>"; };
+		457BE7B01B52B336000C884A /* UberCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberCharge.h; sourceTree = "<group>"; };
+		457BE7B11B52B336000C884A /* UberCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberCharge.m; sourceTree = "<group>"; };
+		457BE7B31B52B4E6000C884A /* UberReceipt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberReceipt.h; sourceTree = "<group>"; };
+		457BE7B41B52B4E6000C884A /* UberReceipt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberReceipt.m; sourceTree = "<group>"; };
 		4588F7311B3B9B5A00EE32D0 /* WeiboCountsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboCountsModel.h; sourceTree = "<group>"; };
 		4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeiboCountsModel.m; sourceTree = "<group>"; };
 		4588F7341B3BBF7C00EE32D0 /* BBUberTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUberTableVC.h; sourceTree = "<group>"; };
@@ -468,6 +486,32 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		457BE7AB1B5290A0000C884A /* Estimate */ = {
+			isa = PBXGroup;
+			children = (
+				457BE7A81B529023000C884A /* UberTrip.h */,
+				457BE7A91B529023000C884A /* UberTrip.m */,
+				457BE7A21B528EA6000C884A /* UberEstimate.h */,
+				457BE7A31B528EA6000C884A /* UberEstimate.m */,
+				457BE7A51B528EF1000C884A /* UberEstimatedPrice.h */,
+				457BE7A61B528EF1000C884A /* UberEstimatedPrice.m */,
+			);
+			name = Estimate;
+			sourceTree = "<group>";
+		};
+		457BE7AC1B529167000C884A /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				45D913561B4F7E900024404A /* UberDriver.h */,
+				45D913571B4F7E900024404A /* UberDriver.m */,
+				45D913581B4F7E900024404A /* UberLocation.h */,
+				45D913591B4F7E900024404A /* UberLocation.m */,
+				45D9135C1B4F7E900024404A /* UberVehicle.h */,
+				45D9135D1B4F7E900024404A /* UberVehicle.m */,
+			);
+			name = Details;
+			sourceTree = "<group>";
+		};
 		45D913111B4F7D920024404A /* UberKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -521,14 +565,10 @@
 		45D913431B4F7DDA0024404A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				45D913561B4F7E900024404A /* UberDriver.h */,
-				45D913571B4F7E900024404A /* UberDriver.m */,
-				45D913581B4F7E900024404A /* UberLocation.h */,
-				45D913591B4F7E900024404A /* UberLocation.m */,
+				457BE7AC1B529167000C884A /* Details */,
+				457BE7AB1B5290A0000C884A /* Estimate */,
 				45D9135A1B4F7E900024404A /* UberRequest.h */,
 				45D9135B1B4F7E900024404A /* UberRequest.m */,
-				45D9135C1B4F7E900024404A /* UberVehicle.h */,
-				45D9135D1B4F7E900024404A /* UberVehicle.m */,
 				45D913441B4F7DE50024404A /* UberActivity.h */,
 				45D9134A1B4F7DE50024404A /* UberActivity.m */,
 				45D913451B4F7DE50024404A /* UberPrice.h */,
@@ -541,6 +581,12 @@
 				45D9134E1B4F7DE50024404A /* UberPromotion.m */,
 				45D913491B4F7DE50024404A /* UberTime.h */,
 				45D9134F1B4F7DE50024404A /* UberTime.m */,
+				457BE7AD1B52B0C1000C884A /* UberMap.h */,
+				457BE7AE1B52B0C1000C884A /* UberMap.m */,
+				457BE7B01B52B336000C884A /* UberCharge.h */,
+				457BE7B11B52B336000C884A /* UberCharge.m */,
+				457BE7B31B52B4E6000C884A /* UberReceipt.h */,
+				457BE7B41B52B4E6000C884A /* UberReceipt.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -689,18 +735,23 @@
 				45D9133B1B4F7DCA0024404A /* NXOAuth2AccountStore.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountCell.m in Sources */,
 				45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */,
+				457BE7A41B528EA6000C884A /* UberEstimate.m in Sources */,
 				45D913601B4F7E900024404A /* UberRequest.m in Sources */,
 				4566BC511B37EDC8008CF8D5 /* UserModel.m in Sources */,
+				457BE7AA1B529023000C884A /* UberTrip.m in Sources */,
 				4566BC4E1B37E336008CF8D5 /* BBAvatarCell.m in Sources */,
 				45D913391B4F7DCA0024404A /* NXOAuth2AccessToken.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
 				45DB7E4E1B4C0CED0038701B /* BBMapViewController.m in Sources */,
 				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
+				457BE7A71B528EF1000C884A /* UberEstimatedPrice.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* WeiboCountsModel.m in Sources */,
 				454E93E81B3FCD72001126E4 /* NSString+UrlConvert.m in Sources */,
+				457BE7B21B52B336000C884A /* UberCharge.m in Sources */,
 				45D9135F1B4F7E900024404A /* UberLocation.m in Sources */,
 				45D9133A1B4F7DCA0024404A /* NXOAuth2Account.m in Sources */,
 				45D913411B4F7DCA0024404A /* NXOAuth2PostBodyStream.m in Sources */,
+				457BE7B51B52B4E6000C884A /* UberReceipt.m in Sources */,
 				45D913541B4F7DE50024404A /* UberPromotion.m in Sources */,
 				4588F7361B3BBF7C00EE32D0 /* BBUberTableVC.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableVC.m in Sources */,
@@ -728,6 +779,7 @@
 				45D913511B4F7DE50024404A /* UberPrice.m in Sources */,
 				45D9133E1B4F7DCA0024404A /* NXOAuth2Constants.m in Sources */,
 				45D913371B4F7DCA0024404A /* NSString+NXOAuth2.m in Sources */,
+				457BE7AF1B52B0C1000C884A /* UberMap.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

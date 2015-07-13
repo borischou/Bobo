@@ -34,6 +34,9 @@
 @property (strong, nonatomic) UberPromotion *promotion;
 @property (strong, nonatomic) UberProfile *profile;
 @property (strong, nonatomic) UberRequest *request;
+@property (strong, nonatomic) UberEstimate *estimate;
+@property (strong, nonatomic) UberReceipt *receipt;
+@property (strong, nonatomic) UberMap *map;
 
 @end
 
@@ -89,6 +92,30 @@
     return _request;
 }
 
+-(UberEstimate *)estimate
+{
+    if (!_estimate) {
+        _estimate = [[UberEstimate alloc] init];
+    }
+    return _estimate;
+}
+
+-(UberReceipt *)receipt
+{
+    if (!_receipt) {
+        _receipt = [[UberReceipt alloc] init];
+    }
+    return _receipt;
+}
+
+-(UberMap *)map
+{
+    if (!_map) {
+        _map = [[UberMap alloc] init];
+    }
+    return _map;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = bBGColor;
@@ -142,13 +169,69 @@
     
     UIBarButtonItem *rightItem_3 = [[UIBarButtonItem alloc] initWithTitle:@"Uber Cars" style:UIBarButtonItemStylePlain target:self action:@selector(uberCarPressed)];
     
-    UIBarButtonItem *rightItem_2 = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginBtnPressed)];
+    //UIBarButtonItem *rightItem_2 = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginBtnPressed)];
     
-    UIBarButtonItem *rightItem_0 = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(profileBtnPressed)];
+    //UIBarButtonItem *rightItem_0 = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(profileBtnPressed)];
     
-    UIBarButtonItem *rightItem_1 = [[UIBarButtonItem alloc] initWithTitle:@"Open Uber" style:UIBarButtonItemStylePlain target:self action:@selector(openUberApp)];
+    //UIBarButtonItem *rightItem_1 = [[UIBarButtonItem alloc] initWithTitle:@"Open Uber" style:UIBarButtonItemStylePlain target:self action:@selector(openUberApp)];
     
-    self.navigationItem.rightBarButtonItems = @[rightItem_0, rightItem_1, rightItem_2, rightItem_3, rightItem_4];
+    self.navigationItem.rightBarButtonItems = @[rightItem_3,
+                                                rightItem_4,
+                                                [[UIBarButtonItem alloc] initWithTitle:@"Estimate" style:UIBarButtonItemStylePlain target:self action:@selector(estimatePressed)],
+                                                [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed)],
+                                                [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(mapPressed)],
+                                                [[UIBarButtonItem alloc] initWithTitle:@"Receipt" style:UIBarButtonItemStylePlain target:self action:@selector(receiptPressed)]];
+}
+
+-(void)receiptPressed
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[UberKit sharedInstance] getReceiptForRequestId:_request.request_id withCompletionHandler:^(UberReceipt *receiptResult, NSURLResponse *response, NSError *error) {
+            _receipt = receiptResult;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Receipt" message:[NSString stringWithFormat:@"request_id: %@\ncharges count: %ld, surge_charge:\nname: %@\namount: %f\ntype: %@\ncharge_adjustments count: %ld\nnormal_fare: %f\nsubtotal: %f\ntotal_charged: %f\ntotal_owed: %f\ncurrency_code: %@\nduration: %@\ndistance: %@\ndistance_label: %@\nresponse: %@\nerror: %@", receiptResult.request_id, [receiptResult.charges count], receiptResult.surge_charge.name, receiptResult.surge_charge.amount, receiptResult.surge_charge.type, [receiptResult.charge_adjustments count], receiptResult.normal_fare, receiptResult.subtotal, receiptResult.total_charged, receiptResult.total_owed, receiptResult.currency_code, receiptResult.duration, receiptResult.distance, receiptResult.distance_label, response, error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            });
+        }];
+    });
+}
+
+-(void)mapPressed
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[UberKit sharedInstance] getMapForRequestId:_request.request_id withCompletionHandler:^(UberMap *mapResult, NSURLResponse *response, NSError *error) {
+            _map = mapResult;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Map" message:[NSString stringWithFormat:@"request_id: %@\nmap href: %@", mapResult.request_id, mapResult.href] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            });
+        }];
+    });
+}
+
+-(void)cancelPressed
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[UberKit sharedInstance] cancelRequestForId:_request.request_id withCompletionHandler:^(NSURLResponse *response, NSError *error) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Cancel" message:[NSString stringWithFormat:@"Response: %ld", httpResponse.statusCode] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            });
+        }];
+    });
+}
+
+-(void)estimatePressed
+{
+    CLLocation *start = [[CLLocation alloc] initWithLatitude:_bd_startLat longitude:_bd_startLon];
+    CLLocation *end = [[CLLocation alloc] initWithLatitude:_bd_destLat longitude:_bd_destLon];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[UberKit sharedInstance] getRequestEstimateWithProductId:_request.request_id andStartLocation:start endLocation:end withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error) {
+            _estimate = estimateResult;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Estimate Info" message:[NSString stringWithFormat:@"Price:\nsurge_confirmation_href: %@\n", estimateResult.price.surge_confirmation_href] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            });
+        }];
+    });
+    
 }
 
 -(void)statusPressed
@@ -346,7 +429,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 3;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -358,9 +441,9 @@
     [tableView registerClass:[BBUberCarTableViewCell class] forCellReuseIdentifier:@"uber"];;
     BBUberCarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"uber" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    UberProduct *product = _products[indexPath.section] ? _products[indexPath.section]: nil;
-    UberPrice *price = _estimatedPrices[indexPath.section] ? _estimatedPrices[indexPath.section]: nil;
-    UberTime *time = _estimatedTimes[indexPath.section] ? _estimatedTimes[indexPath.section]: nil;
+    UberProduct *product = _products[indexPath.section];
+    UberPrice *price = _estimatedPrices[indexPath.section];
+    UberTime *time = _estimatedTimes[indexPath.section];
     
     [cell.carImgView sd_setImageWithURL:[NSURL URLWithString:product.image] placeholderImage:[UIImage imageNamed:@"iconfont-uber"]];
     cell.carType.text = product.display_name;
