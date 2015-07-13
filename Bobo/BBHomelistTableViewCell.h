@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StatusModel.h"
+//#import "StatusModel.h"
+#import "Status.h"
 
 @protocol BBImageBrowserProtocol <NSObject>
 
@@ -21,7 +22,7 @@
 @property (weak, nonatomic) id <BBImageBrowserProtocol> delegate;
 
 @property (nonatomic) CGFloat height;
-@property (strong, nonatomic) StatusModel *status;
+@property (strong, nonatomic) Status *status;
 
 //status
 @property (strong, nonatomic) UILabel *postBodyLbl;

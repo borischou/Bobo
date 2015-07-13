@@ -10,9 +10,9 @@
 
 @implementation BBNetworkUtils
 
-+(void)fetchAvatarForStatus:(StatusModel *)status withCell:(BBHomelistTableViewCell *)cell
++(void)fetchAvatarForStatus:(Status *)status withCell:(BBHomelistTableViewCell *)cell
 {
-    NSURL *imgUrl = [NSURL URLWithString:status.avatar_large];
+    NSURL *imgUrl = [NSURL URLWithString:status.user.avatar_large];
     NSURLRequest *request = [NSURLRequest requestWithURL:imgUrl];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
@@ -23,7 +23,7 @@
                 if (cell) {
                     cell.avatarView.image = img;
                 }
-                status.avatar = img;
+                status.user.avatar = img;
             });
         }
     }];

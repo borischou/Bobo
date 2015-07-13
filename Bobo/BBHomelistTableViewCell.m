@@ -10,6 +10,7 @@
 #import "BBNetworkUtils.h"
 #import "BBImageBrowserView.h"
 #import "NSString+UrlConvert.h"
+#import "Utils.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -139,7 +140,7 @@
 -(void)statusImageTapped:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in self.status.pic_urls) {
+    for (NSString *str in _status.pic_urls) {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
     [self.delegate setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
@@ -148,7 +149,8 @@
 -(void)repostImageTapped:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in self.status.retweeted_image_urls) {
+
+    for (NSString *str in _status.retweeted_status.pic_urls) {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
     [self.delegate setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
@@ -167,31 +169,28 @@
     CGSize postSize = [postBodyLbl sizeThatFits:CGSizeMake(postBodyLbl.frame.size.width, MAXFLOAT)];
     postBodyLbl.frame = CGRectMake(bBigGap, bBigGap + bAvatarHeight + bBigGap, bWidth - bBigGap * 2, postSize.height);
     repostView.hidden = YES;
-    if (self.status.retweeted_screen_name) { //retweeted_status
+    if (_status.retweeted_status.user.name) { //retweeted_status
         repostView.hidden = NO;
         [self resetImageViews:statusImgViews];
         CGSize repostSize = [repostLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
         [repostLbl setFrame:CGRectMake(bBigGap, 0, bWidth - 2 * bBigGap, repostSize.height)];
-        [self layoutImgViews:imgViews withImageCount:self.status.retweeted_pic_count fromTopHeight:repostSize.height];
-        [repostView setFrame:CGRectMake(0, bBigGap + bAvatarHeight + bBigGap + postSize.height + bBigGap, bWidth, repostSize.height + bSmallGap + [self.status heightForImgsWithCount:self.status.retweeted_pic_count])];
-//        repostView.layer.shadowRadius = 2.f;
-//        repostView.layer.shadowColor = [UIColor blackColor].CGColor;
-//        repostView.layer.shadowOpacity = 0.2f;
-//        repostView.layer.shadowOffset = CGSizeMake(0, 1.f);
+        [self layoutImgViews:imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
+        
+        [repostView setFrame:CGRectMake(0, bBigGap + bAvatarHeight + bBigGap + postSize.height + bBigGap, bWidth, repostSize.height + bSmallGap + [[[Utils alloc] init] heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
     } else { //status imgs
         repostView.hidden = YES;
-        [self layoutImgViews:statusImgViews withImageCount:self.status.pic_count fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
+        [self layoutImgViews:statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
     }
 }
 
 -(void)setStatusData
 {
     //status
-    self.nicknameLbl.text = self.status.screen_name;
-    self.postTimeLbl.text = self.status.formattedPostTime;
-    self.postBodyLbl.text = self.status.text;
+    nicknameLbl.text = _status.user.screen_name;
+    postTimeLbl.text = [Utils formatPostTime:_status.created_at];
+    postBodyLbl.text = _status.text;
     //repost status
-    self.repostLbl.text = self.status.retweeted_text;
+    repostLbl.text = _status.retweeted_status.text;
 }
 
 -(void)resetImageViews:(NSMutableArray *)views

@@ -37,6 +37,9 @@
 		456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */; };
 		456C77EC1B2AE45D0055FBE8 /* StatusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77EB1B2AE45D0055FBE8 /* StatusModel.m */; };
 		45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45702AD11B2B37F200B81F90 /* CFNetwork.framework */; };
+		4572787A1B53887A00AC0C9C /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278791B53887A00AC0C9C /* Status.m */; };
+		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
+		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
 		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
 		45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */; };
 		457BE7A41B528EA6000C884A /* UberEstimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 457BE7A31B528EA6000C884A /* UberEstimate.m */; };
@@ -149,6 +152,12 @@
 		456C77EA1B2AE45D0055FBE8 /* StatusModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusModel.h; sourceTree = "<group>"; };
 		456C77EB1B2AE45D0055FBE8 /* StatusModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusModel.m; sourceTree = "<group>"; };
 		45702AD11B2B37F200B81F90 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		457278781B53887A00AC0C9C /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
+		457278791B53887A00AC0C9C /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
+		4572787B1B53894F00AC0C9C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		4572787C1B53894F00AC0C9C /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		457278821B53900D00AC0C9C /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		457278831B53900D00AC0C9C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4572E1C11B3C59F900348866 /* BBImageBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBImageBrowserView.h; sourceTree = "<group>"; };
 		4572E1C21B3C59F900348866 /* BBImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBImageBrowserView.m; sourceTree = "<group>"; };
 		45731F0A1B32BD56002EECA6 /* BBButtonbarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBButtonbarCell.h; sourceTree = "<group>"; };
@@ -324,7 +333,7 @@
 				45620D3C1B3706BF00B9F9F2 /* Images */,
 				455FFAE61B34040E0007B883 /* Networks */,
 				45617A671B2ECA1600BDFE7F /* Catagories */,
-				456C77E91B2AE3E30055FBE8 /* Models */,
+				456C77E91B2AE3E30055FBE8 /* Model */,
 				456C77E51B2AC59B0055FBE8 /* Views */,
 				456C77E41B2AC5500055FBE8 /* Controllers */,
 				451441D41B295CA9000532DD /* AppDelegate.h */,
@@ -456,9 +465,10 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		456C77E91B2AE3E30055FBE8 /* Models */ = {
+		456C77E91B2AE3E30055FBE8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4572787E1B538D7800AC0C9C /* New Model */,
 				456C77EA1B2AE45D0055FBE8 /* StatusModel.h */,
 				456C77EB1B2AE45D0055FBE8 /* StatusModel.m */,
 				4566BC4F1B37EDC8008CF8D5 /* UserModel.h */,
@@ -466,7 +476,7 @@
 				4588F7311B3B9B5A00EE32D0 /* WeiboCountsModel.h */,
 				4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */,
 			);
-			name = Models;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		456F62331B4F514100309779 /* Cells */ = {
@@ -484,6 +494,30 @@
 				45A052151B3A898200A1488D /* BBCountCell.m */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		457278771B5362EC00AC0C9C /* Receipt */ = {
+			isa = PBXGroup;
+			children = (
+				457BE7B01B52B336000C884A /* UberCharge.h */,
+				457BE7B11B52B336000C884A /* UberCharge.m */,
+				457BE7B31B52B4E6000C884A /* UberReceipt.h */,
+				457BE7B41B52B4E6000C884A /* UberReceipt.m */,
+			);
+			name = Receipt;
+			sourceTree = "<group>";
+		};
+		4572787E1B538D7800AC0C9C /* New Model */ = {
+			isa = PBXGroup;
+			children = (
+				457278781B53887A00AC0C9C /* Status.h */,
+				457278791B53887A00AC0C9C /* Status.m */,
+				4572787B1B53894F00AC0C9C /* User.h */,
+				4572787C1B53894F00AC0C9C /* User.m */,
+				457278821B53900D00AC0C9C /* Utils.h */,
+				457278831B53900D00AC0C9C /* Utils.m */,
+			);
+			name = "New Model";
 			sourceTree = "<group>";
 		};
 		457BE7AB1B5290A0000C884A /* Estimate */ = {
@@ -565,6 +599,7 @@
 		45D913431B4F7DDA0024404A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				457278771B5362EC00AC0C9C /* Receipt */,
 				457BE7AC1B529167000C884A /* Details */,
 				457BE7AB1B5290A0000C884A /* Estimate */,
 				45D9135A1B4F7E900024404A /* UberRequest.h */,
@@ -583,10 +618,6 @@
 				45D9134F1B4F7DE50024404A /* UberTime.m */,
 				457BE7AD1B52B0C1000C884A /* UberMap.h */,
 				457BE7AE1B52B0C1000C884A /* UberMap.m */,
-				457BE7B01B52B336000C884A /* UberCharge.h */,
-				457BE7B11B52B336000C884A /* UberCharge.m */,
-				457BE7B31B52B4E6000C884A /* UberReceipt.h */,
-				457BE7B41B52B4E6000C884A /* UberReceipt.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -735,6 +766,7 @@
 				45D9133B1B4F7DCA0024404A /* NXOAuth2AccountStore.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountCell.m in Sources */,
 				45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */,
+				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				457BE7A41B528EA6000C884A /* UberEstimate.m in Sources */,
 				45D913601B4F7E900024404A /* UberRequest.m in Sources */,
 				4566BC511B37EDC8008CF8D5 /* UserModel.m in Sources */,
@@ -770,11 +802,13 @@
 				456C77EC1B2AE45D0055FBE8 /* StatusModel.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.mm in Sources */,
 				45D913501B4F7DE50024404A /* UberActivity.m in Sources */,
+				4572787D1B53894F00AC0C9C /* User.m in Sources */,
 				451442061B295E8B000532DD /* BBWeiboListTableVC.m in Sources */,
 				45D913141B4F7DA70024404A /* UberKit.m in Sources */,
 				45D9133C1B4F7DCA0024404A /* NXOAuth2Client.m in Sources */,
 				45D9135E1B4F7E900024404A /* UberDriver.m in Sources */,
 				45D913551B4F7DE50024404A /* UberTime.m in Sources */,
+				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
 				45D913401B4F7DCA0024404A /* NXOAuth2PostBodyPart.m in Sources */,
 				45D913511B4F7DE50024404A /* UberPrice.m in Sources */,
 				45D9133E1B4F7DCA0024404A /* NXOAuth2Constants.m in Sources */,

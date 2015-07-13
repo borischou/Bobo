@@ -7,16 +7,17 @@
 //
 
 #import "BBImageBrowserView.h"
-
 #import "BBWeiboListTableVC.h"
 #import "WeiboSDK.h"
 #import "AppDelegate.h"
 #import "BBHomelistTableViewCell.h"
-#import "StatusModel.h"
 #import "BBButtonbarCell.h"
 #import "BBNetworkUtils.h"
 #import "UIButton+Bobtn.h"
-#import "UserModel.h"
+//#import "UserModel.h"
+//#import "StatusModel.h"
+#import "User.h"
+#import "Status.h"
 #import <MJRefresh/MJRefresh.h>
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
@@ -108,17 +109,17 @@ static NSString *reuseBarCellId = @"barCell";
         if ([type isEqualToString:@"refresh"]) {
             NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
-                StatusModel *tmpStatus = [[StatusModel alloc] initWithStatusData:downloadedStatuses[i]];
-                [self.statuses insertObject:tmpStatus atIndex:i];
                 
-                UserModel *user = [[UserModel alloc] initWithUserData:[downloadedStatuses[i] objectForKey:@"user"]];
-                [self.users insertObject:user atIndex:i];
+                Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
+                [_statuses insertObject:tmp_status atIndex:i];
+                [_users insertObject:tmp_status.user atIndex:i];
                 
                 if ([downloadedStatuses count] - 1 == i) {
-                    self.currentLastStatusId = tmpStatus.statusId;
-                    self.currentLastStateIdStr = tmpStatus.statusIdStr;
+                    _currentLastStatusId = tmp_status.status_id;
+                    _currentLastStateIdStr = tmp_status.idstr;
                 }
             }
+            NSLog(@"length of the statuses and users: %ld, %ld", [_statuses count], [_users count]);
             [self.tableView.header endRefreshing];
             NSLog(@"Last status after refresh fetch:\n%@", [downloadedStatuses lastObject]);
         }
@@ -127,17 +128,17 @@ static NSString *reuseBarCellId = @"barCell";
             NSArray *historyStatuses = [result objectForKey:@"statuses"];
             NSLog(@"History statuses: %@", historyStatuses);
             for (int i = 0; i < [historyStatuses count]; i ++) {
-                StatusModel *tmpStatus = [[StatusModel alloc] initWithStatusData:historyStatuses[i]];
-                [self.statuses addObject:tmpStatus];
+                Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
+                [_statuses addObject:tmp_status];
                 if ([historyStatuses count] - 1 == i) {
-                    self.currentLastStatusId = tmpStatus.statusId;
-                    self.currentLastStateIdStr = tmpStatus.statusIdStr;
+                    _currentLastStateIdStr = tmp_status.idstr;
+                    _currentLastStatusId = tmp_status.status_id;
                 }
             }
             [self.tableView.footer endRefreshing];
             NSLog(@"Last status after history fetch:\n%@", [historyStatuses lastObject]);
         }
-        NSLog(@"The currentLastStatusId is: %ld", self.currentLastStatusId);
+        NSLog(@"The currentLastStatusId is: %ld", _currentLastStatusId);
         [self.tableView reloadData];
     }
 }
@@ -180,8 +181,8 @@ static NSString *reuseBarCellId = @"barCell";
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [@"?max_id=" stringByAppendingString:[NSString stringWithFormat:@"%@&count=20", self.currentLastStateIdStr]];
-        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline%@.json", para];
+        NSString *para = [@"?max_id=" stringByAppendingString:[NSString stringWithFormat:@"%@", _currentLastStateIdStr]];
+        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
@@ -274,8 +275,8 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    if ([self.statuses count]) {
-        return [self.statuses count];
+    if ([_statuses count]) {
+        return [_statuses count];
     } else return 10;
 }
 
@@ -290,34 +291,34 @@ static NSString *reuseBarCellId = @"barCell";
         BBHomelistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
         cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([self.statuses count]) {
-            StatusModel *status = [self.statuses objectAtIndex:indexPath.section];
+        if ([_statuses count]) {
+            Status *status = [_statuses objectAtIndex:indexPath.section];
             cell.status = status;
             //avatar
-            if (status.avatar != nil) {
-                cell.avatarView.image = status.avatar;
+            if (status.user.avatar != nil) {
+                cell.avatarView.image = status.user.avatar;
             } else {
                 cell.avatarView.image = [UIImage imageNamed:@"timeline_image_loading"];
                 [BBNetworkUtils fetchAvatarForStatus:status withCell:cell];
             }
             
             //status images
-            for (int i = 0; i < cell.status.pic_count; i ++) {
-                if (![[status.postImgs objectAtIndex:i] isEqual:[NSNull null]]) {
-                    [[cell.statusImgViews objectAtIndex:i] setImage:[status.postImgs objectAtIndex:i]];
+            for (int i = 0; i < [cell.status.pic_urls count]; i ++) {
+                if (![[status.pic_urls objectAtIndex:i] isEqual:[NSNull null]]) {
+                    [[cell.statusImgViews objectAtIndex:i] setImage:[status.pic_urls objectAtIndex:i]];
                 } else {
                     [cell.statusImgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                    [BBNetworkUtils fetchImageFromUrl:[status.pic_urls objectAtIndex:i] atIndex:i forImages:status.postImgs withViews:cell.statusImgViews];
+                    [BBNetworkUtils fetchImageFromUrl:[status.pic_urls objectAtIndex:i] atIndex:i forImages:status.pic_urls withViews:cell.statusImgViews];
                 }
             }
             
             //retweeted_status images
-            for (int i = 0; i < cell.status.retweeted_pic_count; i ++) {
-                if (![[status.repostImgs objectAtIndex:i] isEqual:[NSNull null]]) {
-                    [[cell.imgViews objectAtIndex:i] setImage:[status.repostImgs objectAtIndex:i]];
+            for (int i = 0; i < [cell.status.retweeted_status.pic_urls count]; i ++) {
+                if (![[status.retweeted_status.pic_urls objectAtIndex:i] isEqual:[NSNull null]]) {
+                    [[cell.imgViews objectAtIndex:i] setImage:[status.retweeted_status.pic_urls objectAtIndex:i]];
                 } else {
                     [cell.imgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                    [BBNetworkUtils fetchImageFromUrl:[status.retweeted_image_urls objectAtIndex:i] atIndex:i forImages:status.repostImgs withViews:cell.imgViews];
+                    [BBNetworkUtils fetchImageFromUrl:[status.retweeted_status.pic_urls objectAtIndex:i] atIndex:i forImages:status.retweeted_status.pic_urls withViews:cell.imgViews];
                 }
             }
         }
@@ -327,8 +328,8 @@ static NSString *reuseBarCellId = @"barCell";
         [tableView registerClass:[BBButtonbarCell class] forCellReuseIdentifier:reuseBarCellId];
         BBButtonbarCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseBarCellId forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([self.statuses count]) {
-            StatusModel *status = [self.statuses objectAtIndex:indexPath.section];
+        if ([_statuses count]) {
+            Status *status = [self.statuses objectAtIndex:indexPath.section];
             if (status.reposts_count > 0) {
                 [cell.repostBtn setTitle:[NSString stringWithFormat:@"%@re", [self getNumStrFrom:status.reposts_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
             } else {
@@ -351,8 +352,8 @@ static NSString *reuseBarCellId = @"barCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (0 == indexPath.row) {
-        if ([self.statuses count]) {
-            StatusModel *status = [self.statuses objectAtIndex:indexPath.section];
+        if ([_statuses count]) {
+            Status *status = [self.statuses objectAtIndex:indexPath.section];
             return status.height;
         }
         else return 80;

@@ -14,9 +14,9 @@
 {
     self = [super init];
     if (self) {
-        self.followers_count = [weiboCounts[@"followers_count"] integerValue];
-        self.friends_count = [weiboCounts[@"friends_count"] integerValue];
-        self.statuses_count = [weiboCounts[@"statuses_count"] integerValue];
+        _followers_count = [weiboCounts[@"followers_count"] integerValue];
+        _friends_count = [weiboCounts[@"friends_count"] integerValue];
+        _statuses_count = [weiboCounts[@"statuses_count"] integerValue];
     }
     return self;
 }
