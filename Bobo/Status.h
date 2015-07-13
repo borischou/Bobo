@@ -28,8 +28,9 @@
 @property (nonatomic) NSInteger reposts_count;
 @property (nonatomic) NSInteger comments_count;
 @property (nonatomic) NSInteger attitudes_count;
-@property (strong, nonatomic) NSMutableArray *pic_urls;
 
+@property (strong, nonatomic) NSMutableArray *pic_urls;
+@property (strong, nonatomic) NSMutableArray *images;
 @property (nonatomic) CGFloat height;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;

@@ -41,6 +41,7 @@
         if ([dictionary objectForKey:@"retweeted_status"]) {
             _retweeted_status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"retweeted_status"]];
         }
+        [self initModel];
         [self calculateHeight];
     }
     return self;
@@ -50,6 +51,16 @@
 {
     Utils *utils = [[Utils alloc] init];
     _height = [utils getHeightForCellWithStatusText:_text statusImageCount:[_pic_urls count] andRetweetText:[NSString stringWithFormat:@"@%@:%@", _retweeted_status.user.name, _retweeted_status.text] retweetImageCount:[_retweeted_status.pic_urls count]];
+}
+
+-(void)initModel
+{
+    if (!_images) {
+        _images = @[].mutableCopy;
+        for (int i = 0; i < 9; i ++) {
+            [_images addObject:[NSNull null]];
+        }
+    }
 }
 
 @end

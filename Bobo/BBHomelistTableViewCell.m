@@ -189,6 +189,7 @@
     nicknameLbl.text = _status.user.screen_name;
     postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     postBodyLbl.text = _status.text;
+    
     //repost status
     repostLbl.text = _status.retweeted_status.text;
 }

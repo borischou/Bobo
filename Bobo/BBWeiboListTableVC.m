@@ -304,21 +304,21 @@ static NSString *reuseBarCellId = @"barCell";
             
             //status images
             for (int i = 0; i < [cell.status.pic_urls count]; i ++) {
-                if (![[status.pic_urls objectAtIndex:i] isEqual:[NSNull null]]) {
-                    [[cell.statusImgViews objectAtIndex:i] setImage:[status.pic_urls objectAtIndex:i]];
+                if (![[status.images objectAtIndex:i] isEqual:[NSNull null]]) {
+                    [[cell.statusImgViews objectAtIndex:i] setImage:[status.images objectAtIndex:i]];
                 } else {
                     [cell.statusImgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                    [BBNetworkUtils fetchImageFromUrl:[status.pic_urls objectAtIndex:i] atIndex:i forImages:status.pic_urls withViews:cell.statusImgViews];
+                    [BBNetworkUtils fetchImageFromUrl:[status.pic_urls objectAtIndex:i] atIndex:i forImages:status.images withViews:cell.statusImgViews];
                 }
             }
             
             //retweeted_status images
             for (int i = 0; i < [cell.status.retweeted_status.pic_urls count]; i ++) {
-                if (![[status.retweeted_status.pic_urls objectAtIndex:i] isEqual:[NSNull null]]) {
-                    [[cell.imgViews objectAtIndex:i] setImage:[status.retweeted_status.pic_urls objectAtIndex:i]];
+                if (![[status.retweeted_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
+                    [[cell.imgViews objectAtIndex:i] setImage:[status.retweeted_status.images objectAtIndex:i]];
                 } else {
                     [cell.imgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                    [BBNetworkUtils fetchImageFromUrl:[status.retweeted_status.pic_urls objectAtIndex:i] atIndex:i forImages:status.retweeted_status.pic_urls withViews:cell.imgViews];
+                    [BBNetworkUtils fetchImageFromUrl:[status.retweeted_status.pic_urls objectAtIndex:i] atIndex:i forImages:status.retweeted_status.images withViews:cell.imgViews];
                 }
             }
         }
@@ -354,7 +354,6 @@ static NSString *reuseBarCellId = @"barCell";
     if (0 == indexPath.row) {
         if ([self.statuses count]) {
             Status *status = [self.statuses objectAtIndex:indexPath.section];
-            NSLog(@"status.height: %f", status.height);
             return status.height;
         }
         else return 80;
