@@ -34,6 +34,9 @@
 #import "UberProfile.h"
 #import "UberPromotion.h"
 #import "UberRequest.h"
+#import "UberEstimate.h"
+#import "UberMap.h"
+#import "UberReceipt.h"
 
 @class UberKit;
 
@@ -48,6 +51,10 @@ typedef void (^CompletionHandler) (NSArray *resultsArray, NSURLResponse *respons
 typedef void (^ProfileHandler) (UberProfile *profile, NSURLResponse *response, NSError *error);
 typedef void (^PromotionHandler) (UberPromotion *promotion, NSURLResponse *response, NSError *error);
 typedef void (^RequestHandler) (UberRequest *requestResult, NSURLResponse *response, NSError *error);
+typedef void (^EstimateHandler) (UberEstimate *estimateResult, NSURLResponse *response, NSError *error);
+typedef void (^CancelHandler) (NSURLResponse *response, NSError *error);
+typedef void (^MapHandler) (UberMap *mapResult, NSURLResponse *response, NSError *error);
+typedef void (^ReceiptHandler) (UberReceipt *receiptResult, NSURLResponse *response, NSError *error);
 
 @interface UberKit : NSObject <UIWebViewDelegate>
 
@@ -109,5 +116,21 @@ typedef void (^RequestHandler) (UberRequest *requestResult, NSURLResponse *respo
 #pragma mark - Request Details
 
 - (void) getDetailsFromRequestId:(NSString *)requestId withCompletionHandler:(RequestHandler)handler;
+
+#pragma mark - Request Estimate
+
+- (void) getRequestEstimateWithProductId:(NSString *)productId andStartLocation:(CLLocation *)start endLocation:(CLLocation *)end withCompletionHandler:(EstimateHandler)handler;
+
+#pragma mark - Request Cancel
+
+- (void) cancelRequestForId:(NSString *)requestId withCompletionHandler:(CancelHandler)handler;
+
+#pragma mark - Request Map
+
+- (void) getMapForRequestId:(NSString *)requestId withCompletionHandler:(MapHandler)handler;
+
+#pragma mark - Request Receipt
+
+- (void) getReceiptForRequestId:(NSString *)requestId withCompletionHandler:(ReceiptHandler)handler;
 
 @end
