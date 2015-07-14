@@ -50,7 +50,7 @@
 -(void)calculateHeight
 {
     Utils *utils = [[Utils alloc] init];
-    _height = [utils getHeightForCellWithStatusText:_text statusImageCount:[_pic_urls count] andRetweetText:[NSString stringWithFormat:@"@%@:%@", _retweeted_status.user.name, _retweeted_status.text] retweetImageCount:[_retweeted_status.pic_urls count]];
+    _height = [utils getHeightForCellWithStatusText:_text statusImageCount:[_pic_urls count] andRetweetText:[NSString stringWithFormat:@"@%@:%@", _retweeted_status.user.screen_name, _retweeted_status.text] retweetImageCount:[_retweeted_status.pic_urls count]];
 }
 
 -(void)initModel

@@ -164,6 +164,17 @@
     [self setCellLayout];
 }
 
+-(void)setStatusData
+{
+    //status
+    nicknameLbl.text = _status.user.screen_name;
+    postTimeLbl.text = [Utils formatPostTime:_status.created_at];
+    postBodyLbl.text = _status.text;
+    
+    //repost status
+    repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
+}
+
 -(void)setCellLayout
 {
     CGSize postSize = [postBodyLbl sizeThatFits:CGSizeMake(postBodyLbl.frame.size.width, MAXFLOAT)];
@@ -181,17 +192,6 @@
         repostView.hidden = YES;
         [self layoutImgViews:statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
     }
-}
-
--(void)setStatusData
-{
-    //status
-    nicknameLbl.text = _status.user.screen_name;
-    postTimeLbl.text = [Utils formatPostTime:_status.created_at];
-    postBodyLbl.text = _status.text;
-    
-    //repost status
-    repostLbl.text = _status.retweeted_status.text;
 }
 
 -(void)resetImageViews:(NSMutableArray *)views

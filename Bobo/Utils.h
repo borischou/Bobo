@@ -11,10 +11,13 @@
 
 @interface Utils : NSObject
 
+//Calculates the height of cell
 -(CGFloat)getHeightForCellWithStatusText:(NSString *)text statusImageCount:(NSInteger)count andRetweetText:(NSString *)retweetText retweetImageCount:(NSInteger)retweetCount;
 
+//Calculates the height of images in total
 -(CGFloat)heightForImgsWithCount:(NSInteger)count;
 
+//EEE HH:mm:ss yy-MM-dd
 +(NSString *)formatPostTime:(NSString *)postTime;
 
 @end
