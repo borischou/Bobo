@@ -8,8 +8,6 @@
 
 #import "AppDelegate.h"
 
-#import "StatusModel.h"
-
 #import "WeiboSDK.h"
 #import <BaiduMapAPI/BMKMapView.h>
 

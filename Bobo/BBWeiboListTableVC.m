@@ -364,6 +364,7 @@ static NSString *reuseBarCellId = @"barCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //push to detail
+    NSLog(@"clicked the cell");
 }
 
 #pragma mark - Backups
