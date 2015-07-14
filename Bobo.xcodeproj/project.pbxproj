@@ -30,12 +30,10 @@
 		45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */; };
 		4566BC4B1B37ACD5008CF8D5 /* BBProfileTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4A1B37ACD5008CF8D5 /* BBProfileTableVC.m */; };
 		4566BC4E1B37E336008CF8D5 /* BBAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4D1B37E336008CF8D5 /* BBAvatarCell.m */; };
-		4566BC511B37EDC8008CF8D5 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC501B37EDC8008CF8D5 /* UserModel.m */; };
 		4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */; };
 		456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C0FDA1B31570C007B5CFB /* CoreText.framework */; };
 		456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C77E21B2A88110055FBE8 /* libz.dylib */; };
 		456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */; };
-		456C77EC1B2AE45D0055FBE8 /* StatusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77EB1B2AE45D0055FBE8 /* StatusModel.m */; };
 		45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45702AD11B2B37F200B81F90 /* CFNetwork.framework */; };
 		4572787A1B53887A00AC0C9C /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278791B53887A00AC0C9C /* Status.m */; };
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
@@ -142,15 +140,11 @@
 		4566BC4A1B37ACD5008CF8D5 /* BBProfileTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileTableVC.m; sourceTree = "<group>"; };
 		4566BC4C1B37E336008CF8D5 /* BBAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAvatarCell.h; sourceTree = "<group>"; };
 		4566BC4D1B37E336008CF8D5 /* BBAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAvatarCell.m; sourceTree = "<group>"; };
-		4566BC4F1B37EDC8008CF8D5 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
-		4566BC501B37EDC8008CF8D5 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gerenshiwu@3x.png"; sourceTree = "<group>"; };
 		456C0FDA1B31570C007B5CFB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		456C77E21B2A88110055FBE8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		456C77E61B2AC5B90055FBE8 /* BBHomelistTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBHomelistTableViewCell.h; sourceTree = "<group>"; };
 		456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBHomelistTableViewCell.m; sourceTree = "<group>"; };
-		456C77EA1B2AE45D0055FBE8 /* StatusModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusModel.h; sourceTree = "<group>"; };
-		456C77EB1B2AE45D0055FBE8 /* StatusModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusModel.m; sourceTree = "<group>"; };
 		45702AD11B2B37F200B81F90 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		457278781B53887A00AC0C9C /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		457278791B53887A00AC0C9C /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
@@ -468,11 +462,12 @@
 		456C77E91B2AE3E30055FBE8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4572787E1B538D7800AC0C9C /* New Model */,
-				456C77EA1B2AE45D0055FBE8 /* StatusModel.h */,
-				456C77EB1B2AE45D0055FBE8 /* StatusModel.m */,
-				4566BC4F1B37EDC8008CF8D5 /* UserModel.h */,
-				4566BC501B37EDC8008CF8D5 /* UserModel.m */,
+				457278781B53887A00AC0C9C /* Status.h */,
+				457278791B53887A00AC0C9C /* Status.m */,
+				4572787B1B53894F00AC0C9C /* User.h */,
+				4572787C1B53894F00AC0C9C /* User.m */,
+				457278821B53900D00AC0C9C /* Utils.h */,
+				457278831B53900D00AC0C9C /* Utils.m */,
 				4588F7311B3B9B5A00EE32D0 /* WeiboCountsModel.h */,
 				4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */,
 			);
@@ -505,19 +500,6 @@
 				457BE7B41B52B4E6000C884A /* UberReceipt.m */,
 			);
 			name = Receipt;
-			sourceTree = "<group>";
-		};
-		4572787E1B538D7800AC0C9C /* New Model */ = {
-			isa = PBXGroup;
-			children = (
-				457278781B53887A00AC0C9C /* Status.h */,
-				457278791B53887A00AC0C9C /* Status.m */,
-				4572787B1B53894F00AC0C9C /* User.h */,
-				4572787C1B53894F00AC0C9C /* User.m */,
-				457278821B53900D00AC0C9C /* Utils.h */,
-				457278831B53900D00AC0C9C /* Utils.m */,
-			);
-			name = "New Model";
 			sourceTree = "<group>";
 		};
 		457BE7AB1B5290A0000C884A /* Estimate */ = {
@@ -769,7 +751,6 @@
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				457BE7A41B528EA6000C884A /* UberEstimate.m in Sources */,
 				45D913601B4F7E900024404A /* UberRequest.m in Sources */,
-				4566BC511B37EDC8008CF8D5 /* UserModel.m in Sources */,
 				457BE7AA1B529023000C884A /* UberTrip.m in Sources */,
 				4566BC4E1B37E336008CF8D5 /* BBAvatarCell.m in Sources */,
 				45D913391B4F7DCA0024404A /* NXOAuth2AccessToken.m in Sources */,
@@ -799,7 +780,6 @@
 				45D913381B4F7DCA0024404A /* NSURL+NXOAuth2.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */,
-				456C77EC1B2AE45D0055FBE8 /* StatusModel.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.mm in Sources */,
 				45D913501B4F7DE50024404A /* UberActivity.m in Sources */,
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
