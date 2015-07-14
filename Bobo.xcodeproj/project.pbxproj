@@ -25,6 +25,7 @@
 		453035D01B4A51A500647ACC /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 453035CF1B4A51A500647ACC /* mapapi.bundle */; };
 		45435E5C1B4BDC8600AA4C3B /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */; };
 		454E93E81B3FCD72001126E4 /* NSString+UrlConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+UrlConvert.m */; };
+		4553E3FE1B54A8E40020989C /* BBWBDetailsTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E3FD1B54A8E40020989C /* BBWBDetailsTableVC.m */; };
 		455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */; };
 		455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE81B3404540007B883 /* BBNetworkUtils.m */; };
 		45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */; };
@@ -131,6 +132,8 @@
 		45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = Bobo/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		454E93E61B3FCD72001126E4 /* NSString+UrlConvert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UrlConvert.h"; sourceTree = "<group>"; };
 		454E93E71B3FCD72001126E4 /* NSString+UrlConvert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UrlConvert.m"; sourceTree = "<group>"; };
+		4553E3FC1B54A8E40020989C /* BBWBDetailsTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWBDetailsTableVC.h; sourceTree = "<group>"; };
+		4553E3FD1B54A8E40020989C /* BBWBDetailsTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWBDetailsTableVC.m; sourceTree = "<group>"; };
 		455FFAE31B33F4480007B883 /* UIButton+Bobtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Bobtn.h"; sourceTree = "<group>"; };
 		455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Bobtn.m"; sourceTree = "<group>"; };
 		455FFAE71B3404540007B883 /* BBNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNetworkUtils.h; sourceTree = "<group>"; };
@@ -437,6 +440,8 @@
 			children = (
 				451442041B295E8B000532DD /* BBWeiboListTableVC.h */,
 				451442051B295E8B000532DD /* BBWeiboListTableVC.m */,
+				4553E3FC1B54A8E40020989C /* BBWBDetailsTableVC.h */,
+				4553E3FD1B54A8E40020989C /* BBWBDetailsTableVC.m */,
 				45DB7E4C1B4C0CED0038701B /* BBMapViewController.h */,
 				45DB7E4D1B4C0CED0038701B /* BBMapViewController.m */,
 				4566BC491B37ACD5008CF8D5 /* BBProfileTableVC.h */,
@@ -746,6 +751,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45D9133B1B4F7DCA0024404A /* NXOAuth2AccountStore.m in Sources */,
+				4553E3FE1B54A8E40020989C /* BBWBDetailsTableVC.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountCell.m in Sources */,
 				45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,

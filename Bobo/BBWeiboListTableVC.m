@@ -6,19 +6,18 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
+#import <MJRefresh/MJRefresh.h>
 #import "BBImageBrowserView.h"
 #import "BBWeiboListTableVC.h"
+#import "BBHomelistTableViewCell.h"
+#import "BBWBDetailsTableVC.h"
 #import "WeiboSDK.h"
 #import "AppDelegate.h"
-#import "BBHomelistTableViewCell.h"
 #import "BBButtonbarCell.h"
 #import "BBNetworkUtils.h"
 #import "UIButton+Bobtn.h"
-//#import "UserModel.h"
-//#import "StatusModel.h"
 #import "User.h"
 #import "Status.h"
-#import <MJRefresh/MJRefresh.h>
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -363,28 +362,32 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //push to detail
-    NSLog(@"clicked the cell");
+    BBWBDetailsTableVC *dtvc = [[BBWBDetailsTableVC alloc] initWithStyle:UITableViewStyleGrouped];
+    dtvc.title = @"Detail";
+    dtvc.hidesBottomBarWhenPushed = YES;
+    dtvc.status = [self.statuses objectAtIndex:indexPath.section];
+    dtvc.user = [self.users objectAtIndex:indexPath.section];
+    [self.navigationController pushViewController:dtvc animated:YES];
 }
 
 #pragma mark - Backups
 
--(void)fetchCurrentUserId
-{
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (!delegate.isLoggedIn) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-    } else {
-        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-        if (delegate.wbToken) {
-            [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-            NSString *url = [bWeiboDomain stringByAppendingString:@"account/get_uid.json"];
-            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"uid"];
-            }];
-        } else NSLog(@"fetchUID failed: token doesn't exist.");
-    }
-}
+//-(void)fetchCurrentUserId
+//{
+//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//    if (!delegate.isLoggedIn) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alertView show];
+//    } else {
+//        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
+//        if (delegate.wbToken) {
+//            [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
+//            NSString *url = [bWeiboDomain stringByAppendingString:@"account/get_uid.json"];
+//            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"uid"];
+//            }];
+//        } else NSLog(@"fetchUID failed: token doesn't exist.");
+//    }
+//}
 
 @end

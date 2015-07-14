@@ -131,28 +131,16 @@
     [self setupNavigationController:mapNvc];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:@[mapNvc, weiboListNvc, profileNvc] animated:YES];
+    [tabBarController setViewControllers:@[weiboListNvc, profileNvc, mapNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
-//    tabBarController.tabBar.layer.shadowOpacity = 0.25f;
-//    tabBarController.tabBar.layer.shadowColor = [UIColor blackColor].CGColor;
-//    tabBarController.tabBar.layer.shadowRadius = 3.f;
-    
     self.window.rootViewController = tabBarController;
-    
-    //    BBUberTableVC *uberTvc = [[BBUberTableVC alloc] initWithStyle:UITableViewStylePlain];
-    //    uberTvc.title = @"Uber";
-    //    uberTvc.tabBarItem.image = [UIImage imageNamed:@"iconfont-uber"];
 }
 
 -(void)setupNavigationController:(UINavigationController *)uinvc
 {
     uinvc.navigationBar.barTintColor = kBarColor;
     uinvc.navigationBar.tintColor = [UIColor whiteColor];
-//    uinvc.navigationBar.layer.shadowOpacity = 0.25f;
-//    uinvc.navigationBar.layer.shadowRadius = 3.f;
-//    uinvc.navigationBar.layer.shadowOffset = CGSizeMake(0, 1.f);
-//    uinvc.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
 }
 
 #pragma mark - WeiboSDKDelegate
