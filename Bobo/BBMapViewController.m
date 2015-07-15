@@ -131,7 +131,7 @@
 {
     _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
     [self.view addSubview:_mapView];
-    _mapView.zoomLevel = 15; //3-19
+    _mapView.zoomLevel = 15; //3-19`
     _mapView.showMapScaleBar = YES;
     _mapView.mapScaleBarPosition = CGPointMake(5, bHeight - self.tabBarController.tabBar.frame.size.height - 25);
 }

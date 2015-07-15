@@ -341,7 +341,7 @@
 				45D913111B4F7D920024404A /* UberKit */,
 				45620D3C1B3706BF00B9F9F2 /* Images */,
 				455FFAE61B34040E0007B883 /* Networks */,
-				45617A671B2ECA1600BDFE7F /* Catagories */,
+				45617A671B2ECA1600BDFE7F /* Categories */,
 				456C77E91B2AE3E30055FBE8 /* Model */,
 				456C77E51B2AC59B0055FBE8 /* Views */,
 				456C77E41B2AC5500055FBE8 /* Controllers */,
@@ -424,7 +424,7 @@
 			name = Networks;
 			sourceTree = "<group>";
 		};
-		45617A671B2ECA1600BDFE7F /* Catagories */ = {
+		45617A671B2ECA1600BDFE7F /* Categories */ = {
 			isa = PBXGroup;
 			children = (
 				455FFAE31B33F4480007B883 /* UIButton+Bobtn.h */,
@@ -432,7 +432,7 @@
 				454E93E61B3FCD72001126E4 /* NSString+UrlConvert.h */,
 				454E93E71B3FCD72001126E4 /* NSString+UrlConvert.m */,
 			);
-			name = Catagories;
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		45620D3C1B3706BF00B9F9F2 /* Images */ = {
