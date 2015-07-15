@@ -33,6 +33,7 @@
 		45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */; };
 		4565EEEE1B55F734009D0BCD /* BBBaiduCustomPaopaoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4565EEED1B55F734009D0BCD /* BBBaiduCustomPaopaoVC.m */; };
 		4565EEF11B560165009D0BCD /* BBAddressTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4565EEF01B560165009D0BCD /* BBAddressTableViewController.m */; };
+		4565EEF91B56637E009D0BCD /* BBToolbarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4565EEF81B56637E009D0BCD /* BBToolbarVC.m */; };
 		4566BC4B1B37ACD5008CF8D5 /* BBProfileTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4A1B37ACD5008CF8D5 /* BBProfileTableVC.m */; };
 		4566BC4E1B37E336008CF8D5 /* BBAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4D1B37E336008CF8D5 /* BBAvatarCell.m */; };
 		4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */; };
@@ -150,6 +151,8 @@
 		4565EEED1B55F734009D0BCD /* BBBaiduCustomPaopaoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBBaiduCustomPaopaoVC.m; sourceTree = "<group>"; };
 		4565EEEF1B560165009D0BCD /* BBAddressTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAddressTableViewController.h; sourceTree = "<group>"; };
 		4565EEF01B560165009D0BCD /* BBAddressTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAddressTableViewController.m; sourceTree = "<group>"; };
+		4565EEF71B56637E009D0BCD /* BBToolbarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBToolbarVC.h; sourceTree = "<group>"; };
+		4565EEF81B56637E009D0BCD /* BBToolbarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBToolbarVC.m; sourceTree = "<group>"; };
 		4566BC491B37ACD5008CF8D5 /* BBProfileTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileTableVC.h; sourceTree = "<group>"; };
 		4566BC4A1B37ACD5008CF8D5 /* BBProfileTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileTableVC.m; sourceTree = "<group>"; };
 		4566BC4C1B37E336008CF8D5 /* BBAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAvatarCell.h; sourceTree = "<group>"; };
@@ -455,6 +458,8 @@
 				4565EEF01B560165009D0BCD /* BBAddressTableViewController.m */,
 				4588F7341B3BBF7C00EE32D0 /* BBUberTableVC.h */,
 				4588F7351B3BBF7C00EE32D0 /* BBUberTableVC.m */,
+				4565EEF71B56637E009D0BCD /* BBToolbarVC.h */,
+				4565EEF81B56637E009D0BCD /* BBToolbarVC.m */,
 			);
 			name = Uber;
 			sourceTree = "<group>";
@@ -781,6 +786,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4565EEF91B56637E009D0BCD /* BBToolbarVC.m in Sources */,
 				45D9133B1B4F7DCA0024404A /* NXOAuth2AccountStore.m in Sources */,
 				4553E4011B54CAEB0020989C /* BBCommentCell.m in Sources */,
 				4553E3FE1B54A8E40020989C /* BBWBDetailsTableVC.m in Sources */,

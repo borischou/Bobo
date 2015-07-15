@@ -17,7 +17,9 @@
 
 @interface BBBaiduCustomPaopaoVC : UIViewController
 
-@property (copy, nonatomic) NSString *address;
 @property (weak, nonatomic) id <BBPaopaoViewDelegate> delegate;
+
+@property (copy, nonatomic) NSString *address;
+@property (strong, nonatomic) UILabel *addrLbl;
 
 @end

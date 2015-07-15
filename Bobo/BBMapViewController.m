@@ -11,9 +11,12 @@
 #import "BBUberTableVC.h"
 #import "BBBaiduCustomPaopaoVC.h"
 #import "BBAddressTableViewController.h"
+#import "BBToolbarVC.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
+#define bTabbarHeight self.tabBarController.tabBar.frame.size.height
+#define kBarColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
 @interface BBMapViewController () <BMKMapViewDelegate, BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BBPaopaoViewDelegate>
 
@@ -31,6 +34,7 @@
 
 @property (strong, nonatomic) BBBaiduCustomPaopaoVC *baiducpvc;
 @property (strong, nonatomic) BBAddressTableViewController *atvc;
+@property (strong, nonatomic) BBToolbarVC *tbvc;
 
 @property (nonatomic) CGFloat bd_destLat;
 @property (nonatomic) CGFloat bd_destLon;
@@ -53,18 +57,23 @@
     _searcher = [[BMKGeoCodeSearch alloc] init];
     _reverseGeoCodeOption = [[BMKReverseGeoCodeOption alloc] init];
     
+    _tbvc = [[BBToolbarVC alloc] init];
+    _tbvc.view.frame = CGRectMake(0, bHeight - bTabbarHeight * 2, bWidth, bTabbarHeight);
+    _tbvc.view.backgroundColor = kBarColor;
+    [self.view addSubview:_tbvc.view];
+    
     _centerPinView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     _centerPinView.center = self.view.center;
-    _centerPinView.backgroundColor = [UIColor redColor];
+    _centerPinView.backgroundColor = [UIColor purpleColor];
     [self.view addSubview:_centerPinView];
     
-    _focusBtnView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    _focusBtnView.center = CGPointMake(30, self.view.frame.size.height - 25 - 80);
+    _focusBtnView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _focusBtnView.frame = CGRectMake(10, bHeight - bTabbarHeight * 2 - 50, 40, 40);
     _focusBtnView.backgroundColor = [UIColor greenColor];
     _focusBtnView.userInteractionEnabled = YES;
     [_focusBtnView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFocus:)]];
     [self.view addSubview:_focusBtnView];
-    
+        
     [self startBaiduLocationService];
 }
 
@@ -93,7 +102,6 @@
     
     _curAnnotation = [[BMKPointAnnotation alloc] init];
     [_mapView addAnnotation:_curAnnotation];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -178,11 +186,14 @@
         _baiducpvc = [[BBBaiduCustomPaopaoVC alloc] init];
         _baiducpvc.view.frame = CGRectMake(0, 0, 200, 200);
         _baiducpvc.delegate = self;
+        if (!_curAddress) {
+            _baiducpvc.addrLbl.text = @"Loading...";
+        }
         
         _curPinView = [[BMKPinAnnotationView alloc] initWithAnnotation:_curAnnotation reuseIdentifier:@"curAnnotation"];
         _curPinView.pinColor = BMKPinAnnotationColorPurple;
         _curPinView.paopaoView = [[BMKActionPaopaoView alloc] initWithCustomView:_baiducpvc.view];
-        _curPinView.canShowCallout = YES;
+        [_curPinView setSelected:YES animated:YES];
         
         return _curPinView;
     }

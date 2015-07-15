@@ -21,6 +21,8 @@
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 #define kBarColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
 
 @interface AppDelegate () <WeiboSDKDelegate>
 
@@ -133,7 +135,7 @@
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     [tabBarController setViewControllers:@[mapNvc, weiboListNvc, profileNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
-    
+        
     self.window.rootViewController = tabBarController;
 }
 

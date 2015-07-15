@@ -15,7 +15,6 @@
 @interface BBBaiduCustomPaopaoVC ()
 
 @property (strong, nonatomic) UIButton *testBtn;
-@property (strong, nonatomic) UILabel *addrLbl;
 @property (strong, nonatomic) UITapGestureRecognizer *tap;
 
 @end
