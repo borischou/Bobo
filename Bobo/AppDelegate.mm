@@ -131,7 +131,7 @@
     [self setupNavigationController:mapNvc];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:@[weiboListNvc, profileNvc, mapNvc] animated:YES];
+    [tabBarController setViewControllers:@[mapNvc, weiboListNvc, profileNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
     self.window.rootViewController = tabBarController;

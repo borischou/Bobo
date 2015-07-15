@@ -30,7 +30,7 @@
 @property (strong, nonatomic) NSMutableArray *estimatedPrices;
 @property (strong, nonatomic) NSMutableArray *estimatedTimes;
 @property (strong, nonatomic) NSArray *activities;
-@property (strong, nonatomic) NSString *accessToken;
+@property (copy, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) UberPromotion *promotion;
 @property (strong, nonatomic) UberProfile *profile;
 @property (strong, nonatomic) UberRequest *request;
@@ -169,16 +169,18 @@
     
     UIBarButtonItem *rightItem_3 = [[UIBarButtonItem alloc] initWithTitle:@"Uber Cars" style:UIBarButtonItemStylePlain target:self action:@selector(uberCarPressed)];
     
-    //UIBarButtonItem *rightItem_2 = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginBtnPressed)];
+    UIBarButtonItem *rightItem_2 = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginBtnPressed)];
     
     //UIBarButtonItem *rightItem_0 = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(profileBtnPressed)];
     
     //UIBarButtonItem *rightItem_1 = [[UIBarButtonItem alloc] initWithTitle:@"Open Uber" style:UIBarButtonItemStylePlain target:self action:@selector(openUberApp)];
     
+    //[[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed)],
+    
     self.navigationItem.rightBarButtonItems = @[rightItem_3,
                                                 rightItem_4,
                                                 [[UIBarButtonItem alloc] initWithTitle:@"Estimate" style:UIBarButtonItemStylePlain target:self action:@selector(estimatePressed)],
-                                                [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed)],
+                                                rightItem_2,
                                                 [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(mapPressed)],
                                                 [[UIBarButtonItem alloc] initWithTitle:@"Receipt" style:UIBarButtonItemStylePlain target:self action:@selector(receiptPressed)]];
 }
