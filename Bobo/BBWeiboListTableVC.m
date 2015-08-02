@@ -30,6 +30,10 @@
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
+//@synthesize status;
+static NSString *reuseIdentifier = @"reuseCell";
+static NSString *reuseBarCellId = @"barCell";
+
 @interface BBWeiboListTableVC () <WBHttpRequestDelegate, UIAlertViewDelegate, BBImageBrowserProtocol>
 
 @property (nonatomic) NSInteger currentLastStatusId;
@@ -39,10 +43,6 @@
 @end
 
 @implementation BBWeiboListTableVC
-
-//@synthesize status;
-static NSString *reuseIdentifier = @"reuseCell";
-static NSString *reuseBarCellId = @"barCell";
 
 #pragma mark - Lazy Instantiation
 
