@@ -64,7 +64,7 @@
     return sizeForFit.height;
 }
 
--(CGFloat)getHeightForCellWithStatusText:(NSString *)text statusImageCount:(NSInteger)count andRetweetScreenName:(NSString *)screenName retweetText:(NSString *)retweetText retweetImageCount:(NSInteger)retweetImgCount
+-(CGFloat)getHeightForCellWithStatusText:(NSString *)text statusImageCount:(NSInteger)count andRetweetScreenName:(NSString *)retweetedScreenName retweetText:(NSString *)retweetText retweetImageCount:(NSInteger)retweetImgCount
 {
     CGFloat height = 0;
     
@@ -74,8 +74,8 @@
     if (count > 0) {
         height += bSmallGap + [self heightForImgsWithCount:count];
     }
-    if (screenName) {
-        height += bBigGap + [self heightForString:[NSString stringWithFormat:@"@%@:%@", screenName, retweetText] andWidth:bWidth - bBigGap * 2];
+    if (retweetedScreenName) {
+        height += bBigGap + [self heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] andWidth:bWidth - bBigGap * 2];
         if (retweetImgCount > 0) {
             height += bSmallGap + [self heightForImgsWithCount:retweetImgCount];
         }

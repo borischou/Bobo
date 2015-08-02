@@ -65,9 +65,7 @@
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    //return [WeiboSDK handleOpenURL:url delegate:self];
-    NSLog(@"The access_token: %@", [[UberKit sharedInstance] getStoredAuthToken]);
-    return [[UberKit sharedInstance] handleLoginRedirectFromUrl:url sourceApplication:sourceApplication];
+    return [WeiboSDK handleOpenURL:url delegate:self];
 }
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
@@ -133,7 +131,7 @@
     [self setupNavigationController:mapNvc];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:@[mapNvc, weiboListNvc, profileNvc] animated:YES];
+    [tabBarController setViewControllers:@[weiboListNvc, profileNvc, mapNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
         
     self.window.rootViewController = tabBarController;
