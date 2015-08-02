@@ -174,9 +174,10 @@
 }
 
 -(void)setCellLayout
-{
-    CGSize postSize = [postBodyLbl sizeThatFits:CGSizeMake(bWidth, MAXFLOAT)];
+{    
+    CGSize postSize = [postBodyLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
     postBodyLbl.frame = CGRectMake(bBigGap, bBigGap + bAvatarHeight + bBigGap, bWidth - bBigGap * 2, postSize.height);
+    
     repostView.hidden = YES;
     if (_status.retweeted_status) { //retweeted_status
         repostView.hidden = NO;

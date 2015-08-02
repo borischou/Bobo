@@ -61,6 +61,7 @@
     NSMutableParagraphStyle *parastyle = [[NSMutableParagraphStyle alloc] init];
     parastyle.lineBreakMode = NSLineBreakByWordWrapping;
     CGSize sizeForFit = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:bTextFontSize], NSParagraphStyleAttributeName: parastyle} context:nil].size;
+    
     return sizeForFit.height;
 }
 
@@ -71,10 +72,12 @@
     height = 0;
     height += bBigGap + bHeadImgHeight;
     height += bBigGap + [self heightForString:text andWidth:bWidth - bBigGap * 2];
+    
     if (count > 0) {
         height += bSmallGap + [self heightForImgsWithCount:count];
     }
-    if (retweetedScreenName) {
+    
+    if (retweetedScreenName != nil) {
         height += bBigGap + [self heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] andWidth:bWidth - bBigGap * 2];
         if (retweetImgCount > 0) {
             height += bSmallGap + [self heightForImgsWithCount:retweetImgCount];
