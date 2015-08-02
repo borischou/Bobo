@@ -245,7 +245,6 @@
             });
         }];
     });
-    
 }
 
 -(void)setUberAuthParams
