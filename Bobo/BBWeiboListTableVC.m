@@ -44,7 +44,8 @@
 static NSString *reuseIdentifier = @"reuseCell";
 static NSString *reuseBarCellId = @"barCell";
 
-//lazy boy
+#pragma mark - Lazy Instantiation
+
 -(NSMutableArray *)statuses
 {
     if (!_statuses) {
@@ -75,6 +76,35 @@ static NSString *reuseBarCellId = @"barCell";
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Helpers
+
+-(void)setNavBarBtn
+{
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginBtnPressed)];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logoutBtnPressed)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+}
+
+-(NSString *)getNumStrFrom:(NSInteger)num
+{
+    NSString *numStr;
+    if (num > 0 && num < 1000) {
+        numStr = [NSString stringWithFormat:@"%ld", num];
+    }
+    if (num > 999 && num < 10000) {
+        numStr = [NSString stringWithFormat:@"%dk", (int)num/1000];
+    }
+    if (num > 9999 && num < 10000 * 100) {
+        numStr = [NSString stringWithFormat:@"%.1fw", (float)num/10000];
+    }
+    if (num >= 10000 * 100) {
+        numStr = [NSString stringWithFormat:@"%dm", (int)num/10000*100];
+    }
+    return numStr;
+}
+
 #pragma mark - BBImageBrowserProtocol
 
 -(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
@@ -83,7 +113,60 @@ static NSString *reuseBarCellId = @"barCell";
     [self.view.window addSubview:browserView];
 }
 
-#pragma mark - Helpers
+#pragma mark - UIButtons
+
+-(void)loginBtnPressed
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"bobo" object:self];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSLog(@"isLoggedIn: %d\ndelegate.wbCurrentUserID: %@\ndelegate.wbToken: %@", delegate.isLoggedIn, delegate.wbCurrentUserID, delegate.wbToken);
+    if (!delegate.isLoggedIn || !delegate.wbCurrentUserID || !delegate.wbToken) {
+        [WeiboSDK enableDebugMode:YES];
+        [WeiboSDK registerApp:kAppKey];
+        WBAuthorizeRequest *request = [WBAuthorizeRequest request];
+        request.redirectURI = kRedirectURI;
+        request.scope = @"all";
+        [WeiboSDK sendRequest:request];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Logged in" message:@"You are logged in already." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
+-(void)logoutBtnPressed
+{
+    self.logoutAlertView = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Are you sure you want to log it out?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Logout", nil];
+    [self.logoutAlertView show];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([alertView isEqual:self.logoutAlertView]) {
+        if (1 == buttonIndex) {
+            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [WeiboSDK logOutWithToken:delegate.wbToken delegate:self withTag:@"user1"];
+            delegate.isLoggedIn = NO;
+            [[NSUserDefaults standardUserDefaults] setValue:@(delegate.isLoggedIn) forKey:@"loginstatus"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    }
+}
+
+#pragma mark - WBHttpRequestDelegate & Helpers
+
+-(void)request:(WBHttpRequest *)request didFinishLoadingWithResult:(NSString *)result
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"WBHttpRequestDelegate" message:[NSString stringWithFormat:@"didFinishLoadingWithResult: %@", result] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+
+-(void)request:(WBHttpRequest *)request didFailWithError:(NSError *)error
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"WBHttpRequestDelegate" message:[NSString stringWithFormat:@"didFailWithError: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
 
 -(void)setMJRefresh
 {
@@ -142,15 +225,6 @@ static NSString *reuseBarCellId = @"barCell";
     }
 }
 
--(void)setNavBarBtn
-{
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginBtnPressed)];
-    self.navigationItem.leftBarButtonItem = leftItem;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logoutBtnPressed)];
-    self.navigationItem.rightBarButtonItem = rightItem;
-}
-
 -(void)refreshStatus
 {
     [self.tableView.header beginRefreshing];
@@ -187,77 +261,6 @@ static NSString *reuseBarCellId = @"barCell";
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
         }];
     }
-}
-
--(void)loginBtnPressed
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"bobo" object:self];
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSLog(@"isLoggedIn: %d\ndelegate.wbCurrentUserID: %@\ndelegate.wbToken: %@", delegate.isLoggedIn, delegate.wbCurrentUserID, delegate.wbToken);
-    if (!delegate.isLoggedIn || !delegate.wbCurrentUserID || !delegate.wbToken) {
-        [WeiboSDK enableDebugMode:YES];
-        [WeiboSDK registerApp:kAppKey];
-        WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-        request.redirectURI = kRedirectURI;
-        request.scope = @"all";
-        [WeiboSDK sendRequest:request];
-    } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Logged in" message:@"You are logged in already." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-    }
-}
-
--(void)logoutBtnPressed
-{
-    self.logoutAlertView = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Are you sure you want to log it out?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Logout", nil];
-    [self.logoutAlertView show];
-}
-
--(NSString *)getNumStrFrom:(NSInteger)num
-{
-    NSString *numStr;
-    if (num > 0 && num < 1000) {
-        numStr = [NSString stringWithFormat:@"%ld", num];
-    }
-    if (num > 999 && num < 10000) {
-        numStr = [NSString stringWithFormat:@"%dk", (int)num/1000];
-    }
-    if (num > 9999 && num < 10000 * 100) {
-        numStr = [NSString stringWithFormat:@"%.1fw", (float)num/10000];
-    }
-    if (num >= 10000 * 100) {
-        numStr = [NSString stringWithFormat:@"%dm", (int)num/10000*100];
-    }
-    return numStr;
-}
-
-#pragma mark - UIAlertViewDelegate
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if ([alertView isEqual:self.logoutAlertView]) {
-        if (1 == buttonIndex) {
-            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [WeiboSDK logOutWithToken:delegate.wbToken delegate:self withTag:@"user1"];
-            delegate.isLoggedIn = NO;
-            [[NSUserDefaults standardUserDefaults] setValue:@(delegate.isLoggedIn) forKey:@"loginstatus"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-    }
-}
-
-#pragma mark - WBHttpRequestDelegate
-
--(void)request:(WBHttpRequest *)request didFinishLoadingWithResult:(NSString *)result
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"WBHttpRequestDelegate" message:[NSString stringWithFormat:@"didFinishLoadingWithResult: %@", result] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
-}
-
--(void)request:(WBHttpRequest *)request didFailWithError:(NSError *)error
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"WBHttpRequestDelegate" message:[NSString stringWithFormat:@"didFailWithError: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
 }
 
 #pragma mark - Table view data source & delegate

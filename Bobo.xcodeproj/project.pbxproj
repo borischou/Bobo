@@ -59,6 +59,7 @@
 		458AF8CD1B4E75C400ACE3BE /* BBUberCarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 458AF8CC1B4E75C400ACE3BE /* BBUberCarTableViewCell.m */; };
 		45A052131B3A5CB200A1488D /* timeline_image_loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */; };
 		45A052161B3A898200A1488D /* BBCountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountCell.m */; };
+		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
 		45D913141B4F7DA70024404A /* UberKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D913131B4F7DA70024404A /* UberKit.m */; };
 		45D913361B4F7DCA0024404A /* NSData+NXOAuth2.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D913291B4F7DCA0024404A /* NSData+NXOAuth2.m */; };
 		45D913371B4F7DCA0024404A /* NSString+NXOAuth2.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D9132A1B4F7DCA0024404A /* NSString+NXOAuth2.m */; };
@@ -196,6 +197,8 @@
 		45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_image_loading@2x.png"; sourceTree = "<group>"; };
 		45A052141B3A898200A1488D /* BBCountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountCell.h; sourceTree = "<group>"; };
 		45A052151B3A898200A1488D /* BBCountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountCell.m; sourceTree = "<group>"; };
+		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		45A979021B6E512000A8D472 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		45D913121B4F7DA70024404A /* UberKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberKit.h; sourceTree = "<group>"; };
 		45D913131B4F7DA70024404A /* UberKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberKit.m; sourceTree = "<group>"; };
 		45D913161B4F7DCA0024404A /* OAuth2Client_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuth2Client_Prefix.pch; sourceTree = "<group>"; };
@@ -338,6 +341,7 @@
 		451441CF1B295CA9000532DD /* Bobo */ = {
 			isa = PBXGroup;
 			children = (
+				45A979041B6E512D00A8D472 /* SWRevealViewController */,
 				45D913111B4F7D920024404A /* UberKit */,
 				45620D3C1B3706BF00B9F9F2 /* Images */,
 				455FFAE61B34040E0007B883 /* Networks */,
@@ -569,6 +573,15 @@
 			name = Details;
 			sourceTree = "<group>";
 		};
+		45A979041B6E512D00A8D472 /* SWRevealViewController */ = {
+			isa = PBXGroup;
+			children = (
+				45A979011B6E512000A8D472 /* SWRevealViewController.h */,
+				45A979021B6E512000A8D472 /* SWRevealViewController.m */,
+			);
+			name = SWRevealViewController;
+			sourceTree = "<group>";
+		};
 		45D913111B4F7D920024404A /* UberKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -696,6 +709,7 @@
 				TargetAttributes = {
 					451441CC1B295CA9000532DD = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = R8SXHLJ4HE;
 					};
 					451441E51B295CA9000532DD = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -821,6 +835,7 @@
 				45D9133D1B4F7DCA0024404A /* NXOAuth2Connection.m in Sources */,
 				45D913611B4F7E900024404A /* UberVehicle.m in Sources */,
 				458AF8CD1B4E75C400ACE3BE /* BBUberCarTableViewCell.m in Sources */,
+				45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */,
 				45D913421B4F7DCA0024404A /* NXOAuth2Request.m in Sources */,
 				45D913381B4F7DCA0024404A /* NSURL+NXOAuth2.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
@@ -963,6 +978,7 @@
 			baseConfigurationReference = 380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/zhouboli/Documents/untitled,
@@ -991,6 +1007,7 @@
 			baseConfigurationReference = A514AEC441207DBA08E4A83B /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/zhouboli/Documents/untitled,
