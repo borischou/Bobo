@@ -170,9 +170,8 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)setMJRefresh
 {
-    __weak __typeof(self) weakSelf = self;
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [weakSelf refreshStatus];
+        [self refreshStatus];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatus)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
@@ -186,9 +185,10 @@ static NSString *reuseBarCellId = @"barCell";
     if (error) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
         [alertView show];
     } else {
-        if ([type isEqualToString:@"refresh"]) {
+        if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
             NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
                 
@@ -206,7 +206,7 @@ static NSString *reuseBarCellId = @"barCell";
             NSLog(@"Last status after refresh fetch:\n%@", [downloadedStatuses lastObject]);
         }
         
-        if ([type isEqualToString:@"history"]) {
+        if ([type isEqualToString:@"history"]) { //上拉刷新历史微博
             NSArray *historyStatuses = [result objectForKey:@"statuses"];
             NSLog(@"History statuses: %@", historyStatuses);
             for (int i = 0; i < [historyStatuses count]; i ++) {
@@ -235,11 +235,15 @@ static NSString *reuseBarCellId = @"barCell";
         [alertView show];
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *url = [bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"];
-        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"refresh"];
-        }];
+        if (delegate.wbToken) {
+            [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
+            NSString *url = [bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"];
+            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"refresh"];
+            }];
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您未登录微博授权，请先登录。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        }
     }
 }
 
@@ -254,7 +258,7 @@ static NSString *reuseBarCellId = @"barCell";
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [@"?max_id=" stringByAppendingString:[NSString stringWithFormat:@"%@", _currentLastStateIdStr]];
+        NSString *para = [NSString stringWithFormat:@"?max_id=%@", _currentLastStateIdStr];
         NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {

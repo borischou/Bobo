@@ -15,6 +15,7 @@
 @interface BBImageBrowserView () <UIScrollViewDelegate>
 
 @property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) UIPageControl *pageControl;
 @property (nonatomic) NSInteger count;
 
 @end
@@ -28,6 +29,7 @@
         self.backgroundColor = [UIColor blackColor];
         self.count = [urls count];
         [self setScrollViewWithImageUrls:urls andTag:tag];
+        [self loadPageControl];
     }
     return self;
 }
@@ -81,6 +83,17 @@
         imageView.frame = CGRectMake(originX, 0, bWidth, bHeight);
     }
     imageView.image = image;
+}
+
+-(void)loadPageControl
+{
+    _pageControl = [[UIPageControl alloc] init];
+    _pageControl.bounds = CGRectMake(0, 0, bWidth/2, 20);
+    _pageControl.center = CGPointMake(bWidth/2, bHeight-30);
+    _pageControl.numberOfPages = _count;
+    _pageControl.pageIndicatorTintColor = [UIColor darkGrayColor];
+    _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+    [self addSubview:_pageControl];
 }
 
 -(void)tapAction
