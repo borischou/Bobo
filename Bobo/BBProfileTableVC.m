@@ -230,7 +230,6 @@ static NSString *reuseCountsCell = @"countsCell";
             }
             return cell;
         }
-        
     }
 }
 
@@ -257,7 +256,6 @@ static NSString *reuseCountsCell = @"countsCell";
     dtvc.status = [self.statuses objectAtIndex:indexPath.section-1];
     dtvc.user = _user;
     [self.navigationController pushViewController:dtvc animated:YES];
-    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
