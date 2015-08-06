@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (UrlConvert)
+@interface NSString (Convert)
 
 +(NSString *)largePictureUrlConvertedFromThumbUrl:(NSString *)url;
+
++(NSString *)getNumStrFrom:(NSInteger)num;
 
 @end

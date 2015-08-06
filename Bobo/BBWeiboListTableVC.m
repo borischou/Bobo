@@ -16,6 +16,7 @@
 #import "BBButtonbarCell.h"
 #import "BBNetworkUtils.h"
 #import "UIButton+Bobtn.h"
+#import "NSString+Convert.h"
 #import "User.h"
 #import "Status.h"
 
@@ -85,24 +86,6 @@ static NSString *reuseBarCellId = @"barCell";
     self.navigationItem.leftBarButtonItem = leftItem;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logoutBtnPressed)];
     self.navigationItem.rightBarButtonItem = rightItem;
-}
-
--(NSString *)getNumStrFrom:(NSInteger)num
-{
-    NSString *numStr;
-    if (num > 0 && num < 1000) {
-        numStr = [NSString stringWithFormat:@"%ld", num];
-    }
-    if (num > 999 && num < 10000) {
-        numStr = [NSString stringWithFormat:@"%dk", (int)num/1000];
-    }
-    if (num > 9999 && num < 10000 * 100) {
-        numStr = [NSString stringWithFormat:@"%.1fw", (float)num/10000];
-    }
-    if (num >= 10000 * 100) {
-        numStr = [NSString stringWithFormat:@"%dm", (int)num/10000*100];
-    }
-    return numStr;
 }
 
 #pragma mark - BBImageBrowserProtocol
@@ -337,16 +320,16 @@ static NSString *reuseBarCellId = @"barCell";
         if ([_statuses count]) {
             Status *status = [self.statuses objectAtIndex:indexPath.section];
             if (status.reposts_count > 0) {
-                [cell.repostBtn setTitle:[NSString stringWithFormat:@"%@re", [self getNumStrFrom:status.reposts_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
+                [cell.repostBtn setTitle:[NSString stringWithFormat:@"%@re", [NSString getNumStrFrom:status.reposts_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
             } else {
                 [cell.repostBtn setTitle:@"Repost" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
             }
             if (status.comments_count > 0) {
-                [cell.commentBtn setTitle:[NSString stringWithFormat:@"%@ comts", [self getNumStrFrom:status.comments_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
+                [cell.commentBtn setTitle:[NSString stringWithFormat:@"%@ comts", [NSString getNumStrFrom:status.comments_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
             } else {
                 [cell.commentBtn setTitle:@"Comment" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];            }
             if (status.attitudes_count > 0) {
-                [cell.likeBtn setTitle:[NSString stringWithFormat:@"%@ likes", [self getNumStrFrom:status.attitudes_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
+                [cell.likeBtn setTitle:[NSString stringWithFormat:@"%@ likes", [NSString getNumStrFrom:status.attitudes_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
             } else {
                 [cell.likeBtn setTitle:@"Like" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
             }

@@ -24,14 +24,17 @@
 
 -(void)setHeaderLayout
 {
-    _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(self.center.x-bWidth/8, 5, bWidth/4, bWidth/4)];
-    _avatarView.backgroundColor = [UIColor redColor];
+    _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(self.center.x-bWidth/10, 20, bWidth/5, bWidth/5)];
+    _avatarView.layer.masksToBounds = YES;
+    _avatarView.layer.cornerRadius = _avatarView.bounds.size.width*0.5;
+    _avatarView.layer.borderWidth = 0.1;
+    _avatarView.layer.borderColor = [UIColor blackColor].CGColor;
     [self addSubview:_avatarView];
     
     _name = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, bWidth, 30)];
     _name.center = CGPointMake(self.center.x, self.frame.size.height*3/4);
-    _name.backgroundColor = [UIColor blueColor];
     _name.textColor = [UIColor whiteColor];
+    _name.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_name];    
 }
 

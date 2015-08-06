@@ -24,7 +24,7 @@
 		451442211B296401000532DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442201B296401000532DD /* CoreGraphics.framework */; };
 		453035D01B4A51A500647ACC /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 453035CF1B4A51A500647ACC /* mapapi.bundle */; };
 		45435E5C1B4BDC8600AA4C3B /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */; };
-		454E93E81B3FCD72001126E4 /* NSString+UrlConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+UrlConvert.m */; };
+		454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+Convert.m */; };
 		4553E3FE1B54A8E40020989C /* BBWBDetailsTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E3FD1B54A8E40020989C /* BBWBDetailsTableVC.m */; };
 		4553E4011B54CAEB0020989C /* BBCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4001B54CAEB0020989C /* BBCommentCell.m */; };
 		4553E4041B54D73D0020989C /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4031B54D73D0020989C /* Comment.m */; };
@@ -52,6 +52,7 @@
 		457BE7B21B52B336000C884A /* UberCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 457BE7B11B52B336000C884A /* UberCharge.m */; };
 		457BE7B51B52B4E6000C884A /* UberReceipt.m in Sources */ = {isa = PBXBuildFile; fileRef = 457BE7B41B52B4E6000C884A /* UberReceipt.m */; };
 		457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */; };
+		457C60ED1B7332E400B10D53 /* bb_holder_profile_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image.png */; };
 		4588F7331B3B9B5A00EE32D0 /* WeiboCountsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */; };
 		4588F7361B3BBF7C00EE32D0 /* BBUberTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7351B3BBF7C00EE32D0 /* BBUberTableVC.m */; };
 		4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F7451B3BC45500EE32D0 /* car@3x.png */; };
@@ -135,8 +136,8 @@
 		453035CF1B4A51A500647ACC /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
 		453035D21B4A609400647ACC /* Release-iphoneos */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Release-iphoneos"; path = "Bobo/Release-iphoneos"; sourceTree = "<group>"; };
 		45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = Bobo/BaiduMapAPI.framework; sourceTree = "<group>"; };
-		454E93E61B3FCD72001126E4 /* NSString+UrlConvert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UrlConvert.h"; sourceTree = "<group>"; };
-		454E93E71B3FCD72001126E4 /* NSString+UrlConvert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UrlConvert.m"; sourceTree = "<group>"; };
+		454E93E61B3FCD72001126E4 /* NSString+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Convert.h"; sourceTree = "<group>"; };
+		454E93E71B3FCD72001126E4 /* NSString+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Convert.m"; sourceTree = "<group>"; };
 		4553E3FC1B54A8E40020989C /* BBWBDetailsTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWBDetailsTableVC.h; sourceTree = "<group>"; };
 		4553E3FD1B54A8E40020989C /* BBWBDetailsTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWBDetailsTableVC.m; sourceTree = "<group>"; };
 		4553E3FF1B54CAEB0020989C /* BBCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCommentCell.h; sourceTree = "<group>"; };
@@ -186,6 +187,7 @@
 		457BE7B41B52B4E6000C884A /* UberReceipt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberReceipt.m; sourceTree = "<group>"; };
 		457C60E91B7301F500B10D53 /* BBMeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMeHeaderView.h; sourceTree = "<group>"; };
 		457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMeHeaderView.m; sourceTree = "<group>"; };
+		457C60EC1B7332E400B10D53 /* bb_holder_profile_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bb_holder_profile_image.png; sourceTree = "<group>"; };
 		4588F7311B3B9B5A00EE32D0 /* WeiboCountsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboCountsModel.h; sourceTree = "<group>"; };
 		4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeiboCountsModel.m; sourceTree = "<group>"; };
 		4588F7341B3BBF7C00EE32D0 /* BBUberTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUberTableVC.h; sourceTree = "<group>"; };
@@ -433,8 +435,8 @@
 			children = (
 				455FFAE31B33F4480007B883 /* UIButton+Bobtn.h */,
 				455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */,
-				454E93E61B3FCD72001126E4 /* NSString+UrlConvert.h */,
-				454E93E71B3FCD72001126E4 /* NSString+UrlConvert.m */,
+				454E93E61B3FCD72001126E4 /* NSString+Convert.h */,
+				454E93E71B3FCD72001126E4 /* NSString+Convert.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -444,6 +446,7 @@
 			children = (
 				4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */,
 				45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */,
+				457C60EC1B7332E400B10D53 /* bb_holder_profile_image.png */,
 				45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */,
 				4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */,
 				4588F7451B3BC45500EE32D0 /* car@3x.png */,
@@ -750,6 +753,7 @@
 				4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */,
 				4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */,
 				45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */,
+				457C60ED1B7332E400B10D53 /* bb_holder_profile_image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -817,7 +821,7 @@
 				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
 				457BE7A71B528EF1000C884A /* UberEstimatedPrice.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* WeiboCountsModel.m in Sources */,
-				454E93E81B3FCD72001126E4 /* NSString+UrlConvert.m in Sources */,
+				454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */,
 				457BE7B21B52B336000C884A /* UberCharge.m in Sources */,
 				45D9135F1B4F7E900024404A /* UberLocation.m in Sources */,
 				45D9133A1B4F7DCA0024404A /* NXOAuth2Account.m in Sources */,

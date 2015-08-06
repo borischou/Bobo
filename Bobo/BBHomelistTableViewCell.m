@@ -9,7 +9,7 @@
 #import "BBHomelistTableViewCell.h"
 #import "BBNetworkUtils.h"
 #import "BBImageBrowserView.h"
-#import "NSString+UrlConvert.h"
+#import "NSString+Convert.h"
 #import "Utils.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
