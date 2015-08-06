@@ -9,12 +9,9 @@
 #import "AppDelegate.h"
 
 #import "WeiboSDK.h"
-#import <BaiduMapAPI/BMKMapView.h>
 
-#import "BBUberTableVC.h"
 #import "BBProfileTableVC.h"
 #import "BBWeiboListTableVC.h"
-#import "BBMapViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -25,8 +22,6 @@
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
 @interface AppDelegate () <WeiboSDKDelegate>
-
-@property (strong, nonatomic) BMKMapManager *mapManager;
 
 @end
 
@@ -101,14 +96,6 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    //Baidu Map
-    _mapManager = [[BMKMapManager alloc] init];
-    BOOL ret = [_mapManager start:@"071hVFIGoui3obTaXubwfkwX" generalDelegate:nil];
-    if (!ret) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Baidu map manager start failed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-    }
-    
     BBWeiboListTableVC *weiboListTvc = [[BBWeiboListTableVC alloc] initWithStyle:UITableViewStyleGrouped];
     weiboListTvc.title = @"Bobo";
     weiboListTvc.tabBarItem.image = [UIImage imageNamed:@"chunvzuo"];
@@ -122,16 +109,9 @@
     
     UINavigationController *profileNvc = [[UINavigationController alloc] initWithRootViewController:profileTvc];
     [self setupNavigationController:profileNvc];
-   
-    BBMapViewController *mapvc = [[BBMapViewController alloc] init];
-    mapvc.title = @"Uber";
-    mapvc.tabBarItem.image = [UIImage imageNamed:@"iconfont-uber"];
-    
-    UINavigationController *mapNvc = [[UINavigationController alloc] initWithRootViewController:mapvc];
-    [self setupNavigationController:mapNvc];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:@[weiboListNvc, profileNvc, mapNvc] animated:YES];
+    [tabBarController setViewControllers:@[weiboListNvc, profileNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
         
     self.window.rootViewController = tabBarController;
