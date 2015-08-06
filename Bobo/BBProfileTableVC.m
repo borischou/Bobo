@@ -6,17 +6,21 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
+#import <MJRefresh/MJRefresh.h>
+
 #import "BBProfileTableVC.h"
-#import "BBAvatarCell.h"
 #import "BBCountCell.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
 #import "WeiboCountsModel.h"
-#import <MJRefresh/MJRefresh.h>
+#import "BBMeHeaderView.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
 #define bWeiboDomain @"https://api.weibo.com/2/"
+
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
 
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 
@@ -45,6 +49,8 @@ static NSString *reuseCountsCell = @"countsCell";
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     self.view.backgroundColor = bBGColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.tableHeaderView = [self getAvatarView];
+    
     [self fetchCountsOfMe];
     [self setMJRefresh];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
@@ -56,6 +62,12 @@ static NSString *reuseCountsCell = @"countsCell";
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [weakSelf fetchCountsOfMe];
     }];
+}
+
+-(UIView *)getAvatarView
+{
+    BBMeHeaderView *avatarView = [[BBMeHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight/3.5)];
+    return avatarView;
 }
 
 -(void)observeSomething
@@ -105,20 +117,13 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 == indexPath.row) {
-        [tableView registerClass:[BBAvatarCell class] forCellReuseIdentifier:reuseAvatarCell];
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseAvatarCell forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    } else {
-        [tableView registerClass:[BBCountCell class] forCellReuseIdentifier:reuseCountsCell];
-        BBCountCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCountsCell forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.wbcounts.text = [NSString stringWithFormat:@"%ld", self.myWbCounts.statuses_count];
-        cell.followercounts.text = [NSString stringWithFormat:@"%ld", self.myWbCounts.followers_count];
-        cell.friendcounts.text = [NSString stringWithFormat:@"%ld", self.myWbCounts.friends_count];
-        return cell;
-    }
+    [tableView registerClass:[BBCountCell class] forCellReuseIdentifier:reuseCountsCell];
+    BBCountCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCountsCell forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.wbcounts.text = [NSString stringWithFormat:@"%ld", self.myWbCounts.statuses_count];
+    cell.followercounts.text = [NSString stringWithFormat:@"%ld", self.myWbCounts.followers_count];
+    cell.friendcounts.text = [NSString stringWithFormat:@"%ld", self.myWbCounts.friends_count];
+    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -133,7 +138,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 1;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
