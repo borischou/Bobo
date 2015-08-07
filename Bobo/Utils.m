@@ -17,11 +17,12 @@
 #define bPostTimeWidth bNicknameWidth
 #define bPostTimeHeight 20
 #define bTopPadding 10.0
-#define bPostImgHeight [UIScreen mainScreen].bounds.size.width/6
-#define bPostImgWidth bPostImgHeight
-#define bTextFontSize 14.f
 #define bSmallGap 5
 #define bBigGap 10
+#define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bBigGap-2*bSmallGap)/3
+#define bPostImgWidth bPostImgHeight
+#define bTextFontSize 14.f
+
 
 @implementation Utils
 

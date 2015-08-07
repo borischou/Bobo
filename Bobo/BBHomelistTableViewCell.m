@@ -21,11 +21,12 @@
 #define bPostTimeWidth bNicknameWidth
 #define bPostTimeHeight 20
 #define bTopPadding 10.0
-#define bPostImgHeight [UIScreen mainScreen].bounds.size.width/6
-#define bPostImgWidth bPostImgHeight
-#define bTextFontSize 14.f
 #define bSmallGap 5
 #define bBigGap 10
+#define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bBigGap-2*bSmallGap)/3
+#define bPostImgWidth bPostImgHeight
+#define bTextFontSize 14.f
+
 #define bRetweetBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bImgBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
