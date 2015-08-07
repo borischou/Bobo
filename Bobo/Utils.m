@@ -58,6 +58,9 @@
 
 -(CGFloat)heightForString:(NSString *)str andWidth:(CGFloat)width
 {
+    if (!str) {
+        return 0;
+    }
     NSMutableParagraphStyle *parastyle = [[NSMutableParagraphStyle alloc] init];
     parastyle.lineBreakMode = NSLineBreakByWordWrapping;
     CGSize sizeForFit = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:bTextFontSize], NSParagraphStyleAttributeName: parastyle} context:nil].size;

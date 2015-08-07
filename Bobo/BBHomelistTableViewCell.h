@@ -26,9 +26,9 @@
 
 //status
 @property (strong, nonatomic) UILabel *postBodyLbl;
-@property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UILabel *nicknameLbl;
 @property (strong, nonatomic) UILabel *postTimeLbl;
+@property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) NSMutableArray *statusImgViews;
 
 //repost status

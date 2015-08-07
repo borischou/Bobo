@@ -40,6 +40,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableArray *statuses;
+@property (copy, nonatomic) NSString *currentLastStatusId;
 
 @end
 
@@ -51,18 +52,23 @@ static NSString *reuseCountsCell = @"countsCell";
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     self.view.backgroundColor = bBGColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self fetchMyProfile];
     [self setMJRefresh];
+    [self.tableView.header beginRefreshing];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
 }
 
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self.tableView.header beginRefreshing];
         [self fetchMyProfile];
         [self fetchMyWeibo];
     }];
+    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMyHistory)];
+    [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
+    [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
+    [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
+    self.tableView.footer = footer;
 }
 
 -(UIView *)getAvatarView
@@ -123,6 +129,24 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
+-(void)fetchMyHistory
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (!delegate.isLoggedIn) {
+        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    }
+    else
+    {
+        NSMutableDictionary *params = @{}.mutableCopy;
+        [params setObject:delegate.wbToken forKey:@"access_token"];
+        [params setObject:_currentLastStatusId forKey:@"max_id"];
+        NSString *url = [bWeiboDomain stringByAppendingString:@"statuses/user_timeline.json"];
+        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
+        }];
+    }
+}
+
 #pragma mark - Helpers
 
 -(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
@@ -131,18 +155,35 @@ static NSString *reuseCountsCell = @"countsCell";
         [self.tableView.header endRefreshing];
         _user = [[User alloc] initWithDictionary:result];
         self.tableView.tableHeaderView = [self getAvatarView];
-        [self.tableView reloadData];
+    }
+    
+    NSMutableArray *downloadedStatuses = [result objectForKey:@"statuses"];
+    if (!_statuses) {
+        _statuses = @[].mutableCopy;
     }
     if ([type isEqualToString:@"me"]) {
-        _statuses = @[].mutableCopy;
-        NSMutableArray *downloadedStatuses = [result objectForKey:@"statuses"];
         for (int i = 0; i < downloadedStatuses.count; i ++) {
             Status *status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
+            [_statuses insertObject:status atIndex:i];
+        }
+    }
+    if ([type isEqualToString:@"history"]) {
+        for (NSDictionary *dict in downloadedStatuses) {
+            Status *status = [[Status alloc] initWithDictionary:dict];
             [_statuses addObject:status];
         }
-        [self.tableView.header endRefreshing];
-        [self.tableView reloadData];
     }
+    
+    Status *lastOne = _statuses.lastObject;
+    if (lastOne.idstr) {
+        _currentLastStatusId = lastOne.idstr;
+    }
+    
+    NSLog(@"CURRENT LAST STATUS ID: %@", _currentLastStatusId);
+    
+    [self.tableView.header endRefreshing];
+    [self.tableView.footer endRefreshing];
+    [self.tableView reloadData];
 }
 
 #pragma mark - BBImageBrowserProtocol

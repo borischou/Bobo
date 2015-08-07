@@ -12,11 +12,11 @@
 
 @interface Comment : NSObject
 
-@property (strong, nonatomic) NSString *created_at;
-@property (strong, nonatomic) NSString *text;
-@property (strong, nonatomic) NSString *source;
-@property (strong, nonatomic) NSString *mid;
-@property (strong, nonatomic) NSString *idstr;
+@property (copy, nonatomic) NSString *created_at;
+@property (copy, nonatomic) NSString *text;
+@property (copy, nonatomic) NSString *source;
+@property (copy, nonatomic) NSString *mid;
+@property (copy, nonatomic) NSString *idstr;
 @property (nonatomic) NSInteger comnt_id;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) Status *status;

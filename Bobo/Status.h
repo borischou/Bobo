@@ -12,17 +12,17 @@
 
 @interface Status : NSObject
 
-@property (strong, nonatomic) NSString *created_at;
+@property (copy, nonatomic) NSString *created_at;
 @property (nonatomic) NSInteger status_id;
 @property (nonatomic) NSInteger status_mid;
-@property (strong, nonatomic) NSString *idstr;
-@property (strong, nonatomic) NSString *text;
-@property (strong, nonatomic) NSString *source;
+@property (copy, nonatomic) NSString *idstr;
+@property (copy, nonatomic) NSString *text;
+@property (copy, nonatomic) NSString *source;
 @property (nonatomic) BOOL favorited;
 @property (nonatomic) BOOL truncated;
-@property (strong, nonatomic) NSString *thumbnail_pic;
-@property (strong, nonatomic) NSString *bmiddle_pic;
-@property (strong, nonatomic) NSString *original_pic;
+@property (copy, nonatomic) NSString *thumbnail_pic;
+@property (copy, nonatomic) NSString *bmiddle_pic;
+@property (copy, nonatomic) NSString *original_pic;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) Status *retweeted_status;
 @property (nonatomic) NSInteger reposts_count;

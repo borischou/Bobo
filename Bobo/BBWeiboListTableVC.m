@@ -38,7 +38,7 @@ static NSString *reuseBarCellId = @"barCell";
 @interface BBWeiboListTableVC () <WBHttpRequestDelegate, UIAlertViewDelegate, BBImageBrowserProtocol>
 
 @property (nonatomic) NSInteger currentLastStatusId;
-@property (strong, nonatomic) NSString *currentLastStateIdStr;
+@property (copy, nonatomic) NSString *currentLastStateIdStr;
 @property (strong, nonatomic) UIAlertView *logoutAlertView;
 
 @end
@@ -68,8 +68,8 @@ static NSString *reuseBarCellId = @"barCell";
     self.view.backgroundColor = bBGColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self setNavBarBtn];
-    [self refreshStatus];
     [self setMJRefresh];
+    [self.tableView.header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -210,7 +210,6 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)refreshStatus
 {
-    [self.tableView.header beginRefreshing];
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
