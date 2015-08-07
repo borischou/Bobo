@@ -35,11 +35,10 @@
 static NSString *reuseIdentifier = @"reuseCell";
 static NSString *reuseBarCellId = @"barCell";
 
-@interface BBMainStatusTableViewController () <WBHttpRequestDelegate, UIAlertViewDelegate, BBImageBrowserProtocol>
+@interface BBMainStatusTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol>
 
 @property (nonatomic) NSInteger currentLastStatusId;
 @property (copy, nonatomic) NSString *currentLastStateIdStr;
-@property (strong, nonatomic) UIAlertView *logoutAlertView;
 
 @end
 
@@ -65,7 +64,6 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
 }
@@ -75,64 +73,12 @@ static NSString *reuseBarCellId = @"barCell";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Helpers
-
--(void)setNavBarBtn
-{
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginBtnPressed)];
-    self.navigationItem.leftBarButtonItem = leftItem;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logoutBtnPressed)];
-    self.navigationItem.rightBarButtonItem = rightItem;
-}
-
 #pragma mark - BBImageBrowserProtocol
 
 -(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
 {
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame withImageUrls:urls andImageTag:tag];
     [self.view.window addSubview:browserView];
-}
-
-#pragma mark - UIButtons
-
--(void)loginBtnPressed
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"bobo" object:self];
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSLog(@"isLoggedIn: %d\ndelegate.wbCurrentUserID: %@\ndelegate.wbToken: %@", delegate.isLoggedIn, delegate.wbCurrentUserID, delegate.wbToken);
-    if (!delegate.isLoggedIn || !delegate.wbCurrentUserID || !delegate.wbToken) {
-        [WeiboSDK enableDebugMode:YES];
-        [WeiboSDK registerApp:kAppKey];
-        WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-        request.redirectURI = kRedirectURI;
-        request.scope = @"all";
-        [WeiboSDK sendRequest:request];
-    } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Logged in" message:@"You are logged in already." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-    }
-}
-
--(void)logoutBtnPressed
-{
-    self.logoutAlertView = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Are you sure you want to log it out?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Logout", nil];
-    [self.logoutAlertView show];
-}
-
-#pragma mark - UIAlertViewDelegate
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if ([alertView isEqual:self.logoutAlertView]) {
-        if (1 == buttonIndex) {
-            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [WeiboSDK logOutWithToken:delegate.wbToken delegate:self withTag:@"user1"];
-            delegate.isLoggedIn = NO;
-            [[NSUserDefaults standardUserDefaults] setValue:@(delegate.isLoggedIn) forKey:@"loginstatus"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-    }
 }
 
 #pragma mark - WBHttpRequestDelegate & Helpers

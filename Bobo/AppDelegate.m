@@ -131,6 +131,7 @@
     uinvc.navigationBar.barTintColor = kBarColor;
     uinvc.navigationBar.tintColor = [UIColor whiteColor];
     
+    uitvc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     uitvc.view.backgroundColor = bBGColor;
     uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }

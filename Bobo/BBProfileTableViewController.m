@@ -36,11 +36,12 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <BBImageBrowserProtocol>
+@interface BBProfileTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol, UIAlertViewDelegate>
 
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableArray *statuses;
 @property (copy, nonatomic) NSString *currentLastStatusId;
+@property (strong, nonatomic) UIAlertView *logoutAlertView;
 
 @end
 
@@ -49,11 +50,52 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
+}
+
+-(void)setNavBarBtn
+{
+    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    button1.frame = CGRectMake(0, 0, 23, 23);
+    [button1 setImage:[UIImage imageNamed:@"iconfont-denglu"] forState:UIControlStateNormal];
+    [button1 addTarget:self action:@selector(loginBtnPressed) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *loginBtn = [[UIBarButtonItem alloc] initWithCustomView:button1];
+    self.navigationItem.leftBarButtonItem = loginBtn;
+    
+    UIButton *button2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    button2.frame = CGRectMake(0, 0, 23, 23);
+    [button2 setImage:[UIImage imageNamed:@"iconfont-logout"] forState:UIControlStateNormal];
+    [button2 addTarget:self action:@selector(logoutBtnPressed) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *logoutBtn = [[UIBarButtonItem alloc] initWithCustomView:button2];
+    self.navigationItem.rightBarButtonItem = logoutBtn;
+}
+
+-(void)loginBtnPressed
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"bobo" object:self];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSLog(@"isLoggedIn: %d\ndelegate.wbCurrentUserID: %@\ndelegate.wbToken: %@", delegate.isLoggedIn, delegate.wbCurrentUserID, delegate.wbToken);
+    if (!delegate.isLoggedIn || !delegate.wbCurrentUserID || !delegate.wbToken) {
+        [WeiboSDK enableDebugMode:YES];
+        [WeiboSDK registerApp:kAppKey];
+        WBAuthorizeRequest *request = [WBAuthorizeRequest request];
+        request.redirectURI = kRedirectURI;
+        request.scope = @"all";
+        [WeiboSDK sendRequest:request];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Logged in" message:@"You are logged in already." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
+-(void)logoutBtnPressed
+{
+    self.logoutAlertView = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Are you sure you want to log it out?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Logout", nil];
+    [self.logoutAlertView show];
 }
 
 -(void)setMJRefresh
@@ -81,6 +123,21 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)observeSomething
 {
     NSLog(@"Notification Center usage: Profile view controller which registered 'bobo' to be the notification sender's name just observed that the button 'login' registered as 'bobo' in WeiboList view controller was pressed once.");
+}
+
+#pragma mark - UIAlertViewDelegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([alertView isEqual:self.logoutAlertView]) {
+        if (1 == buttonIndex) {
+            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [WeiboSDK logOutWithToken:delegate.wbToken delegate:self withTag:@"user1"];
+            delegate.isLoggedIn = NO;
+            [[NSUserDefaults standardUserDefaults] setValue:@(delegate.isLoggedIn) forKey:@"loginstatus"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    }
 }
 
 #pragma mark - Fetch requests
