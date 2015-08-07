@@ -65,8 +65,6 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = bBGColor;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];

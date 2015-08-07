@@ -41,8 +41,6 @@ static NSString *reuseWBCell = @"reuseWBCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.backgroundColor = bBGColor;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -19,6 +19,8 @@
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 #define kBarColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
+#define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
+
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
@@ -102,21 +104,21 @@
     weiboListTvc.title = @"Bobo";
     weiboListTvc.tabBarItem.image = [UIImage imageNamed:@"chunvzuo"];
     UINavigationController *weiboListNvc = [[UINavigationController alloc] initWithRootViewController:weiboListTvc];
-    [self setupNavigationController:weiboListNvc];
+    [self setupNavigationController:weiboListNvc withUITableViewController:weiboListTvc];
     
     //个人中心
     BBProfileTableViewController *profileTvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     profileTvc.title = @"Me";
     profileTvc.tabBarItem.image = [UIImage imageNamed:@"iconfont-gerenshiwu"];
     UINavigationController *profileNvc = [[UINavigationController alloc] initWithRootViewController:profileTvc];
-    [self setupNavigationController:profileNvc];
+    [self setupNavigationController:profileNvc withUITableViewController:profileTvc];
     
     //收藏微博
     BBCollectionTableViewController *collectionTvc = [[BBCollectionTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     collectionTvc.title = @"Collections";
     collectionTvc.tabBarItem.image = [UIImage imageNamed:@"bb_collect_icon"];
     UINavigationController *collectionNvc = [[UINavigationController alloc] initWithRootViewController:collectionTvc];
-    [self setupNavigationController:collectionNvc];
+    [self setupNavigationController:collectionNvc withUITableViewController:collectionTvc];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     [tabBarController setViewControllers:@[profileNvc, weiboListNvc, collectionTvc] animated:YES];
@@ -124,10 +126,13 @@
     self.window.rootViewController = tabBarController;
 }
 
--(void)setupNavigationController:(UINavigationController *)uinvc
+-(void)setupNavigationController:(UINavigationController *)uinvc withUITableViewController:(UITableViewController *)uitvc
 {
     uinvc.navigationBar.barTintColor = kBarColor;
     uinvc.navigationBar.tintColor = [UIColor whiteColor];
+    
+    uitvc.view.backgroundColor = bBGColor;
+    uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 #pragma mark - WeiboSDKDelegate

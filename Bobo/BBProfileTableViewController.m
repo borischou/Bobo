@@ -50,8 +50,6 @@ static NSString *reuseCountsCell = @"countsCell";
 {
     [super viewDidLoad];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    self.view.backgroundColor = bBGColor;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
     
