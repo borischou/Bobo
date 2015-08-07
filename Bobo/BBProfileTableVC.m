@@ -153,7 +153,7 @@ static NSString *reuseCountsCell = @"countsCell";
     [self.view.window addSubview:browserView];
 }
 
-#pragma mark - UITableView delegate & data source
+#pragma mark - UITableView delegate & data source & Helpers
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -173,37 +173,7 @@ static NSString *reuseCountsCell = @"countsCell";
             BBHomelistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
             cell.delegate = self;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            if ([_statuses count]) {
-                Status *status = [_statuses objectAtIndex:indexPath.section-1];
-                cell.status = status;
-                //avatar
-                if (status.user.avatar != nil) {
-                    cell.avatarView.image = status.user.avatar;
-                } else {
-                    cell.avatarView.image = [UIImage imageNamed:@"timeline_image_loading"];
-                    [BBNetworkUtils fetchAvatarForStatus:status withCell:cell];
-                }
-                
-                //status images
-                for (int i = 0; i < [cell.status.pic_urls count]; i ++) {
-                    if (![[status.images objectAtIndex:i] isEqual:[NSNull null]]) {
-                        [[cell.statusImgViews objectAtIndex:i] setImage:[status.images objectAtIndex:i]];
-                    } else {
-                        [cell.statusImgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                        [BBNetworkUtils fetchImageFromUrl:[status.pic_urls objectAtIndex:i] atIndex:i forImages:status.images withViews:cell.statusImgViews];
-                    }
-                }
-                
-                //retweeted_status images
-                for (int i = 0; i < [cell.status.retweeted_status.pic_urls count]; i ++) {
-                    if (![[status.retweeted_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
-                        [[cell.imgViews objectAtIndex:i] setImage:[status.retweeted_status.images objectAtIndex:i]];
-                    } else {
-                        [cell.imgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                        [BBNetworkUtils fetchImageFromUrl:[status.retweeted_status.pic_urls objectAtIndex:i] atIndex:i forImages:status.retweeted_status.images withViews:cell.imgViews];
-                    }
-                }
-            }
+            [self setStatusDataForCell:cell IndexPath:indexPath];
             return cell;
         }
         else
@@ -211,24 +181,64 @@ static NSString *reuseCountsCell = @"countsCell";
             [tableView registerClass:[BBButtonbarCell class] forCellReuseIdentifier:@"buttonBar"];
             BBButtonbarCell *cell = [tableView dequeueReusableCellWithIdentifier:@"buttonBar" forIndexPath:indexPath];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            if ([_statuses count]) {
-                Status *status = [_statuses objectAtIndex:indexPath.section-1];
-                if (status.reposts_count > 0) {
-                    [cell.repostBtn setTitle:[NSString stringWithFormat:@"%@re", [NSString getNumStrFrom:status.reposts_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-                } else {
-                    [cell.repostBtn setTitle:@"Repost" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-                }
-                if (status.comments_count > 0) {
-                    [cell.commentBtn setTitle:[NSString stringWithFormat:@"%@ comts", [NSString getNumStrFrom:status.comments_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-                } else {
-                    [cell.commentBtn setTitle:@"Comment" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];            }
-                if (status.attitudes_count > 0) {
-                    [cell.likeBtn setTitle:[NSString stringWithFormat:@"%@ likes", [NSString getNumStrFrom:status.attitudes_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-                } else {
-                    [cell.likeBtn setTitle:@"Like" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-                }
-            }
+            [self setStatusButtonBarDataForCell:cell IndexPath:indexPath];
             return cell;
+        }
+    }
+}
+
+-(void)setStatusDataForCell:(BBHomelistTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
+{
+    if ([_statuses count]) {
+        Status *status = [_statuses objectAtIndex:indexPath.section-1];
+        cell.status = status;
+        //avatar
+        if (status.user.avatar != nil) {
+            cell.avatarView.image = status.user.avatar;
+        } else {
+            cell.avatarView.image = [UIImage imageNamed:@"timeline_image_loading"];
+            [BBNetworkUtils fetchAvatarForStatus:status withCell:cell];
+        }
+        
+        //status images
+        for (int i = 0; i < [cell.status.pic_urls count]; i ++) {
+            if (![[status.images objectAtIndex:i] isEqual:[NSNull null]]) {
+                [[cell.statusImgViews objectAtIndex:i] setImage:[status.images objectAtIndex:i]];
+            } else {
+                [cell.statusImgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
+                [BBNetworkUtils fetchImageFromUrl:[status.pic_urls objectAtIndex:i] atIndex:i forImages:status.images withViews:cell.statusImgViews];
+            }
+        }
+        
+        //retweeted_status images
+        for (int i = 0; i < [cell.status.retweeted_status.pic_urls count]; i ++) {
+            if (![[status.retweeted_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
+                [[cell.imgViews objectAtIndex:i] setImage:[status.retweeted_status.images objectAtIndex:i]];
+            } else {
+                [cell.imgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
+                [BBNetworkUtils fetchImageFromUrl:[status.retweeted_status.pic_urls objectAtIndex:i] atIndex:i forImages:status.retweeted_status.images withViews:cell.imgViews];
+            }
+        }
+    }
+}
+
+-(void)setStatusButtonBarDataForCell:(BBButtonbarCell *)cell IndexPath:(NSIndexPath *)indexPath
+{
+    if ([_statuses count]) {
+        Status *status = [_statuses objectAtIndex:indexPath.section-1];
+        if (status.reposts_count > 0) {
+            [cell.repostBtn setTitle:[NSString stringWithFormat:@"%@re", [NSString getNumStrFrom:status.reposts_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
+        } else {
+            [cell.repostBtn setTitle:@"Repost" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
+        }
+        if (status.comments_count > 0) {
+            [cell.commentBtn setTitle:[NSString stringWithFormat:@"%@ comts", [NSString getNumStrFrom:status.comments_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
+        } else {
+            [cell.commentBtn setTitle:@"Comment" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];            }
+        if (status.attitudes_count > 0) {
+            [cell.likeBtn setTitle:[NSString stringWithFormat:@"%@ likes", [NSString getNumStrFrom:status.attitudes_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
+        } else {
+            [cell.likeBtn setTitle:@"Like" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
         }
     }
 }
