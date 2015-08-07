@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BBWeiboListTableVC : UITableViewController
+@interface BBMainStatusTableViewController : UITableViewController
 
 @property (strong, nonatomic) NSMutableArray *statuses;
 @property (strong, nonatomic) NSMutableArray *users;

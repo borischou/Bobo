@@ -9,7 +9,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import <UIImageView+WebCache.h>
 
-#import "BBProfileTableVC.h"
+#import "BBProfileTableViewController.h"
 #import "BBCountCell.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
@@ -19,7 +19,7 @@
 #import "BBNetworkUtils.h"
 #import "BBImageBrowserView.h"
 #import "BBButtonbarCell.h"
-#import "BBWBDetailsTableVC.h"
+#import "BBStatusDetailTableViewController.h"
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
 
@@ -36,7 +36,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableVC () <BBImageBrowserProtocol>
+@interface BBProfileTableViewController () <BBImageBrowserProtocol>
 
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableArray *statuses;
@@ -44,7 +44,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 @end
 
-@implementation BBProfileTableVC
+@implementation BBProfileTableViewController
 
 -(void)viewDidLoad
 {
@@ -301,7 +301,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBWBDetailsTableVC *dtvc = [[BBWBDetailsTableVC alloc] initWithStyle:UITableViewStyleGrouped];
+    BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     dtvc.title = @"Detail";
     dtvc.hidesBottomBarWhenPushed = YES;
     dtvc.status = [self.statuses objectAtIndex:indexPath.section-1];

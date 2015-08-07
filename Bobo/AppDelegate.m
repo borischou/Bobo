@@ -10,8 +10,9 @@
 
 #import "WeiboSDK.h"
 
-#import "BBProfileTableVC.h"
-#import "BBWeiboListTableVC.h"
+#import "BBProfileTableViewController.h"
+#import "BBMainStatusTableViewController.h"
+#import "BBCollectionTableViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -96,24 +97,30 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    BBWeiboListTableVC *weiboListTvc = [[BBWeiboListTableVC alloc] initWithStyle:UITableViewStyleGrouped];
+    //微博主页
+    BBMainStatusTableViewController *weiboListTvc = [[BBMainStatusTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     weiboListTvc.title = @"Bobo";
     weiboListTvc.tabBarItem.image = [UIImage imageNamed:@"chunvzuo"];
-    
     UINavigationController *weiboListNvc = [[UINavigationController alloc] initWithRootViewController:weiboListTvc];
     [self setupNavigationController:weiboListNvc];
     
-    BBProfileTableVC *profileTvc = [[BBProfileTableVC alloc] initWithStyle:UITableViewStyleGrouped];
+    //个人中心
+    BBProfileTableViewController *profileTvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     profileTvc.title = @"Me";
     profileTvc.tabBarItem.image = [UIImage imageNamed:@"iconfont-gerenshiwu"];
-    
     UINavigationController *profileNvc = [[UINavigationController alloc] initWithRootViewController:profileTvc];
     [self setupNavigationController:profileNvc];
     
+    //收藏微博
+    BBCollectionTableViewController *collectionTvc = [[BBCollectionTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    collectionTvc.title = @"Collections";
+    collectionTvc.tabBarItem.image = [UIImage imageNamed:@"bb_collect_icon"];
+    UINavigationController *collectionNvc = [[UINavigationController alloc] initWithRootViewController:collectionTvc];
+    [self setupNavigationController:collectionNvc];
+    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:@[weiboListNvc, profileNvc] animated:YES];
+    [tabBarController setViewControllers:@[profileNvc, weiboListNvc, collectionTvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
-        
     self.window.rootViewController = tabBarController;
 }
 

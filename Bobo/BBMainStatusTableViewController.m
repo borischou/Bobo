@@ -8,9 +8,9 @@
 
 #import <MJRefresh/MJRefresh.h>
 #import "BBImageBrowserView.h"
-#import "BBWeiboListTableVC.h"
+#import "BBMainStatusTableViewController.h"
 #import "BBHomelistTableViewCell.h"
-#import "BBWBDetailsTableVC.h"
+#import "BBStatusDetailTableViewController.h"
 #import "WeiboSDK.h"
 #import "AppDelegate.h"
 #import "BBButtonbarCell.h"
@@ -35,7 +35,7 @@
 static NSString *reuseIdentifier = @"reuseCell";
 static NSString *reuseBarCellId = @"barCell";
 
-@interface BBWeiboListTableVC () <WBHttpRequestDelegate, UIAlertViewDelegate, BBImageBrowserProtocol>
+@interface BBMainStatusTableViewController () <WBHttpRequestDelegate, UIAlertViewDelegate, BBImageBrowserProtocol>
 
 @property (nonatomic) NSInteger currentLastStatusId;
 @property (copy, nonatomic) NSString *currentLastStateIdStr;
@@ -43,7 +43,7 @@ static NSString *reuseBarCellId = @"barCell";
 
 @end
 
-@implementation BBWeiboListTableVC
+@implementation BBMainStatusTableViewController
 
 #pragma mark - Lazy Instantiation
 
@@ -305,7 +305,7 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBWBDetailsTableVC *dtvc = [[BBWBDetailsTableVC alloc] initWithStyle:UITableViewStyleGrouped];
+    BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     dtvc.title = @"Detail";
     dtvc.hidesBottomBarWhenPushed = YES;
     dtvc.status = [self.statuses objectAtIndex:indexPath.section];

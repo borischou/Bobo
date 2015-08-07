@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BBProfileTableVC : UITableViewController
+@interface BBProfileTableViewController : UITableViewController
 
 @end

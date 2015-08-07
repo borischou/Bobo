@@ -6,18 +6,18 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBWBDetailsTableVC.h"
+#import "BBStatusDetailTableViewController.h"
 #import "BBHomelistTableViewCell.h"
 #import "BBNetworkUtils.h"
 
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
-@interface BBWBDetailsTableVC ()
+@interface BBStatusDetailTableViewController ()
 
 @end
 
-@implementation BBWBDetailsTableVC
+@implementation BBStatusDetailTableViewController
 
 static NSString *reuseWBCell = @"reuseWBCell";
 

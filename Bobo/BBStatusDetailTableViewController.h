@@ -10,7 +10,7 @@
 #import "Status.h"
 #import "User.h"
 
-@interface BBWBDetailsTableVC : UITableViewController
+@interface BBStatusDetailTableViewController : UITableViewController
 
 @property (strong, nonatomic) Status *status;
 @property (strong, nonatomic) User *user;
