@@ -313,24 +313,4 @@ static NSString *reuseBarCellId = @"barCell";
     }
 }
 
-#pragma mark - Backups
-
-//-(void)fetchCurrentUserId
-//{
-//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    if (!delegate.isLoggedIn) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [alertView show];
-//    } else {
-//        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-//        if (delegate.wbToken) {
-//            [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-//            NSString *url = [bWeiboDomain stringByAppendingString:@"account/get_uid.json"];
-//            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//                [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"uid"];
-//            }];
-//        } else NSLog(@"fetchUID failed: token doesn't exist.");
-//    }
-//}
-
 @end
