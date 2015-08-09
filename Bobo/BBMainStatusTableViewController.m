@@ -98,7 +98,7 @@ static NSString *reuseBarCellId = @"barCell";
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self refreshStatus];
+        [self fetchLatestStatus];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatus)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
@@ -152,7 +152,7 @@ static NSString *reuseBarCellId = @"barCell";
     }
 }
 
--(void)refreshStatus
+-(void)fetchLatestStatus
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
