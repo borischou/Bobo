@@ -31,7 +31,6 @@
 
 @interface BBFavoritesTableViewController () <BBImageBrowserProtocol>
 
-@property (copy, nonatomic) NSString *currentLastStateIdStr;
 @property (strong, nonatomic) NSMutableArray *statuses;
 @property (strong, nonatomic) User *user;
 
@@ -55,15 +54,17 @@
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self fetchFavoriteStatuses];
     }];
-    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatuses)];
+    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchFavoriteStatuses)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
     [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
     [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
     self.tableView.footer = footer;
 }
 
+//https://api.weibo.com/2/favorites/ids.json?count=cnum&page=pnum
 -(void)fetchFavoriteStatuses
 {
+    static int pnum = 1;
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -73,30 +74,11 @@
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *url = [bWeiboDomain stringByAppendingFormat:@"favorites.json"];
+        NSString *para = [NSString stringWithFormat:@"count=20&page=%d", pnum++];
+        NSString *url = [bWeiboDomain stringByAppendingFormat:@"favorites.json?%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"fav"];
-        }];
-    }
-}
-
--(void)fetchHistoryStatuses
-{
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (!delegate.isLoggedIn) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [self.tableView.header endRefreshing];
-        [self.tableView.footer endRefreshing];
-        [alertView show];
-    } else {
-        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"?max_id=%@&count=20", _currentLastStateIdStr];
-        NSString *url = [bWeiboDomain stringByAppendingFormat:@"favorites.json%@", para];
-        NSLog(@"The full url is: %@", url);
-        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
         }];
     }
 }
@@ -119,19 +101,13 @@
                 for (int i = 0; i < favArray.count; i ++) {
                     if (![[favArray[i] objectForKey:@"status"] isEqual:[NSNull null]]) {
                         Status *status = [[Status alloc] initWithDictionary:[favArray[i] objectForKey:@"status"]];
-                        [_statuses insertObject:status atIndex:i];
-                        if ([favArray count] - 1 == i) {
-                            _currentLastStateIdStr = status.idstr;
-                        }
+                        [_statuses addObject:status];
                     }
                 }
             }
         }
-        if ([type isEqualToString:@"history"]) {
-            
-        }
-        NSLog(@"The currentLastStatusId is: %@", _currentLastStateIdStr);
         [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
         [self.tableView reloadData];
     }
 }

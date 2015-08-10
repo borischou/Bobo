@@ -167,8 +167,8 @@ static NSString *reuseBarCellId = @"barCell";
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"?max_id=%@&count=20", _currentLastStateIdStr];
-        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json%@", para];
+        NSString *para = [NSString stringWithFormat:@"max_id=%@&count=20", _currentLastStateIdStr];
+        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json?%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];

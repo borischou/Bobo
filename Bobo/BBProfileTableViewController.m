@@ -192,10 +192,11 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     else
     {
+        //static int page = 1;
         NSMutableDictionary *params = @{}.mutableCopy;
         [params setObject:delegate.wbToken forKey:@"access_token"];
-        [params setObject:_currentLastStatusId forKey:@"max_id"];
-        NSString *url = [bWeiboDomain stringByAppendingString:@"statuses/user_timeline.json"];
+        NSString *para = [NSString stringWithFormat:@"count=5&max_id=%@", _currentLastStatusId];
+        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/user_timeline.json?%@", para];
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
         }];
