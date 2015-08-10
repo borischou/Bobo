@@ -101,7 +101,7 @@
         sImgView.backgroundColor = bImgBGColor;
         sImgView.clipsToBounds = YES;
         sImgView.tag = i;
-        sImgView.contentMode = UIViewContentModeCenter;
+        sImgView.contentMode = UIViewContentModeScaleAspectFill;
         [sImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(statusImageTapped:)]];
         sImgView.userInteractionEnabled = YES;
         [statusImgViews addObject:sImgView];

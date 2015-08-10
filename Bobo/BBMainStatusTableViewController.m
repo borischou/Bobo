@@ -43,24 +43,6 @@ static NSString *reuseBarCellId = @"barCell";
 
 @implementation BBMainStatusTableViewController
 
-#pragma mark - Lazy Instantiation
-
--(NSMutableArray *)statuses
-{
-    if (!_statuses) {
-        _statuses = @[].mutableCopy;
-    }
-    return _statuses;
-}
-
--(NSMutableArray *)users
-{
-    if (!_users) {
-        _users = @[].mutableCopy;
-    }
-    return _users;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setMJRefresh];
@@ -114,6 +96,12 @@ static NSString *reuseBarCellId = @"barCell";
         [self.tableView.footer endRefreshing];
         [alertView show];
     } else {
+        if (!_statuses) {
+            _statuses = @[].mutableCopy;
+        }
+        if (!_users) {
+            _users = @[].mutableCopy;
+        }
         if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
             NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
