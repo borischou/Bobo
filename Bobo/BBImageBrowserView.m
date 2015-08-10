@@ -30,26 +30,28 @@
         self.count = [urls count];
         [self setScrollViewWithImageUrls:urls andTag:tag];
         [self loadPageControl];
+        
+        _scrollView.delegate = self;
     }
     return self;
 }
 
 -(void)setScrollViewWithImageUrls:(NSMutableArray *)urls andTag:(NSInteger)tag
 {
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
-    self.scrollView.contentSize = CGSizeMake(bWidth * [urls count], bHeight);
-    self.scrollView.contentOffset = CGPointMake(bWidth * tag, 0);
-    self.scrollView.delegate = self;
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.userInteractionEnabled = YES;
-    self.scrollView.bounces = YES;
-    self.scrollView.minimumZoomScale = 0.5;
-    self.scrollView.maximumZoomScale = 2.0;
-    self.scrollView.alwaysBounceVertical = NO;
-    self.scrollView.alwaysBounceHorizontal = YES;
-    [self.scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
-    [self addSubview:self.scrollView];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+    _scrollView.contentSize = CGSizeMake(bWidth * [urls count], bHeight);
+    _scrollView.contentOffset = CGPointMake(bWidth * tag, 0);
+    _scrollView.delegate = self;
+    _scrollView.pagingEnabled = YES;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.userInteractionEnabled = YES;
+    _scrollView.bounces = YES;
+    _scrollView.minimumZoomScale = 0.5;
+    _scrollView.maximumZoomScale = 2.0;
+    _scrollView.alwaysBounceVertical = NO;
+    _scrollView.alwaysBounceHorizontal = YES;
+    [_scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
+    [self addSubview:_scrollView];
     for (int i = 0; i < [urls count]; i ++) {
         [self layoutImageOnScrollViewFromUrl:urls[i] withImageOriginX:bWidth * i];
     }
@@ -59,7 +61,7 @@
 {
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.scrollView addSubview:imageView];
+    [_scrollView addSubview:imageView];
     [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"timeline_image_loading@2x"] options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (!error) {
             [self setSizeForImage:image withImageView:imageView andOriginX:originX];
@@ -75,10 +77,10 @@
     CGFloat imageHeight = image.size.height * bWidth / image.size.width;
     if (imageHeight > bHeight) {
         imageView.frame = CGRectMake(originX, 0, bWidth, imageHeight);
-        self.scrollView.pagingEnabled = NO;
-        self.scrollView.alwaysBounceHorizontal = NO;
-        self.scrollView.alwaysBounceVertical = YES;
-        self.scrollView.contentSize = CGSizeMake(bWidth * self.count, imageHeight);
+        _scrollView.pagingEnabled = NO;
+        _scrollView.alwaysBounceHorizontal = NO;
+        _scrollView.alwaysBounceVertical = YES;
+        _scrollView.contentSize = CGSizeMake(bWidth * _count, imageHeight);
     } else {
         imageView.frame = CGRectMake(originX, 0, bWidth, bHeight);
     }
@@ -102,5 +104,10 @@
 }
 
 #pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    _pageControl.currentPage = _scrollView.contentOffset.x/bWidth;
+}
 
 @end
