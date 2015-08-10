@@ -61,6 +61,7 @@
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
         [alertView show];
     } else {
