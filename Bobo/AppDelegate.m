@@ -12,7 +12,7 @@
 
 #import "BBProfileTableViewController.h"
 #import "BBMainStatusTableViewController.h"
-#import "BBCollectionTableViewController.h"
+#import "BBFavoritesTableViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -114,14 +114,14 @@
     [self setupNavigationController:profileNvc withUITableViewController:profileTvc];
     
     //收藏微博
-    BBCollectionTableViewController *collectionTvc = [[BBCollectionTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    BBFavoritesTableViewController *collectionTvc = [[BBFavoritesTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     collectionTvc.title = @"Collections";
     collectionTvc.tabBarItem.image = [UIImage imageNamed:@"bb_collect_icon"];
     UINavigationController *collectionNvc = [[UINavigationController alloc] initWithRootViewController:collectionTvc];
     [self setupNavigationController:collectionNvc withUITableViewController:collectionTvc];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:@[profileNvc, weiboListNvc, collectionTvc] animated:YES];
+    [tabBarController setViewControllers:@[profileNvc, weiboListNvc, collectionNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     self.window.rootViewController = tabBarController;
 }

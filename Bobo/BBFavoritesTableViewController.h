@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BBCollectionTableViewController : UITableViewController
+@interface BBFavoritesTableViewController : UITableViewController
 
 @end

@@ -31,7 +31,6 @@
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
-//@synthesize status;
 static NSString *reuseIdentifier = @"reuseCell";
 static NSString *reuseBarCellId = @"barCell";
 
@@ -98,9 +97,9 @@ static NSString *reuseBarCellId = @"barCell";
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self fetchLatestStatus];
+        [self fetchLatestStatuses];
     }];
-    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatus)];
+    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatuses)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
     [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
     [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
@@ -120,8 +119,8 @@ static NSString *reuseBarCellId = @"barCell";
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
                 
                 Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
-                [self.statuses insertObject:tmp_status atIndex:i];
-                [self.users insertObject:tmp_status.user atIndex:i];
+                [_statuses insertObject:tmp_status atIndex:i];
+                [_users insertObject:tmp_status.user atIndex:i];
                 
                 if ([downloadedStatuses count] - 1 == i) {
                     _currentLastStatusId = tmp_status.status_id;
@@ -152,7 +151,7 @@ static NSString *reuseBarCellId = @"barCell";
     }
 }
 
--(void)fetchLatestStatus
+-(void)fetchLatestStatuses
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
@@ -173,9 +172,8 @@ static NSString *reuseBarCellId = @"barCell";
     }
 }
 
--(void)fetchHistoryStatus
+-(void)fetchHistoryStatuses
 {
-    [self.tableView.footer beginRefreshing];
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];

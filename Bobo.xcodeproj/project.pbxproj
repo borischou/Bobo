@@ -32,7 +32,7 @@
 		45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */; };
 		4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */; };
 		4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */; };
-		4569202F1B745ECA00E2C204 /* BBCollectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4569202E1B745ECA00E2C204 /* BBCollectionTableViewController.m */; };
+		4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */; };
 		456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920401B74758B00E2C204 /* bb_collect_icon@3x.png */; };
 		456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920421B7478A800E2C204 /* iconfont-denglu.png */; };
 		456920451B7478A800E2C204 /* iconfont-logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920431B7478A800E2C204 /* iconfont-logout.png */; };
@@ -119,8 +119,8 @@
 		4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileTableViewController.h; sourceTree = "<group>"; };
 		4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileTableViewController.m; sourceTree = "<group>"; };
 		4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gerenshiwu@3x.png"; sourceTree = "<group>"; };
-		4569202D1B745ECA00E2C204 /* BBCollectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCollectionTableViewController.h; sourceTree = "<group>"; };
-		4569202E1B745ECA00E2C204 /* BBCollectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCollectionTableViewController.m; sourceTree = "<group>"; };
+		4569202D1B745ECA00E2C204 /* BBFavoritesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFavoritesTableViewController.h; sourceTree = "<group>"; };
+		4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFavoritesTableViewController.m; sourceTree = "<group>"; };
 		456920401B74758B00E2C204 /* bb_collect_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_collect_icon@3x.png"; sourceTree = "<group>"; };
 		456920421B7478A800E2C204 /* iconfont-denglu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-denglu.png"; sourceTree = "<group>"; };
 		456920431B7478A800E2C204 /* iconfont-logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-logout.png"; sourceTree = "<group>"; };
@@ -354,8 +354,8 @@
 			children = (
 				451442041B295E8B000532DD /* BBMainStatusTableViewController.h */,
 				451442051B295E8B000532DD /* BBMainStatusTableViewController.m */,
-				4569202D1B745ECA00E2C204 /* BBCollectionTableViewController.h */,
-				4569202E1B745ECA00E2C204 /* BBCollectionTableViewController.m */,
+				4569202D1B745ECA00E2C204 /* BBFavoritesTableViewController.h */,
+				4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */,
 				4553E3FC1B54A8E40020989C /* BBStatusDetailTableViewController.h */,
 				4553E3FD1B54A8E40020989C /* BBStatusDetailTableViewController.m */,
 				4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */,
@@ -582,7 +582,7 @@
 				454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */,
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,
-				4569202F1B745ECA00E2C204 /* BBCollectionTableViewController.m in Sources */,
+				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
 				45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */,

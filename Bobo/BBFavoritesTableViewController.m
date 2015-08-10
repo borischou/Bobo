@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBCollectionTableViewController.h"
+#import "BBFavoritesTableViewController.h"
 #import "BBHomelistTableViewCell.h"
 #import "BBButtonbarCell.h"
 #import "Status.h"
@@ -16,6 +16,9 @@
 #import "BBNetworkUtils.h"
 #import "BBImageBrowserView.h"
 #import "BBStatusDetailTableViewController.h"
+#import "AppDelegate.h"
+#import "WeiboSDK.h"
+#import <MJRefresh/MJRefresh.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -24,23 +27,81 @@
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
-@interface BBCollectionTableViewController () <BBImageBrowserProtocol>
+#define bWeiboDomain @"https://api.weibo.com/2/"
+
+@interface BBFavoritesTableViewController () <BBImageBrowserProtocol>
 
 @property (strong, nonatomic) NSMutableArray *statuses;
 @property (strong, nonatomic) User *user;
 
 @end
 
-@implementation BBCollectionTableViewController
+@implementation BBFavoritesTableViewController
 
 #pragma mark - View Controller life cycle
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setMJRefresh];
+    [self.tableView.header beginRefreshing];
 }
 
 #pragma mark - Helpers
+
+-(void)setMJRefresh
+{
+    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self fetchFavoriteStatuses];
+    }];
+}
+
+-(void)fetchFavoriteStatuses
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (!delegate.isLoggedIn) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.tableView.footer endRefreshing];
+        [alertView show];
+    } else {
+        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
+        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
+        NSString *url = [bWeiboDomain stringByAppendingFormat:@"favorites.json"];
+        NSLog(@"The full url is: %@", url);
+        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"fav"];
+        }];
+    }
+    
+}
+
+-(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+{
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
+        [alertView show];
+    } else {
+        if ([type isEqualToString:@"fav"]) {
+            NSDictionary *resultDict = result;
+            if (![[resultDict objectForKey:@"favorites"] isEqual:[NSNull null]]) {
+                NSArray *favArray = [resultDict objectForKey:@"favorites"];
+                if (!_statuses) {
+                    _statuses = @[].mutableCopy;
+                }
+                for (NSDictionary *dict in favArray) {
+                    if (![[dict objectForKey:@"status"] isEqual:[NSNull null]]) {
+                        Status *status = [[Status alloc] initWithDictionary:[dict objectForKey:@"status"]];
+                        [_statuses addObject:status];
+                    }
+                }
+            }
+        }
+        [self.tableView.header endRefreshing];
+        [self.tableView reloadData];
+    }
+}
 
 #pragma mark - UITableView data source & delegate & Helpers
 
@@ -54,6 +115,16 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 2;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 2;
 }
