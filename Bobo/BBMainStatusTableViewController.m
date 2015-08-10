@@ -37,6 +37,7 @@ static NSString *reuseBarCellId = @"barCell";
 @interface BBMainStatusTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol>
 
 @property (copy, nonatomic) NSString *currentLastStateIdStr;
+@property (strong, nonatomic) NSMutableArray *statuses;
 
 @end
 
@@ -98,22 +99,17 @@ static NSString *reuseBarCellId = @"barCell";
         if (!_statuses) {
             _statuses = @[].mutableCopy;
         }
-        if (!_users) {
-            _users = @[].mutableCopy;
-        }
         if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
             NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
                 
                 Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
                 [_statuses insertObject:tmp_status atIndex:i];
-                [_users insertObject:tmp_status.user atIndex:i];
                 
                 if ([downloadedStatuses count] - 1 == i) {
                     _currentLastStateIdStr = tmp_status.idstr;
                 }
             }
-            NSLog(@"length of the statuses and users: %ld, %ld", [_statuses count], [_users count]);
             [self.tableView.header endRefreshing];
             NSLog(@"Last status after refresh fetch:\n%@", [downloadedStatuses lastObject]);
         }
@@ -123,7 +119,7 @@ static NSString *reuseBarCellId = @"barCell";
             NSLog(@"History statuses: %@", historyStatuses);
             for (int i = 1; i < [historyStatuses count]; i ++) {
                 Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
-                [self.statuses addObject:tmp_status];
+                [_statuses addObject:tmp_status];
                 if ([historyStatuses count] - 1 == i) {
                     _currentLastStateIdStr = tmp_status.idstr;
                 }
@@ -190,8 +186,8 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    if ([self.statuses count]) {
-        return [self.statuses count];
+    if ([_statuses count]) {
+        return [_statuses count];
     } else return 10;
 }
 
@@ -221,8 +217,8 @@ static NSString *reuseBarCellId = @"barCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (0 == indexPath.row) {
-        if ([self.statuses count]) {
-            Status *status = [self.statuses objectAtIndex:indexPath.section];
+        if ([_statuses count]) {
+            Status *status = [_statuses objectAtIndex:indexPath.section];
             return status.height;
         }
         else return 80;
@@ -235,14 +231,15 @@ static NSString *reuseBarCellId = @"barCell";
     BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     dtvc.title = @"Detail";
     dtvc.hidesBottomBarWhenPushed = YES;
-    dtvc.status = [self.statuses objectAtIndex:indexPath.section];
-    dtvc.user = [self.users objectAtIndex:indexPath.section];
+    Status *status = [_statuses objectAtIndex:indexPath.section];
+    dtvc.status = status;
+    dtvc.user = status.user;
     [self.navigationController pushViewController:dtvc animated:YES];
 }
 
 -(void)setStatusDataForCell:(BBHomelistTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.statuses count]) {
+    if ([_statuses count]) {
         Status *status = [self.statuses objectAtIndex:indexPath.section];
         cell.status = status;
         //avatar

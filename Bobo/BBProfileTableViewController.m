@@ -360,7 +360,7 @@ static NSString *reuseCountsCell = @"countsCell";
     BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     dtvc.title = @"Detail";
     dtvc.hidesBottomBarWhenPushed = YES;
-    dtvc.status = [self.statuses objectAtIndex:indexPath.section-1];
+    dtvc.status = [_statuses objectAtIndex:indexPath.section-1];
     dtvc.user = _user;
     [self.navigationController pushViewController:dtvc animated:YES];
 }

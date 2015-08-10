@@ -32,7 +32,6 @@
 @interface BBFavoritesTableViewController () <BBImageBrowserProtocol>
 
 @property (strong, nonatomic) NSMutableArray *statuses;
-@property (strong, nonatomic) User *user;
 
 @end
 
@@ -178,8 +177,9 @@
     BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     dtvc.title = @"Detail";
     dtvc.hidesBottomBarWhenPushed = YES;
-    dtvc.status = [self.statuses objectAtIndex:indexPath.section];
-    dtvc.user = _user;
+    Status *status = [_statuses objectAtIndex:indexPath.section];
+    dtvc.status = status;
+    dtvc.user = status.user;
     [self.navigationController pushViewController:dtvc animated:YES];
 }
 
