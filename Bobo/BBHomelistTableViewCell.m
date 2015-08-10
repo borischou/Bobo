@@ -37,15 +37,6 @@
 
 @implementation BBHomelistTableViewCell
 
-@synthesize avatarView;
-@synthesize postBodyLbl;
-@synthesize repostView;
-@synthesize repostLbl;
-@synthesize postTimeLbl;
-@synthesize nicknameLbl;
-@synthesize imgViews;
-@synthesize statusImgViews;
-
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -68,34 +59,34 @@
     self.contentView.backgroundColor = bCellBGColor;
     
     //profile image
-    avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, bAvatarWidth, bAvatarHeight)];
-    avatarView.backgroundColor = [UIColor clearColor];
-    [self.contentView addSubview:avatarView];
+    _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, bAvatarWidth, bAvatarHeight)];
+    _avatarView.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:_avatarView];
     
     //nickname
-    nicknameLbl = [[UILabel alloc] initWithFrame:CGRectMake(10 + bAvatarWidth + 10, 10 + 5, bNicknameWidth, bNicknameHeight)];
-    nicknameLbl.textColor = [UIColor whiteColor];
-    nicknameLbl.backgroundColor = bCellBGColor;
-    [self.contentView addSubview:nicknameLbl];
+    _nicknameLbl = [[UILabel alloc] initWithFrame:CGRectMake(10 + bAvatarWidth + 10, 10 + 5, bNicknameWidth, bNicknameHeight)];
+    _nicknameLbl.textColor = [UIColor whiteColor];
+    _nicknameLbl.backgroundColor = bCellBGColor;
+    [self.contentView addSubview:_nicknameLbl];
     
     //post time
-    postTimeLbl = [[UILabel alloc] initWithFrame:CGRectMake(10 + bAvatarWidth + 10, 10 + 5 + bNicknameHeight + 3, bPostTimeWidth, bPostTimeHeight)];
-    postTimeLbl.textColor = [UIColor lightTextColor];
-    postTimeLbl.font = [UIFont systemFontOfSize:10.f];
-    postTimeLbl.backgroundColor = bCellBGColor;
-    [self.contentView addSubview:postTimeLbl];
+    _postTimeLbl = [[UILabel alloc] initWithFrame:CGRectMake(10 + bAvatarWidth + 10, 10 + 5 + bNicknameHeight + 3, bPostTimeWidth, bPostTimeHeight)];
+    _postTimeLbl.textColor = [UIColor lightTextColor];
+    _postTimeLbl.font = [UIFont systemFontOfSize:10.f];
+    _postTimeLbl.backgroundColor = bCellBGColor;
+    [self.contentView addSubview:_postTimeLbl];
     
     //text
-    postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    postBodyLbl.backgroundColor = bCellBGColor;
-    postBodyLbl.textColor = [UIColor whiteColor];
-    postBodyLbl.numberOfLines = 0;
-    postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
-    postBodyLbl.font = [UIFont systemFontOfSize:bTextFontSize];
-    [self.contentView addSubview:postBodyLbl];
+    _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
+    _postBodyLbl.backgroundColor = bCellBGColor;
+    _postBodyLbl.textColor = [UIColor whiteColor];
+    _postBodyLbl.numberOfLines = 0;
+    _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
+    _postBodyLbl.font = [UIFont systemFontOfSize:bTextFontSize];
+    [self.contentView addSubview:_postBodyLbl];
     
     //img views for status
-    statusImgViews = [[NSMutableArray alloc] init];
+    _statusImgViews = [[NSMutableArray alloc] init];
     for (int i = 0; i < 9; i ++) {
         UIImageView *sImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
         sImgView.backgroundColor = bImgBGColor;
@@ -104,24 +95,24 @@
         sImgView.contentMode = UIViewContentModeScaleAspectFill;
         [sImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(statusImageTapped:)]];
         sImgView.userInteractionEnabled = YES;
-        [statusImgViews addObject:sImgView];
+        [_statusImgViews addObject:sImgView];
         [self.contentView addSubview:sImgView];
     }
     //retweet view
-    repostView = [[UIView alloc] initWithFrame:CGRectZero];
-    repostView.backgroundColor = bRetweetBGColor;
+    _repostView = [[UIView alloc] initWithFrame:CGRectZero];
+    _repostView.backgroundColor = bRetweetBGColor;
     
     //repost text
-    repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    repostLbl.backgroundColor = bRetweetBGColor;
-    repostLbl.textColor = [UIColor whiteColor];
-    repostLbl.numberOfLines = 0;
-    repostLbl.lineBreakMode = NSLineBreakByWordWrapping;
-    repostLbl.font = [UIFont systemFontOfSize:bTextFontSize];
-    [repostView addSubview:repostLbl];
+    _repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
+    _repostLbl.backgroundColor = bRetweetBGColor;
+    _repostLbl.textColor = [UIColor whiteColor];
+    _repostLbl.numberOfLines = 0;
+    _repostLbl.lineBreakMode = NSLineBreakByWordWrapping;
+    _repostLbl.font = [UIFont systemFontOfSize:bTextFontSize];
+    [_repostView addSubview:_repostLbl];
     
     //img views for retweeted_status
-    imgViews = [[NSMutableArray alloc] init];
+    _imgViews = [[NSMutableArray alloc] init];
     for (int i = 0; i < 9; i ++) {
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectZero];
         imgView.backgroundColor = [UIColor redColor];
@@ -130,10 +121,10 @@
         imgView.contentMode = UIViewContentModeScaleAspectFill;
         [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(repostImageTapped:)]];
         imgView.userInteractionEnabled = YES;
-        [imgViews addObject:imgView];
-        [repostView addSubview:imgView];
+        [_imgViews addObject:imgView];
+        [_repostView addSubview:imgView];
     }
-    [self.contentView addSubview:repostView];
+    [self.contentView addSubview:_repostView];
 }
 
 -(void)statusImageTapped:(UITapGestureRecognizer *)tap
@@ -166,31 +157,31 @@
 -(void)setStatusData
 {
     //status
-    nicknameLbl.text = _status.user.screen_name;
-    postTimeLbl.text = [Utils formatPostTime:_status.created_at];
-    postBodyLbl.text = _status.text;
+    _nicknameLbl.text = _status.user.screen_name;
+    _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
+    _postBodyLbl.text = _status.text;
     
     //repost status
-    repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
+    _repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
 }
 
 -(void)setCellLayout
 {    
-    CGSize postSize = [postBodyLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
-    postBodyLbl.frame = CGRectMake(bBigGap, bBigGap + bAvatarHeight + bBigGap, bWidth - bBigGap * 2, postSize.height);
+    CGSize postSize = [_postBodyLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
+    _postBodyLbl.frame = CGRectMake(bBigGap, bBigGap + bAvatarHeight + bBigGap, bWidth - bBigGap * 2, postSize.height);
     
-    repostView.hidden = YES;
+    _repostView.hidden = YES;
     if (_status.retweeted_status) { //retweeted_status
-        repostView.hidden = NO;
-        [self resetImageViews:statusImgViews];
-        CGSize repostSize = [repostLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
-        [repostLbl setFrame:CGRectMake(bBigGap, 0, bWidth - 2 * bBigGap, repostSize.height)];
-        [BBNetworkUtils layoutImgViews:imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
+        _repostView.hidden = NO;
+        [self resetImageViews:_statusImgViews];
+        CGSize repostSize = [_repostLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
+        [_repostLbl setFrame:CGRectMake(bBigGap, 0, bWidth - 2 * bBigGap, repostSize.height)];
+        [BBNetworkUtils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
         
-        [repostView setFrame:CGRectMake(0, bBigGap + bAvatarHeight + bBigGap + postSize.height + bBigGap, bWidth, repostSize.height + bSmallGap + [[[Utils alloc] init] heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
+        [_repostView setFrame:CGRectMake(0, bBigGap + bAvatarHeight + bBigGap + postSize.height + bBigGap, bWidth, repostSize.height + bSmallGap + [[[Utils alloc] init] heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
     } else { //status imgs
-        repostView.hidden = YES;
-        [BBNetworkUtils layoutImgViews:statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
+        _repostView.hidden = YES;
+        [BBNetworkUtils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
     }
 }
 
