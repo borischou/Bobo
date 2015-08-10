@@ -19,7 +19,7 @@
 #define bTopPadding 10.0
 #define bSmallGap 5
 #define bBigGap 10
-#define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bBigGap-2*bSmallGap)/3
+#define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
 #define bPostImgWidth bPostImgHeight
 #define bTextFontSize 14.f
 

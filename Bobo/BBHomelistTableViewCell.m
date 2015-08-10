@@ -23,7 +23,7 @@
 #define bTopPadding 10.0
 #define bSmallGap 5
 #define bBigGap 10
-#define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bBigGap-2*bSmallGap)/3
+#define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
 #define bPostImgWidth bPostImgHeight
 #define bTextFontSize 14.f
 
@@ -207,30 +207,36 @@
         [views[i] setFrame:CGRectZero];
     }
     
-    if (count >= 1 && count <= 3) {
+    if (count >= 1 && count <= 2) {
         for (int i = 0; i < count; i ++) {
             [views[i] setFrame:CGRectMake(bBigGap + i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
     }
     
+    if (count == 3) {
+        for (int i = 0; i < count; i ++) {
+            [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
+        }
+    }
+    
     if (count >= 4 && count <= 6) {
         for (int i = 0; i < 3; i ++) {
-            [views[i] setFrame:CGRectMake(bBigGap + i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
+            [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
         for (int j = 0; j < count - 3; j ++) {
-            [views[3 + j] setFrame:CGRectMake(bBigGap + j * (bPostImgWidth + bSmallGap), height + bSmallGap + bPostImgHeight + bSmallGap, bPostImgWidth, bPostImgHeight)];
+            [views[3 + j] setFrame:CGRectMake(j * (bPostImgWidth + bSmallGap), height + bSmallGap + bPostImgHeight + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
     }
     
     if (count >= 7 && count <= 9) {
         for (int i = 0; i < 3; i ++) {
-            [views[i] setFrame:CGRectMake(bBigGap + i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
+            [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
         for (int j = 0; j < 3; j ++) {
-            [views[3 + j] setFrame:CGRectMake(bBigGap + j * (bPostImgWidth + bSmallGap), height + bSmallGap + bPostImgHeight + bSmallGap, bPostImgWidth, bPostImgHeight)];
+            [views[3 + j] setFrame:CGRectMake(j * (bPostImgWidth + bSmallGap), height + bSmallGap + bPostImgHeight + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
         for (int k = 0; k < count - 6; k ++) {
-            [views[6 + k] setFrame:CGRectMake(bBigGap + k * (bPostImgWidth + bSmallGap), height + bSmallGap + (bPostImgHeight + bSmallGap) * 2, bPostImgWidth, bPostImgHeight)];
+            [views[6 + k] setFrame:CGRectMake(k * (bPostImgWidth + bSmallGap), height + bSmallGap + (bPostImgHeight + bSmallGap) * 2, bPostImgWidth, bPostImgHeight)];
         }
     }
 }
