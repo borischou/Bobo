@@ -96,7 +96,7 @@
         NSString *url = [bWeiboDomain stringByAppendingFormat:@"favorites.json%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"fav"];
+            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
         }];
     }
 }
@@ -126,6 +126,9 @@
                     }
                 }
             }
+        }
+        if ([type isEqualToString:@"history"]) {
+            
         }
         NSLog(@"The currentLastStatusId is: %@", _currentLastStateIdStr);
         [self.tableView.header endRefreshing];
