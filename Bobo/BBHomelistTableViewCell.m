@@ -185,12 +185,12 @@
         [self resetImageViews:statusImgViews];
         CGSize repostSize = [repostLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
         [repostLbl setFrame:CGRectMake(bBigGap, 0, bWidth - 2 * bBigGap, repostSize.height)];
-        [self layoutImgViews:imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
+        [BBNetworkUtils layoutImgViews:imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
         
         [repostView setFrame:CGRectMake(0, bBigGap + bAvatarHeight + bBigGap + postSize.height + bBigGap, bWidth, repostSize.height + bSmallGap + [[[Utils alloc] init] heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
     } else { //status imgs
         repostView.hidden = YES;
-        [self layoutImgViews:statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
+        [BBNetworkUtils layoutImgViews:statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
     }
 }
 
@@ -198,46 +198,6 @@
 {
     for (int i = 0; i < [views count]; i ++) {
         [views[i] setFrame:CGRectZero];
-    }
-}
-
--(void)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height
-{
-    for (int i = 0; i < 9; i ++) {
-        [views[i] setFrame:CGRectZero];
-    }
-    
-    if (count >= 1 && count <= 2) {
-        for (int i = 0; i < count; i ++) {
-            [views[i] setFrame:CGRectMake(bBigGap + i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
-        }
-    }
-    
-    if (count == 3) {
-        for (int i = 0; i < count; i ++) {
-            [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
-        }
-    }
-    
-    if (count >= 4 && count <= 6) {
-        for (int i = 0; i < 3; i ++) {
-            [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
-        }
-        for (int j = 0; j < count - 3; j ++) {
-            [views[3 + j] setFrame:CGRectMake(j * (bPostImgWidth + bSmallGap), height + bSmallGap + bPostImgHeight + bSmallGap, bPostImgWidth, bPostImgHeight)];
-        }
-    }
-    
-    if (count >= 7 && count <= 9) {
-        for (int i = 0; i < 3; i ++) {
-            [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
-        }
-        for (int j = 0; j < 3; j ++) {
-            [views[3 + j] setFrame:CGRectMake(j * (bPostImgWidth + bSmallGap), height + bSmallGap + bPostImgHeight + bSmallGap, bPostImgWidth, bPostImgHeight)];
-        }
-        for (int k = 0; k < count - 6; k ++) {
-            [views[6 + k] setFrame:CGRectMake(k * (bPostImgWidth + bSmallGap), height + bSmallGap + (bPostImgHeight + bSmallGap) * 2, bPostImgWidth, bPostImgHeight)];
-        }
     }
 }
 
