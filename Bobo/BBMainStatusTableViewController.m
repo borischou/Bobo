@@ -36,7 +36,6 @@ static NSString *reuseBarCellId = @"barCell";
 
 @interface BBMainStatusTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol>
 
-@property (nonatomic) NSInteger currentLastStatusId;
 @property (copy, nonatomic) NSString *currentLastStateIdStr;
 
 @end
@@ -111,7 +110,6 @@ static NSString *reuseBarCellId = @"barCell";
                 [_users insertObject:tmp_status.user atIndex:i];
                 
                 if ([downloadedStatuses count] - 1 == i) {
-                    _currentLastStatusId = tmp_status.status_id;
                     _currentLastStateIdStr = tmp_status.idstr;
                 }
             }
@@ -128,13 +126,12 @@ static NSString *reuseBarCellId = @"barCell";
                 [self.statuses addObject:tmp_status];
                 if ([historyStatuses count] - 1 == i) {
                     _currentLastStateIdStr = tmp_status.idstr;
-                    _currentLastStatusId = tmp_status.status_id;
                 }
             }
             [self.tableView.footer endRefreshing];
             NSLog(@"Last status after history fetch:\n%@", [historyStatuses lastObject]);
         }
-        NSLog(@"The currentLastStatusId is: %ld", _currentLastStatusId);
+        NSLog(@"The currentLastStatusId is: %@", _currentLastStateIdStr);
         [self.tableView reloadData];
     }
 }
