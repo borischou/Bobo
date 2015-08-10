@@ -91,10 +91,10 @@
                 if (!_statuses) {
                     _statuses = @[].mutableCopy;
                 }
-                for (NSDictionary *dict in favArray) {
-                    if (![[dict objectForKey:@"status"] isEqual:[NSNull null]]) {
-                        Status *status = [[Status alloc] initWithDictionary:[dict objectForKey:@"status"]];
-                        [_statuses addObject:status];
+                for (int i = 0; i < favArray.count; i ++) {
+                    if (![[favArray[i] objectForKey:@"status"] isEqual:[NSNull null]]) {
+                        Status *status = [[Status alloc] initWithDictionary:[favArray[i] objectForKey:@"status"]];
+                        [_statuses insertObject:status atIndex:i];
                     }
                 }
             }
