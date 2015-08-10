@@ -115,7 +115,7 @@
     
     //收藏微博
     BBFavoritesTableViewController *collectionTvc = [[BBFavoritesTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    collectionTvc.title = @"Collections";
+    collectionTvc.title = @"Favorites";
     collectionTvc.tabBarItem.image = [UIImage imageNamed:@"bb_collect_icon"];
     UINavigationController *collectionNvc = [[UINavigationController alloc] initWithRootViewController:collectionTvc];
     [self setupNavigationController:collectionNvc withUITableViewController:collectionTvc];
