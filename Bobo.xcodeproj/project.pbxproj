@@ -22,7 +22,6 @@
 		4514421D1B2963F4000532DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4514421C1B2963F4000532DD /* UIKit.framework */; };
 		4514421F1B2963FA000532DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4514421E1B2963FA000532DD /* Foundation.framework */; };
 		451442211B296401000532DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442201B296401000532DD /* CoreGraphics.framework */; };
-		453035D01B4A51A500647ACC /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 453035CF1B4A51A500647ACC /* mapapi.bundle */; };
 		454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+Convert.m */; };
 		4553E3FE1B54A8E40020989C /* BBStatusDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E3FD1B54A8E40020989C /* BBStatusDetailTableViewController.m */; };
 		4553E4011B54CAEB0020989C /* BBCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4001B54CAEB0020989C /* BBCommentCell.m */; };
@@ -100,7 +99,6 @@
 		4514421E1B2963FA000532DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		451442201B296401000532DD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		453035CD1B4A4FB100647ACC /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = "Bobo/Release-iphoneos/BaiduMapAPI.framework"; sourceTree = "<group>"; };
-		453035CF1B4A51A500647ACC /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
 		453035D21B4A609400647ACC /* Release-iphoneos */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Release-iphoneos"; path = "Bobo/Release-iphoneos"; sourceTree = "<group>"; };
 		45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = Bobo/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		454E93E61B3FCD72001126E4 /* NSString+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Convert.h"; sourceTree = "<group>"; };
@@ -255,7 +253,6 @@
 		451441D01B295CA9000532DD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				453035CF1B4A51A500647ACC /* mapapi.bundle */,
 				451442221B296413000532DD /* syslib */,
 				451442031B295E3C000532DD /* libWeiboSDK */,
 				451441D11B295CA9000532DD /* Info.plist */,
@@ -513,7 +510,6 @@
 				4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */,
 				451441DE1B295CA9000532DD /* Images.xcassets in Resources */,
 				456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */,
-				453035D01B4A51A500647ACC /* mapapi.bundle in Resources */,
 				451442131B29635B000532DD /* WeiboSDK.bundle in Resources */,
 				45A052131B3A5CB200A1488D /* timeline_image_loading@2x.png in Resources */,
 				4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */,

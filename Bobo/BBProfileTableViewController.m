@@ -223,8 +223,8 @@ static NSString *reuseCountsCell = @"countsCell";
         }
     }
     if ([type isEqualToString:@"history"]) {
-        for (NSDictionary *dict in downloadedStatuses) {
-            Status *status = [[Status alloc] initWithDictionary:dict];
+        for (int i = 1; i < downloadedStatuses.count; i ++) {
+            Status *status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
             [_statuses addObject:status];
         }
     }

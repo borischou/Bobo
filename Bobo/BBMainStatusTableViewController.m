@@ -123,7 +123,7 @@ static NSString *reuseBarCellId = @"barCell";
         if ([type isEqualToString:@"history"]) { //上拉刷新历史微博
             NSArray *historyStatuses = [result objectForKey:@"statuses"];
             NSLog(@"History statuses: %@", historyStatuses);
-            for (int i = 0; i < [historyStatuses count]; i ++) {
+            for (int i = 1; i < [historyStatuses count]; i ++) {
                 Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
                 [self.statuses addObject:tmp_status];
                 if ([historyStatuses count] - 1 == i) {
@@ -170,8 +170,8 @@ static NSString *reuseBarCellId = @"barCell";
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"?max_id=%@", _currentLastStateIdStr];
-        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline%@", para];
+        NSString *para = [NSString stringWithFormat:@"?max_id=%@&count=20", _currentLastStateIdStr];
+        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
