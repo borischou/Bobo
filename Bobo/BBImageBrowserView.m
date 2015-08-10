@@ -26,12 +26,11 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         self.backgroundColor = [UIColor blackColor];
         self.count = [urls count];
         [self setScrollViewWithImageUrls:urls andTag:tag];
         [self loadPageControl];
-        
-        _scrollView.delegate = self;
     }
     return self;
 }
@@ -39,6 +38,7 @@
 -(void)setScrollViewWithImageUrls:(NSMutableArray *)urls andTag:(NSInteger)tag
 {
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+    _scrollView.delegate = self;
     _scrollView.contentSize = CGSizeMake(bWidth * [urls count], bHeight);
     _scrollView.contentOffset = CGPointMake(bWidth * tag, 0);
     _scrollView.delegate = self;
@@ -100,6 +100,7 @@
 
 -(void)tapAction
 {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [self removeFromSuperview];
 }
 
