@@ -8,6 +8,7 @@
 
 #import <MJRefresh/MJRefresh.h>
 #import <UIImageView+WebCache.h>
+#import "SWRevealViewController.h"
 
 #import "BBProfileTableViewController.h"
 #import "BBCountCell.h"
@@ -55,6 +56,32 @@ static NSString *reuseCountsCell = @"countsCell";
     [self.tableView.header beginRefreshing];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self addSWRevealViewControllerGestureRecognizer];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self removeSWRevealControllerGestureRecognizer];
+}
+
+#pragma mark - Helpers
+
+-(void)addSWRevealViewControllerGestureRecognizer
+{
+    [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [self.view addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
+}
+
+-(void)removeSWRevealControllerGestureRecognizer
+{
+    [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
 }
 
 -(void)setNavBarBtn
@@ -192,7 +219,6 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     else
     {
-        //static int page = 1;
         NSMutableDictionary *params = @{}.mutableCopy;
         [params setObject:delegate.wbToken forKey:@"access_token"];
         NSString *para = [NSString stringWithFormat:@"count=5&max_id=%@", _currentLastStatusId];

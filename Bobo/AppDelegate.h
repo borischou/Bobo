@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWRevealViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+@property (strong, nonatomic) SWRevealViewController *revealViewController;
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) NSString *wbToken;
-@property (strong, nonatomic) NSString *wbCurrentUserID;
+@property (copy, nonatomic) NSString *wbToken;
+@property (copy, nonatomic) NSString *wbCurrentUserID;
 @property BOOL isLoggedIn;
 
 @end

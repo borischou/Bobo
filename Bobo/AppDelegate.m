@@ -9,10 +9,10 @@
 #import "AppDelegate.h"
 
 #import "WeiboSDK.h"
-
 #import "BBProfileTableViewController.h"
 #import "BBMainStatusTableViewController.h"
 #import "BBFavoritesTableViewController.h"
+#import "BBFriendsGroupTableViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -24,7 +24,7 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-@interface AppDelegate () <WeiboSDKDelegate>
+@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate>
 
 @end
 
@@ -121,9 +121,18 @@
     [self setupNavigationController:collectionNvc withUITableViewController:collectionTvc];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:@[profileNvc, weiboListNvc, collectionNvc] animated:YES];
+    [tabBarController setViewControllers:@[weiboListNvc, profileNvc, collectionNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
-    self.window.rootViewController = tabBarController;
+    
+    //微博分组
+    BBFriendsGroupTableViewController *friendsGroupTvc = [[BBFriendsGroupTableViewController alloc] init];
+    friendsGroupTvc.title = @"Group";
+    friendsGroupTvc.view.backgroundColor = [UIColor whiteColor];
+    
+    _revealViewController = [[SWRevealViewController alloc] initWithRearViewController:friendsGroupTvc frontViewController:tabBarController];
+    _revealViewController.delegate = self;
+    
+    self.window.rootViewController = _revealViewController;
 }
 
 -(void)setupNavigationController:(UINavigationController *)uinvc withUITableViewController:(UITableViewController *)uitvc
@@ -172,6 +181,18 @@
         [self saveTokenAndUserID];
         [alertView show];
     }
+}
+
+#pragma mark - SWRevealViewControllerDelegate
+
+-(void)revealControllerPanGestureEnded:(SWRevealViewController *)revealController
+{
+    NSLog(@"revealControllerPanGestureEnded");
+}
+
+-(void)revealControllerPanGestureBegan:(SWRevealViewController *)revealController
+{
+    NSLog(@"revealControllerPanGestureBegan");
 }
 
 @end

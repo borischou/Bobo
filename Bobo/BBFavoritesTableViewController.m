@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
+#import "SWRevealViewController.h"
 #import "BBFavoritesTableViewController.h"
 #import "BBHomelistTableViewCell.h"
 #import "BBButtonbarCell.h"
@@ -46,7 +47,31 @@
     [self.tableView.header beginRefreshing];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self addSWRevealViewControllerGestureRecognizer];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self removeSWRevealControllerGestureRecognizer];
+}
+
 #pragma mark - Helpers
+
+-(void)addSWRevealViewControllerGestureRecognizer
+{
+    [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [self.view addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
+}
+
+-(void)removeSWRevealControllerGestureRecognizer
+{
+    [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
+}
 
 -(void)setMJRefresh
 {

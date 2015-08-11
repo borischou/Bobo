@@ -7,11 +7,13 @@
 //
 
 #import <MJRefresh/MJRefresh.h>
+#import "WeiboSDK.h"
+#import "SWRevealViewController.h"
+
 #import "BBImageBrowserView.h"
 #import "BBMainStatusTableViewController.h"
 #import "BBHomelistTableViewCell.h"
 #import "BBStatusDetailTableViewController.h"
-#import "WeiboSDK.h"
 #import "AppDelegate.h"
 #import "BBButtonbarCell.h"
 #import "BBNetworkUtils.h"
@@ -37,7 +39,7 @@ static NSString *reuseBarCellId = @"barCell";
 @interface BBMainStatusTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol>
 
 @property (copy, nonatomic) NSString *currentLastStateIdStr;
-@property (strong, nonatomic) NSMutableArray *statuses;
+@property (copy, nonatomic) NSMutableArray *statuses;
 
 @end
 
@@ -49,9 +51,30 @@ static NSString *reuseBarCellId = @"barCell";
     [self.tableView.header beginRefreshing];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self addSWRevealViewControllerGestureRecognizer];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self removeSWRevealControllerGestureRecognizer];
+}
+
+#pragma mark - Helpers
+
+-(void)addSWRevealViewControllerGestureRecognizer
+{
+    [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [self.view addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
+}
+
+-(void)removeSWRevealControllerGestureRecognizer
+{
+    [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
 }
 
 #pragma mark - BBImageBrowserProtocol
