@@ -8,6 +8,7 @@
 
 #import "BBStatusTableViewCell.h"
 #import "BBNetworkUtils.h"
+#import <UIImageView+WebCache.h>
 #import "BBImageBrowserView.h"
 #import "NSString+Convert.h"
 #import "Utils.h"
@@ -157,12 +158,21 @@
 -(void)setStatusData
 {
     //status
+    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageRetryFailed];
     _nicknameLbl.text = _status.user.screen_name;
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _postBodyLbl.text = _status.text;
     
+    for (int i = 0; i < [_status.pic_urls count]; i ++) {
+        [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
+    }
+    
     //repost status
     _repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
+    
+    for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {
+        [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
+    }
 }
 
 -(void)setCellLayout

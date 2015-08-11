@@ -151,45 +151,14 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:reuseWBCell];
         BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseWBCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         cell.status = _status;
-        //avatar
-        if (_status.user.avatar != nil) {
-            cell.avatarView.image = _status.user.avatar;
-        } else {
-            cell.avatarView.image = [UIImage imageNamed:@"timeline_image_loading"];
-            [BBNetworkUtils fetchAvatarForStatus:_status withCell:cell];
-        }
-        
-        //status images
-        for (int i = 0; i < [cell.status.pic_urls count]; i ++) {
-            if (![[_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
-                [[cell.statusImgViews objectAtIndex:i] setImage:[_status.images objectAtIndex:i]];
-            } else {
-                [cell.statusImgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                [BBNetworkUtils fetchImageFromUrl:[_status.pic_urls objectAtIndex:i] atIndex:i forImages:_status.images withViews:cell.statusImgViews];
-            }
-        }
-        
-        //retweeted_status images
-        for (int i = 0; i < [cell.status.retweeted_status.pic_urls count]; i ++) {
-            if (![[_status.retweeted_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
-                [[cell.imgViews objectAtIndex:i] setImage:[_status.retweeted_status.images objectAtIndex:i]];
-            } else {
-                [cell.imgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                [BBNetworkUtils fetchImageFromUrl:[_status.retweeted_status.pic_urls objectAtIndex:i] atIndex:i forImages:_status.retweeted_status.images withViews:cell.imgViews];
-            }
-        }
-        
         return cell;
     }
     else {
         [tableView registerClass:[BBCommentTableViewCell class] forCellReuseIdentifier:reuseCMCell];
         BBCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCMCell forIndexPath:indexPath];
-        
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         cell.comment = comment;
-        
         return cell;
     }
 }

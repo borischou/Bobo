@@ -225,7 +225,10 @@ static NSString *reuseBarCellId = @"barCell";
         BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
         cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self setStatusDataForCell:cell IndexPath:indexPath];
+        if ([_statuses count]) {
+            Status *status = [self.statuses objectAtIndex:indexPath.section];
+            cell.status = status;
+        }
         return cell;
     }
     else {
@@ -257,41 +260,6 @@ static NSString *reuseBarCellId = @"barCell";
     Status *status = [_statuses objectAtIndex:indexPath.section];
     dtvc.status = status;
     [self.navigationController pushViewController:dtvc animated:YES];
-}
-
--(void)setStatusDataForCell:(BBStatusTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
-{
-    if ([_statuses count]) {
-        Status *status = [self.statuses objectAtIndex:indexPath.section];
-        cell.status = status;
-        //avatar
-        if (status.user.avatar != nil) {
-            cell.avatarView.image = status.user.avatar;
-        } else {
-            cell.avatarView.image = [UIImage imageNamed:@"timeline_image_loading"];
-            [BBNetworkUtils fetchAvatarForStatus:status withCell:cell];
-        }
-        
-        //status images
-        for (int i = 0; i < [cell.status.pic_urls count]; i ++) {
-            if (![[status.images objectAtIndex:i] isEqual:[NSNull null]]) {
-                [[cell.statusImgViews objectAtIndex:i] setImage:[status.images objectAtIndex:i]];
-            } else {
-                [cell.statusImgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                [BBNetworkUtils fetchImageFromUrl:[status.pic_urls objectAtIndex:i] atIndex:i forImages:status.images withViews:cell.statusImgViews];
-            }
-        }
-        
-        //retweeted_status images
-        for (int i = 0; i < [cell.status.retweeted_status.pic_urls count]; i ++) {
-            if (![[status.retweeted_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
-                [[cell.imgViews objectAtIndex:i] setImage:[status.retweeted_status.images objectAtIndex:i]];
-            } else {
-                [cell.imgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-                [BBNetworkUtils fetchImageFromUrl:[status.retweeted_status.pic_urls objectAtIndex:i] atIndex:i forImages:status.retweeted_status.images withViews:cell.imgViews];
-            }
-        }
-    }
 }
 
 -(void)setStatusButtonBarDataForCell:(BBButtonbarTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
