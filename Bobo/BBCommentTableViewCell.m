@@ -18,6 +18,8 @@
 #define cNameHeight 15
 #define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
 
+#define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
+
 @implementation BBCommentTableViewCell
 
 - (void)awakeFromNib {
@@ -41,18 +43,26 @@
 
 -(void)initCellLayout
 {
+    self.contentView.backgroundColor = bCellBGColor;
+    
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
     [self.contentView addSubview:_avatarView];
     
     _nameLbl = [[UILabel alloc] initWithFrame:CGRectZero];
+    _nameLbl.textColor = [UIColor whiteColor];
+    _nameLbl.font = [UIFont systemFontOfSize:13.f];
     [self.contentView addSubview:_nameLbl];
     
     _timeLbl = [[UILabel alloc] initWithFrame:CGRectZero];
+    _timeLbl.textColor = [UIColor lightTextColor];
+    _timeLbl.font = [UIFont systemFontOfSize:10.f];
     [self.contentView addSubview:_timeLbl];
     
     _textLbl = [[UILabel alloc] initWithFrame:CGRectZero];
+    _textLbl.textColor = [UIColor lightTextColor];
     _textLbl.lineBreakMode = NSLineBreakByWordWrapping;
     _textLbl.numberOfLines = 0;
+    _textLbl.font = [UIFont systemFontOfSize:13.f];
     [self.contentView addSubview:_textLbl];
 }
 
