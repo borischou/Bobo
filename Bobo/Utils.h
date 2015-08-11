@@ -20,4 +20,6 @@
 //EEE HH:mm:ss yy-MM-dd
 +(NSString *)formatPostTime:(NSString *)postTime;
 
++(CGFloat)heightForString:(NSString *)str andWidth:(CGFloat)width;
+
 @end

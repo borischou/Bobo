@@ -21,6 +21,7 @@
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) Status *status;
 @property (strong, nonatomic) Comment *reply_comment;
+@property (nonatomic) CGFloat height;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

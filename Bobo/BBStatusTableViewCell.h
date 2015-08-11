@@ -20,7 +20,6 @@
 
 @property (weak, nonatomic) id <BBImageBrowserProtocol> delegate;
 
-@property (nonatomic) CGFloat height;
 @property (strong, nonatomic) Status *status;
 
 //status

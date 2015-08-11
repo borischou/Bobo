@@ -142,7 +142,8 @@ static NSString *reuseCMCell = @"reuseCMCell";
     if (indexPath.section == 0) {
         return _status.height;
     } else {
-        return 100;
+        Comment *comment = [_comments objectAtIndex:indexPath.row];
+        return comment.height;
     }
 }
 

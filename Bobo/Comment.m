@@ -7,6 +7,15 @@
 //
 
 #import "Comment.h"
+#import "Utils.h"
+
+#define cAvatarHeight 40
+#define cAvatarWidth cAvatarHeight
+#define cBigGap 10
+#define cSmallGap 5
+#define cNameHeight 15
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
 
 @implementation Comment
 
@@ -25,6 +34,8 @@
 //        if (![[dictionary objectForKey:@"reply_comment"] isEqual:[NSNull null]]) {
 //            _reply_comment = [[Comment alloc] initWithDictionary:[dictionary objectForKey:@"reply_comment"]];
 //        }
+        
+        _height = cBigGap+cNameHeight+cSmallGap+[Utils heightForString:_text andWidth:cTextWidth]+cBigGap;
     }
     return self;
 }

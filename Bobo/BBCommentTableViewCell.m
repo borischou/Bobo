@@ -10,14 +10,13 @@
 #import <UIImageView+WebCache.h>
 #import "Utils.h"
 
-#define cAvatarHeight self.contentView.frame.size.height*3/4
+#define cAvatarHeight 40
 #define cAvatarWidth cAvatarHeight
-#define cWidth self.contentView.frame.size.width
-#define cHeight self.contentView.frame.size.height
+#define bWidth [UIScreen mainScreen].bounds.size.width
 #define cBigGap 10
 #define cSmallGap 5
-#define cNameHeight 20
-#define cTextWidth self.contentView.frame.size.width-2*cBigGap-cSmallGap-cAvatarWidth
+#define cNameHeight 15
+#define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
 
 @implementation BBCommentTableViewCell
 
@@ -43,7 +42,6 @@
 -(void)initCellLayout
 {
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
-    _avatarView.backgroundColor = [UIColor greenColor];
     [self.contentView addSubview:_avatarView];
     
     _nameLbl = [[UILabel alloc] initWithFrame:CGRectZero];
