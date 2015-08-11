@@ -30,6 +30,7 @@
         _comments_count = [[dictionary objectForKey:@"comments_count"] integerValue];
         _attitudes_count = [[dictionary objectForKey:@"attitudes_count"] integerValue];
         if ([dictionary objectForKey:@"pic_urls"]) {
+            [self initModel];
             _pic_urls = @[].mutableCopy;
             for (NSDictionary *dict in [dictionary objectForKey:@"pic_urls"]) {
                 [_pic_urls addObject:[dict objectForKey:@"thumbnail_pic"]];
@@ -41,7 +42,6 @@
         if ([dictionary objectForKey:@"retweeted_status"]) {
             _retweeted_status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"retweeted_status"]];
         }
-        [self initModel];
         [self calculateHeight];
     }
     return self;
@@ -56,9 +56,9 @@
 {
     if (!_images) {
         _images = @[].mutableCopy;
-        for (int i = 0; i < 9; i ++) {
-            [_images addObject:[NSNull null]];
-        }
+    }
+    for (int i = 0; i < 9; i ++) {
+        [_images addObject:[NSNull null]];
     }
 }
 

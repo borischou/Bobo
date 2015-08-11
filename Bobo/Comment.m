@@ -22,7 +22,9 @@
         _comnt_id = [[dictionary objectForKey:@"id"] integerValue];
         _user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];
         _status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"status"]];
-        _reply_comment = [[Comment alloc] initWithDictionary:[dictionary objectForKey:@"reply_comment"]];
+//        if (![[dictionary objectForKey:@"reply_comment"] isEqual:[NSNull null]]) {
+//            _reply_comment = [[Comment alloc] initWithDictionary:[dictionary objectForKey:@"reply_comment"]];
+//        }
     }
     return self;
 }

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WeiboCountsModel.h"
+#import "Counts.h"
 
 @interface BBCountCell : UITableViewCell
 
