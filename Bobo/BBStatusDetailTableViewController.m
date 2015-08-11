@@ -20,6 +20,9 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
+static NSString *reuseWBCell = @"reuseWBCell";
+static NSString *reuseCMCell = @"reuseCMCell";
+
 @interface BBStatusDetailTableViewController ()
 
 @property (copy, nonatomic) NSMutableArray *comments;
@@ -27,8 +30,6 @@
 @end
 
 @implementation BBStatusDetailTableViewController
-
-static NSString *reuseWBCell = @"reuseWBCell";
 
 #pragma mark - Lazy boys
 
@@ -60,7 +61,7 @@ static NSString *reuseWBCell = @"reuseWBCell";
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self fetchLatestComments];
     }];
-    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryComments)];
+    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchLatestComments)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
     [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
     [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
@@ -81,18 +82,13 @@ static NSString *reuseWBCell = @"reuseWBCell";
         static int page = 1;
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, page++];
+        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, page];
         NSString *url = [bWeiboDomain stringByAppendingFormat:@"comments/show.json?%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"comments"];
         }];
     }
-}
-
--(void)fetchHistoryComments
-{
-
 }
 
 -(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
@@ -104,6 +100,9 @@ static NSString *reuseWBCell = @"reuseWBCell";
         [alertView show];
     } else {
         if ([type isEqualToString:@"comments"]) {
+            if (!_comments) {
+                _comments = @[].mutableCopy;
+            }
             NSDictionary *resultDict = (NSDictionary *)result;
             if (![[resultDict objectForKey:@"comments"] isEqual:[NSNull null]]) {
                 NSArray *commentsArray = [resultDict objectForKey:@"comments"];
@@ -122,53 +121,76 @@ static NSString *reuseWBCell = @"reuseWBCell";
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    if (section == 0) {
+        return 1;
+    } else {
+        if (_comments.count) {
+            return _comments.count;
+        } else {
+            return 0;
+        }
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return _status.height;
+    if (indexPath.section == 0) {
+        return _status.height;
+    } else {
+        return 100;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView registerClass:[BBHomelistTableViewCell class] forCellReuseIdentifier:reuseWBCell];
-    BBHomelistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseWBCell forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    cell.status = _status;
-    //avatar
-    if (_status.user.avatar != nil) {
-        cell.avatarView.image = _status.user.avatar;
-    } else {
-        cell.avatarView.image = [UIImage imageNamed:@"timeline_image_loading"];
-        [BBNetworkUtils fetchAvatarForStatus:_status withCell:cell];
-    }
-    
-    //status images
-    for (int i = 0; i < [cell.status.pic_urls count]; i ++) {
-        if (![[_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
-            [[cell.statusImgViews objectAtIndex:i] setImage:[_status.images objectAtIndex:i]];
+    if (indexPath.section == 0) {
+        [tableView registerClass:[BBHomelistTableViewCell class] forCellReuseIdentifier:reuseWBCell];
+        BBHomelistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseWBCell forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        cell.status = _status;
+        //avatar
+        if (_status.user.avatar != nil) {
+            cell.avatarView.image = _status.user.avatar;
         } else {
-            [cell.statusImgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-            [BBNetworkUtils fetchImageFromUrl:[_status.pic_urls objectAtIndex:i] atIndex:i forImages:_status.images withViews:cell.statusImgViews];
+            cell.avatarView.image = [UIImage imageNamed:@"timeline_image_loading"];
+            [BBNetworkUtils fetchAvatarForStatus:_status withCell:cell];
         }
-    }
-    
-    //retweeted_status images
-    for (int i = 0; i < [cell.status.retweeted_status.pic_urls count]; i ++) {
-        if (![[_status.retweeted_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
-            [[cell.imgViews objectAtIndex:i] setImage:[_status.retweeted_status.images objectAtIndex:i]];
-        } else {
-            [cell.imgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
-            [BBNetworkUtils fetchImageFromUrl:[_status.retweeted_status.pic_urls objectAtIndex:i] atIndex:i forImages:_status.retweeted_status.images withViews:cell.imgViews];
+        
+        //status images
+        for (int i = 0; i < [cell.status.pic_urls count]; i ++) {
+            if (![[_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
+                [[cell.statusImgViews objectAtIndex:i] setImage:[_status.images objectAtIndex:i]];
+            } else {
+                [cell.statusImgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
+                [BBNetworkUtils fetchImageFromUrl:[_status.pic_urls objectAtIndex:i] atIndex:i forImages:_status.images withViews:cell.statusImgViews];
+            }
         }
+        
+        //retweeted_status images
+        for (int i = 0; i < [cell.status.retweeted_status.pic_urls count]; i ++) {
+            if (![[_status.retweeted_status.images objectAtIndex:i] isEqual:[NSNull null]]) {
+                [[cell.imgViews objectAtIndex:i] setImage:[_status.retweeted_status.images objectAtIndex:i]];
+            } else {
+                [cell.imgViews[i] setImage:[UIImage imageNamed:@"timeline_image_loading"]];
+                [BBNetworkUtils fetchImageFromUrl:[_status.retweeted_status.pic_urls objectAtIndex:i] atIndex:i forImages:_status.retweeted_status.images withViews:cell.imgViews];
+            }
+        }
+        
+        return cell;
     }
-    
-    return cell;
+    else {
+        [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reuseCMCell];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCMCell forIndexPath:indexPath];
+        
+        Comment *comment = [_comments objectAtIndex:indexPath.row];
+        cell.textLabel.text = comment.text;
+        
+        return cell;
+    }
 }
 
 @end
