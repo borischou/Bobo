@@ -387,7 +387,6 @@ static NSString *reuseCountsCell = @"countsCell";
     dtvc.title = @"Detail";
     dtvc.hidesBottomBarWhenPushed = YES;
     dtvc.status = [_statuses objectAtIndex:indexPath.section-1];
-    dtvc.user = _user;
     [self.navigationController pushViewController:dtvc animated:YES];
 }
 

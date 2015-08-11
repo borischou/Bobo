@@ -13,6 +13,5 @@
 @interface BBStatusDetailTableViewController : UITableViewController
 
 @property (strong, nonatomic) Status *status;
-@property (strong, nonatomic) User *user;
 
 @end

@@ -256,7 +256,6 @@ static NSString *reuseBarCellId = @"barCell";
     dtvc.hidesBottomBarWhenPushed = YES;
     Status *status = [_statuses objectAtIndex:indexPath.section];
     dtvc.status = status;
-    dtvc.user = status.user;
     [self.navigationController pushViewController:dtvc animated:YES];
 }
 

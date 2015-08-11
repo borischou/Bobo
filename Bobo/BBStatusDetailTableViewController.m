@@ -31,14 +31,6 @@ static NSString *reuseWBCell = @"reuseWBCell";
     return _status;
 }
 
--(User *)user
-{
-    if (!_user) {
-        _user = [[User alloc] init];
-    }
-    return _user;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = bBGColor;
@@ -49,6 +41,10 @@ static NSString *reuseWBCell = @"reuseWBCell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Fetch Comments
+
+
 
 #pragma mark - Table view data source
 
