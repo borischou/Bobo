@@ -35,6 +35,7 @@
 		456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920401B74758B00E2C204 /* bb_collect_icon@3x.png */; };
 		456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920421B7478A800E2C204 /* iconfont-denglu.png */; };
 		456920451B7478A800E2C204 /* iconfont-logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920431B7478A800E2C204 /* iconfont-logout.png */; };
+		456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */; };
 		456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C0FDA1B31570C007B5CFB /* CoreText.framework */; };
 		456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C77E21B2A88110055FBE8 /* libz.dylib */; };
 		456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */; };
@@ -122,6 +123,8 @@
 		456920401B74758B00E2C204 /* bb_collect_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_collect_icon@3x.png"; sourceTree = "<group>"; };
 		456920421B7478A800E2C204 /* iconfont-denglu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-denglu.png"; sourceTree = "<group>"; };
 		456920431B7478A800E2C204 /* iconfont-logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-logout.png"; sourceTree = "<group>"; };
+		456A2F481B7985E0005AF4E0 /* BBFriendsGroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFriendsGroupTableViewController.h; sourceTree = "<group>"; };
+		456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFriendsGroupTableViewController.m; sourceTree = "<group>"; };
 		456C0FDA1B31570C007B5CFB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		456C77E21B2A88110055FBE8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		456C77E61B2AC5B90055FBE8 /* BBHomelistTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBHomelistTableViewCell.h; sourceTree = "<group>"; };
@@ -241,8 +244,6 @@
 				456C77E91B2AE3E30055FBE8 /* Model */,
 				456C77E51B2AC59B0055FBE8 /* Views */,
 				456C77E41B2AC5500055FBE8 /* Controllers */,
-				451441D41B295CA9000532DD /* AppDelegate.h */,
-				451441D51B295CA9000532DD /* AppDelegate.m */,
 				451441DD1B295CA9000532DD /* Images.xcassets */,
 				451441DF1B295CA9000532DD /* LaunchScreen.xib */,
 				451441D01B295CA9000532DD /* Supporting Files */,
@@ -357,6 +358,8 @@
 				4553E3FD1B54A8E40020989C /* BBStatusDetailTableViewController.m */,
 				4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */,
 				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
+				456A2F481B7985E0005AF4E0 /* BBFriendsGroupTableViewController.h */,
+				456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */,
 			);
 			name = Weibo;
 			sourceTree = "<group>";
@@ -364,6 +367,8 @@
 		456C77E41B2AC5500055FBE8 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				451441D41B295CA9000532DD /* AppDelegate.h */,
+				451441D51B295CA9000532DD /* AppDelegate.m */,
 				4565EEF31B562E81009D0BCD /* Weibo */,
 			);
 			name = Controllers;
@@ -584,6 +589,7 @@
 				456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
+				456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */,
 				451442061B295E8B000532DD /* BBMainStatusTableViewController.m in Sources */,
 				457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */,
 				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
