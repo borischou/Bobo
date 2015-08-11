@@ -24,7 +24,7 @@
 		451442211B296401000532DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442201B296401000532DD /* CoreGraphics.framework */; };
 		454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+Convert.m */; };
 		4553E3FE1B54A8E40020989C /* BBStatusDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E3FD1B54A8E40020989C /* BBStatusDetailTableViewController.m */; };
-		4553E4011B54CAEB0020989C /* BBCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4001B54CAEB0020989C /* BBCommentCell.m */; };
+		4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */; };
 		4553E4041B54D73D0020989C /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4031B54D73D0020989C /* Comment.m */; };
 		455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */; };
 		455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE81B3404540007B883 /* BBNetworkUtils.m */; };
@@ -38,20 +38,20 @@
 		456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */; };
 		456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C0FDA1B31570C007B5CFB /* CoreText.framework */; };
 		456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C77E21B2A88110055FBE8 /* libz.dylib */; };
-		456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */; };
+		456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */; };
 		45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45702AD11B2B37F200B81F90 /* CFNetwork.framework */; };
 		4572787A1B53887A00AC0C9C /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278791B53887A00AC0C9C /* Status.m */; };
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
 		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
 		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
-		45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */; };
+		45731F0C1B32BD56002EECA6 /* BBButtonbarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45731F0B1B32BD56002EECA6 /* BBButtonbarTableViewCell.m */; };
 		457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image.png */; };
 		4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* Counts.m */; };
 		4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F7451B3BC45500EE32D0 /* car@3x.png */; };
 		4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */; };
 		45A052131B3A5CB200A1488D /* timeline_image_loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */; };
-		45A052161B3A898200A1488D /* BBCountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountCell.m */; };
+		45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountTableViewCell.m */; };
 		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
@@ -106,8 +106,8 @@
 		454E93E71B3FCD72001126E4 /* NSString+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Convert.m"; sourceTree = "<group>"; };
 		4553E3FC1B54A8E40020989C /* BBStatusDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBStatusDetailTableViewController.h; sourceTree = "<group>"; };
 		4553E3FD1B54A8E40020989C /* BBStatusDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBStatusDetailTableViewController.m; sourceTree = "<group>"; };
-		4553E3FF1B54CAEB0020989C /* BBCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCommentCell.h; sourceTree = "<group>"; };
-		4553E4001B54CAEB0020989C /* BBCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCommentCell.m; sourceTree = "<group>"; };
+		4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCommentTableViewCell.h; sourceTree = "<group>"; };
+		4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCommentTableViewCell.m; sourceTree = "<group>"; };
 		4553E4021B54D73D0020989C /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		4553E4031B54D73D0020989C /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		455FFAE31B33F4480007B883 /* UIButton+Bobtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Bobtn.h"; sourceTree = "<group>"; };
@@ -127,8 +127,8 @@
 		456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFriendsGroupTableViewController.m; sourceTree = "<group>"; };
 		456C0FDA1B31570C007B5CFB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		456C77E21B2A88110055FBE8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		456C77E61B2AC5B90055FBE8 /* BBHomelistTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBHomelistTableViewCell.h; sourceTree = "<group>"; };
-		456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBHomelistTableViewCell.m; sourceTree = "<group>"; };
+		456C77E61B2AC5B90055FBE8 /* BBStatusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBStatusTableViewCell.h; sourceTree = "<group>"; };
+		456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBStatusTableViewCell.m; sourceTree = "<group>"; };
 		45702AD11B2B37F200B81F90 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		457278781B53887A00AC0C9C /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		457278791B53887A00AC0C9C /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
@@ -138,8 +138,8 @@
 		457278831B53900D00AC0C9C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4572E1C11B3C59F900348866 /* BBImageBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBImageBrowserView.h; sourceTree = "<group>"; };
 		4572E1C21B3C59F900348866 /* BBImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBImageBrowserView.m; sourceTree = "<group>"; };
-		45731F0A1B32BD56002EECA6 /* BBButtonbarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBButtonbarCell.h; sourceTree = "<group>"; };
-		45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBButtonbarCell.m; sourceTree = "<group>"; };
+		45731F0A1B32BD56002EECA6 /* BBButtonbarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBButtonbarTableViewCell.h; sourceTree = "<group>"; };
+		45731F0B1B32BD56002EECA6 /* BBButtonbarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBButtonbarTableViewCell.m; sourceTree = "<group>"; };
 		457C60E91B7301F500B10D53 /* BBMeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMeHeaderView.h; sourceTree = "<group>"; };
 		457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMeHeaderView.m; sourceTree = "<group>"; };
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bb_holder_profile_image.png; sourceTree = "<group>"; };
@@ -148,8 +148,8 @@
 		4588F7451B3BC45500EE32D0 /* car@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@3x.png"; sourceTree = "<group>"; };
 		4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-uber@3x.png"; sourceTree = "<group>"; };
 		45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_image_loading@2x.png"; sourceTree = "<group>"; };
-		45A052141B3A898200A1488D /* BBCountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountCell.h; sourceTree = "<group>"; };
-		45A052151B3A898200A1488D /* BBCountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountCell.m; sourceTree = "<group>"; };
+		45A052141B3A898200A1488D /* BBCountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountTableViewCell.h; sourceTree = "<group>"; };
+		45A052151B3A898200A1488D /* BBCountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountTableViewCell.m; sourceTree = "<group>"; };
 		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		45A979021B6E512000A8D472 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		45F07DB71B49858900327E6D /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = "../../../Downloads/frameworks projects/BaiduMap_IOSSDK_v2.8.0_All/BaiduMap_IOSSDK_v2.8.0_Lib/Release-iphoneos/BaiduMapAPI.framework"; sourceTree = "<group>"; };
@@ -391,12 +391,12 @@
 			children = (
 				457278781B53887A00AC0C9C /* Status.h */,
 				457278791B53887A00AC0C9C /* Status.m */,
+				4553E4021B54D73D0020989C /* Comment.h */,
+				4553E4031B54D73D0020989C /* Comment.m */,
 				4572787B1B53894F00AC0C9C /* User.h */,
 				4572787C1B53894F00AC0C9C /* User.m */,
 				457278821B53900D00AC0C9C /* Utils.h */,
 				457278831B53900D00AC0C9C /* Utils.m */,
-				4553E4021B54D73D0020989C /* Comment.h */,
-				4553E4031B54D73D0020989C /* Comment.m */,
 				4588F7311B3B9B5A00EE32D0 /* Counts.h */,
 				4588F7321B3B9B5A00EE32D0 /* Counts.m */,
 			);
@@ -406,14 +406,14 @@
 		456F62331B4F514100309779 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				456C77E61B2AC5B90055FBE8 /* BBHomelistTableViewCell.h */,
-				456C77E71B2AC5B90055FBE8 /* BBHomelistTableViewCell.m */,
-				45731F0A1B32BD56002EECA6 /* BBButtonbarCell.h */,
-				45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */,
-				45A052141B3A898200A1488D /* BBCountCell.h */,
-				45A052151B3A898200A1488D /* BBCountCell.m */,
-				4553E3FF1B54CAEB0020989C /* BBCommentCell.h */,
-				4553E4001B54CAEB0020989C /* BBCommentCell.m */,
+				456C77E61B2AC5B90055FBE8 /* BBStatusTableViewCell.h */,
+				456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */,
+				4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */,
+				4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */,
+				45731F0A1B32BD56002EECA6 /* BBButtonbarTableViewCell.h */,
+				45731F0B1B32BD56002EECA6 /* BBButtonbarTableViewCell.m */,
+				45A052141B3A898200A1488D /* BBCountTableViewCell.h */,
+				45A052151B3A898200A1488D /* BBCountTableViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -572,10 +572,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4553E4011B54CAEB0020989C /* BBCommentCell.m in Sources */,
+				4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */,
 				4553E3FE1B54A8E40020989C /* BBStatusDetailTableViewController.m in Sources */,
-				45A052161B3A898200A1488D /* BBCountCell.m in Sources */,
-				45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */,
+				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
+				45731F0C1B32BD56002EECA6 /* BBButtonbarTableViewCell.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
 				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
@@ -586,7 +586,7 @@
 				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
 				45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
-				456C77E81B2AC5B90055FBE8 /* BBHomelistTableViewCell.m in Sources */,
+				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
 				456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */,
