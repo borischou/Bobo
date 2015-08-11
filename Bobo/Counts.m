@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import "WeiboCountsModel.h"
+#import "Counts.h"
 
-@implementation WeiboCountsModel
+@implementation Counts
 
 -(id)initWithWeiboCounts:(NSDictionary *)weiboCounts
 {

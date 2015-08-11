@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface WeiboCountsModel : NSObject
+@interface Counts : NSObject
 
 @property (nonatomic) NSInteger followers_count;
 @property (nonatomic) NSInteger friends_count;

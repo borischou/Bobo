@@ -47,7 +47,7 @@
 		45731F0C1B32BD56002EECA6 /* BBButtonbarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45731F0B1B32BD56002EECA6 /* BBButtonbarCell.m */; };
 		457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image.png */; };
-		4588F7331B3B9B5A00EE32D0 /* WeiboCountsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */; };
+		4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* Counts.m */; };
 		4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F7451B3BC45500EE32D0 /* car@3x.png */; };
 		4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */; };
 		45A052131B3A5CB200A1488D /* timeline_image_loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */; };
@@ -143,8 +143,8 @@
 		457C60E91B7301F500B10D53 /* BBMeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMeHeaderView.h; sourceTree = "<group>"; };
 		457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMeHeaderView.m; sourceTree = "<group>"; };
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bb_holder_profile_image.png; sourceTree = "<group>"; };
-		4588F7311B3B9B5A00EE32D0 /* WeiboCountsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboCountsModel.h; sourceTree = "<group>"; };
-		4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeiboCountsModel.m; sourceTree = "<group>"; };
+		4588F7311B3B9B5A00EE32D0 /* Counts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counts.h; sourceTree = "<group>"; };
+		4588F7321B3B9B5A00EE32D0 /* Counts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Counts.m; sourceTree = "<group>"; };
 		4588F7451B3BC45500EE32D0 /* car@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@3x.png"; sourceTree = "<group>"; };
 		4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-uber@3x.png"; sourceTree = "<group>"; };
 		45A052121B3A5CB200A1488D /* timeline_image_loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_image_loading@2x.png"; sourceTree = "<group>"; };
@@ -237,7 +237,6 @@
 		451441CF1B295CA9000532DD /* Bobo */ = {
 			isa = PBXGroup;
 			children = (
-				45A979041B6E512D00A8D472 /* SWRevealViewController */,
 				45620D3C1B3706BF00B9F9F2 /* Images */,
 				455FFAE61B34040E0007B883 /* Networks */,
 				45617A671B2ECA1600BDFE7F /* Categories */,
@@ -254,6 +253,7 @@
 		451441D01B295CA9000532DD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				45A979041B6E512D00A8D472 /* SWRevealViewController */,
 				451442221B296413000532DD /* syslib */,
 				451442031B295E3C000532DD /* libWeiboSDK */,
 				451441D11B295CA9000532DD /* Info.plist */,
@@ -397,8 +397,8 @@
 				457278831B53900D00AC0C9C /* Utils.m */,
 				4553E4021B54D73D0020989C /* Comment.h */,
 				4553E4031B54D73D0020989C /* Comment.m */,
-				4588F7311B3B9B5A00EE32D0 /* WeiboCountsModel.h */,
-				4588F7321B3B9B5A00EE32D0 /* WeiboCountsModel.m */,
+				4588F7311B3B9B5A00EE32D0 /* Counts.h */,
+				4588F7321B3B9B5A00EE32D0 /* Counts.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -579,7 +579,7 @@
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
 				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
-				4588F7331B3B9B5A00EE32D0 /* WeiboCountsModel.m in Sources */,
+				4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */,
 				454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */,
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,
