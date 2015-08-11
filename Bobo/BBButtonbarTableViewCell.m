@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBButtonbarCell.h"
+#import "BBButtonbarTableViewCell.h"
 #import "UIButton+Bobtn.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
@@ -16,7 +16,7 @@
 #define bBtnHeight bHeight/25
 #define bBtnWidth (bWidth-2)/3
 
-@implementation BBButtonbarCell
+@implementation BBButtonbarTableViewCell
 
 @synthesize repostBtn;
 @synthesize commentBtn;

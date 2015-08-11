@@ -8,8 +8,8 @@
 
 #import "SWRevealViewController.h"
 #import "BBFavoritesTableViewController.h"
-#import "BBHomelistTableViewCell.h"
-#import "BBButtonbarCell.h"
+#import "BBStatusTableViewCell.h"
+#import "BBButtonbarTableViewCell.h"
 #import "Status.h"
 #import "User.h"
 #import "NSString+Convert.h"
@@ -180,8 +180,8 @@
 {
     
     if (indexPath.row == 0) {
-        [tableView registerClass:[BBHomelistTableViewCell class] forCellReuseIdentifier:@"home"];
-        BBHomelistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
+        [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
+        BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
         cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setStatusDataForCell:cell IndexPath:indexPath];
@@ -189,8 +189,8 @@
     }
     else
     {
-        [tableView registerClass:[BBButtonbarCell class] forCellReuseIdentifier:@"buttonBar"];
-        BBButtonbarCell *cell = [tableView dequeueReusableCellWithIdentifier:@"buttonBar" forIndexPath:indexPath];
+        [tableView registerClass:[BBButtonbarTableViewCell class] forCellReuseIdentifier:@"buttonBar"];
+        BBButtonbarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"buttonBar" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setStatusButtonBarDataForCell:cell IndexPath:indexPath];
         return cell;
@@ -207,7 +207,7 @@
     [self.navigationController pushViewController:dtvc animated:YES];
 }
 
--(void)setStatusDataForCell:(BBHomelistTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
+-(void)setStatusDataForCell:(BBStatusTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
 {
     if ([_statuses count]) {
         Status *status = [_statuses objectAtIndex:indexPath.section];
@@ -242,7 +242,7 @@
     }
 }
 
--(void)setStatusButtonBarDataForCell:(BBButtonbarCell *)cell IndexPath:(NSIndexPath *)indexPath
+-(void)setStatusButtonBarDataForCell:(BBButtonbarTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
 {
     if ([_statuses count]) {
         Status *status = [_statuses objectAtIndex:indexPath.section];

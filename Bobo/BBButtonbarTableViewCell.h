@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BBButtonbarCell : UITableViewCell
+@interface BBButtonbarTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) UIButton *repostBtn;
 @property (strong, nonatomic) UIButton *commentBtn;

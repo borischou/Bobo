@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Comment.h"
 
-@interface BBCommentCell : UITableViewCell
+@interface BBCommentTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UILabel *nameLbl;

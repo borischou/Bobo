@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBCountCell.h"
+#import "BBCountTableViewCell.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -32,11 +32,11 @@
 #define bImgBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
-@interface BBCountCell ()
+@interface BBCountTableViewCell ()
 
 @end
 
-@implementation BBCountCell
+@implementation BBCountTableViewCell
 
 -(NSMutableArray *)views
 {

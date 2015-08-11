@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "BBHomelistTableViewCell.h"
+#import "BBStatusTableViewCell.h"
 #import "User.h"
 #import "Status.h"
 
 @interface BBNetworkUtils : NSObject
 
-+(void)fetchAvatarForStatus:(Status *)status withCell:(BBHomelistTableViewCell *)cell;
++(void)fetchAvatarForStatus:(Status *)status withCell:(BBStatusTableViewCell *)cell;
 +(void)fetchImageFromUrl:(NSString *)url atIndex:(NSInteger)index forImages:(NSMutableArray *)imgs withViews:(NSMutableArray *)views;
 +(void)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height;
 

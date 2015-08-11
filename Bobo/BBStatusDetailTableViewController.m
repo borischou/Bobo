@@ -10,7 +10,8 @@
 #import "WeiboSDK.h"
 
 #import "BBStatusDetailTableViewController.h"
-#import "BBHomelistTableViewCell.h"
+#import "BBStatusTableViewCell.h"
+#import "BBCommentTableViewCell.h"
 #import "BBNetworkUtils.h"
 #import "AppDelegate.h"
 #import "Comment.h"
@@ -147,8 +148,8 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        [tableView registerClass:[BBHomelistTableViewCell class] forCellReuseIdentifier:reuseWBCell];
-        BBHomelistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseWBCell forIndexPath:indexPath];
+        [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:reuseWBCell];
+        BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseWBCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         cell.status = _status;
@@ -183,11 +184,11 @@ static NSString *reuseCMCell = @"reuseCMCell";
         return cell;
     }
     else {
-        [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reuseCMCell];
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCMCell forIndexPath:indexPath];
+        [tableView registerClass:[BBCommentTableViewCell class] forCellReuseIdentifier:reuseCMCell];
+        BBCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCMCell forIndexPath:indexPath];
         
         Comment *comment = [_comments objectAtIndex:indexPath.row];
-        cell.textLabel.text = comment.text;
+        cell.comment = comment;
         
         return cell;
     }

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Counts.h"
 
-@interface BBCountCell : UITableViewCell
+@interface BBCountTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) NSMutableArray *views;
 @property (strong, nonatomic) UILabel *wbcounts;

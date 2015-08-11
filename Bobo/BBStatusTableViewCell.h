@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "StatusModel.h"
 #import "Status.h"
 
 @protocol BBImageBrowserProtocol <NSObject>
@@ -17,7 +16,7 @@
 
 @end
 
-@interface BBHomelistTableViewCell : UITableViewCell
+@interface BBStatusTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) id <BBImageBrowserProtocol> delegate;
 

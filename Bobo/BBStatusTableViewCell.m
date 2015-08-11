@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBHomelistTableViewCell.h"
+#import "BBStatusTableViewCell.h"
 #import "BBNetworkUtils.h"
 #import "BBImageBrowserView.h"
 #import "NSString+Convert.h"
@@ -31,11 +31,11 @@
 #define bImgBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
-@interface BBHomelistTableViewCell ()
+@interface BBStatusTableViewCell ()
 
 @end
 
-@implementation BBHomelistTableViewCell
+@implementation BBStatusTableViewCell
 
 - (void)awakeFromNib {
     // Initialization code

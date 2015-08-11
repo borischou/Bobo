@@ -11,15 +11,15 @@
 #import "SWRevealViewController.h"
 
 #import "BBProfileTableViewController.h"
-#import "BBCountCell.h"
+#import "BBCountTableViewCell.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
 #import "BBMeHeaderView.h"
 #import "Status.h"
-#import "BBHomelistTableViewCell.h"
+#import "BBStatusTableViewCell.h"
 #import "BBNetworkUtils.h"
 #import "BBImageBrowserView.h"
-#import "BBButtonbarCell.h"
+#import "BBButtonbarTableViewCell.h"
 #import "BBStatusDetailTableViewController.h"
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
@@ -281,8 +281,8 @@ static NSString *reuseCountsCell = @"countsCell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        [tableView registerClass:[BBCountCell class] forCellReuseIdentifier:reuseCountsCell];
-        BBCountCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCountsCell forIndexPath:indexPath];
+        [tableView registerClass:[BBCountTableViewCell class] forCellReuseIdentifier:reuseCountsCell];
+        BBCountTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCountsCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.wbcounts.text = [NSString stringWithFormat:@"%ld", _user.statuses_count];
         cell.followercounts.text = [NSString stringWithFormat:@"%ld", _user.followers_count];
@@ -292,8 +292,8 @@ static NSString *reuseCountsCell = @"countsCell";
     else
     {
         if (indexPath.row == 0) {
-            [tableView registerClass:[BBHomelistTableViewCell class] forCellReuseIdentifier:@"home"];
-            BBHomelistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
+            [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
+            BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
             cell.delegate = self;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [self setStatusDataForCell:cell IndexPath:indexPath];
@@ -301,8 +301,8 @@ static NSString *reuseCountsCell = @"countsCell";
         }
         else
         {
-            [tableView registerClass:[BBButtonbarCell class] forCellReuseIdentifier:@"buttonBar"];
-            BBButtonbarCell *cell = [tableView dequeueReusableCellWithIdentifier:@"buttonBar" forIndexPath:indexPath];
+            [tableView registerClass:[BBButtonbarTableViewCell class] forCellReuseIdentifier:@"buttonBar"];
+            BBButtonbarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"buttonBar" forIndexPath:indexPath];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [self setStatusButtonBarDataForCell:cell IndexPath:indexPath];
             return cell;
@@ -310,7 +310,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
--(void)setStatusDataForCell:(BBHomelistTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
+-(void)setStatusDataForCell:(BBStatusTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
 {
     if ([_statuses count]) {
         Status *status = [_statuses objectAtIndex:indexPath.section-1];
@@ -345,7 +345,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
--(void)setStatusButtonBarDataForCell:(BBButtonbarCell *)cell IndexPath:(NSIndexPath *)indexPath
+-(void)setStatusButtonBarDataForCell:(BBButtonbarTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
 {
     if ([_statuses count]) {
         Status *status = [_statuses objectAtIndex:indexPath.section-1];

@@ -15,7 +15,7 @@
 
 @implementation BBNetworkUtils
 
-+(void)fetchAvatarForStatus:(Status *)status withCell:(BBHomelistTableViewCell *)cell
++(void)fetchAvatarForStatus:(Status *)status withCell:(BBStatusTableViewCell *)cell
 {
     NSURL *imgUrl = [NSURL URLWithString:status.user.avatar_large];
     NSURLRequest *request = [NSURLRequest requestWithURL:imgUrl];
