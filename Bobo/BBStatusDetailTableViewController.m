@@ -83,7 +83,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         static int page = 1;
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, page];
+        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, page++];
         NSString *url = [bWeiboDomain stringByAppendingFormat:@"comments/show.json?%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
