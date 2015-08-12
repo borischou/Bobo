@@ -99,9 +99,7 @@
 		4514421C1B2963F4000532DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4514421E1B2963FA000532DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		451442201B296401000532DD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		453035CD1B4A4FB100647ACC /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = "Bobo/Release-iphoneos/BaiduMapAPI.framework"; sourceTree = "<group>"; };
 		453035D21B4A609400647ACC /* Release-iphoneos */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Release-iphoneos"; path = "Bobo/Release-iphoneos"; sourceTree = "<group>"; };
-		45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = Bobo/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		454E93E61B3FCD72001126E4 /* NSString+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Convert.h"; sourceTree = "<group>"; };
 		454E93E71B3FCD72001126E4 /* NSString+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Convert.m"; sourceTree = "<group>"; };
 		4553E3FC1B54A8E40020989C /* BBStatusDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBStatusDetailTableViewController.h; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 		45A052151B3A898200A1488D /* BBCountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountTableViewCell.m; sourceTree = "<group>"; };
 		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		45A979021B6E512000A8D472 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
-		45F07DB71B49858900327E6D /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = "../../../Downloads/frameworks projects/BaiduMap_IOSSDK_v2.8.0_All/BaiduMap_IOSSDK_v2.8.0_Lib/Release-iphoneos/BaiduMapAPI.framework"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		68ADFD39DDA092351BC9F4D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A514AEC441207DBA08E4A83B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -192,11 +189,8 @@
 		0B724CE50D0FC385A918684B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				45435E5B1B4BDC8600AA4C3B /* BaiduMapAPI.framework */,
 				453035D21B4A609400647ACC /* Release-iphoneos */,
-				453035CD1B4A4FB100647ACC /* BaiduMapAPI.framework */,
 				45F07DB91B4985B800327E6D /* OpenGLES.framework */,
-				45F07DB71B49858900327E6D /* BaiduMapAPI.framework */,
 				456C0FDA1B31570C007B5CFB /* CoreText.framework */,
 				45702AD11B2B37F200B81F90 /* CFNetwork.framework */,
 				456C77E21B2A88110055FBE8 /* libz.dylib */,
