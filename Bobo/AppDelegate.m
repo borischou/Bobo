@@ -13,6 +13,7 @@
 #import "BBMainStatusTableViewController.h"
 #import "BBFavoritesTableViewController.h"
 #import "BBFriendsGroupTableViewController.h"
+#import "BBUpdateBackgroundViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -99,32 +100,37 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    //微博主页
+    //Tab:微博主页
     BBMainStatusTableViewController *weiboListTvc = [[BBMainStatusTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     weiboListTvc.title = @"Bobo";
     weiboListTvc.tabBarItem.image = [UIImage imageNamed:@"chunvzuo"];
     UINavigationController *weiboListNvc = [[UINavigationController alloc] initWithRootViewController:weiboListTvc];
     [self setupNavigationController:weiboListNvc withUITableViewController:weiboListTvc];
     
-    //个人中心
+    //Tab:个人中心
     BBProfileTableViewController *profileTvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     profileTvc.title = @"Me";
     profileTvc.tabBarItem.image = [UIImage imageNamed:@"iconfont-gerenshiwu"];
     UINavigationController *profileNvc = [[UINavigationController alloc] initWithRootViewController:profileTvc];
     [self setupNavigationController:profileNvc withUITableViewController:profileTvc];
     
-    //收藏微博
+    //Tab:收藏微博
     BBFavoritesTableViewController *collectionTvc = [[BBFavoritesTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     collectionTvc.title = @"Favorites";
     collectionTvc.tabBarItem.image = [UIImage imageNamed:@"bb_collect_icon"];
     UINavigationController *collectionNvc = [[UINavigationController alloc] initWithRootViewController:collectionTvc];
     [self setupNavigationController:collectionNvc withUITableViewController:collectionTvc];
     
+    //Tab:发微博
+    BBUpdateBackgroundViewController *updateBackgroundVc = [[BBUpdateBackgroundViewController alloc] init];
+    updateBackgroundVc.title = @"Post";
+    updateBackgroundVc.tabBarItem.image = [UIImage imageNamed:@"post_tab_icon"];
+    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:@[weiboListNvc, profileNvc, collectionNvc] animated:YES];
+    [tabBarController setViewControllers:@[weiboListNvc, profileNvc, collectionNvc, updateBackgroundVc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
-    //微博分组
+    //Rear:微博分组
     BBFriendsGroupTableViewController *friendsGroupTvc = [[BBFriendsGroupTableViewController alloc] init];
     friendsGroupTvc.title = @"Group";
     friendsGroupTvc.view.backgroundColor = [UIColor whiteColor];

@@ -219,7 +219,7 @@ static NSString *reuseBarCellId = @"barCell";
     // Return the number of sections.
     if ([_statuses count]) {
         return [_statuses count];
-    } else return 10;
+    } else return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

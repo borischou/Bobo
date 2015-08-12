@@ -47,6 +47,9 @@
 		45731F0C1B32BD56002EECA6 /* BBButtonbarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45731F0B1B32BD56002EECA6 /* BBButtonbarTableViewCell.m */; };
 		457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image.png */; };
+		458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 458393521B7B4B98005B1766 /* BBUpdateStatusView.m */; };
+		458393561B7B536D005B1766 /* BBUpdateBackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458393551B7B536D005B1766 /* BBUpdateBackgroundViewController.m */; };
+		458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 458393571B7B54E4005B1766 /* post_tab_icon@3x.png */; };
 		4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* Counts.m */; };
 		4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F7451B3BC45500EE32D0 /* car@3x.png */; };
 		4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */; };
@@ -141,6 +144,11 @@
 		457C60E91B7301F500B10D53 /* BBMeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMeHeaderView.h; sourceTree = "<group>"; };
 		457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMeHeaderView.m; sourceTree = "<group>"; };
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bb_holder_profile_image.png; sourceTree = "<group>"; };
+		458393511B7B4B98005B1766 /* BBUpdateStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUpdateStatusView.h; sourceTree = "<group>"; };
+		458393521B7B4B98005B1766 /* BBUpdateStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBUpdateStatusView.m; sourceTree = "<group>"; };
+		458393541B7B536D005B1766 /* BBUpdateBackgroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUpdateBackgroundViewController.h; sourceTree = "<group>"; };
+		458393551B7B536D005B1766 /* BBUpdateBackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBUpdateBackgroundViewController.m; sourceTree = "<group>"; };
+		458393571B7B54E4005B1766 /* post_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "post_tab_icon@3x.png"; sourceTree = "<group>"; };
 		4588F7311B3B9B5A00EE32D0 /* Counts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counts.h; sourceTree = "<group>"; };
 		4588F7321B3B9B5A00EE32D0 /* Counts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Counts.m; sourceTree = "<group>"; };
 		4588F7451B3BC45500EE32D0 /* car@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@3x.png"; sourceTree = "<group>"; };
@@ -334,6 +342,7 @@
 				456920401B74758B00E2C204 /* bb_collect_icon@3x.png */,
 				456920421B7478A800E2C204 /* iconfont-denglu.png */,
 				456920431B7478A800E2C204 /* iconfont-logout.png */,
+				458393571B7B54E4005B1766 /* post_tab_icon@3x.png */,
 				45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */,
 				4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */,
 				4588F7451B3BC45500EE32D0 /* car@3x.png */,
@@ -346,6 +355,8 @@
 			children = (
 				451442041B295E8B000532DD /* BBMainStatusTableViewController.h */,
 				451442051B295E8B000532DD /* BBMainStatusTableViewController.m */,
+				458393541B7B536D005B1766 /* BBUpdateBackgroundViewController.h */,
+				458393551B7B536D005B1766 /* BBUpdateBackgroundViewController.m */,
 				4569202D1B745ECA00E2C204 /* BBFavoritesTableViewController.h */,
 				4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */,
 				4553E3FC1B54A8E40020989C /* BBStatusDetailTableViewController.h */,
@@ -371,11 +382,13 @@
 		456C77E51B2AC59B0055FBE8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				456F62331B4F514100309779 /* Cells */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
 				4572E1C21B3C59F900348866 /* BBImageBrowserView.m */,
+				458393511B7B4B98005B1766 /* BBUpdateStatusView.h */,
+				458393521B7B4B98005B1766 /* BBUpdateStatusView.m */,
 				457C60E91B7301F500B10D53 /* BBMeHeaderView.h */,
 				457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */,
+				456F62331B4F514100309779 /* Cells */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -515,6 +528,7 @@
 				4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */,
 				45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */,
 				456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */,
+				458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */,
 				457C60ED1B7332E400B10D53 /* bb_holder_profile_image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,6 +587,7 @@
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
 				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
+				458393561B7B536D005B1766 /* BBUpdateBackgroundViewController.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */,
 				454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */,
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
@@ -588,6 +603,7 @@
 				457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */,
 				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,
+				458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
