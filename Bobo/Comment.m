@@ -16,6 +16,7 @@
 #define cNameHeight 15
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
+#define cTextFontSize 13.f
 
 @implementation Comment
 
@@ -31,11 +32,8 @@
         _comnt_id = [[dictionary objectForKey:@"id"] integerValue];
         _user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];
         _status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"status"]];
-//        if (![[dictionary objectForKey:@"reply_comment"] isEqual:[NSNull null]]) {
-//            _reply_comment = [[Comment alloc] initWithDictionary:[dictionary objectForKey:@"reply_comment"]];
-//        }
         
-        _height = cBigGap+cNameHeight+cSmallGap+[Utils heightForString:_text andWidth:cTextWidth]+cBigGap;
+        _height = cAvatarHeight > cNameHeight+cSmallGap+[Utils heightForString:_text width:cTextWidth fontSize:cTextFontSize]? cBigGap*2+cAvatarHeight: cBigGap*2+cNameHeight+cSmallGap+[Utils heightForString:_text width:cTextWidth fontSize:cTextFontSize];
     }
     return self;
 }

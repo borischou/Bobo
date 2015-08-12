@@ -23,7 +23,6 @@
 #define bPostImgWidth bPostImgHeight
 #define bTextFontSize 14.f
 
-
 @implementation Utils
 
 -(CGFloat)heightForImgsWithCount:(NSInteger)count
@@ -57,14 +56,14 @@
     return formattedTime;
 }
 
-+(CGFloat)heightForString:(NSString *)str andWidth:(CGFloat)width
++(CGFloat)heightForString:(NSString *)str width:(CGFloat)width fontSize:(CGFloat)size
 {
     if (!str) {
         return 0;
     }
     NSMutableParagraphStyle *parastyle = [[NSMutableParagraphStyle alloc] init];
     parastyle.lineBreakMode = NSLineBreakByWordWrapping;
-    CGSize sizeForFit = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:bTextFontSize], NSParagraphStyleAttributeName: parastyle} context:nil].size;
+    CGSize sizeForFit = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:size], NSParagraphStyleAttributeName: parastyle} context:nil].size;
     
     return sizeForFit.height;
 }
@@ -75,14 +74,14 @@
     
     height = 0;
     height += bBigGap + bHeadImgHeight;
-    height += bBigGap + [Utils heightForString:text andWidth:bWidth - bBigGap * 2];
+    height += bBigGap + [Utils heightForString:text width:bWidth - bBigGap * 2 fontSize:bTextFontSize];
     
     if (count > 0) {
         height += bSmallGap + [self heightForImgsWithCount:count];
     }
     
     if (retweetedScreenName != nil) {
-        height += bBigGap + [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] andWidth:bWidth - bBigGap * 2];
+        height += bBigGap + [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] width:bWidth - bBigGap * 2 fontSize:bTextFontSize];
         if (retweetImgCount > 0) {
             height += bSmallGap + [self heightForImgsWithCount:retweetImgCount];
         }
