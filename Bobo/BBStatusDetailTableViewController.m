@@ -24,7 +24,9 @@
 static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
-@interface BBStatusDetailTableViewController ()
+@interface BBStatusDetailTableViewController () {
+    int page;
+}
 
 @property (copy, nonatomic) NSMutableArray *comments;
 
@@ -44,6 +46,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    page = 1;
     self.view.backgroundColor = bBGColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self setMJRefresh];
@@ -80,10 +83,9 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [self.tableView.footer endRefreshing];
         [alertView show];
     } else {
-        static int page = 1;
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, page++];
+        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, page];
         NSString *url = [bWeiboDomain stringByAppendingFormat:@"comments/show.json?%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -107,9 +109,12 @@ static NSString *reuseCMCell = @"reuseCMCell";
             NSDictionary *resultDict = (NSDictionary *)result;
             if (![[resultDict objectForKey:@"comments"] isEqual:[NSNull null]]) {
                 NSArray *commentsArray = [resultDict objectForKey:@"comments"];
-                for (NSDictionary *dict in commentsArray) {
-                    Comment *comment = [[Comment alloc] initWithDictionary:dict];
-                    [_comments addObject:comment];
+                if (commentsArray.count > 0) {
+                    for (NSDictionary *dict in commentsArray) {
+                        Comment *comment = [[Comment alloc] initWithDictionary:dict];
+                        [_comments addObject:comment];
+                    }
+                    page += 1;
                 }
             }
         }
