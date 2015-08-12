@@ -38,7 +38,8 @@ static NSString *reuseBarCellId = @"barCell";
 
 @interface BBMainStatusTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol>
 
-@property (copy, nonatomic) NSString *currentLastStateIdStr;
+@property (copy, nonatomic) NSString *max_id;
+@property (copy, nonatomic) NSString *since_id;
 @property (copy, nonatomic) NSMutableArray *statuses;
 
 @end
@@ -124,33 +125,34 @@ static NSString *reuseBarCellId = @"barCell";
         }
         if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
             NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
-            for (int i = 0; i < [downloadedStatuses count]; i ++) {
-                
-                Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
-                [_statuses insertObject:tmp_status atIndex:i];
-                
-                if ([downloadedStatuses count] - 1 == i) {
-                    _currentLastStateIdStr = tmp_status.idstr;
+            if (downloadedStatuses.count > 0) {
+                for (int i = 0; i < [downloadedStatuses count]; i ++) {
+                    Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
+                    [_statuses insertObject:tmp_status atIndex:i];
+                    if ([downloadedStatuses count] - 1 == i) {
+                        _max_id = tmp_status.idstr;
+                    }
                 }
+                Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
+                _since_id = status.idstr;
             }
             [self.tableView.header endRefreshing];
-            NSLog(@"Last status after refresh fetch:\n%@", [downloadedStatuses lastObject]);
         }
         
         if ([type isEqualToString:@"history"]) { //上拉刷新历史微博
             NSArray *historyStatuses = [result objectForKey:@"statuses"];
-            NSLog(@"History statuses: %@", historyStatuses);
-            for (int i = 1; i < [historyStatuses count]; i ++) {
-                Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
-                [_statuses addObject:tmp_status];
-                if ([historyStatuses count] - 1 == i) {
-                    _currentLastStateIdStr = tmp_status.idstr;
+            if (historyStatuses.count > 0) {
+                for (int i = 1; i < [historyStatuses count]; i ++) {
+                    Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
+                    [_statuses addObject:tmp_status];
+                    if ([historyStatuses count] - 1 == i) {
+                        _max_id = tmp_status.idstr;
+                    }
                 }
             }
             [self.tableView.footer endRefreshing];
-            NSLog(@"Last status after history fetch:\n%@", [historyStatuses lastObject]);
         }
-        NSLog(@"The currentLastStatusId is: %@", _currentLastStateIdStr);
+        NSLog(@"The currentLastStatusId is: %@", _max_id);
         [self.tableView reloadData];
     }
 }
@@ -166,7 +168,13 @@ static NSString *reuseBarCellId = @"barCell";
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         if (delegate.wbToken) {
             [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-            NSString *url = [bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"];
+            NSString *url;
+            if (!_since_id) {
+                url = [bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"];
+            } else {
+                url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json?since_id=%@", _since_id];
+            }
+            NSLog(@"The full url for latest statuses is: %@", url);
             [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                 [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"refresh"];
             }];
@@ -186,9 +194,9 @@ static NSString *reuseBarCellId = @"barCell";
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"max_id=%@&count=20", _currentLastStateIdStr];
+        NSString *para = [NSString stringWithFormat:@"max_id=%@&count=20", _max_id];
         NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json?%@", para];
-        NSLog(@"The full url is: %@", url);
+        NSLog(@"The full url for history statuses is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
         }];
