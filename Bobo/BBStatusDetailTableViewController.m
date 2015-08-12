@@ -163,6 +163,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     else {
         [tableView registerClass:[BBCommentTableViewCell class] forCellReuseIdentifier:reuseCMCell];
         BBCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCMCell forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         cell.comment = comment;
         return cell;
