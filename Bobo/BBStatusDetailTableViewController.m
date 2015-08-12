@@ -25,7 +25,7 @@ static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
 @interface BBStatusDetailTableViewController () {
-    int page;
+    int _page;
 }
 
 @property (copy, nonatomic) NSMutableArray *comments;
@@ -46,7 +46,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    page = 1;
+    _page = 1;
     self.view.backgroundColor = bBGColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self setMJRefresh];
@@ -85,7 +85,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, page];
+        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, _page];
         NSString *url = [bWeiboDomain stringByAppendingFormat:@"comments/show.json?%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -114,7 +114,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
                         Comment *comment = [[Comment alloc] initWithDictionary:dict];
                         [_comments addObject:comment];
                     }
-                    page += 1;
+                    _page += 1;
                 }
             }
         }
