@@ -169,6 +169,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 #pragma mark - Fetch requests
 
+//https://api.weibo.com/2/users/show.json?uid=id_string
 -(void)fetchUserProfile
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -193,6 +194,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
+//https://api.weibo.com/2/statuses/user_timeline.json?uid=id_string
 -(void)fetchUserLatestStatuses
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -211,6 +213,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
+//https://api.weibo.com/2/statuses/user_timeline.json?count=count_num&max_id=id_string
 -(void)fetchUserHistoryStatuses
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];

@@ -30,7 +30,9 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBFavoritesTableViewController () <BBImageBrowserProtocol>
+@interface BBFavoritesTableViewController () <BBImageBrowserProtocol> {
+    int page;
+}
 
 @property (strong, nonatomic) NSMutableArray *statuses;
 
@@ -43,6 +45,7 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    page = 1;
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
 }
@@ -88,7 +91,6 @@
 //https://api.weibo.com/2/favorites.json?count=count_num&page=page_num
 -(void)fetchFavoriteStatuses
 {
-    static int pnum = 1;
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -98,7 +100,7 @@
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"count=20&page=%d", pnum++];
+        NSString *para = [NSString stringWithFormat:@"count=20&page=%d", page];
         NSString *url = [bWeiboDomain stringByAppendingFormat:@"favorites.json?%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -119,14 +121,17 @@
             NSDictionary *resultDict = result;
             if (![[resultDict objectForKey:@"favorites"] isEqual:[NSNull null]]) {
                 NSArray *favArray = [resultDict objectForKey:@"favorites"];
-                if (!_statuses) {
-                    _statuses = @[].mutableCopy;
-                }
-                for (int i = 0; i < favArray.count; i ++) {
-                    if (![[favArray[i] objectForKey:@"status"] isEqual:[NSNull null]]) {
-                        Status *status = [[Status alloc] initWithDictionary:[favArray[i] objectForKey:@"status"]];
-                        [_statuses addObject:status];
+                if (favArray.count > 0) {
+                    if (!_statuses) {
+                        _statuses = @[].mutableCopy;
                     }
+                    for (int i = 0; i < favArray.count; i ++) {
+                        if (![[favArray[i] objectForKey:@"status"] isEqual:[NSNull null]]) {
+                            Status *status = [[Status alloc] initWithDictionary:[favArray[i] objectForKey:@"status"]];
+                            [_statuses addObject:status];
+                        }
+                    }
+                    page += 1;
                 }
             }
         }
