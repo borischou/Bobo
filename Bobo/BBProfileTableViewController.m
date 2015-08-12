@@ -128,10 +128,10 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self fetchMyProfile];
-        [self fetchMyWeibo];
+        [self fetchUserProfile];
+        [self fetchUserLatestStatuses];
     }];
-    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMyHistory)];
+    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchUserHistoryStatuses)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
     [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
     [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
@@ -169,7 +169,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 #pragma mark - Fetch requests
 
--(void)fetchMyProfile
+-(void)fetchUserProfile
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
@@ -193,7 +193,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
--(void)fetchMyWeibo
+-(void)fetchUserLatestStatuses
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
@@ -211,7 +211,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
--(void)fetchMyHistory
+-(void)fetchUserHistoryStatuses
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
