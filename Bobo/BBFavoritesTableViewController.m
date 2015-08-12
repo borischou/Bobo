@@ -85,7 +85,7 @@
     self.tableView.footer = footer;
 }
 
-//https://api.weibo.com/2/favorites/ids.json?count=cnum&page=pnum
+//https://api.weibo.com/2/favorites.json?count=count_num&page=page_num
 -(void)fetchFavoriteStatuses
 {
     static int pnum = 1;
