@@ -25,7 +25,7 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate>
+@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate, UITabBarControllerDelegate>
 
 @end
 
@@ -127,6 +127,7 @@
     updateBackgroundVc.tabBarItem.image = [UIImage imageNamed:@"post_tab_icon"];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    tabBarController.delegate = self;
     [tabBarController setViewControllers:@[weiboListNvc, profileNvc, collectionNvc, updateBackgroundVc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
@@ -149,6 +150,20 @@
     uitvc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     uitvc.view.backgroundColor = bBGColor;
     uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+-(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"selected index: %@", tabBarController.tabBar.selectedItem.title);
+    if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
+        //initialize update view here
+        
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 #pragma mark - WeiboSDKDelegate
