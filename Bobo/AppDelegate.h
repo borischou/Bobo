@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SWRevealViewController.h"
+#import "User.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -15,6 +16,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (copy, nonatomic) NSString *wbToken;
 @property (copy, nonatomic) NSString *wbCurrentUserID;
+@property (strong, nonatomic) User *user;
 @property BOOL isLoggedIn;
 
 @end

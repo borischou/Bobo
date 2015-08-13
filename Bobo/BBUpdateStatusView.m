@@ -67,6 +67,7 @@
     
     _nameLabel = [[UILabel alloc] init];
     _nameLabel.textColor = [UIColor lightTextColor];
+    _nameLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_nameLabel];
     
     _statusTextView = [[UITextView alloc] init];

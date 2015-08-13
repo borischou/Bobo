@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 
 #import "WeiboSDK.h"
-#import "WBHttpRequest+WeiboShare.h"
 
 #import "BBProfileTableViewController.h"
 #import "BBMainStatusTableViewController.h"
@@ -43,9 +42,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    [self checkLoginStatus];
+    [self startUserProfileFetch];
     [self initControllers];
     [self.window makeKeyAndVisible];
-    [self checkLoginStatus];
     return YES;
 }
 
@@ -93,7 +93,7 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(void)checkLoginStatus
+-(BOOL)checkLoginStatus
 {
     self.isLoggedIn = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginstatus"];
     self.wbToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"wbtoken"];
@@ -103,6 +103,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Auto login failed" message:@"Please login later." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }
+    return self.isLoggedIn && self.wbToken && self.wbCurrentUserID;
 }
 
 -(void)initControllers
@@ -169,6 +170,7 @@
         //initialize update view here
         _updateStatusView = [[BBUpdateStatusView alloc] init];
         _updateStatusView.delegate = self;
+        _updateStatusView.nameLabel.text = _user.screen_name;
         [self.window addSubview:_updateStatusView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2);
@@ -190,7 +192,7 @@
     [self updateStatusWithString:text];
 }
 
-#pragma mark - Update Status Helpers
+#pragma mark - WeiboSDK Helpers
 
 -(void)updateStatusWithString:(NSString *)text
 {
@@ -210,6 +212,42 @@
         }];
         
     }
+}
+
+//https://api.weibo.com/2/users/show.json?uid=id_string
+-(void)fetchUserProfile
+{
+    if (!self.isLoggedIn) {
+        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    }
+    else
+    {
+        NSMutableDictionary *params = @{}.mutableCopy;
+        if (self.wbToken) {
+            [params setObject:self.wbToken forKey:@"access_token"];
+            [params setObject:self.wbCurrentUserID forKey:@"uid"];
+            NSString *url = [bWeiboDomain stringByAppendingString:@"users/show.json"];
+            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                if (!error) {
+                    _user = [[User alloc] initWithDictionary:result];
+                    NSLog(@"GET USER PROFILE");
+                } else {
+                    [[[UIAlertView alloc] initWithTitle:@"错误" message:@"请求用户信息失败。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                }
+            }];
+        }
+        else
+        {
+            [[[UIAlertView alloc] initWithTitle:@"错误" message:@"用户授权令牌过期。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        }
+    }
+}
+
+-(void)startUserProfileFetch
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self fetchUserProfile];
+    });
 }
 
 #pragma mark - WeiboSDKDelegate

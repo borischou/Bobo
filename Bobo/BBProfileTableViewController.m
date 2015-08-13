@@ -15,7 +15,6 @@
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
 #import "BBMeHeaderView.h"
-#import "Status.h"
 #import "BBStatusTableViewCell.h"
 #import "BBNetworkUtils.h"
 #import "BBImageBrowserView.h"
@@ -39,7 +38,6 @@ static NSString *reuseCountsCell = @"countsCell";
 
 @interface BBProfileTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol, UIAlertViewDelegate>
 
-@property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableArray *statuses;
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) UIAlertView *logoutAlertView;
@@ -128,7 +126,9 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self fetchUserProfile];
+        if (!_user) {
+            [self fetchUserProfile];
+        }
         [self fetchUserLatestStatuses];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchUserHistoryStatuses)];
@@ -269,6 +269,12 @@ static NSString *reuseCountsCell = @"countsCell";
     [self.tableView.header endRefreshing];
     [self.tableView.footer endRefreshing];
     [self.tableView reloadData];
+}
+
+-(User *)getUserProfile
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return delegate.user;
 }
 
 #pragma mark - BBImageBrowserProtocol

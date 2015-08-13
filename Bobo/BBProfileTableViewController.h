@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Status.h"
 
 @interface BBProfileTableViewController : UITableViewController
+
+@property (strong, nonatomic) User *user;
 
 @end
