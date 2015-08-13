@@ -80,7 +80,6 @@
 
 -(void)cancelButtonPressed:(UIButton *)sender
 {
-    NSLog(@"cancelButtonPressed");
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
     } completion:^(BOOL finished) {
@@ -92,7 +91,7 @@
 
 -(void)sendButtonPressed:(UIButton *)sender
 {
-    NSLog(@"sendButtonPressed");
+    
 }
 
 -(void)layoutSubviews
