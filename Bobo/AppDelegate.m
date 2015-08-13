@@ -14,6 +14,7 @@
 #import "BBFavoritesTableViewController.h"
 #import "BBFriendsGroupTableViewController.h"
 #import "BBUpdateBackgroundViewController.h"
+#import "BBUpdateStatusView.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -24,6 +25,10 @@
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
+#define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
+
+#define uSmallGap 5
+#define uBigGap 10
 
 @interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate, UITabBarControllerDelegate>
 
@@ -159,7 +164,11 @@
     NSLog(@"selected index: %@", tabBarController.tabBar.selectedItem.title);
     if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
         //initialize update view here
-        
+        BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] init];
+        [self.window addSubview:updateStatusView];
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2);
+        } completion:nil];
         return NO;
     } else {
         return YES;
