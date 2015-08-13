@@ -39,6 +39,7 @@
 		456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C0FDA1B31570C007B5CFB /* CoreText.framework */; };
 		456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C77E21B2A88110055FBE8 /* libz.dylib */; };
 		456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */; };
+		456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */; };
 		45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45702AD11B2B37F200B81F90 /* CFNetwork.framework */; };
 		4572787A1B53887A00AC0C9C /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278791B53887A00AC0C9C /* Status.m */; };
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
@@ -130,6 +131,8 @@
 		456C77E21B2A88110055FBE8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		456C77E61B2AC5B90055FBE8 /* BBStatusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBStatusTableViewCell.h; sourceTree = "<group>"; };
 		456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBStatusTableViewCell.m; sourceTree = "<group>"; };
+		456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBKeyboardInputAccessoryView.h; sourceTree = "<group>"; };
+		456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBKeyboardInputAccessoryView.m; sourceTree = "<group>"; };
 		45702AD11B2B37F200B81F90 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		457278781B53887A00AC0C9C /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		457278791B53887A00AC0C9C /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
@@ -382,6 +385,8 @@
 		456C77E51B2AC59B0055FBE8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */,
+				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
 				4572E1C21B3C59F900348866 /* BBImageBrowserView.m */,
 				458393511B7B4B98005B1766 /* BBUpdateStatusView.h */,
@@ -596,6 +601,7 @@
 				45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,
+				456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
 				456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */,

@@ -8,6 +8,7 @@
 
 #import "BBUpdateStatusView.h"
 #import "UIButton+Bobtn.h"
+#import "BBKeyboardInputAccessoryView.h"
 
 #define uSmallGap 5
 #define uBigGap 10
@@ -74,6 +75,10 @@
     _statusTextView.textColor = [UIColor lightTextColor];
     _statusTextView.backgroundColor = bBGColor;
     _statusTextView.delegate = self;
+    BBKeyboardInputAccessoryView *keyboardInputView = [[BBKeyboardInputAccessoryView alloc] init];
+    [keyboardInputView.addPictureBtn addTarget:self action:@selector(addPictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [keyboardInputView.callCameraBtn addTarget:self action:@selector(callCameraButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    _statusTextView.inputAccessoryView = keyboardInputView;
     [self addSubview:_statusTextView];
     
     [_cancelBtn setFrame:CGRectMake(uBigGap, uBigGap, uBtnWidth, uBtnHeight)];
@@ -102,8 +107,17 @@
 
 -(void)sendButtonPressed:(UIButton *)sender
 {
-    NSLog(@"Status ready to send: %@", _statusTextView.text);
     [self.delegate updateStatusDidFinishInput:_statusTextView.text];
+}
+
+-(void)addPictureButtonPressed:(UIButton *)sender
+{
+    [self.delegate didPressedKeyboardAccessoryViewAddPictureButton:sender];
+}
+
+-(void)callCameraButtonPressed:(UIButton *)sender
+{
+    [self.delegate didPressedKeyboardAccessoryViewCallCameraButton:sender];
 }
 
 #pragma mark - UITextViewDelegate

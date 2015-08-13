@@ -12,6 +12,8 @@
 
 @required
 -(void)updateStatusDidFinishInput:(NSString *)text;
+-(void)didPressedKeyboardAccessoryViewAddPictureButton:(UIButton *)sender;
+-(void)didPressedKeyboardAccessoryViewCallCameraButton:(UIButton *)sender;
 
 @end
 

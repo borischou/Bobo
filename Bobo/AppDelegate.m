@@ -173,7 +173,7 @@
         _updateStatusView.nameLabel.text = _user.screen_name;
         [self.window addSubview:_updateStatusView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            _updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2);
+            _updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
         } completion:^(BOOL finished) {
             if (finished) {
                 [_updateStatusView.statusTextView becomeFirstResponder];
@@ -190,6 +190,16 @@
 -(void)updateStatusDidFinishInput:(NSString *)text
 {
     [self updateStatusWithString:text];
+}
+
+-(void)didPressedKeyboardAccessoryViewAddPictureButton:(UIButton *)sender
+{
+    [_updateStatusView.statusTextView resignFirstResponder];
+}
+
+-(void)didPressedKeyboardAccessoryViewCallCameraButton:(UIButton *)sender
+{
+    [_updateStatusView.statusTextView resignFirstResponder];
 }
 
 #pragma mark - WeiboSDK Helpers
