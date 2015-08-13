@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 
 #import "WeiboSDK.h"
+#import "WBHttpRequest+WeiboShare.h"
+
 #import "BBProfileTableViewController.h"
 #import "BBMainStatusTableViewController.h"
 #import "BBFavoritesTableViewController.h"
@@ -30,7 +32,9 @@
 #define uSmallGap 5
 #define uBigGap 10
 
-@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate, UITabBarControllerDelegate>
+@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate, UITabBarControllerDelegate, BBUpdateStatusViewDelegate>
+
+@property (strong, nonatomic) BBUpdateStatusView *updateStatusView;
 
 @end
 
@@ -161,21 +165,50 @@
 
 -(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
-    NSLog(@"selected index: %@", tabBarController.tabBar.selectedItem.title);
     if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
         //initialize update view here
-        BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] init];
-        [self.window addSubview:updateStatusView];
+        _updateStatusView = [[BBUpdateStatusView alloc] init];
+        _updateStatusView.delegate = self;
+        [self.window addSubview:_updateStatusView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2);
+            _updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2);
         } completion:^(BOOL finished) {
             if (finished) {
-                [updateStatusView.statusTextView becomeFirstResponder];
+                [_updateStatusView.statusTextView becomeFirstResponder];
             }
         }];
         return NO;
     } else {
         return YES;
+    }
+}
+
+#pragma mark - BBUpdateStatusViewDelegate
+
+-(void)updateStatusDidFinishInput:(NSString *)text
+{
+    [self updateStatusWithString:text];
+}
+
+#pragma mark - Update Status Helpers
+
+-(void)updateStatusWithString:(NSString *)text
+{
+    if (!self.isLoggedIn) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    } else {
+        [WBHttpRequest requestForShareAStatus:text contatinsAPicture:nil orPictureUrl:nil withAccessToken:self.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+            NSLog(@"result: %@", result);
+            [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                _updateStatusView.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [_updateStatusView removeFromSuperview];
+                }
+            }];
+        }];
+        
     }
 }
 
