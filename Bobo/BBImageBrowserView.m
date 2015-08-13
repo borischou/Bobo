@@ -93,6 +93,7 @@
     _pageControl.bounds = CGRectMake(0, 0, bWidth/2, 20);
     _pageControl.center = CGPointMake(bWidth/2, bHeight-30);
     _pageControl.numberOfPages = _count;
+    _pageControl.userInteractionEnabled = NO;
     _pageControl.pageIndicatorTintColor = [UIColor darkGrayColor];
     _pageControl.currentPageIndicatorTintColor = [UIColor lightTextColor];
     _pageControl.currentPage = _scrollView.contentOffset.x/bWidth;
