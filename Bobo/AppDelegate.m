@@ -174,9 +174,10 @@
         [self.window addSubview:_updateStatusView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
+            [_updateStatusView.statusTextView becomeFirstResponder];
         } completion:^(BOOL finished) {
             if (finished) {
-                [_updateStatusView.statusTextView becomeFirstResponder];
+                //what are you gonna do
             }
         }];
         return NO;
