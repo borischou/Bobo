@@ -11,7 +11,7 @@
 
 #import "BBPhotoSelectionCollectionViewCell.h"
 
-@interface BBPhotoSelectionCollectionViewController () <UICollectionViewDelegateFlowLayout>
+@interface BBPhotoSelectionCollectionViewController ()
 
 @property (copy, nonatomic) NSMutableArray *photos;
 
@@ -79,8 +79,6 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - UICollectionViewDelegateFlowLayout
-
 #pragma mark - UICollectionViewDelegate & data source
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -105,7 +103,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
 }
 
 @end
