@@ -12,6 +12,8 @@
 
 +(NSString *)largePictureUrlConvertedFromThumbUrl:(NSString *)url;
 
++(NSString *)middlePictureUrlConvertedFromThumbUrl:(NSString *)url;
+
 +(NSString *)getNumStrFrom:(NSInteger)num;
 
 @end

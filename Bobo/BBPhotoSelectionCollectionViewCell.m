@@ -31,6 +31,7 @@
 -(void)setupCellLayout
 {
     _imageView = [[UIImageView alloc] initWithFrame:self.contentView.bounds];
+    _imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.contentView addSubview:_imageView];
 }
 

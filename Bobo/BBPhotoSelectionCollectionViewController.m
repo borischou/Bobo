@@ -11,6 +11,9 @@
 
 #import "BBPhotoSelectionCollectionViewCell.h"
 
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
+
 @interface BBPhotoSelectionCollectionViewController ()
 
 @property (copy, nonatomic) NSMutableArray *photos;
@@ -54,9 +57,12 @@
     PHImageManager *manager = [PHImageManager defaultManager];
     PHImageRequestOptions *requestOptions = [[PHImageRequestOptions alloc] init];
     requestOptions.synchronous = NO;
-    [manager requestImageForAsset:asset targetSize:_layout.itemSize contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage *result, NSDictionary *info) {
+    requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+    CGSize targetSize = _layout.itemSize;
+    [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage *result, NSDictionary *info) {
         [_photos addObject:result];
     }];
+    [self.collectionView reloadData];
 }
 
 -(void)setupNavigationBarButtonItems
