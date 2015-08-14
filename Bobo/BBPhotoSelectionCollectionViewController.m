@@ -45,7 +45,6 @@
             _photos = nil;
             _photos = @[].mutableCopy;
             for (PHAsset *asset in photos) {
-                //change to UIImage obj
                 [self loadImageFromPHAsset:asset];
             }
         }
