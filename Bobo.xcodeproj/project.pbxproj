@@ -134,6 +134,7 @@
 		456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBKeyboardInputAccessoryView.h; sourceTree = "<group>"; };
 		456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBKeyboardInputAccessoryView.m; sourceTree = "<group>"; };
 		45702AD11B2B37F200B81F90 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		45704DA61B7D865F00DC1C8B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		457278781B53887A00AC0C9C /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		457278791B53887A00AC0C9C /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		4572787B1B53894F00AC0C9C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -200,6 +201,7 @@
 		0B724CE50D0FC385A918684B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				45704DA61B7D865F00DC1C8B /* Photos.framework */,
 				453035D21B4A609400647ACC /* Release-iphoneos */,
 				45F07DB91B4985B800327E6D /* OpenGLES.framework */,
 				456C0FDA1B31570C007B5CFB /* CoreText.framework */,
