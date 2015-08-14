@@ -10,4 +10,6 @@
 
 @interface BBPhotoSelectionCollectionViewController : UICollectionViewController
 
+@property (strong, nonatomic) UICollectionViewFlowLayout *layout;
+
 @end

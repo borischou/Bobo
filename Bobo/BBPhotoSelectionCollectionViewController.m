@@ -9,6 +9,8 @@
 #import "BBPhotoSelectionCollectionViewController.h"
 #import <Photos/Photos.h>
 
+#import "BBPhotoSelectionCollectionViewCell.h"
+
 @interface BBPhotoSelectionCollectionViewController () <UICollectionViewDelegateFlowLayout>
 
 @property (copy, nonatomic) NSMutableArray *photos;
@@ -37,13 +39,23 @@
         if ([collection.localizedTitle isEqualToString:@"Camera Roll"]) {
             PHFetchResult *photos = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
             NSLog(@"PHOTOS: %ld", photos.count);
-            if (!_photos) {
-                _photos = @[].mutableCopy;
-            }
+            _photos = nil;
+            _photos = @[].mutableCopy;
             for (PHAsset *asset in photos) {
-                [_photos addObject:asset];
+                //change to UIImage obj
+                [self loadImageFromPHAsset:asset];
             }
         }
+    }];
+}
+
+-(void)loadImageFromPHAsset:(PHAsset *)asset
+{
+    PHImageManager *manager = [PHImageManager defaultManager];
+    PHImageRequestOptions *requestOptions = [[PHImageRequestOptions alloc] init];
+    requestOptions.synchronous = NO;
+    [manager requestImageForAsset:asset targetSize:_layout.itemSize contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage *result, NSDictionary *info) {
+        [_photos addObject:result];
     }];
 }
 
@@ -83,9 +95,10 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseCell" forIndexPath:indexPath];
-    cell.contentView.backgroundColor = [UIColor redColor];
+    [collectionView registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
+    BBPhotoSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseCell" forIndexPath:indexPath];
+    UIImage *image = [_photos objectAtIndex:indexPath.row];
+    cell.imageView.image = image;
     
     return cell;
 }

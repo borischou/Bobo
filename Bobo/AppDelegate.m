@@ -200,6 +200,7 @@
 {
     [_updateStatusView.statusTextView resignFirstResponder];
     BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self getFlowLayout]];
+    photoSelectionCollectionViewController.layout = [self getFlowLayout];
     UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:photoSelectionCollectionViewController];
     [self.window.rootViewController presentViewController:uinvc animated:YES completion:nil];
 }

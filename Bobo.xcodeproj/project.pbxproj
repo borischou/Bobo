@@ -42,6 +42,7 @@
 		456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */; };
 		45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45702AD11B2B37F200B81F90 /* CFNetwork.framework */; };
 		45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45704DAC1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m */; };
+		45704DB01B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45704DAF1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m */; };
 		4572787A1B53887A00AC0C9C /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278791B53887A00AC0C9C /* Status.m */; };
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
 		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
@@ -138,6 +139,8 @@
 		45704DA61B7D865F00DC1C8B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		45704DAB1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBPhotoSelectionCollectionViewController.h; sourceTree = "<group>"; };
 		45704DAC1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBPhotoSelectionCollectionViewController.m; sourceTree = "<group>"; };
+		45704DAE1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBPhotoSelectionCollectionViewCell.h; sourceTree = "<group>"; };
+		45704DAF1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBPhotoSelectionCollectionViewCell.m; sourceTree = "<group>"; };
 		457278781B53887A00AC0C9C /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		457278791B53887A00AC0C9C /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		4572787B1B53894F00AC0C9C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -433,6 +436,8 @@
 				45731F0B1B32BD56002EECA6 /* BBButtonbarTableViewCell.m */,
 				45A052141B3A898200A1488D /* BBCountTableViewCell.h */,
 				45A052151B3A898200A1488D /* BBCountTableViewCell.m */,
+				45704DAE1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.h */,
+				45704DAF1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -600,6 +605,7 @@
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
 				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
+				45704DB01B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m in Sources */,
 				458393561B7B536D005B1766 /* BBUpdateBackgroundViewController.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */,
 				454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */,
