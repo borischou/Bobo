@@ -55,11 +55,8 @@
 -(void)loadImageFromPHAsset:(PHAsset *)asset
 {
     PHImageManager *manager = [PHImageManager defaultManager];
-    PHImageRequestOptions *requestOptions = [[PHImageRequestOptions alloc] init];
-    requestOptions.synchronous = NO;
-    requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
     CGSize targetSize = _layout.itemSize;
-    [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage *result, NSDictionary *info) {
+    [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage *result, NSDictionary *info) {
         [_photos addObject:result];
     }];
     [self.collectionView reloadData];
