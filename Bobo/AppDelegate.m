@@ -7,9 +7,6 @@
 //
 
 #import "AppDelegate.h"
-
-#import <Photos/Photos.h>
-
 #import "WeiboSDK.h"
 
 #import "BBProfileTableViewController.h"
@@ -18,6 +15,7 @@
 #import "BBFriendsGroupTableViewController.h"
 #import "BBUpdateBackgroundViewController.h"
 #import "BBUpdateStatusView.h"
+#import "BBPhotoSelectionCollectionViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -201,26 +199,15 @@
 -(void)didPressedKeyboardAccessoryViewAddPictureButton:(UIButton *)sender
 {
     [_updateStatusView.statusTextView resignFirstResponder];
-    [self pickFromPhoto];
-    
+    BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self getFlowLayout]];
+    UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:photoSelectionCollectionViewController];
+    [self.window.rootViewController presentViewController:uinvc animated:YES completion:nil];
 }
 
 -(void)didPressedKeyboardAccessoryViewCallCameraButton:(UIButton *)sender
 {
     [_updateStatusView.statusTextView resignFirstResponder];
     [self pickFromCamera];
-}
-
--(void)pickFromPhoto
-{
-    _picker = [[UIImagePickerController alloc] init];
-    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    _picker.delegate = self;
-    _picker.allowsEditing = YES;
-    [self.window.rootViewController presentViewController:_picker animated:YES completion:^{
-        //what are you wanna do
-        
-    }];
 }
 
 -(void)pickFromCamera
@@ -230,10 +217,17 @@
         _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         _picker.delegate = self;
         _picker.allowsEditing = YES;
-        [self.window.rootViewController presentViewController:_picker animated:YES completion:^{
-            
-        }];
+        [self.window.rootViewController presentViewController:_picker animated:YES completion:nil];
     }
+}
+
+-(UICollectionViewFlowLayout *)getFlowLayout
+{
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake((bWidth-3)/4, (bWidth-3)/4);
+    layout.minimumInteritemSpacing = 1.0;
+    layout.minimumLineSpacing = 1.0;
+    return layout;
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -292,7 +286,7 @@
             [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                 if (!error) {
                     _user = [[User alloc] initWithDictionary:result];
-                    NSLog(@"GET USER PROFILE");
+                    NSLog(@"GOT USER PROFILE");
                 } else {
                     [[[UIAlertView alloc] initWithTitle:@"错误" message:@"请求用户信息失败。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                 }

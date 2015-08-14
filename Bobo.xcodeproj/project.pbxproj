@@ -41,6 +41,7 @@
 		456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */; };
 		456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */; };
 		45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45702AD11B2B37F200B81F90 /* CFNetwork.framework */; };
+		45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45704DAC1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m */; };
 		4572787A1B53887A00AC0C9C /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278791B53887A00AC0C9C /* Status.m */; };
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
 		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
@@ -135,6 +136,8 @@
 		456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBKeyboardInputAccessoryView.m; sourceTree = "<group>"; };
 		45702AD11B2B37F200B81F90 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		45704DA61B7D865F00DC1C8B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		45704DAB1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBPhotoSelectionCollectionViewController.h; sourceTree = "<group>"; };
+		45704DAC1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBPhotoSelectionCollectionViewController.m; sourceTree = "<group>"; };
 		457278781B53887A00AC0C9C /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		457278791B53887A00AC0C9C /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		4572787B1B53894F00AC0C9C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -358,6 +361,8 @@
 		4565EEF31B562E81009D0BCD /* Weibo */ = {
 			isa = PBXGroup;
 			children = (
+				45704DAB1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.h */,
+				45704DAC1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m */,
 				451442041B295E8B000532DD /* BBMainStatusTableViewController.h */,
 				451442051B295E8B000532DD /* BBMainStatusTableViewController.m */,
 				458393541B7B536D005B1766 /* BBUpdateBackgroundViewController.h */,
@@ -589,6 +594,7 @@
 			files = (
 				4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */,
 				4553E3FE1B54A8E40020989C /* BBStatusDetailTableViewController.m in Sources */,
+				45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
 				45731F0C1B32BD56002EECA6 /* BBButtonbarTableViewCell.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
