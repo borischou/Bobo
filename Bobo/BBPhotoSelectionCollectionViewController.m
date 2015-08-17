@@ -44,20 +44,24 @@
             NSLog(@"PHOTOS: %ld", photos.count);
             _photos = nil;
             _photos = @[].mutableCopy;
+            NSMutableArray *assets = @[].mutableCopy;
+            PHCachingImageManager *manager = [[PHCachingImageManager alloc] init];
+            PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+            options.resizeMode = PHImageRequestOptionsResizeModeExact;
+            CGFloat scale = [UIScreen mainScreen].scale;
+            CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
             for (PHAsset *asset in photos) {
-                [self loadImageFromPHAsset:asset];
+                [self loadImageFromPHAsset:asset withManager:manager options:options targetSize:targetSize];
+                [assets addObject:asset];
             }
+            [manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options];
         }
     }];
 }
 
--(void)loadImageFromPHAsset:(PHAsset *)asset
+-(void)loadImageFromPHAsset:(PHAsset *)asset withManager:(PHCachingImageManager *)manager options:(PHImageRequestOptions *)options targetSize:(CGSize)targetSize
 {
-    PHImageManager *manager = [PHImageManager defaultManager];
-    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.resizeMode = PHImageRequestOptionsResizeModeExact;
-    CGFloat scale = [UIScreen mainScreen].scale;
-    CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
     [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
         [_photos addObject:result];
     }];
