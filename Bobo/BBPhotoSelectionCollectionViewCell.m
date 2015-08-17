@@ -10,29 +10,14 @@
 
 @implementation BBPhotoSelectionCollectionViewCell
 
--(instancetype)initWithFrame:(CGRect)frame
+-(void)setHighlighted:(BOOL)highlighted
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setupCellLayout];
+    [super setHighlighted:highlighted];
+    if (self.highlighted) {
+        self.contentView.alpha = 0.5;
+    } else {
+        self.contentView.alpha = 1.0;
     }
-    return self;
-}
-
--(instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self setupCellLayout];
-    }
-    return self;
-}
-
--(void)setupCellLayout
-{
-    _imageView = [[UIImageView alloc] initWithFrame:self.contentView.bounds];
-    _imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [self.contentView addSubview:_imageView];
 }
 
 @end

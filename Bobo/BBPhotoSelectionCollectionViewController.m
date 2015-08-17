@@ -101,8 +101,7 @@
     [collectionView registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
     BBPhotoSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseCell" forIndexPath:indexPath];
     UIImage *image = [_photos objectAtIndex:indexPath.row];
-    cell.imageView.image = image;
-    
+    cell.contentView.backgroundColor = [UIColor colorWithPatternImage:image];
     return cell;
 }
 
