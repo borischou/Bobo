@@ -20,4 +20,29 @@
     }
 }
 
+-(instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setupImageView];
+    }
+    return self;
+}
+
+-(instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setupImageView];
+    }
+    return self;
+}
+
+-(void)setupImageView
+{
+    _imageView = [[UIImageView alloc] initWithFrame:self.contentView.frame];
+    _imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [self.contentView addSubview:_imageView];
+}
+
 @end

@@ -48,6 +48,8 @@
             PHCachingImageManager *manager = [[PHCachingImageManager alloc] init];
             PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
             options.resizeMode = PHImageRequestOptionsResizeModeExact;
+            options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+            options.synchronous = YES;
             CGFloat scale = [UIScreen mainScreen].scale;
             CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
             for (PHAsset *asset in photos) {
@@ -61,7 +63,6 @@
 
 -(void)loadImageFromPHAsset:(PHAsset *)asset withManager:(PHCachingImageManager *)manager options:(PHImageRequestOptions *)options targetSize:(CGSize)targetSize
 {
-    options.resizeMode = PHImageRequestOptionsResizeModeExact;
     [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
         [_photos addObject:result];
     }];
@@ -105,7 +106,7 @@
     [collectionView registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
     BBPhotoSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseCell" forIndexPath:indexPath];
     UIImage *image = [_photos objectAtIndex:indexPath.row];
-    cell.contentView.backgroundColor = [UIColor colorWithPatternImage:image];
+    cell.imageView.image = image;
     return cell;
 }
 
