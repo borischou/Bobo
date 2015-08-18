@@ -9,6 +9,9 @@
 #import "BBUpdateStatusView.h"
 #import "UIButton+Bobtn.h"
 #import "BBKeyboardInputAccessoryView.h"
+#import "AppDelegate.h"
+#import "WeiboSDK.h"
+#import "BBPhotoSelectionCollectionViewController.h"
 
 #define uSmallGap 5
 #define uBigGap 10
@@ -21,7 +24,9 @@
 
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 
-@interface BBUpdateStatusView () <UITextViewDelegate>
+@interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@property (strong, nonatomic) UIImagePickerController *picker;
 
 @end
 
@@ -107,17 +112,80 @@
 
 -(void)sendButtonPressed:(UIButton *)sender
 {
-    [self.delegate updateStatusDidFinishInput:_statusTextView.text];
+    //[self.delegate updateStatusDidFinishInput:_statusTextView.text];
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (!delegate.isLoggedIn) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    } else {
+        [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+            NSLog(@"result: %@", result);
+            [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [self removeFromSuperview];
+                }
+            }];
+        }];
+    }
+    
 }
 
 -(void)addPictureButtonPressed:(UIButton *)sender
 {
-    [self.delegate didPressedKeyboardAccessoryViewAddPictureButton:sender];
+    //[self.delegate didPressedKeyboardAccessoryViewAddPictureButton:sender];
+    [self.statusTextView resignFirstResponder];
+    BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self getFlowLayout]];
+    photoSelectionCollectionViewController.layout = [self getFlowLayout];
+    UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:photoSelectionCollectionViewController];
+    [self.window.rootViewController presentViewController:uinvc animated:YES completion:nil];
 }
 
 -(void)callCameraButtonPressed:(UIButton *)sender
 {
-    [self.delegate didPressedKeyboardAccessoryViewCallCameraButton:sender];
+    //[self.delegate didPressedKeyboardAccessoryViewCallCameraButton:sender];
+    [self.statusTextView resignFirstResponder];
+    [self pickFromCamera];
+}
+
+-(UICollectionViewFlowLayout *)getFlowLayout
+{
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake((bWidth-3)/4, (bWidth-3)/4);
+    layout.minimumInteritemSpacing = 1.0;
+    layout.minimumLineSpacing = 1.0;
+    return layout;
+}
+
+-(void)pickFromCamera
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        _picker = [[UIImagePickerController alloc] init];
+        _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        _picker.delegate = self;
+        _picker.allowsEditing = YES;
+        [self.window.rootViewController presentViewController:_picker animated:YES completion:nil];
+    }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSLog(@"didFinishPickingMediaWithInfo");
+    [_picker dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    NSLog(@"imagePickerControllerDidCancel");
+    [_picker dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark - UITextViewDelegate

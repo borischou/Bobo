@@ -8,18 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol BBUpdateStatusViewDelegate <NSObject>
-
-@required
--(void)updateStatusDidFinishInput:(NSString *)text;
--(void)didPressedKeyboardAccessoryViewAddPictureButton:(UIButton *)sender;
--(void)didPressedKeyboardAccessoryViewCallCameraButton:(UIButton *)sender;
-
-@end
-
 @interface BBUpdateStatusView : UIView
-
-@property (weak, nonatomic) id <BBUpdateStatusViewDelegate> delegate;
 
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UIButton *cancelBtn;
