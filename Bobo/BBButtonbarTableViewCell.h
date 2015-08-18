@@ -14,6 +14,8 @@
 @property (strong, nonatomic) UIImageView *retweetImageView;
 @property (strong, nonatomic) UIImageView *commentImageView;
 @property (strong, nonatomic) UIImageView *likeImageView;
+@property (strong, nonatomic) UIImageView *favoritesImageView;
+
 @property (strong, nonatomic) UILabel *retweetCountLabel;
 @property (strong, nonatomic) UILabel *commentCountLabel;
 @property (strong, nonatomic) UILabel *likeCountLabel;

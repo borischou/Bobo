@@ -32,6 +32,7 @@
 		456254D31B82E7E00009A332 /* cmt_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D01B82E7E00009A332 /* cmt_icon@3x.png */; };
 		456254D41B82E7E00009A332 /* like_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D11B82E7E00009A332 /* like_icon@3x.png */; };
 		456254D51B82E7E00009A332 /* retwt_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D21B82E7E00009A332 /* retwt_icon@3x.png */; };
+		456254D71B82EA1C0009A332 /* fav_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D61B82EA1C0009A332 /* fav_icon@3x.png */; };
 		4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */; };
 		4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */; };
 		4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */; };
@@ -125,6 +126,7 @@
 		456254D01B82E7E00009A332 /* cmt_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cmt_icon@3x.png"; sourceTree = "<group>"; };
 		456254D11B82E7E00009A332 /* like_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like_icon@3x.png"; sourceTree = "<group>"; };
 		456254D21B82E7E00009A332 /* retwt_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retwt_icon@3x.png"; sourceTree = "<group>"; };
+		456254D61B82EA1C0009A332 /* fav_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fav_icon@3x.png"; sourceTree = "<group>"; };
 		4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileTableViewController.h; sourceTree = "<group>"; };
 		4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileTableViewController.m; sourceTree = "<group>"; };
 		4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gerenshiwu@3x.png"; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				456254D11B82E7E00009A332 /* like_icon@3x.png */,
 				456254D21B82E7E00009A332 /* retwt_icon@3x.png */,
 				456920421B7478A800E2C204 /* iconfont-denglu.png */,
+				456254D61B82EA1C0009A332 /* fav_icon@3x.png */,
 				456920431B7478A800E2C204 /* iconfont-logout.png */,
 				458393571B7B54E4005B1766 /* post_tab_icon@3x.png */,
 				45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */,
@@ -558,6 +561,7 @@
 				458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */,
 				457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */,
 				456254D31B82E7E00009A332 /* cmt_icon@3x.png in Resources */,
+				456254D71B82EA1C0009A332 /* fav_icon@3x.png in Resources */,
 				456254D51B82E7E00009A332 /* retwt_icon@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -60,6 +60,10 @@
     _likeCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _likeCountLabel.textColor = [UIColor lightTextColor];
     [self.contentView addSubview:_likeCountLabel];
+    
+    _favoritesImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _favoritesImageView.image = [UIImage imageNamed:@"fav_icon"];
+    [self.contentView addSubview:_favoritesImageView];
 }
 
 -(void)layoutSubviews
@@ -82,6 +86,8 @@
     
     CGSize lsize = [_likeCountLabel sizeThatFits:CGSizeMake(MAXFLOAT, bImageHeight)];
     [_likeCountLabel setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_commentCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap, bSmallGap, lsize.width, bImageHeight)];
+    
+    [_favoritesImageView setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_commentCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_likeCountLabel.frame.size.width+bBigGap, bSmallGap, bImageWidth, bImageHeight)];
 }
 
 @end
