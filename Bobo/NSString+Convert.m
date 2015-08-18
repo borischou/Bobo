@@ -15,6 +15,11 @@
     return [url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"large"];
 }
 
++(NSString *)middlePictureUrlConvertedFromThumbUrl:(NSString *)url
+{
+    return [url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"middle"];
+}
+
 +(NSString *)getNumStrFrom:(NSInteger)num
 {
     NSString *numStr;

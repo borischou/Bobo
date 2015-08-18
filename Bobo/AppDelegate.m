@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-
 #import "WeiboSDK.h"
 
 #import "BBProfileTableViewController.h"
@@ -16,6 +15,7 @@
 #import "BBFriendsGroupTableViewController.h"
 #import "BBUpdateBackgroundViewController.h"
 #import "BBUpdateStatusView.h"
+#import "BBPhotoSelectionCollectionViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -31,9 +31,10 @@
 #define uSmallGap 5
 #define uBigGap 10
 
-@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate, UITabBarControllerDelegate, BBUpdateStatusViewDelegate>
+@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate, UITabBarControllerDelegate, BBUpdateStatusViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) BBUpdateStatusView *updateStatusView;
+@property (strong, nonatomic) UIImagePickerController *picker;
 
 @end
 
@@ -168,10 +169,12 @@
 {
     if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
         //initialize update view here
-        _updateStatusView = [[BBUpdateStatusView alloc] init];
+        if (!_updateStatusView) {
+            _updateStatusView = [[BBUpdateStatusView alloc] init];
+        }
         _updateStatusView.delegate = self;
         _updateStatusView.nameLabel.text = _user.screen_name;
-        [self.window addSubview:_updateStatusView];
+        [self.window.rootViewController.view addSubview:_updateStatusView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
             [_updateStatusView.statusTextView becomeFirstResponder];
@@ -186,7 +189,7 @@
     }
 }
 
-#pragma mark - BBUpdateStatusViewDelegate
+#pragma mark - BBUpdateStatusViewDelegate & Helpers
 
 -(void)updateStatusDidFinishInput:(NSString *)text
 {
@@ -196,11 +199,54 @@
 -(void)didPressedKeyboardAccessoryViewAddPictureButton:(UIButton *)sender
 {
     [_updateStatusView.statusTextView resignFirstResponder];
+    BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self getFlowLayout]];
+    photoSelectionCollectionViewController.layout = [self getFlowLayout];
+    UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:photoSelectionCollectionViewController];
+    [self.window.rootViewController presentViewController:uinvc animated:YES completion:nil];
 }
 
 -(void)didPressedKeyboardAccessoryViewCallCameraButton:(UIButton *)sender
 {
     [_updateStatusView.statusTextView resignFirstResponder];
+    [self pickFromCamera];
+}
+
+-(void)pickFromCamera
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        _picker = [[UIImagePickerController alloc] init];
+        _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        _picker.delegate = self;
+        _picker.allowsEditing = YES;
+        [self.window.rootViewController presentViewController:_picker animated:YES completion:nil];
+    }
+}
+
+-(UICollectionViewFlowLayout *)getFlowLayout
+{
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake((bWidth-3)/4, (bWidth-3)/4);
+    layout.minimumInteritemSpacing = 1.0;
+    layout.minimumLineSpacing = 1.0;
+    return layout;
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSLog(@"didFinishPickingMediaWithInfo");
+    [_picker dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    NSLog(@"imagePickerControllerDidCancel");
+    [_picker dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark - WeiboSDK Helpers
@@ -218,6 +264,7 @@
             } completion:^(BOOL finished) {
                 if (finished) {
                     [_updateStatusView removeFromSuperview];
+                    _updateStatusView = nil;
                 }
             }];
         }];
@@ -240,7 +287,7 @@
             [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                 if (!error) {
                     _user = [[User alloc] initWithDictionary:result];
-                    NSLog(@"GET USER PROFILE");
+                    NSLog(@"GOT USER PROFILE");
                 } else {
                     [[[UIAlertView alloc] initWithTitle:@"错误" message:@"请求用户信息失败。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                 }
@@ -302,12 +349,12 @@
 
 -(void)revealControllerPanGestureEnded:(SWRevealViewController *)revealController
 {
-    NSLog(@"revealControllerPanGestureEnded");
+    
 }
 
 -(void)revealControllerPanGestureBegan:(SWRevealViewController *)revealController
 {
-    NSLog(@"revealControllerPanGestureBegan");
+    
 }
 
 @end

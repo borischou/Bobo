@@ -42,6 +42,16 @@
     // Initialization code
 }
 
+-(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    [super setHighlighted:highlighted animated:animated];
+    if (self.highlighted) {
+        self.contentView.alpha = 0.9;
+    } else {
+        self.contentView.alpha = 1.0;
+    }
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
@@ -61,25 +71,21 @@
     
     //profile image
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, bAvatarWidth, bAvatarHeight)];
-    _avatarView.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:_avatarView];
     
     //nickname
     _nicknameLbl = [[UILabel alloc] initWithFrame:CGRectMake(10 + bAvatarWidth + 10, 10 + 5, bNicknameWidth, bNicknameHeight)];
     _nicknameLbl.textColor = [UIColor whiteColor];
-    _nicknameLbl.backgroundColor = bCellBGColor;
     [self.contentView addSubview:_nicknameLbl];
     
     //post time
     _postTimeLbl = [[UILabel alloc] initWithFrame:CGRectMake(10 + bAvatarWidth + 10, 10 + 5 + bNicknameHeight + 3, bPostTimeWidth, bPostTimeHeight)];
     _postTimeLbl.textColor = [UIColor lightTextColor];
     _postTimeLbl.font = [UIFont systemFontOfSize:10.f];
-    _postTimeLbl.backgroundColor = bCellBGColor;
     [self.contentView addSubview:_postTimeLbl];
     
     //text
     _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _postBodyLbl.backgroundColor = bCellBGColor;
     _postBodyLbl.textColor = [UIColor whiteColor];
     _postBodyLbl.numberOfLines = 0;
     _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
@@ -90,7 +96,6 @@
     _statusImgViews = [[NSMutableArray alloc] init];
     for (int i = 0; i < 9; i ++) {
         UIImageView *sImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        sImgView.backgroundColor = bImgBGColor;
         sImgView.clipsToBounds = YES;
         sImgView.tag = i;
         sImgView.contentMode = UIViewContentModeScaleAspectFill;
@@ -105,7 +110,6 @@
     
     //repost text
     _repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _repostLbl.backgroundColor = bRetweetBGColor;
     _repostLbl.textColor = [UIColor whiteColor];
     _repostLbl.numberOfLines = 0;
     _repostLbl.lineBreakMode = NSLineBreakByWordWrapping;
@@ -116,7 +120,6 @@
     _imgViews = [[NSMutableArray alloc] init];
     for (int i = 0; i < 9; i ++) {
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        imgView.backgroundColor = [UIColor redColor];
         imgView.clipsToBounds = YES;
         imgView.tag = i;
         imgView.contentMode = UIViewContentModeScaleAspectFill;
@@ -164,14 +167,23 @@
     _postBodyLbl.text = _status.text;
     
     for (int i = 0; i < [_status.pic_urls count]; i ++) {
-        [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
+        if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
+            [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
+        } else {
+            [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
+        }
+        
     }
     
     //repost status
     _repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
     
     for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {
-        [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
+        if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
+            [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
+        } else {
+            [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
+        }
     }
 }
 

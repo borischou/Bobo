@@ -26,6 +26,16 @@
     // Initialization code
 }
 
+-(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    [super setHighlighted:highlighted animated:animated];
+    if (self.highlighted) {
+        self.contentView.alpha = 0.9;
+    } else {
+        self.contentView.alpha = 1.0;
+    }
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
