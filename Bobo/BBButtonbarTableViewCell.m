@@ -13,7 +13,8 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
-#define bCellBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
+#define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
+
 #define bBtnHeight bHeight/25
 #define bBtnWidth (bWidth-2)/3
 #define bBigGap 10
