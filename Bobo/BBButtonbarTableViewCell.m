@@ -18,9 +18,10 @@
 #define bBtnHeight bHeight/25
 #define bBtnWidth (bWidth-2)/3
 #define bBigGap 10
-#define bSmallGap 5
+#define bSmallGap 7
 #define bImageHeight self.contentView.frame.size.height-2*bSmallGap
 #define bImageWidth bImageHeight
+#define bFontSize 12.0
 
 @implementation BBButtonbarTableViewCell
 
@@ -43,6 +44,7 @@
     
     _retweetCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _retweetCountLabel.textColor = [UIColor lightTextColor];
+    _retweetCountLabel.font = [UIFont systemFontOfSize:bFontSize];
     [self.contentView addSubview:_retweetCountLabel];
     
     _commentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -51,6 +53,7 @@
     
     _commentCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _commentCountLabel.textColor = [UIColor lightTextColor];
+    _commentCountLabel.font = [UIFont systemFontOfSize:bFontSize];
     [self.contentView addSubview:_commentCountLabel];
     
     _likeImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -59,6 +62,7 @@
     
     _likeCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _likeCountLabel.textColor = [UIColor lightTextColor];
+    _likeCountLabel.font = [UIFont systemFontOfSize:bFontSize];
     [self.contentView addSubview:_likeCountLabel];
     
     _favoritesImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
