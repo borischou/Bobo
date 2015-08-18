@@ -260,6 +260,7 @@
 		451441CF1B295CA9000532DD /* Bobo */ = {
 			isa = PBXGroup;
 			children = (
+				456254E01B83140C0009A332 /* Backup */,
 				45620D3C1B3706BF00B9F9F2 /* Images */,
 				455FFAE61B34040E0007B883 /* Networks */,
 				45617A671B2ECA1600BDFE7F /* Categories */,
@@ -376,6 +377,15 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		456254E01B83140C0009A332 /* Backup */ = {
+			isa = PBXGroup;
+			children = (
+				45731F0A1B32BD56002EECA6 /* BBButtonbarTableViewCell.h */,
+				45731F0B1B32BD56002EECA6 /* BBButtonbarTableViewCell.m */,
+			);
+			name = Backup;
+			sourceTree = "<group>";
+		};
 		4565EEF31B562E81009D0BCD /* Weibo */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,8 +455,6 @@
 			children = (
 				456C77E61B2AC5B90055FBE8 /* BBStatusTableViewCell.h */,
 				456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */,
-				45731F0A1B32BD56002EECA6 /* BBButtonbarTableViewCell.h */,
-				45731F0B1B32BD56002EECA6 /* BBButtonbarTableViewCell.m */,
 				4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */,
 				4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */,
 				45A052141B3A898200A1488D /* BBCountTableViewCell.h */,
