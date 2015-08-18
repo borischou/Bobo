@@ -144,7 +144,7 @@
     for (NSString *str in _status.pic_urls) {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
-    [self.delegate setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
 
 -(void)repostImageTapped:(UITapGestureRecognizer *)tap
@@ -154,7 +154,7 @@
     for (NSString *str in _status.retweeted_status.pic_urls) {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
-    [self.delegate setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
 
 //override this method to load views dynamically
@@ -289,6 +289,12 @@
     for (int i = 0; i < [views count]; i ++) {
         [views[i] setFrame:CGRectZero];
     }
+}
+
+-(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
+{
+    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
+    [[self superview].window addSubview:browserView];
 }
 
 @end

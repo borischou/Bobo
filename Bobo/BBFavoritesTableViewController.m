@@ -30,7 +30,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBFavoritesTableViewController () <BBImageBrowserProtocol> {
+@interface BBFavoritesTableViewController () {
     int page;
 }
 
@@ -181,7 +181,6 @@
 {
     [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
     BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
-    cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if ([_statuses count]) {
         Status *status = [self.statuses objectAtIndex:indexPath.section];
@@ -198,14 +197,6 @@
     Status *status = [_statuses objectAtIndex:indexPath.section];
     dtvc.status = status;
     [self.navigationController pushViewController:dtvc animated:YES];
-}
-
-#pragma mark - BBImageBrowserProtocol
-
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    [self.view.window addSubview:browserView];
 }
 
 @end

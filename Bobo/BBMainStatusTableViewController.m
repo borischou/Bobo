@@ -36,7 +36,7 @@
 static NSString *reuseIdentifier = @"reuseCell";
 static NSString *reuseBarCellId = @"barCell";
 
-@interface BBMainStatusTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol>
+@interface BBMainStatusTableViewController () <WBHttpRequestDelegate>
 
 @property (copy, nonatomic) NSString *max_id;
 @property (copy, nonatomic) NSString *since_id;
@@ -76,14 +76,6 @@ static NSString *reuseBarCellId = @"barCell";
 {
     [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
     [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
-
-#pragma mark - BBImageBrowserProtocol
-
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    [self.view.window addSubview:browserView];
 }
 
 #pragma mark - WBHttpRequestDelegate & Helpers
@@ -230,7 +222,6 @@ static NSString *reuseBarCellId = @"barCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:reuseIdentifier];
     BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-    cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if ([_statuses count]) {
         Status *status = [self.statuses objectAtIndex:indexPath.section];

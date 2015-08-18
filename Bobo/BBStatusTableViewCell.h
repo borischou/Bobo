@@ -9,16 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Status.h"
 
-@protocol BBImageBrowserProtocol <NSObject>
-
-@required
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag;
-
-@end
-
 @interface BBStatusTableViewCell : UITableViewCell
-
-@property (weak, nonatomic) id <BBImageBrowserProtocol> delegate;
 
 @property (strong, nonatomic) Status *status;
 

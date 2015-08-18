@@ -36,7 +36,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol, UIAlertViewDelegate>
+@interface BBProfileTableViewController () <WBHttpRequestDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *statuses;
 @property (copy, nonatomic) NSString *currentLastStatusId;
@@ -287,14 +287,6 @@ static NSString *reuseCountsCell = @"countsCell";
     return delegate.user;
 }
 
-#pragma mark - BBImageBrowserProtocol
-
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    [self.view.window addSubview:browserView];
-}
-
 #pragma mark - UITableView delegate & data source & Helpers
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -312,7 +304,6 @@ static NSString *reuseCountsCell = @"countsCell";
     {
         [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
         BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
-        cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if ([_statuses count]) {
             Status *status = [self.statuses objectAtIndex:indexPath.section-1];
