@@ -15,6 +15,7 @@
 #import "BBNetworkUtils.h"
 #import "AppDelegate.h"
 #import "Comment.h"
+#import "BBReplyCommentView.h"
 
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
@@ -168,6 +169,12 @@ static NSString *reuseCMCell = @"reuseCMCell";
         cell.comment = comment;
         return cell;
     }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] init];
+    [self.view addSubview:replyCommentView];
 }
 
 @end
