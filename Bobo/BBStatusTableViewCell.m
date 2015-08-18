@@ -27,6 +27,7 @@
 #define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
 #define bPostImgWidth bPostImgHeight
 #define bTextFontSize 14.f
+#define bBarHeight bHeight/25
 
 #define bBarSmallGap 7
 #define bImageHeight [UIScreen mainScreen].bounds.size.height/25-2*bBarSmallGap
@@ -207,7 +208,6 @@
 {    
     CGSize postSize = [_postBodyLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
     _postBodyLbl.frame = CGRectMake(bBigGap, bBigGap + bAvatarHeight + bBigGap, bWidth - bBigGap * 2, postSize.height);
-    
     _repostView.hidden = YES;
     if (_status.retweeted_status) {
         //retweeted_status
@@ -217,17 +217,14 @@
         [_repostLbl setFrame:CGRectMake(bBigGap, 0, bWidth - 2 * bBigGap, repostSize.height)];
         [BBNetworkUtils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
         
-        [_repostView setFrame:CGRectMake(0, bBigGap + bAvatarHeight + bBigGap + postSize.height + bBigGap, bWidth, repostSize.height + bSmallGap + [[[Utils alloc] init] heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
-        
-        [self layoutBarButtonsWithTop:bBigGap+bAvatarHeight+bBigGap+postSize.height+bBigGap+repostSize.height+bSmallGap+[[[Utils alloc] init] heightForImgsWithCount:[_status.retweeted_status.pic_urls count]]+bBigGap];
+        [_repostView setFrame:CGRectMake(0, bBigGap + bAvatarHeight + bBigGap + postSize.height + bBigGap, bWidth, repostSize.height + bSmallGap + [[[Utils alloc] init] heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];        
     }
     else
     { //status imgs
         _repostView.hidden = YES;
-        CGFloat top = [BBNetworkUtils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
-        
-        [self layoutBarButtonsWithTop:bBigGap+bAvatarHeight+bBigGap+postSize.height+top+bBigGap];
+        [BBNetworkUtils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
     }
+    [self layoutBarButtonsWithTop:_status.height-bBarHeight];
 }
 
 -(void)layoutBarButtonsWithTop:(CGFloat)top
