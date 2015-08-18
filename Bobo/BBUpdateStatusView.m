@@ -112,8 +112,6 @@
 
 -(void)sendButtonPressed:(UIButton *)sender
 {
-    //[self.delegate updateStatusDidFinishInput:_statusTextView.text];
-    
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -135,7 +133,6 @@
 
 -(void)addPictureButtonPressed:(UIButton *)sender
 {
-    //[self.delegate didPressedKeyboardAccessoryViewAddPictureButton:sender];
     [self.statusTextView resignFirstResponder];
     BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self getFlowLayout]];
     photoSelectionCollectionViewController.layout = [self getFlowLayout];
@@ -145,7 +142,6 @@
 
 -(void)callCameraButtonPressed:(UIButton *)sender
 {
-    //[self.delegate didPressedKeyboardAccessoryViewCallCameraButton:sender];
     [self.statusTextView resignFirstResponder];
     [self pickFromCamera];
 }
