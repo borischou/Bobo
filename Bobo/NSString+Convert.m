@@ -17,7 +17,7 @@
 
 +(NSString *)middlePictureUrlConvertedFromThumbUrl:(NSString *)url
 {
-    return [url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"middle"];
+    return [url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
 }
 
 +(NSString *)getNumStrFrom:(NSInteger)num

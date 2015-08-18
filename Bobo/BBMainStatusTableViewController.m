@@ -243,7 +243,10 @@ static NSString *reuseBarCellId = @"barCell";
         [tableView registerClass:[BBButtonbarTableViewCell class] forCellReuseIdentifier:reuseBarCellId];
         BBButtonbarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseBarCellId forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self setStatusButtonBarDataForCell:cell IndexPath:indexPath];
+        if ([_statuses count]) {
+            Status *status = [self.statuses objectAtIndex:indexPath.section];
+            cell.status = status;
+        }
         return cell;
     }
 }
@@ -262,32 +265,16 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    dtvc.title = @"Detail";
-    dtvc.hidesBottomBarWhenPushed = YES;
-    Status *status = [_statuses objectAtIndex:indexPath.section];
-    dtvc.status = status;
-    [self.navigationController pushViewController:dtvc animated:YES];
-}
-
--(void)setStatusButtonBarDataForCell:(BBButtonbarTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
-{
-    if ([_statuses count]) {
-        Status *status = [self.statuses objectAtIndex:indexPath.section];
-        if (status.reposts_count > 0) {
-            [cell.repostBtn setTitle:[NSString stringWithFormat:@"%@re", [NSString getNumStrFrom:status.reposts_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.repostBtn setTitle:@"Repost" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        }
-        if (status.comments_count > 0) {
-            [cell.commentBtn setTitle:[NSString stringWithFormat:@"%@ comts", [NSString getNumStrFrom:status.comments_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.commentBtn setTitle:@"Comment" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];            }
-        if (status.attitudes_count > 0) {
-            [cell.likeBtn setTitle:[NSString stringWithFormat:@"%@ likes", [NSString getNumStrFrom:status.attitudes_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.likeBtn setTitle:@"Like" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        }
+    if (indexPath.row == 0) {
+        BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        dtvc.title = @"Detail";
+        dtvc.hidesBottomBarWhenPushed = YES;
+        Status *status = [_statuses objectAtIndex:indexPath.section];
+        dtvc.status = status;
+        [self.navigationController pushViewController:dtvc animated:YES];
+    }
+    if (indexPath.row == 1) {
+        NSLog(@"COMMENT");
     }
 }
 
