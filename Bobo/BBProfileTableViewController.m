@@ -352,11 +352,13 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    dtvc.title = @"Detail";
-    dtvc.hidesBottomBarWhenPushed = YES;
-    dtvc.status = [_statuses objectAtIndex:indexPath.section-1];
-    [self.navigationController pushViewController:dtvc animated:YES];
+    if (indexPath.section >= 1) {
+        BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        dtvc.title = @"Detail";
+        dtvc.hidesBottomBarWhenPushed = YES;
+        dtvc.status = [_statuses objectAtIndex:indexPath.section-1];
+        [self.navigationController pushViewController:dtvc animated:YES];
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
