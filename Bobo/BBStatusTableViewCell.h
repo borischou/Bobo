@@ -9,16 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Status.h"
 
-@protocol BBImageBrowserProtocol <NSObject>
-
-@required
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag;
-
-@end
-
 @interface BBStatusTableViewCell : UITableViewCell
-
-@property (weak, nonatomic) id <BBImageBrowserProtocol> delegate;
 
 @property (strong, nonatomic) Status *status;
 
@@ -33,5 +24,15 @@
 @property (strong, nonatomic) UIView *repostView;
 @property (strong, nonatomic) UILabel *repostLbl;
 @property (strong, nonatomic) NSMutableArray *imgViews;
+
+//barbuttons
+@property (strong, nonatomic) UIImageView *retweetImageView;
+@property (strong, nonatomic) UIImageView *commentImageView;
+@property (strong, nonatomic) UIImageView *likeImageView;
+@property (strong, nonatomic) UIImageView *favoritesImageView;
+
+@property (strong, nonatomic) UILabel *retweetCountLabel;
+@property (strong, nonatomic) UILabel *commentCountLabel;
+@property (strong, nonatomic) UILabel *likeCountLabel;
 
 @end

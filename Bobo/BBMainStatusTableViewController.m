@@ -10,7 +10,6 @@
 #import "WeiboSDK.h"
 #import "SWRevealViewController.h"
 
-#import "BBImageBrowserView.h"
 #import "BBMainStatusTableViewController.h"
 #import "BBStatusTableViewCell.h"
 #import "BBStatusDetailTableViewController.h"
@@ -36,7 +35,7 @@
 static NSString *reuseIdentifier = @"reuseCell";
 static NSString *reuseBarCellId = @"barCell";
 
-@interface BBMainStatusTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol>
+@interface BBMainStatusTableViewController () <WBHttpRequestDelegate>
 
 @property (copy, nonatomic) NSString *max_id;
 @property (copy, nonatomic) NSString *since_id;
@@ -76,14 +75,6 @@ static NSString *reuseBarCellId = @"barCell";
 {
     [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
     [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
-
-#pragma mark - BBImageBrowserProtocol
-
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    [self.view.window addSubview:browserView];
 }
 
 #pragma mark - WBHttpRequestDelegate & Helpers
@@ -224,40 +215,30 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (0 == indexPath.row) {
-        [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:reuseIdentifier];
-        BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-        cell.delegate = self;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([_statuses count]) {
-            Status *status = [self.statuses objectAtIndex:indexPath.section];
-            cell.status = status;
-        }
-        return cell;
+    [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:reuseIdentifier];
+    BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if ([_statuses count]) {
+        Status *status = [self.statuses objectAtIndex:indexPath.section];
+        cell.status = status;
     }
-    else {
-        [tableView registerClass:[BBButtonbarTableViewCell class] forCellReuseIdentifier:reuseBarCellId];
-        BBButtonbarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseBarCellId forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self setStatusButtonBarDataForCell:cell IndexPath:indexPath];
-        return cell;
-    }
+    return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 == indexPath.row) {
-        if ([_statuses count]) {
-            Status *status = [_statuses objectAtIndex:indexPath.section];
-            return status.height;
-        }
-        else return 80;
-    } else return bBtnHeight;
-    
+    if ([_statuses count]) {
+        Status *status = [_statuses objectAtIndex:indexPath.section];
+        return status.height;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -268,27 +249,6 @@ static NSString *reuseBarCellId = @"barCell";
     Status *status = [_statuses objectAtIndex:indexPath.section];
     dtvc.status = status;
     [self.navigationController pushViewController:dtvc animated:YES];
-}
-
--(void)setStatusButtonBarDataForCell:(BBButtonbarTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
-{
-    if ([_statuses count]) {
-        Status *status = [self.statuses objectAtIndex:indexPath.section];
-        if (status.reposts_count > 0) {
-            [cell.repostBtn setTitle:[NSString stringWithFormat:@"%@re", [NSString getNumStrFrom:status.reposts_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.repostBtn setTitle:@"Repost" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        }
-        if (status.comments_count > 0) {
-            [cell.commentBtn setTitle:[NSString stringWithFormat:@"%@ comts", [NSString getNumStrFrom:status.comments_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.commentBtn setTitle:@"Comment" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];            }
-        if (status.attitudes_count > 0) {
-            [cell.likeBtn setTitle:[NSString stringWithFormat:@"%@ likes", [NSString getNumStrFrom:status.attitudes_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.likeBtn setTitle:@"Like" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        }
-    }
 }
 
 @end

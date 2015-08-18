@@ -15,7 +15,6 @@
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
 #import "BBNetworkUtils.h"
-#import "BBImageBrowserView.h"
 #import "BBStatusDetailTableViewController.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
@@ -30,7 +29,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBFavoritesTableViewController () <BBImageBrowserProtocol> {
+@interface BBFavoritesTableViewController () {
     int page;
 }
 
@@ -154,7 +153,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -170,12 +169,8 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_statuses count]) {
-        if (indexPath.row == 0) {
-            Status *status = [_statuses objectAtIndex:indexPath.section];
-            return status.height;
-        } else {
-            return bBtnHeight;
-        }
+        Status *status = [_statuses objectAtIndex:indexPath.section];
+        return status.height;
     } else {
         return 0;
     }
@@ -183,26 +178,14 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if (indexPath.row == 0) {
-        [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
-        BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
-        cell.delegate = self;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([_statuses count]) {
-            Status *status = [self.statuses objectAtIndex:indexPath.section];
-            cell.status = status;
-        }
-        return cell;
+    [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
+    BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if ([_statuses count]) {
+        Status *status = [self.statuses objectAtIndex:indexPath.section];
+        cell.status = status;
     }
-    else
-    {
-        [tableView registerClass:[BBButtonbarTableViewCell class] forCellReuseIdentifier:@"buttonBar"];
-        BBButtonbarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"buttonBar" forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self setStatusButtonBarDataForCell:cell IndexPath:indexPath];
-        return cell;
-    }
+    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -213,35 +196,6 @@
     Status *status = [_statuses objectAtIndex:indexPath.section];
     dtvc.status = status;
     [self.navigationController pushViewController:dtvc animated:YES];
-}
-
--(void)setStatusButtonBarDataForCell:(BBButtonbarTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
-{
-    if ([_statuses count]) {
-        Status *status = [_statuses objectAtIndex:indexPath.section];
-        if (status.reposts_count > 0) {
-            [cell.repostBtn setTitle:[NSString stringWithFormat:@"%@re", [NSString getNumStrFrom:status.reposts_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.repostBtn setTitle:@"Repost" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        }
-        if (status.comments_count > 0) {
-            [cell.commentBtn setTitle:[NSString stringWithFormat:@"%@ comts", [NSString getNumStrFrom:status.comments_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.commentBtn setTitle:@"Comment" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];            }
-        if (status.attitudes_count > 0) {
-            [cell.likeBtn setTitle:[NSString stringWithFormat:@"%@ likes", [NSString getNumStrFrom:status.attitudes_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.likeBtn setTitle:@"Like" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        }
-    }
-}
-
-#pragma mark - BBImageBrowserProtocol
-
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    [self.view.window addSubview:browserView];
 }
 
 @end

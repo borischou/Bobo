@@ -8,22 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol BBUpdateStatusViewDelegate <NSObject>
-
-@required
--(void)updateStatusDidFinishInput:(NSString *)text;
--(void)didPressedKeyboardAccessoryViewAddPictureButton:(UIButton *)sender;
--(void)didPressedKeyboardAccessoryViewCallCameraButton:(UIButton *)sender;
-
-@end
-
 @interface BBUpdateStatusView : UIView
-
-@property (weak, nonatomic) id <BBUpdateStatusViewDelegate> delegate;
 
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UIButton *cancelBtn;
 @property (strong, nonatomic) UIButton *sendBtn;
 @property (strong, nonatomic) UITextView *statusTextView;
+@property (copy, nonatomic) NSString *idStr;
+
+@property (nonatomic) int flag; //0: 发微博 1: 评论 2: 转发 3: 回复
+
+-(instancetype)initWithFlag:(int)flag;
 
 @end

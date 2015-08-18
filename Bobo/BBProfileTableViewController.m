@@ -17,7 +17,6 @@
 #import "BBMeHeaderView.h"
 #import "BBStatusTableViewCell.h"
 #import "BBNetworkUtils.h"
-#import "BBImageBrowserView.h"
 #import "BBButtonbarTableViewCell.h"
 #import "BBStatusDetailTableViewController.h"
 #import "NSString+Convert.h"
@@ -36,7 +35,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <WBHttpRequestDelegate, BBImageBrowserProtocol, UIAlertViewDelegate>
+@interface BBProfileTableViewController () <WBHttpRequestDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *statuses;
 @property (copy, nonatomic) NSString *currentLastStatusId;
@@ -287,14 +286,6 @@ static NSString *reuseCountsCell = @"countsCell";
     return delegate.user;
 }
 
-#pragma mark - BBImageBrowserProtocol
-
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    [self.view.window addSubview:browserView];
-}
-
 #pragma mark - UITableView delegate & data source & Helpers
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -310,46 +301,14 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     else
     {
-        if (indexPath.row == 0) {
-            [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
-            BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
-            cell.delegate = self;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            if ([_statuses count]) {
-                Status *status = [self.statuses objectAtIndex:indexPath.section-1];
-                cell.status = status;
-            }
-            return cell;
+        [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
+        BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if ([_statuses count]) {
+            Status *status = [self.statuses objectAtIndex:indexPath.section-1];
+            cell.status = status;
         }
-        else
-        {
-            [tableView registerClass:[BBButtonbarTableViewCell class] forCellReuseIdentifier:@"buttonBar"];
-            BBButtonbarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"buttonBar" forIndexPath:indexPath];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [self setStatusButtonBarDataForCell:cell IndexPath:indexPath];
-            return cell;
-        }
-    }
-}
-
--(void)setStatusButtonBarDataForCell:(BBButtonbarTableViewCell *)cell IndexPath:(NSIndexPath *)indexPath
-{
-    if ([_statuses count]) {
-        Status *status = [_statuses objectAtIndex:indexPath.section-1];
-        if (status.reposts_count > 0) {
-            [cell.repostBtn setTitle:[NSString stringWithFormat:@"%@re", [NSString getNumStrFrom:status.reposts_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.repostBtn setTitle:@"Repost" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        }
-        if (status.comments_count > 0) {
-            [cell.commentBtn setTitle:[NSString stringWithFormat:@"%@ comts", [NSString getNumStrFrom:status.comments_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.commentBtn setTitle:@"Comment" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];            }
-        if (status.attitudes_count > 0) {
-            [cell.likeBtn setTitle:[NSString stringWithFormat:@"%@ likes", [NSString getNumStrFrom:status.attitudes_count]] withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        } else {
-            [cell.likeBtn setTitle:@"Like" withBackgroundColor:bBtnBGColor andTintColor:[UIColor lightTextColor]];
-        }
+        return cell;
     }
 }
 
@@ -357,33 +316,28 @@ static NSString *reuseCountsCell = @"countsCell";
 {
     if (indexPath.section == 0) {
         return bHeight/10;
-    } else
+    }
+    else
     {
-        if (indexPath.row == 0) {
-            Status *status = [_statuses objectAtIndex:indexPath.section-1];
-            return status.height;
-        } else {
-            return bBtnHeight;
-        }
+        Status *status = [_statuses objectAtIndex:indexPath.section-1];
+        return status.height;
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    dtvc.title = @"Detail";
-    dtvc.hidesBottomBarWhenPushed = YES;
-    dtvc.status = [_statuses objectAtIndex:indexPath.section-1];
-    [self.navigationController pushViewController:dtvc animated:YES];
+    if (indexPath.section >= 1) {
+        BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        dtvc.title = @"Detail";
+        dtvc.hidesBottomBarWhenPushed = YES;
+        dtvc.status = [_statuses objectAtIndex:indexPath.section-1];
+        [self.navigationController pushViewController:dtvc animated:YES];
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 1;
-    } else {
-        return 2;
-    }
+    return 1;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

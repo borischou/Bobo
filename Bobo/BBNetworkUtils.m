@@ -56,7 +56,7 @@
     [task resume];
 }
 
-+(void)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height
++(CGFloat)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height
 {
     for (int i = 0; i < 9; i ++) {
         [views[i] setFrame:CGRectZero];
@@ -66,12 +66,14 @@
         for (int i = 0; i < count; i ++) {
             [views[i] setFrame:CGRectMake(bBigGap + i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
+        return bSmallGap+bPostImgHeight;
     }
     
     if (count == 3) {
         for (int i = 0; i < count; i ++) {
             [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
+        return bSmallGap+bPostImgHeight;
     }
     
     if (count >= 4 && count <= 6) {
@@ -81,6 +83,7 @@
         for (int j = 0; j < count - 3; j ++) {
             [views[3 + j] setFrame:CGRectMake(j * (bPostImgWidth + bSmallGap), height + bSmallGap + bPostImgHeight + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
+        return bSmallGap*2+bPostImgHeight*2;
     }
     
     if (count >= 7 && count <= 9) {
@@ -93,7 +96,9 @@
         for (int k = 0; k < count - 6; k ++) {
             [views[6 + k] setFrame:CGRectMake(k * (bPostImgWidth + bSmallGap), height + bSmallGap + (bPostImgHeight + bSmallGap) * 2, bPostImgWidth, bPostImgHeight)];
         }
+        return bSmallGap*3+bPostImgHeight*3;
     }
+    return 0;
 }
 
 

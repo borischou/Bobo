@@ -22,6 +22,7 @@
 #define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
 #define bPostImgWidth bPostImgHeight
 #define bTextFontSize 14.f
+#define bBtnHeight bHeight/25
 
 @implementation Utils
 
@@ -73,21 +74,21 @@
     CGFloat height = 0;
     
     height = 0;
-    height += bBigGap + bHeadImgHeight;
-    height += bBigGap + [Utils heightForString:text width:bWidth - bBigGap * 2 fontSize:bTextFontSize];
+    height += bBigGap + bHeadImgHeight; //头像
+    height += bBigGap + [Utils heightForString:text width:bWidth - bBigGap * 2 fontSize:bTextFontSize]; //微博正文
     
     if (count > 0) {
-        height += bSmallGap + [self heightForImgsWithCount:count];
+        height += bSmallGap + [self heightForImgsWithCount:count]; //微博配图
     }
     
-    if (retweetedScreenName != nil) {
-        height += bBigGap + [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] width:bWidth - bBigGap * 2 fontSize:bTextFontSize];
+    if (retweetedScreenName != nil) { //转发微博
+        height += bBigGap + [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] width:bWidth - bBigGap * 2 fontSize:bTextFontSize]; //转发微博正文
         if (retweetImgCount > 0) {
-            height += bSmallGap + [self heightForImgsWithCount:retweetImgCount];
+            height += bSmallGap + [self heightForImgsWithCount:retweetImgCount]; //转发微博配图
         }
     }
     
-    height += bSmallGap;
+    height += bSmallGap+bBtnHeight; //微博下方按钮
     return height;
 }
 
