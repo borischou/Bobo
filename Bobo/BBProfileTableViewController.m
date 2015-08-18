@@ -310,28 +310,15 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     else
     {
-        if (indexPath.row == 0) {
-            [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
-            BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
-            cell.delegate = self;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            if ([_statuses count]) {
-                Status *status = [self.statuses objectAtIndex:indexPath.section-1];
-                cell.status = status;
-            }
-            return cell;
+        [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
+        BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
+        cell.delegate = self;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if ([_statuses count]) {
+            Status *status = [self.statuses objectAtIndex:indexPath.section-1];
+            cell.status = status;
         }
-        else
-        {
-            [tableView registerClass:[BBButtonbarTableViewCell class] forCellReuseIdentifier:@"buttonBar"];
-            BBButtonbarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"buttonBar" forIndexPath:indexPath];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            if ([_statuses count]) {
-                Status *status = [self.statuses objectAtIndex:indexPath.section-1];
-                cell.status = status;
-            }
-            return cell;
-        }
+        return cell;
     }
 }
 
@@ -339,14 +326,11 @@ static NSString *reuseCountsCell = @"countsCell";
 {
     if (indexPath.section == 0) {
         return bHeight/10;
-    } else
+    }
+    else
     {
-        if (indexPath.row == 0) {
-            Status *status = [_statuses objectAtIndex:indexPath.section-1];
-            return status.height;
-        } else {
-            return bBtnHeight;
-        }
+        Status *status = [_statuses objectAtIndex:indexPath.section-1];
+        return status.height;
     }
 }
 
@@ -363,11 +347,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 1;
-    } else {
-        return 2;
-    }
+    return 1;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

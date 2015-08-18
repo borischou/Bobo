@@ -154,7 +154,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -170,12 +170,8 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_statuses count]) {
-        if (indexPath.row == 0) {
-            Status *status = [_statuses objectAtIndex:indexPath.section];
-            return status.height;
-        } else {
-            return bBtnHeight;
-        }
+        Status *status = [_statuses objectAtIndex:indexPath.section];
+        return status.height;
     } else {
         return 0;
     }
@@ -183,29 +179,15 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if (indexPath.row == 0) {
-        [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
-        BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
-        cell.delegate = self;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([_statuses count]) {
-            Status *status = [self.statuses objectAtIndex:indexPath.section];
-            cell.status = status;
-        }
-        return cell;
+    [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
+    BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
+    cell.delegate = self;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if ([_statuses count]) {
+        Status *status = [self.statuses objectAtIndex:indexPath.section];
+        cell.status = status;
     }
-    else
-    {
-        [tableView registerClass:[BBButtonbarTableViewCell class] forCellReuseIdentifier:@"buttonBar"];
-        BBButtonbarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"buttonBar" forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([_statuses count]) {
-            Status *status = [self.statuses objectAtIndex:indexPath.section];
-            cell.status = status;
-        }
-        return cell;
-    }
+    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

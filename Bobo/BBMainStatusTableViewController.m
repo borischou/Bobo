@@ -224,58 +224,41 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (0 == indexPath.row) {
-        [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:reuseIdentifier];
-        BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-        cell.delegate = self;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([_statuses count]) {
-            Status *status = [self.statuses objectAtIndex:indexPath.section];
-            cell.status = status;
-        }
-        return cell;
+    [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:reuseIdentifier];
+    BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.delegate = self;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if ([_statuses count]) {
+        Status *status = [self.statuses objectAtIndex:indexPath.section];
+        cell.status = status;
     }
-    else {
-        [tableView registerClass:[BBButtonbarTableViewCell class] forCellReuseIdentifier:reuseBarCellId];
-        BBButtonbarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseBarCellId forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([_statuses count]) {
-            Status *status = [self.statuses objectAtIndex:indexPath.section];
-            cell.status = status;
-        }
-        return cell;
-    }
+    return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 == indexPath.row) {
-        if ([_statuses count]) {
-            Status *status = [_statuses objectAtIndex:indexPath.section];
-            return status.height;
-        }
-        else return 80;
-    } else return bBtnHeight;
-    
+    if ([_statuses count]) {
+        Status *status = [_statuses objectAtIndex:indexPath.section];
+        return status.height;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-        dtvc.title = @"Detail";
-        dtvc.hidesBottomBarWhenPushed = YES;
-        Status *status = [_statuses objectAtIndex:indexPath.section];
-        dtvc.status = status;
-        [self.navigationController pushViewController:dtvc animated:YES];
-    }
-    if (indexPath.row == 1) {
-        NSLog(@"COMMENT");
-    }
+    BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    dtvc.title = @"Detail";
+    dtvc.hidesBottomBarWhenPushed = YES;
+    Status *status = [_statuses objectAtIndex:indexPath.section];
+    dtvc.status = status;
+    [self.navigationController pushViewController:dtvc animated:YES];
 }
 
 @end

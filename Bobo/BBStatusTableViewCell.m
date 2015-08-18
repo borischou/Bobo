@@ -28,6 +28,11 @@
 #define bPostImgWidth bPostImgHeight
 #define bTextFontSize 14.f
 
+#define bBarSmallGap 7
+#define bImageHeight [UIScreen mainScreen].bounds.size.height/25-2*bBarSmallGap
+#define bImageWidth bImageHeight
+#define bFontSize 12.0
+
 #define bRetweetBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bImgBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
@@ -61,6 +66,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self initCellLayout];
+        [self setupBarButtonsLayout];
     }
     return self;
 }
@@ -201,10 +207,83 @@
         [BBNetworkUtils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
         
         [_repostView setFrame:CGRectMake(0, bBigGap + bAvatarHeight + bBigGap + postSize.height + bBigGap, bWidth, repostSize.height + bSmallGap + [[[Utils alloc] init] heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
-    } else { //status imgs
-        _repostView.hidden = YES;
-        [BBNetworkUtils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
+        
+        [self layoutBarButtonsWithTop:bBigGap+bAvatarHeight+bBigGap+postSize.height+bBigGap+repostSize.height+bSmallGap+[[[Utils alloc] init] heightForImgsWithCount:[_status.retweeted_status.pic_urls count]]+bBigGap];
     }
+    else
+    { //status imgs
+        _repostView.hidden = YES;
+        CGFloat top = [BBNetworkUtils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
+        
+        [self layoutBarButtonsWithTop:bBigGap+bAvatarHeight+bBigGap+postSize.height+top+bBigGap];
+    }
+}
+
+-(void)layoutBarButtonsWithTop:(CGFloat)top
+{
+    _retweetCountLabel.text = [NSString getNumStrFrom:_status.reposts_count];
+    _commentCountLabel.text = [NSString getNumStrFrom:_status.comments_count];
+    _likeCountLabel.text = [NSString getNumStrFrom:_status.attitudes_count];
+    
+    if (_status.favorited) {
+        _favoritesImageView.image = [UIImage imageNamed:@"faved_icon"];
+    } else {
+        _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
+    }
+    
+    [_retweetImageView setFrame:CGRectMake(bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
+    
+    CGSize rsize = [_retweetCountLabel sizeThatFits:CGSizeMake(MAXFLOAT, bImageHeight)];
+    [_retweetCountLabel setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap, top+bBarSmallGap, rsize.width, bImageHeight)];
+    
+    [_commentImageView setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
+    
+    CGSize csize = [_commentCountLabel sizeThatFits:CGSizeMake(MAXFLOAT, bImageHeight)];
+    [_commentCountLabel setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap, top+bBarSmallGap, csize.width, bImageHeight)];
+    
+    [_likeImageView setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_commentCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
+    
+    CGSize lsize = [_likeCountLabel sizeThatFits:CGSizeMake(MAXFLOAT, bImageHeight)];
+    [_likeCountLabel setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_commentCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap, top+bBarSmallGap, lsize.width, bImageHeight)];
+    
+    [_favoritesImageView setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_commentCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_likeCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
+
+}
+
+-(void)setupBarButtonsLayout
+{
+    self.contentView.backgroundColor = bCellBGColor;
+    
+    _retweetImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _retweetImageView.image = [UIImage imageNamed:@"retwt_icon"];
+    [self.contentView addSubview:_retweetImageView];
+    
+    _retweetCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _retweetCountLabel.textColor = [UIColor lightTextColor];
+    _retweetCountLabel.font = [UIFont systemFontOfSize:bFontSize];
+    [self.contentView addSubview:_retweetCountLabel];
+    
+    _commentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _commentImageView.image = [UIImage imageNamed:@"cmt_icon"];
+    [self.contentView addSubview:_commentImageView];
+    
+    _commentCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _commentCountLabel.textColor = [UIColor lightTextColor];
+    _commentCountLabel.font = [UIFont systemFontOfSize:bFontSize];
+    [self.contentView addSubview:_commentCountLabel];
+    
+    _likeImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _likeImageView.image = [UIImage imageNamed:@"like_icon_2"];
+    [self.contentView addSubview:_likeImageView];
+    
+    _likeCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _likeCountLabel.textColor = [UIColor lightTextColor];
+    _likeCountLabel.font = [UIFont systemFontOfSize:bFontSize];
+    [self.contentView addSubview:_likeCountLabel];
+    
+    _favoritesImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
+    [self.contentView addSubview:_favoritesImageView];
 }
 
 -(void)resetImageViews:(NSMutableArray *)views

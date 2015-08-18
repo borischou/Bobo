@@ -445,10 +445,10 @@
 			children = (
 				456C77E61B2AC5B90055FBE8 /* BBStatusTableViewCell.h */,
 				456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */,
-				4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */,
-				4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */,
 				45731F0A1B32BD56002EECA6 /* BBButtonbarTableViewCell.h */,
 				45731F0B1B32BD56002EECA6 /* BBButtonbarTableViewCell.m */,
+				4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */,
+				4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */,
 				45A052141B3A898200A1488D /* BBCountTableViewCell.h */,
 				45A052151B3A898200A1488D /* BBCountTableViewCell.m */,
 				45704DAE1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.h */,
