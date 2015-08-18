@@ -178,7 +178,6 @@
         } else {
             [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
         }
-        
     }
     
     //repost status
@@ -190,6 +189,17 @@
         } else {
             [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageRetryFailed];
         }
+    }
+    
+    //barbuttons
+    _retweetCountLabel.text = [NSString getNumStrFrom:_status.reposts_count];
+    _commentCountLabel.text = [NSString getNumStrFrom:_status.comments_count];
+    _likeCountLabel.text = [NSString getNumStrFrom:_status.attitudes_count];
+    
+    if (_status.favorited) {
+        _favoritesImageView.image = [UIImage imageNamed:@"faved_icon"];
+    } else {
+        _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
     }
 }
 
@@ -222,16 +232,6 @@
 
 -(void)layoutBarButtonsWithTop:(CGFloat)top
 {
-    _retweetCountLabel.text = [NSString getNumStrFrom:_status.reposts_count];
-    _commentCountLabel.text = [NSString getNumStrFrom:_status.comments_count];
-    _likeCountLabel.text = [NSString getNumStrFrom:_status.attitudes_count];
-    
-    if (_status.favorited) {
-        _favoritesImageView.image = [UIImage imageNamed:@"faved_icon"];
-    } else {
-        _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
-    }
-    
     [_retweetImageView setFrame:CGRectMake(bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
     
     CGSize rsize = [_retweetCountLabel sizeThatFits:CGSizeMake(MAXFLOAT, bImageHeight)];
