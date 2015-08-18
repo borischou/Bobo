@@ -138,6 +138,70 @@
     [self.contentView addSubview:_repostView];
 }
 
+-(void)setupBarButtonsLayout
+{
+    self.contentView.backgroundColor = bCellBGColor;
+    
+    _retweetImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _retweetImageView.image = [UIImage imageNamed:@"retwt_icon"];
+    _retweetImageView.userInteractionEnabled = YES;
+    [_retweetImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(retweetImageViewTapped)]];
+    [self.contentView addSubview:_retweetImageView];
+    
+    _retweetCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _retweetCountLabel.textColor = [UIColor lightTextColor];
+    _retweetCountLabel.font = [UIFont systemFontOfSize:bFontSize];
+    [self.contentView addSubview:_retweetCountLabel];
+    
+    _commentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _commentImageView.image = [UIImage imageNamed:@"cmt_icon"];
+    _commentImageView.userInteractionEnabled = YES;
+    [_commentImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentImageViewTapped)]];
+    [self.contentView addSubview:_commentImageView];
+    
+    _commentCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _commentCountLabel.textColor = [UIColor lightTextColor];
+    _commentCountLabel.font = [UIFont systemFontOfSize:bFontSize];
+    [self.contentView addSubview:_commentCountLabel];
+    
+    _likeImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _likeImageView.image = [UIImage imageNamed:@"like_icon_2"];
+    _likeImageView.userInteractionEnabled = YES;
+    [_likeImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageViewTapped)]];
+    [self.contentView addSubview:_likeImageView];
+    
+    _likeCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _likeCountLabel.textColor = [UIColor lightTextColor];
+    _likeCountLabel.font = [UIFont systemFontOfSize:bFontSize];
+    [self.contentView addSubview:_likeCountLabel];
+    
+    _favoritesImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
+    _favoritesImageView.userInteractionEnabled = YES;
+    [_favoritesImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(favoritesImageViewTapped)]];
+    [self.contentView addSubview:_favoritesImageView];
+}
+
+-(void)retweetImageViewTapped
+{
+    NSLog(@"retweetImageViewTapped");
+}
+
+-(void)commentImageViewTapped
+{
+    NSLog(@"commentImageViewTapped");
+}
+
+-(void)likeImageViewTapped
+{
+    NSLog(@"likeImageViewTapped");
+}
+
+-(void)favoritesImageViewTapped
+{
+    NSLog(@"favoritesImageViewTapped");
+}
+
 -(void)statusImageTapped:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
@@ -246,42 +310,6 @@
     
     [_favoritesImageView setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_commentCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_likeCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
 
-}
-
--(void)setupBarButtonsLayout
-{
-    self.contentView.backgroundColor = bCellBGColor;
-    
-    _retweetImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _retweetImageView.image = [UIImage imageNamed:@"retwt_icon"];
-    [self.contentView addSubview:_retweetImageView];
-    
-    _retweetCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _retweetCountLabel.textColor = [UIColor lightTextColor];
-    _retweetCountLabel.font = [UIFont systemFontOfSize:bFontSize];
-    [self.contentView addSubview:_retweetCountLabel];
-    
-    _commentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _commentImageView.image = [UIImage imageNamed:@"cmt_icon"];
-    [self.contentView addSubview:_commentImageView];
-    
-    _commentCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _commentCountLabel.textColor = [UIColor lightTextColor];
-    _commentCountLabel.font = [UIFont systemFontOfSize:bFontSize];
-    [self.contentView addSubview:_commentCountLabel];
-    
-    _likeImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _likeImageView.image = [UIImage imageNamed:@"like_icon_2"];
-    [self.contentView addSubview:_likeImageView];
-    
-    _likeCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _likeCountLabel.textColor = [UIColor lightTextColor];
-    _likeCountLabel.font = [UIFont systemFontOfSize:bFontSize];
-    [self.contentView addSubview:_likeCountLabel];
-    
-    _favoritesImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
-    [self.contentView addSubview:_favoritesImageView];
 }
 
 -(void)resetImageViews:(NSMutableArray *)views
