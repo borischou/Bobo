@@ -15,7 +15,6 @@
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
 #import "BBNetworkUtils.h"
-#import "BBImageBrowserView.h"
 #import "BBStatusDetailTableViewController.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"

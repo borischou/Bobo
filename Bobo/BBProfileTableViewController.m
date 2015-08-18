@@ -17,7 +17,6 @@
 #import "BBMeHeaderView.h"
 #import "BBStatusTableViewCell.h"
 #import "BBNetworkUtils.h"
-#import "BBImageBrowserView.h"
 #import "BBButtonbarTableViewCell.h"
 #import "BBStatusDetailTableViewController.h"
 #import "NSString+Convert.h"

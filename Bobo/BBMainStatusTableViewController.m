@@ -10,7 +10,6 @@
 #import "WeiboSDK.h"
 #import "SWRevealViewController.h"
 
-#import "BBImageBrowserView.h"
 #import "BBMainStatusTableViewController.h"
 #import "BBStatusTableViewCell.h"
 #import "BBStatusDetailTableViewController.h"
