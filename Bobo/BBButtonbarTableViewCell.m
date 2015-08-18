@@ -57,7 +57,7 @@
     [self.contentView addSubview:_commentCountLabel];
     
     _likeImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _likeImageView.image = [UIImage imageNamed:@"like_icon"];
+    _likeImageView.image = [UIImage imageNamed:@"like_icon_2"];
     [self.contentView addSubview:_likeImageView];
     
     _likeCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -66,7 +66,7 @@
     [self.contentView addSubview:_likeCountLabel];
     
     _favoritesImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _favoritesImageView.image = [UIImage imageNamed:@"fav_icon"];
+    _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
     [self.contentView addSubview:_favoritesImageView];
 }
 
@@ -75,6 +75,12 @@
     _retweetCountLabel.text = [NSString getNumStrFrom:_status.reposts_count];
     _commentCountLabel.text = [NSString getNumStrFrom:_status.comments_count];
     _likeCountLabel.text = [NSString getNumStrFrom:_status.attitudes_count];
+    
+    if (_status.favorited) {
+        _favoritesImageView.image = [UIImage imageNamed:@"faved_icon"];
+    } else {
+        _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
+    }
     
     [_retweetImageView setFrame:CGRectMake(bBigGap, bSmallGap, bImageWidth, bImageHeight)];
     
