@@ -24,9 +24,12 @@
 
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 
+#define bWeiboDomain @"https://api.weibo.com/2/"
+
 @interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) UIImagePickerController *picker;
+@property (strong, nonatomic) BBKeyboardInputAccessoryView *keyboardInputView;
 
 @end
 
@@ -46,6 +49,17 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self setupViewLayout];
+    }
+    return self;
+}
+
+-(instancetype)initWithFlag:(int)flag
+{
+    self = [super init];
+    if (self) {
+        self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
+        _flag = flag;
         [self setupViewLayout];
     }
     return self;
@@ -80,11 +94,19 @@
     _statusTextView.textColor = [UIColor lightTextColor];
     _statusTextView.backgroundColor = bBGColor;
     _statusTextView.delegate = self;
-    BBKeyboardInputAccessoryView *keyboardInputView = [[BBKeyboardInputAccessoryView alloc] init];
-    [keyboardInputView.addPictureBtn addTarget:self action:@selector(addPictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [keyboardInputView.callCameraBtn addTarget:self action:@selector(callCameraButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    _statusTextView.inputAccessoryView = keyboardInputView;
     [self addSubview:_statusTextView];
+
+    _keyboardInputView = [[BBKeyboardInputAccessoryView alloc] init];
+    [_keyboardInputView.addPictureBtn addTarget:self action:@selector(addPictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_keyboardInputView.callCameraBtn addTarget:self action:@selector(callCameraButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if (_flag == 0) {
+        _statusTextView.inputAccessoryView = _keyboardInputView;
+    }
+    else
+    {
+        _statusTextView.inputAccessoryView = nil;
+    }
     
     [_cancelBtn setFrame:CGRectMake(uBigGap, uBigGap, uBtnWidth, uBtnHeight)];
     [_sendBtn setFrame:CGRectMake(self.frame.size.width-uBigGap-uBtnWidth, uBigGap, uBtnWidth, uBtnHeight)];
@@ -117,15 +139,49 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     } else {
-        [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-            NSLog(@"result: %@", result);
-            [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [self removeFromSuperview];
+        switch (_flag) {
+            case 0: //发微博
+                {
+                    [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                        NSLog(@"result: %@", result);
+                    }];
                 }
-            }];
+                break;
+            case 1: //写评论
+                {
+                    NSMutableDictionary *params = @{}.mutableCopy;
+                    [params setObject:delegate.wbToken forKey:@"access_token"];
+                    [params setObject:_idStr forKey:@"id"];
+                    [params setObject:_statusTextView.text forKey:@"comment"];
+                    NSString *url = [bWeiboDomain stringByAppendingString:@"comments/create.json"];
+                    [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                        if (!error) {
+                            NSLog(@"评论成功。");
+                        }
+                        else
+                        {
+                            NSLog(@"评论失败：%@", error);
+                        }
+                    }];
+                }
+                break;
+            case 2: //转发微博
+                {
+                
+                }
+                break;
+            case 3: //回复评论
+                {
+                
+                }
+                break;
+        }
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [self removeFromSuperview];
+            }
         }];
     }
     

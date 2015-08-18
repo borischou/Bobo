@@ -14,5 +14,10 @@
 @property (strong, nonatomic) UIButton *cancelBtn;
 @property (strong, nonatomic) UIButton *sendBtn;
 @property (strong, nonatomic) UITextView *statusTextView;
+@property (copy, nonatomic) NSString *idStr;
+
+@property (nonatomic) int flag; //0: 发微博 1: 评论 2: 转发 3: 回复
+
+-(instancetype)initWithFlag:(int)flag;
 
 @end

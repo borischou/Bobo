@@ -12,6 +12,7 @@
 #import "BBImageBrowserView.h"
 #import "NSString+Convert.h"
 #import "Utils.h"
+#import "BBUpdateStatusView.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -28,6 +29,7 @@
 #define bPostImgWidth bPostImgHeight
 #define bTextFontSize 14.f
 #define bBarHeight bHeight/25
+#define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
 
 #define bBarSmallGap 7
 #define bImageHeight [UIScreen mainScreen].bounds.size.height/25-2*bBarSmallGap
@@ -39,6 +41,8 @@
 #define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
 @interface BBStatusTableViewCell ()
+
+@property (strong, nonatomic) BBUpdateStatusView *updateStatusView;
 
 @end
 
@@ -190,6 +194,20 @@
 -(void)commentImageViewTapped
 {
     NSLog(@"commentImageViewTapped");
+    if (!_updateStatusView) {
+        _updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
+        _updateStatusView.idStr = _status.idstr;
+    }
+    _updateStatusView.nameLabel.text = _status.user.screen_name;
+    [self.window.rootViewController.view addSubview:_updateStatusView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
+        [_updateStatusView.statusTextView becomeFirstResponder];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            //what are you gonna do
+        }
+    }];
 }
 
 -(void)likeImageViewTapped

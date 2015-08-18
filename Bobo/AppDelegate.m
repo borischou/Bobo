@@ -169,7 +169,7 @@
     if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
         //initialize update view here
         if (!_updateStatusView) {
-            _updateStatusView = [[BBUpdateStatusView alloc] init];
+            _updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
         }
         _updateStatusView.nameLabel.text = _user.screen_name;
         [self.window.rootViewController.view addSubview:_updateStatusView];
