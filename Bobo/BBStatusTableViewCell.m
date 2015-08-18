@@ -189,6 +189,20 @@
 -(void)retweetImageViewTapped
 {
     NSLog(@"retweetImageViewTapped");
+    if (!_updateStatusView) {
+        _updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //写评论
+        _updateStatusView.idStr = _status.idstr;
+    }
+    _updateStatusView.nameLabel.text = @"转发";
+    [self.window.rootViewController.view addSubview:_updateStatusView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
+        [_updateStatusView.statusTextView becomeFirstResponder];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            //what are you gonna do
+        }
+    }];
 }
 
 -(void)commentImageViewTapped

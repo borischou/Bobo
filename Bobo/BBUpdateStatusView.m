@@ -167,7 +167,20 @@
                 break;
             case 2: //转发微博
                 {
-                
+                    NSMutableDictionary *params = @{}.mutableCopy;
+                    [params setObject:delegate.wbToken forKey:@"access_token"];
+                    [params setObject:_idStr forKey:@"id"];
+                    [params setObject:_statusTextView.text forKey:@"status"];
+                    NSString *url = [bWeiboDomain stringByAppendingString:@"statuses/repost.json"];
+                    [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                        if (!error) {
+                            NSLog(@"转发成功。");
+                        }
+                        else
+                        {
+                            NSLog(@"转发失败：%@", error);
+                        }
+                    }];
                 }
                 break;
             case 3: //回复评论
