@@ -14,4 +14,6 @@
 
 @property (strong, nonatomic) Status *status;
 
+-(void)fetchLatestComments;
+
 @end

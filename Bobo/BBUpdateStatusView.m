@@ -6,12 +6,14 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
+#import <MJRefresh/MJRefresh.h>
 #import "BBUpdateStatusView.h"
 #import "UIButton+Bobtn.h"
 #import "BBKeyboardInputAccessoryView.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
 #import "BBPhotoSelectionCollectionViewController.h"
+#import "BBStatusDetailTableViewController.h"
 
 #define uSmallGap 5
 #define uBigGap 10
@@ -207,6 +209,11 @@
             self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
         } completion:^(BOOL finished) {
             if (finished) {
+                SWRevealViewController *rvc = (SWRevealViewController *)self.window.rootViewController;
+                UITabBarController *tbc = (UITabBarController *)rvc.frontViewController;
+                UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
+                BBStatusDetailTableViewController *sdtvc = (BBStatusDetailTableViewController *)nvc.viewControllers[1];
+                [sdtvc.tableView.header beginRefreshing];
                 [self removeFromSuperview];
             }
         }];
