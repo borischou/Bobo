@@ -13,6 +13,8 @@
 #import "NSString+Convert.h"
 #import "Utils.h"
 #import "BBUpdateStatusView.h"
+#import "AppDelegate.h"
+#import "WeiboSDK.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -39,6 +41,8 @@
 #define bRetweetBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bImgBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
+
+#define bWeiboDomain @"https://api.weibo.com/2/"
 
 @interface BBStatusTableViewCell ()
 
@@ -227,6 +231,51 @@
 -(void)favoritesImageViewTapped
 {
     NSLog(@"favoritesImageViewTapped");
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (!delegate.isLoggedIn) {
+        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    }
+    else
+    {
+        if (_status.favorited) {
+            [_favoritesImageView setImage:[UIImage imageNamed:@"fav_icon_3"]];
+            NSMutableDictionary *params = @{}.mutableCopy;
+            [params setObject:delegate.wbToken forKey:@"access_token"];
+            [params setObject:_status.idstr forKey:@"id"];
+            NSString *url = [bWeiboDomain stringByAppendingString:@"favorites/destroy.json"];
+            [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                if (!error) {
+                    NSLog(@"收藏已删除。");
+                    Status *status = [[Status alloc] initWithDictionary:[result objectForKey:@"status"]];
+                    _status = status;
+                }
+                else
+                {
+                    NSLog(@"收藏删除失败：%@", error);
+                }
+            }];
+        }
+        else
+        {
+            [_favoritesImageView setImage:[UIImage imageNamed:@"faved_icon"]];
+            NSMutableDictionary *params = @{}.mutableCopy;
+            [params setObject:delegate.wbToken forKey:@"access_token"];
+            [params setObject:_status.idstr forKey:@"id"];
+            NSString *url = [bWeiboDomain stringByAppendingString:@"favorites/create.json"];
+            [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                if (!error) {
+                    NSLog(@"收藏成功。");
+                    Status *status = [[Status alloc] initWithDictionary:[result objectForKey:@"status"]];
+                    _status = status;
+                }
+                else
+                {
+                    NSLog(@"收藏失败：%@", error);
+                }
+            }];
+        }
+    }
+    
 }
 
 -(void)statusImageTapped:(UITapGestureRecognizer *)tap

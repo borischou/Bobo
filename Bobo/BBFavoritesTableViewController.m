@@ -78,6 +78,7 @@
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        page = 1;
         [self fetchFavoriteStatuses];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchFavoriteStatuses)];
@@ -122,6 +123,10 @@
                 NSArray *favArray = [resultDict objectForKey:@"favorites"];
                 if (favArray.count > 0) {
                     if (!_statuses) {
+                        _statuses = @[].mutableCopy;
+                    }
+                    if (page == 1) {
+                        _statuses = nil;
                         _statuses = @[].mutableCopy;
                     }
                     for (int i = 0; i < favArray.count; i ++) {
