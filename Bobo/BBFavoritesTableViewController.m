@@ -30,7 +30,7 @@
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 @interface BBFavoritesTableViewController () {
-    int page;
+    int _page;
 }
 
 @property (strong, nonatomic) NSMutableArray *statuses;
@@ -44,7 +44,7 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    page = 1;
+    _page = 1;
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
 }
@@ -78,7 +78,7 @@
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        page = 1;
+        _page = 1;
         [self fetchFavoriteStatuses];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchFavoriteStatuses)];
@@ -100,7 +100,7 @@
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"count=20&page=%d", page];
+        NSString *para = [NSString stringWithFormat:@"count=20&page=%d", _page];
         NSString *url = [bWeiboDomain stringByAppendingFormat:@"favorites.json?%@", para];
         NSLog(@"The full url is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -125,7 +125,7 @@
                     if (!_statuses) {
                         _statuses = @[].mutableCopy;
                     }
-                    if (page == 1) {
+                    if (_page == 1) {
                         _statuses = nil;
                         _statuses = @[].mutableCopy;
                     }
@@ -135,7 +135,7 @@
                             [_statuses addObject:status];
                         }
                     }
-                    page += 1;
+                    _page += 1;
                 }
             }
         }

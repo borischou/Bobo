@@ -89,6 +89,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [self.tableView.footer endRefreshing];
         [alertView show];
     } else {
+        _page = 1;
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
         NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, _page];
@@ -110,6 +111,10 @@ static NSString *reuseCMCell = @"reuseCMCell";
     } else {
         if ([type isEqualToString:@"comments"]) {
             if (!_comments) {
+                _comments = @[].mutableCopy;
+            }
+            if (_page == 1) {
+                _comments = nil;
                 _comments = @[].mutableCopy;
             }
             NSDictionary *resultDict = (NSDictionary *)result;
