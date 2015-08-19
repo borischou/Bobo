@@ -7,11 +7,19 @@
 //
 
 #import "BBNetworkUtils.h"
+#import "BBUpdateStatusView.h"
 
 #define bSmallGap 5
 #define bBigGap 10
 #define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
 #define bPostImgWidth bPostImgHeight
+
+typedef void (^AnimationHandler) (void);
+typedef void (^CompletionHandler) (BOOL finished);
+
+@interface BBNetworkUtils ()
+
+@end
 
 @implementation BBNetworkUtils
 
@@ -101,5 +109,13 @@
     return 0;
 }
 
++(void)displayUpdateStatusView:(BBUpdateStatusView *)updateStatusView ForView:(UIView *)view necessaryParam:(id)param animationHandler:(AnimationHandler)animation completionHandler:(CompletionHandler)completion
+{
+    if (!updateStatusView) {
+        updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:(int)param];
+    }
+    [view.window.rootViewController.view addSubview:updateStatusView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:animation completion:completion];
+}
 
 @end

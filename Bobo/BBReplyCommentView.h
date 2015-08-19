@@ -14,4 +14,7 @@
 @property (strong, nonatomic) UIButton *repostBtn;
 @property (strong, nonatomic) UIButton *cancelBtn;
 
+@property (copy, nonatomic) NSString *idStr;
+@property (copy, nonatomic) NSString *cidStr;
+
 @end

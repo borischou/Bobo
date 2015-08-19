@@ -20,6 +20,11 @@
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
+
+#define rReplyViewHeight 150
+
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 static NSString *reuseWBCell = @"reuseWBCell";
@@ -173,8 +178,16 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] init];
-    [self.view addSubview:replyCommentView];
+    BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
+    replyCommentView.idStr = _status.idstr;
+    Comment *comment = [_comments objectAtIndex:indexPath.row];
+    replyCommentView.cidStr = comment.idstr;
+    [[self.view superview] addSubview:replyCommentView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [replyCommentView setFrame:CGRectMake(0, bHeight-rReplyViewHeight, bWidth, rReplyViewHeight)];
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 @end
