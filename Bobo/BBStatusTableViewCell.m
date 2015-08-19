@@ -246,8 +246,7 @@
             [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                 if (!error) {
                     NSLog(@"收藏已删除。");
-                    Status *status = [[Status alloc] initWithDictionary:[result objectForKey:@"status"]];
-                    _status = status;
+                    [_status setFavorited:NO];
                 }
                 else
                 {
@@ -265,8 +264,7 @@
             [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                 if (!error) {
                     NSLog(@"收藏成功。");
-                    Status *status = [[Status alloc] initWithDictionary:[result objectForKey:@"status"]];
-                    _status = status;
+                    [_status setFavorited:YES];
                 }
                 else
                 {

@@ -9,6 +9,10 @@
 #import "Status.h"
 #import "Utils.h"
 
+@interface Status () <NSCopying>
+
+@end
+
 @implementation Status
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary
@@ -46,6 +50,30 @@
     }
     return self;
 }
+
+//-(id)copyWithZone:(NSZone *)zone
+//{
+//    Status *status = [[Status allocWithZone:zone] init];
+//    status.created_at = self.created_at;
+//    status.status_id = self.status_id;
+//    status.status_mid = self.status_mid;
+//    status.idstr = self.idstr;
+//    status.text = self.text;
+//    status.source = self.source;
+//    status.favorited = self.favorited;
+//    status.truncated = self.truncated;
+//    status.thumbnail_pic = self.thumbnail_pic;
+//    status.bmiddle_pic = self.bmiddle_pic;
+//    status.original_pic = self.original_pic;
+//    status.reposts_count = self.reposts_count;
+//    status.comments_count = self.comments_count;
+//    status.attitudes_count = self.attitudes_count;
+//    status.pic_urls = self.pic_urls;
+//    status.user = self.user;
+//    status.retweeted_status = self.retweeted_status;
+//    status.height = self.height;
+//    return status;
+//}
 
 -(void)calculateHeight
 {
