@@ -306,10 +306,8 @@ static NSString *reuseCountsCell = @"countsCell";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if ([_statuses count]) {
             if ([_statuses count]) {
-                if (!cell.status) {
-                    Status *status = [self.statuses objectAtIndex:indexPath.section-1];
-                    cell.status = status;
-                }
+                Status *status = [self.statuses objectAtIndex:indexPath.section-1];
+                cell.status = status;
             }
         }
         return cell;

@@ -188,10 +188,8 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if ([_statuses count]) {
         if ([_statuses count]) {
-            if (!cell.status) {
-                Status *status = [self.statuses objectAtIndex:indexPath.section];
-                cell.status = status;
-            }
+            Status *status = [self.statuses objectAtIndex:indexPath.section];
+            cell.status = status;
         }
     }
     return cell;
