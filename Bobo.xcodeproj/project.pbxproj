@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		004984BE1B84B1CA004E6C41 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 004984BC1B84B1CA004E6C41 /* Model.xcdatamodeld */; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
 		451441D31B295CA9000532DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D21B295CA9000532DD /* main.m */; };
 		451441D61B295CA9000532DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.m */; };
@@ -80,6 +81,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		004984BD1B84B1CA004E6C41 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBReplyCommentView.h; sourceTree = "<group>"; };
 		009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBReplyCommentView.m; sourceTree = "<group>"; };
 		380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
 				456A2F481B7985E0005AF4E0 /* BBFriendsGroupTableViewController.h */,
 				456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */,
+				004984BC1B84B1CA004E6C41 /* Model.xcdatamodeld */,
 			);
 			name = Weibo;
 			sourceTree = "<group>";
@@ -658,6 +661,7 @@
 				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,
 				458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */,
+				004984BE1B84B1CA004E6C41 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,6 +904,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		004984BC1B84B1CA004E6C41 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				004984BD1B84B1CA004E6C41 /* Model.xcdatamodel */,
+			);
+			currentVersion = 004984BD1B84B1CA004E6C41 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 451441C51B295CA9000532DD /* Project object */;
 }
