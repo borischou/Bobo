@@ -18,6 +18,12 @@
 #define rBtnHeight (self.frame.size.height-rSmallGap*2)/3
 #define rBtnWidth self.frame.size.width
 
+@interface BBReplyCommentView ()
+
+@property (strong, nonatomic) UIView *mask;
+
+@end
+
 @implementation BBReplyCommentView
 
 -(instancetype)init
@@ -33,6 +39,16 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self setupButtonLayout];
+    }
+    return self;
+}
+
+-(instancetype)initWithFrame:(CGRect)frame mask:(UIView *)mask
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _mask = mask;
         [self setupButtonLayout];
     }
     return self;
@@ -87,8 +103,11 @@
     NSLog(@"repostButtonPressed");
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self setFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
+        _mask.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
+        _mask = nil;
+        [_mask removeFromSuperview];
     }];
 }
 
@@ -97,8 +116,11 @@
     NSLog(@"cancelButtonPressed");
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self setFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
+        _mask.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
+        _mask = nil;
+        [_mask removeFromSuperview];
     }];
 }
 

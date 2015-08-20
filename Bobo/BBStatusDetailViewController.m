@@ -89,7 +89,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 {
     if (!_barView) {
         _barView = [[BBCommentBarView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 70)];
-        [self.view.superview addSubview:_barView];
+        [self.view addSubview:_barView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_barView setFrame:CGRectMake(0, bHeight-70, bWidth, 70)];
         } completion:^(BOOL finished) {
@@ -214,13 +214,19 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
+    UIView *mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+    mask.backgroundColor = [UIColor blackColor];
+    mask.alpha = 0.0;
+    [self.view addSubview:mask];
+    
+    BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight) mask:mask];
     replyCommentView.idStr = _status.idstr;
     Comment *comment = [_comments objectAtIndex:indexPath.row];
     replyCommentView.cidStr = comment.idstr;
-    [[self.view superview] addSubview:replyCommentView];
+    [self.view addSubview:replyCommentView];
     
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        mask.alpha = 0.5;
         [replyCommentView setFrame:CGRectMake(0, bHeight-rReplyViewHeight, bWidth, rReplyViewHeight)];
     } completion:^(BOOL finished) {
         

@@ -17,4 +17,6 @@
 @property (copy, nonatomic) NSString *idStr;
 @property (copy, nonatomic) NSString *cidStr;
 
+-(instancetype)initWithFrame:(CGRect)frame mask:(UIView *)mask;
+
 @end
