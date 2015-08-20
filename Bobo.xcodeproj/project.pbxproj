@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		004984BE1B84B1CA004E6C41 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 004984BC1B84B1CA004E6C41 /* Model.xcdatamodeld */; };
+		004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
 		451441D31B295CA9000532DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D21B295CA9000532DD /* main.m */; };
 		451441D61B295CA9000532DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.m */; };
@@ -38,6 +38,9 @@
 		456254DF1B8306910009A332 /* like_icon_2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254DE1B8306910009A332 /* like_icon_2@3x.png */; };
 		4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */; };
 		4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */; };
+		45688A0A1B85A8BA0015461E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45688A091B85A8BA0015461E /* CoreData.framework */; };
+		45688A0F1B85ABBF0015461E /* CStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 45688A0C1B85ABBF0015461E /* CStatus.m */; };
+		45688A101B85ABBF0015461E /* CUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45688A0E1B85ABBF0015461E /* CUser.m */; };
 		4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */; };
 		456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920401B74758B00E2C204 /* bb_collect_icon@3x.png */; };
 		456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920421B7478A800E2C204 /* iconfont-denglu.png */; };
@@ -81,7 +84,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		004984BD1B84B1CA004E6C41 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		004984BD1B84B1CA004E6C41 /* Bobo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bobo.xcdatamodel; sourceTree = "<group>"; };
 		009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBReplyCommentView.h; sourceTree = "<group>"; };
 		009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBReplyCommentView.m; sourceTree = "<group>"; };
 		380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +140,11 @@
 		4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileTableViewController.h; sourceTree = "<group>"; };
 		4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileTableViewController.m; sourceTree = "<group>"; };
 		4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gerenshiwu@3x.png"; sourceTree = "<group>"; };
+		45688A091B85A8BA0015461E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		45688A0B1B85ABBF0015461E /* CStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CStatus.h; sourceTree = "<group>"; };
+		45688A0C1B85ABBF0015461E /* CStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CStatus.m; sourceTree = "<group>"; };
+		45688A0D1B85ABBF0015461E /* CUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUser.h; sourceTree = "<group>"; };
+		45688A0E1B85ABBF0015461E /* CUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CUser.m; sourceTree = "<group>"; };
 		4569202D1B745ECA00E2C204 /* BBFavoritesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFavoritesTableViewController.h; sourceTree = "<group>"; };
 		4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFavoritesTableViewController.m; sourceTree = "<group>"; };
 		456920401B74758B00E2C204 /* bb_collect_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_collect_icon@3x.png"; sourceTree = "<group>"; };
@@ -193,6 +201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45688A0A1B85A8BA0015461E /* CoreData.framework in Frameworks */,
 				45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */,
 				456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */,
 				45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */,
@@ -222,6 +231,7 @@
 		0B724CE50D0FC385A918684B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				45688A091B85A8BA0015461E /* CoreData.framework */,
 				45704DA61B7D865F00DC1C8B /* Photos.framework */,
 				453035D21B4A609400647ACC /* Release-iphoneos */,
 				45F07DB91B4985B800327E6D /* OpenGLES.framework */,
@@ -418,7 +428,11 @@
 		456889B31B8573620015461E /* CoreDataModel */ = {
 			isa = PBXGroup;
 			children = (
-				004984BC1B84B1CA004E6C41 /* Model.xcdatamodeld */,
+				45688A0B1B85ABBF0015461E /* CStatus.h */,
+				45688A0C1B85ABBF0015461E /* CStatus.m */,
+				45688A0D1B85ABBF0015461E /* CUser.h */,
+				45688A0E1B85ABBF0015461E /* CUser.m */,
+				004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */,
 			);
 			name = CoreDataModel;
 			sourceTree = "<group>";
@@ -646,6 +660,7 @@
 				45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
 				45731F0C1B32BD56002EECA6 /* BBButtonbarTableViewCell.m in Sources */,
+				45688A0F1B85ABBF0015461E /* CStatus.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
 				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
@@ -657,6 +672,7 @@
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,
 				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
 				45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */,
+				45688A101B85ABBF0015461E /* CUser.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,
 				456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */,
@@ -669,7 +685,7 @@
 				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,
 				458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */,
-				004984BE1B84B1CA004E6C41 /* Model.xcdatamodeld in Sources */,
+				004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -914,13 +930,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		004984BC1B84B1CA004E6C41 /* Model.xcdatamodeld */ = {
+		004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				004984BD1B84B1CA004E6C41 /* Model.xcdatamodel */,
+				004984BD1B84B1CA004E6C41 /* Bobo.xcdatamodel */,
 			);
-			currentVersion = 004984BD1B84B1CA004E6C41 /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
+			currentVersion = 004984BD1B84B1CA004E6C41 /* Bobo.xcdatamodel */;
+			path = Bobo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

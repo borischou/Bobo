@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Status" representedClassName="Status" syncable="YES">
+    <entity name="CStatus" representedClassName="CStatus" syncable="YES">
         <attribute name="attitudes_count" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="bmiddle_pic" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="comments_count" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="created_at" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="favorited" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="height" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="idStr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idstr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="original_pic" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="reposts_count" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
@@ -16,10 +16,10 @@
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumbnail_pic" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="truncated" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <relationship name="retweeted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status" inverseName="retweeted_status" inverseEntity="Status" syncable="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="User" inverseName="status" inverseEntity="User" syncable="YES"/>
+        <relationship name="retweeted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CStatus" inverseName="retweeted_status" inverseEntity="CStatus" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CUser" inverseName="status" inverseEntity="CUser" syncable="YES"/>
     </entity>
-    <entity name="User" representedClassName="User" syncable="YES">
+    <entity name="CUser" representedClassName="CUser" syncable="YES">
         <attribute name="allow_all_act_msg" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="allow_all_comment" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="avatar_hd" optional="YES" attributeType="String" syncable="YES"/>
@@ -51,10 +51,10 @@
         <attribute name="verified" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="verified_reason" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="weihao" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="status" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Status" inverseName="user" inverseEntity="Status" syncable="YES"/>
+        <relationship name="status" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CStatus" inverseName="user" inverseEntity="CStatus" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Status" positionX="-254" positionY="153" width="128" height="298"/>
-        <element name="User" positionX="-477" positionY="-72" width="128" height="523"/>
+        <element name="CStatus" positionX="-254" positionY="153" width="128" height="298"/>
+        <element name="CUser" positionX="-477" positionY="-72" width="128" height="523"/>
     </elements>
 </model>
