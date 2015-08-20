@@ -36,7 +36,6 @@ typedef void (^CompletionHandler) (BOOL finished);
                 if (cell) {
                     cell.avatarView.image = img;
                 }
-                status.user.avatar = img;
             });
         }
     }];

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 #import "SWRevealViewController.h"
 #import "User.h"
 
@@ -18,5 +19,12 @@
 @property (copy, nonatomic) NSString *wbCurrentUserID;
 @property (strong, nonatomic) User *user;
 @property BOOL isLoggedIn;
+
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+- (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
 
 @end

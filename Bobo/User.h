@@ -44,7 +44,6 @@
 @property (nonatomic) NSInteger online_status;
 @property (nonatomic) NSInteger bi_followers_count;
 @property (copy, nonatomic) NSString *lang;
-@property (strong, nonatomic) UIImage *avatar;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

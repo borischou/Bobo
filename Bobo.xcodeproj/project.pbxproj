@@ -265,6 +265,7 @@
 		451441CF1B295CA9000532DD /* Bobo */ = {
 			isa = PBXGroup;
 			children = (
+				456889B31B8573620015461E /* CoreDataModel */,
 				456254E01B83140C0009A332 /* Backup */,
 				45620D3C1B3706BF00B9F9F2 /* Images */,
 				455FFAE61B34040E0007B883 /* Networks */,
@@ -345,6 +346,8 @@
 			children = (
 				455FFAE71B3404540007B883 /* BBNetworkUtils.h */,
 				455FFAE81B3404540007B883 /* BBNetworkUtils.m */,
+				457278821B53900D00AC0C9C /* Utils.h */,
+				457278831B53900D00AC0C9C /* Utils.m */,
 			);
 			name = Networks;
 			sourceTree = "<group>";
@@ -408,9 +411,16 @@
 				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
 				456A2F481B7985E0005AF4E0 /* BBFriendsGroupTableViewController.h */,
 				456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */,
-				004984BC1B84B1CA004E6C41 /* Model.xcdatamodeld */,
 			);
 			name = Weibo;
+			sourceTree = "<group>";
+		};
+		456889B31B8573620015461E /* CoreDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				004984BC1B84B1CA004E6C41 /* Model.xcdatamodeld */,
+			);
+			name = CoreDataModel;
 			sourceTree = "<group>";
 		};
 		456C77E41B2AC5500055FBE8 /* Controllers */ = {
@@ -450,8 +460,6 @@
 				4553E4031B54D73D0020989C /* Comment.m */,
 				4572787B1B53894F00AC0C9C /* User.h */,
 				4572787C1B53894F00AC0C9C /* User.m */,
-				457278821B53900D00AC0C9C /* Utils.h */,
-				457278831B53900D00AC0C9C /* Utils.m */,
 				4588F7311B3B9B5A00EE32D0 /* Counts.h */,
 				4588F7321B3B9B5A00EE32D0 /* Counts.m */,
 			);
