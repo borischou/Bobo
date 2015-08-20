@@ -8,6 +8,7 @@
 
 #import "SWRevealViewController.h"
 #import "BBFavoritesTableViewController.h"
+#import "BBStatusDetailViewController.h"
 #import "BBStatusTableViewCell.h"
 #import "BBButtonbarTableViewCell.h"
 #import "Status.h"
@@ -15,7 +16,6 @@
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
 #import "BBNetworkUtils.h"
-#import "BBStatusDetailTableViewController.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
 #import <MJRefresh/MJRefresh.h>
@@ -197,7 +197,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
     dtvc.title = @"Detail";
     dtvc.hidesBottomBarWhenPushed = YES;
     Status *status = [_statuses objectAtIndex:indexPath.section];

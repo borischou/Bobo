@@ -12,8 +12,8 @@
 
 @interface BBStatusDetailTableViewController : UITableViewController
 
-@property (strong, nonatomic) Status *status;
+//@property (strong, nonatomic) Status *status;
 
--(void)fetchLatestComments;
+//-(void)fetchLatestComments;
 
 @end

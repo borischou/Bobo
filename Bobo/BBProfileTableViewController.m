@@ -11,6 +11,7 @@
 #import "SWRevealViewController.h"
 
 #import "BBProfileTableViewController.h"
+#import "BBStatusDetailViewController.h"
 #import "BBCountTableViewCell.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
@@ -18,7 +19,6 @@
 #import "BBStatusTableViewCell.h"
 #import "BBNetworkUtils.h"
 #import "BBButtonbarTableViewCell.h"
-#import "BBStatusDetailTableViewController.h"
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
 
@@ -324,7 +324,7 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section >= 1) {
-        BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
         dtvc.title = @"Detail";
         dtvc.hidesBottomBarWhenPushed = YES;
         dtvc.status = [_statuses objectAtIndex:indexPath.section-1];

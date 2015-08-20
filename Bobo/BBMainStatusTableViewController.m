@@ -11,8 +11,8 @@
 #import "SWRevealViewController.h"
 
 #import "BBMainStatusTableViewController.h"
+#import "BBStatusDetailViewController.h"
 #import "BBStatusTableViewCell.h"
-#import "BBStatusDetailTableViewController.h"
 #import "AppDelegate.h"
 #import "BBButtonbarTableViewCell.h"
 #import "BBNetworkUtils.h"
@@ -243,7 +243,7 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBStatusDetailTableViewController *dtvc = [[BBStatusDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
     dtvc.title = @"Detail";
     dtvc.hidesBottomBarWhenPushed = YES;
     Status *status = [_statuses objectAtIndex:indexPath.section];

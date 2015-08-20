@@ -1,12 +1,12 @@
 //
-//  BBWBDetailsTableVC.m
+//  BBStatusDetailViewController.m
 //  Bobo
 //
-//  Created by Zhouboli on 15/7/14.
+//  Created by Zhouboli on 15/8/20.
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBStatusDetailTableViewController.h"
+#import "BBStatusDetailViewController.h"
 
 #import <MJRefresh/MJRefresh.h>
 #import "WeiboSDK.h"
@@ -32,7 +32,7 @@
 static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
-@interface BBStatusDetailTableViewController () {
+@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate> {
     int _page;
 }
 
@@ -41,7 +41,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 @end
 
-@implementation BBStatusDetailTableViewController
+@implementation BBStatusDetailViewController
 
 #pragma mark - Lazy boys
 
@@ -53,11 +53,15 @@ static NSString *reuseCMCell = @"reuseCMCell";
     return _status;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    _page = 1;
+-(void)viewDidLoad
+{
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight-70) style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.backgroundColor = bBGColor;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:_tableView];
     self.view.backgroundColor = bBGColor;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
 }
@@ -71,15 +75,27 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    _barView = nil;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [_barView setFrame:CGRectMake(0, bHeight, bWidth, 70)];
+    } completion:^(BOOL finished) {
+        _barView = nil;
+        [_barView removeFromSuperview];
+    }];
 }
 
 #pragma mark - Helpers
+
+-(void)initCommentBarView
+{
+    if (!_barView) {
+        _barView = [[BBCommentBarView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 70)];
+        [self.view.superview addSubview:_barView];
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [_barView setFrame:CGRectMake(0, bHeight-70, bWidth, 70)];
+        } completion:^(BOOL finished) {
+        }];
+    }
+}
 
 -(void)setMJRefresh
 {
@@ -92,14 +108,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
     [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
     self.tableView.footer = footer;
-}
-
--(void)initCommentBarView
-{
-    if (!_barView) {
-        _barView = [[BBCommentBarView alloc] initWithFrame:CGRectMake(0, bHeight-70, bWidth, 70)];
-        [self.view.superview addSubview:_barView];
-    }
 }
 
 #pragma mark - Fetch Comments

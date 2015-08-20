@@ -13,7 +13,7 @@
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
 #import "BBPhotoSelectionCollectionViewController.h"
-#import "BBStatusDetailTableViewController.h"
+#import "BBStatusDetailViewController.h"
 
 #define uSmallGap 5
 #define uBigGap 10
@@ -102,10 +102,10 @@
     [_keyboardInputView.addPictureBtn addTarget:self action:@selector(addPictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_keyboardInputView.callCameraBtn addTarget:self action:@selector(callCameraButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
-    if (_flag == 0) {
+    if (_flag == 0) { //发微博
         _statusTextView.inputAccessoryView = _keyboardInputView;
     }
-    else
+    else //评论转发无法使用图片上传功能
     {
         _statusTextView.inputAccessoryView = nil;
     }
@@ -216,7 +216,7 @@
                         if ([tbc.selectedViewController isKindOfClass:[UINavigationController class]]) {
                             UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
                             if ([nvc.viewControllers count] >= 2) {
-                                BBStatusDetailTableViewController *sdtvc = (BBStatusDetailTableViewController *)nvc.viewControllers[1];
+                                BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
                                 [sdtvc.tableView.header beginRefreshing];
                             }
                         }
