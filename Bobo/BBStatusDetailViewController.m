@@ -26,13 +26,14 @@
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
 #define rReplyViewHeight 150
+#define dComntBarViewHeight 60
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
-@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBCommentBarViewDelegate> {
+@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate> {
     int _page;
 }
 
@@ -55,7 +56,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)viewDidLoad
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight-70) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight-dComntBarViewHeight) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = bBGColor;
@@ -76,9 +77,8 @@ static NSString *reuseCMCell = @"reuseCMCell";
 {
     [super viewWillDisappear:animated];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [_barView setFrame:CGRectMake(0, bHeight, bWidth, 70)];
+        [_barView setFrame:CGRectMake(0, bHeight, bWidth, dComntBarViewHeight)];
     } completion:^(BOOL finished) {
-        _barView.delegate = nil;
         _barView = nil;
         [_barView removeFromSuperview];
     }];
@@ -89,12 +89,11 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)initCommentBarView
 {
     if (!_barView) {
-        _barView = [[BBCommentBarView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 70) shouldLabelShown:YES];
+        _barView = [[BBCommentBarView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, dComntBarViewHeight) status:_status];
         [self.view addSubview:_barView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            [_barView setFrame:CGRectMake(0, bHeight-70, bWidth, 70)];
+            [_barView setFrame:CGRectMake(0, bHeight-dComntBarViewHeight, bWidth, dComntBarViewHeight)];
         } completion:^(BOOL finished) {
-            _barView.delegate = self;
         }];
     }
 }
@@ -110,14 +109,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
     [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
     self.tableView.footer = footer;
-}
-
-#pragma mark - BBCommentBarViewDelegate
-
--(void)didTappedPlaceholderLabel
-{
-    BBCommentBarView *accessoryComntBarView = [[BBCommentBarView alloc] init];
-    _barView.textView.inputAccessoryView = accessoryComntBarView;
 }
 
 #pragma mark - Fetch Comments

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */; };
+		0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
 		451441D31B295CA9000532DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D21B295CA9000532DD /* main.m */; };
 		451441D61B295CA9000532DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.m */; };
@@ -85,6 +86,7 @@
 
 /* Begin PBXFileReference section */
 		004984BD1B84B1CA004E6C41 /* Bobo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bobo.xcdatamodel; sourceTree = "<group>"; };
+		007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comntbar_icon@3x.png"; sourceTree = "<group>"; };
 		009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBReplyCommentView.h; sourceTree = "<group>"; };
 		009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBReplyCommentView.m; sourceTree = "<group>"; };
 		380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */,
+				007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */,
 				45A052121B3A5CB200A1488D /* timeline_image_loading@3x.png */,
 				457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */,
 				456254D81B8305220009A332 /* faved_icon@3x.png */,
@@ -586,6 +589,7 @@
 				451441DE1B295CA9000532DD /* Images.xcassets in Resources */,
 				456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */,
 				451442131B29635B000532DD /* WeiboSDK.bundle in Resources */,
+				0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */,
 				45A052131B3A5CB200A1488D /* timeline_image_loading@3x.png in Resources */,
 				4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */,
 				4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */,

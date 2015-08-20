@@ -7,22 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@protocol BBCommentBarViewDelegate <NSObject>
-
--(void)didTappedPlaceholderLabel;
-
-@end
+#import "Status.h"
 
 @interface BBCommentBarView : UIView
-
-@property (weak, nonatomic) id <BBCommentBarViewDelegate> delegate;
 
 @property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UITextView *textView;
 @property (strong, nonatomic) UIButton *sendBtn;
 @property (strong, nonatomic) UILabel *holderLabel;
+@property (strong, nonatomic) Status *status;
 
--(instancetype)initWithFrame:(CGRect)frame shouldLabelShown:(BOOL)isShown;
+-(instancetype)initWithFrame:(CGRect)frame status:(Status *)status;
 
 @end
