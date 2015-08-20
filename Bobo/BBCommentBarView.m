@@ -86,6 +86,16 @@
 
 -(void)holderLabelTapped
 {
+    [self presentUpdateView];
+}
+
+-(void)sendButtonPressed
+{
+    [self presentUpdateView];
+}
+
+-(void)presentUpdateView
+{
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
     updateStatusView.idStr = _status.idstr;
     updateStatusView.nameLabel.text = _status.user.screen_name;
@@ -98,11 +108,6 @@
             //what are you gonna do
         }
     }];
-}
-
--(void)sendButtonPressed
-{
-    NSLog(@"sendButtonPressed");
 }
 
 @end
