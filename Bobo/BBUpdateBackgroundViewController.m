@@ -15,18 +15,18 @@
 
 -(void)viewDidLoad
 {
-    self.view.backgroundColor = [UIColor whiteColor];
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = appDelegate.managedObjectContext;
-    for (int i = 0; i < 10; i ++) {
-        CStatus *status = [NSEntityDescription insertNewObjectForEntityForName:@"CStatus" inManagedObjectContext:context];
-        status.idstr = @"testID";
-    }
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"CStatus"];
-    NSError *error = nil;
-    NSArray *statuses = [context executeFetchRequest:request error:&error];
-    Status *fetchedStatus = [statuses firstObject];
-    NSLog(@"STATUS: %ld %@", statuses.count, fetchedStatus.idstr);
+//    self.view.backgroundColor = [UIColor whiteColor];
+//    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+//    for (int i = 0; i < 10; i ++) {
+//        CStatus *status = [NSEntityDescription insertNewObjectForEntityForName:@"CStatus" inManagedObjectContext:context];
+//        status.idstr = @"testID";
+//    }
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"CStatus"];
+//    NSError *error = nil;
+//    NSArray *statuses = [context executeFetchRequest:request error:&error];
+//    Status *fetchedStatus = [statuses firstObject];
+//    NSLog(@"STATUS: %ld %@", statuses.count, fetchedStatus.idstr);
 }
 
 @end

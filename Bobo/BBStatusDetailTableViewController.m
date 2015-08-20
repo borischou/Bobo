@@ -69,6 +69,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _page = 1;
         [self fetchLatestComments];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchLatestComments)];
@@ -89,7 +90,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [self.tableView.footer endRefreshing];
         [alertView show];
     } else {
-        _page = 1;
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
         NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, _page];

@@ -40,7 +40,6 @@ static NSString *reuseCountsCell = @"countsCell";
 @property (strong, nonatomic) NSMutableArray *statuses;
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) UIAlertView *logoutAlertView;
-@property (copy, nonatomic) NSString *since_id;
 
 @end
 
@@ -207,11 +206,7 @@ static NSString *reuseCountsCell = @"countsCell";
         [params setObject:delegate.wbToken forKey:@"access_token"];
         [params setObject:delegate.wbCurrentUserID forKey:@"uid"];
         NSString *url;
-        if (!_since_id) {
-            url = [bWeiboDomain stringByAppendingString:@"statuses/user_timeline.json"];
-        } else {
-            url = [bWeiboDomain stringByAppendingFormat:@"statuses/user_timeline.json?since_id=%@", _since_id];
-        }
+        url = [bWeiboDomain stringByAppendingString:@"statuses/user_timeline.json"];
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"me"];
         }];
@@ -253,12 +248,12 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     if ([type isEqualToString:@"me"]) {
         if (downloadedStatuses.count > 0) {
+            _statuses = nil;
+            _statuses = @[].mutableCopy;
             for (int i = 0; i < downloadedStatuses.count; i ++) {
                 Status *status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
-                [_statuses insertObject:status atIndex:i];
+                [_statuses addObject:status];
             }
-            Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
-            _since_id = status.idstr;
         }
     }
     if ([type isEqualToString:@"history"]) {
