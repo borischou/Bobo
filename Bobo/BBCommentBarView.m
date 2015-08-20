@@ -79,17 +79,17 @@
     _textView = [[UITextView alloc] initWithFrame:CGRectMake(cBigGap*2+cAvatarWidth, cBigGap, cTextWidth, cTextHeight)];
     [self addSubview:_textView];
     
-    _holderLabel = [[UILabel alloc] initWithFrame:CGRectMake(cBigGap*2+cAvatarWidth, cBigGap, cTextWidth, cTextHeight)];
+    _holderLabel = [[UILabel alloc] initWithFrame:CGRectMake(cBigGap*2+cAvatarWidth, 0, cTextWidth, cTextHeight+cBigGap)];
     _holderLabel.text = cPlaceholder;
-    [_textView addSubview:_holderLabel];
+    _holderLabel.textColor = [UIColor lightGrayColor];
     [_holderLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(holderLabelTapped)]];
+    [self addSubview:_holderLabel];
     
     if (_shouldLabelShown) {
         _holderLabel.hidden = NO;
     } else {
         _holderLabel.hidden = YES;
     }
-    
     _sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(cBigGap*3+cAvatarWidth+cTextWidth, cBigGap, cBtnWidth, cBtnHeight)];
     [_sendBtn setBackgroundColor:[UIColor greenColor]];
     [self addSubview:_sendBtn];

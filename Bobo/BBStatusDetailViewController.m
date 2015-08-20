@@ -130,7 +130,9 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
         [alertView show];
-    } else {
+    }
+    else
+    {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
         NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, _page];
@@ -149,7 +151,9 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
         [alertView show];
-    } else {
+    }
+    else
+    {
         if ([type isEqualToString:@"comments"]) {
             if (!_comments) {
                 _comments = @[].mutableCopy;
@@ -185,10 +189,14 @@ static NSString *reuseCMCell = @"reuseCMCell";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
-    } else {
+    }
+    else
+    {
         if (_comments.count) {
             return _comments.count;
-        } else {
+        }
+        else
+        {
             return 0;
         }
     }
@@ -212,7 +220,8 @@ static NSString *reuseCMCell = @"reuseCMCell";
         cell.status = _status;
         return cell;
     }
-    else {
+    else
+    {
         [tableView registerClass:[BBCommentTableViewCell class] forCellReuseIdentifier:reuseCMCell];
         BBCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCMCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -224,23 +233,25 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIView *mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
-    mask.backgroundColor = [UIColor blackColor];
-    mask.alpha = 0.0;
-    [self.view addSubview:mask];
-    
-    BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight) mask:mask];
-    replyCommentView.idStr = _status.idstr;
-    Comment *comment = [_comments objectAtIndex:indexPath.row];
-    replyCommentView.cidStr = comment.idstr;
-    [self.view addSubview:replyCommentView];
-    
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        mask.alpha = 0.5;
-        [replyCommentView setFrame:CGRectMake(0, bHeight-rReplyViewHeight, bWidth, rReplyViewHeight)];
-    } completion:^(BOOL finished) {
+    if (indexPath.section == 1) {
+        UIView *mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+        mask.backgroundColor = [UIColor blackColor];
+        mask.alpha = 0.0;
+        [self.view addSubview:mask];
         
-    }];
+        BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight) mask:mask];
+        replyCommentView.idStr = _status.idstr;
+        Comment *comment = [_comments objectAtIndex:indexPath.row];
+        replyCommentView.cidStr = comment.idstr;
+        [self.view addSubview:replyCommentView];
+        
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            mask.alpha = 0.5;
+            [replyCommentView setFrame:CGRectMake(0, bHeight-rReplyViewHeight, bWidth, rReplyViewHeight)];
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
 }
 
 @end
