@@ -211,15 +211,11 @@
             if (finished) {
                 if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
                     SWRevealViewController *rvc = (SWRevealViewController *)self.window.rootViewController;
-                    if ([rvc.frontViewController isKindOfClass:[UITabBarController class]]) {
-                        UITabBarController *tbc = (UITabBarController *)rvc.frontViewController;
-                        if ([tbc.selectedViewController isKindOfClass:[UINavigationController class]]) {
-                            UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
-                            if ([nvc.viewControllers count] >= 2) {
-                                BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
-                                [sdtvc.tableView.header beginRefreshing];
-                            }
-                        }
+                    UITabBarController *tbc = (UITabBarController *)rvc.frontViewController;
+                    UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
+                    if ([nvc.viewControllers count] >= 2) {
+                        BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
+                        [sdtvc.tableView.header beginRefreshing];
                     }
                 }
                 [self removeFromSuperview];

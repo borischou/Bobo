@@ -48,10 +48,16 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _mask = mask;
+        [self setupMask:mask];
         [self setupButtonLayout];
     }
     return self;
+}
+
+-(void)setupMask:(UIView *)mask
+{
+    _mask = mask;
+    [_mask addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonPressed)]];
 }
 
 -(void)setupButtonLayout
@@ -103,11 +109,8 @@
     NSLog(@"repostButtonPressed");
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self setFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
-        _mask.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
-        _mask = nil;
-        [_mask removeFromSuperview];
     }];
 }
 

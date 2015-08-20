@@ -23,14 +23,22 @@
 #define cBtnWidth 50
 #define cTextWidth self.frame.size.width-50-50-4*10
 
+#define cPlaceholder @"你想说点什么？"
+
+@interface BBCommentBarView () {
+    BOOL _shouldLabelShown;
+}
+
+@end
+
 @implementation BBCommentBarView
 
 -(instancetype)init
 {
     self = [super init];
     if (self) {
-        [self setFrame:CGRectMake(0, bHeight-cSelfHeight-statusBarHeight, bWidth, cSelfHeight)];
-        [self setupBarViews];
+        [self setFrame:CGRectMake(0, 0, bWidth, cSelfHeight)];
+        [self setupBarViewsWithLabel:NO];
     }
     return self;
 }
@@ -39,13 +47,24 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setupBarViews];
+        [self setupBarViewsWithLabel:NO];
     }
     return self;
 }
 
--(void)setupBarViews
+-(instancetype)initWithFrame:(CGRect)frame shouldLabelShown:(BOOL)isShown
 {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setupBarViewsWithLabel:isShown];
+    }
+    return self;
+}
+
+-(void)setupBarViewsWithLabel:(BOOL)isLabelShown
+{
+    _shouldLabelShown = isLabelShown;
+    
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.backgroundColor = [UIColor whiteColor];
     
@@ -60,9 +79,25 @@
     _textView = [[UITextView alloc] initWithFrame:CGRectMake(cBigGap*2+cAvatarWidth, cBigGap, cTextWidth, cTextHeight)];
     [self addSubview:_textView];
     
+    _holderLabel = [[UILabel alloc] initWithFrame:CGRectMake(cBigGap*2+cAvatarWidth, cBigGap, cTextWidth, cTextHeight)];
+    _holderLabel.text = cPlaceholder;
+    [_textView addSubview:_holderLabel];
+    [_holderLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(holderLabelTapped)]];
+    
+    if (_shouldLabelShown) {
+        _holderLabel.hidden = NO;
+    } else {
+        _holderLabel.hidden = YES;
+    }
+    
     _sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(cBigGap*3+cAvatarWidth+cTextWidth, cBigGap, cBtnWidth, cBtnHeight)];
     [_sendBtn setBackgroundColor:[UIColor greenColor]];
     [self addSubview:_sendBtn];
+}
+
+-(void)holderLabelTapped
+{
+    [self.delegate didTappedPlaceholderLabel];
 }
 
 -(void)sendButtonPressed
