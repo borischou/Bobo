@@ -150,9 +150,8 @@
         _mask.alpha = 0;
     } completion:^(BOOL finished) {
         if (finished) {
-            NSLog(@"移除蒙板时的父视图类: %@", _mask.superview);
-            _mask = nil;
             [_mask removeFromSuperview];
+            _mask = nil;
             [self removeFromSuperview];
         }
     }];
