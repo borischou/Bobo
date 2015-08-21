@@ -59,8 +59,11 @@
 
 -(void)setupBarViews
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.backgroundColor = [UIColor whiteColor];
+    self.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+    self.layer.shadowOpacity = 0.3;
+
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
     [_avatarView sd_setImageWithURL:[NSURL URLWithString:delegate.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];

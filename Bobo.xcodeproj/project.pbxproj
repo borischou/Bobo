@@ -447,14 +447,14 @@
 				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				45688A111B85BB810015461E /* BBCommentBarView.h */,
 				45688A121B85BB810015461E /* BBCommentBarView.m */,
-				456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */,
-				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
 				4572E1C21B3C59F900348866 /* BBImageBrowserView.m */,
 				458393511B7B4B98005B1766 /* BBUpdateStatusView.h */,
 				458393521B7B4B98005B1766 /* BBUpdateStatusView.m */,
 				457C60E91B7301F500B10D53 /* BBMeHeaderView.h */,
 				457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */,
+				456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */,
+				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
 				456F62331B4F514100309779 /* Cells */,
 			);
 			name = Views;
