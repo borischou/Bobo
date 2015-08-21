@@ -8,6 +8,7 @@
 
 #import "BBReplyCommentView.h"
 #import "BBUpdateStatusView.h"
+#import "AppDelegate.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -44,22 +45,6 @@
     return self;
 }
 
--(instancetype)initWithFrame:(CGRect)frame mask:(UIView *)mask
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setupMask:mask];
-        [self setupButtonLayout];
-    }
-    return self;
-}
-
--(void)setupMask:(UIView *)mask
-{
-    _mask = mask;
-    [_mask addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonPressed)]];
-}
-
 -(void)setupButtonLayout
 {
     self.backgroundColor = [UIColor lightTextColor];
@@ -84,15 +69,27 @@
     [_cancelBtn addTarget:self action:@selector(cancelButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_cancelBtn];
+    
+    if (!_mask) {
+        _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+        _mask.backgroundColor = [UIColor blackColor];
+        _mask.alpha = 0.5;
+        [_mask addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonPressed)]];
+        
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [delegate.window addSubview:_mask];
+        [delegate.window bringSubviewToFront:self];
+    }
 }
 
 -(void)replyButtonPressed
 {
     NSLog(@"replyButtonPressed");
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3 maskView:_mask]; //回复评论
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3]; //回复评论
     updateStatusView.idStr = _idStr;
     updateStatusView.cidStr = _cidStr;
-    [self.window.rootViewController.view addSubview:updateStatusView];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
         [self setFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
@@ -122,8 +119,8 @@
         _mask.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
-        _mask = nil;
         [_mask removeFromSuperview];
+        _mask = nil;
     }];
 }
 

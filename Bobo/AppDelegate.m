@@ -171,16 +171,11 @@
 {
     if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
         //initialize update view here
-        
-        if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
-            SWRevealViewController *swrvc = (SWRevealViewController *)self.window.rootViewController;
-            UITabBarController *uitbc = (UITabBarController *)swrvc.frontViewController;
-            if (!_updateStatusView) {
-                _updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
-            }
-            _updateStatusView.nameLabel.text = _user.screen_name;
-            [uitbc.selectedViewController.view addSubview:_updateStatusView];
+        if (!_updateStatusView) {
+            _updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
         }
+        _updateStatusView.nameLabel.text = _user.screen_name;
+        [_window addSubview:_updateStatusView];
         
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);

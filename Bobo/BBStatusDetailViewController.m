@@ -225,19 +225,13 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1) {
-        UIView *mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
-        mask.backgroundColor = [UIColor blackColor];
-        mask.alpha = 0.0;
-        [self.view addSubview:mask];
-        
-        BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight) mask:mask];
+        BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
         replyCommentView.idStr = _status.idstr;
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         replyCommentView.cidStr = comment.idstr;
-        [self.view addSubview:replyCommentView];
-        
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [delegate.window addSubview:replyCommentView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            mask.alpha = 0.5;
             [replyCommentView setFrame:CGRectMake(0, bHeight-rReplyViewHeight, bWidth, rReplyViewHeight)];
         } completion:^(BOOL finished) {
             

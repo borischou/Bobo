@@ -68,18 +68,6 @@
     return self;
 }
 
--(instancetype)initWithFlag:(int)flag maskView:(UIView *)mask
-{
-    self = [super init];
-    if (self) {
-        self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
-        _flag = flag;
-        _mask = mask;
-        [self setupViewLayout];
-    }
-    return self;
-}
-
 -(void)setupViewLayout
 {
     self.backgroundColor = bBGColor;
@@ -87,6 +75,16 @@
     self.layer.cornerRadius = 8.0;
     self.layer.borderWidth = 0.2;
     self.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    if (!_mask) {
+        _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+        _mask.backgroundColor = [UIColor blackColor];
+        _mask.alpha = 0.5;
+        
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [delegate.window addSubview:_mask];
+        [delegate.window bringSubviewToFront:self];
+    }
     
     _cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero andTitle:@"取消" withBackgroundColor:nil andTintColor:nil];
     [_cancelBtn setTitleColor:[UIColor lightTextColor] forState:UIControlStateNormal];
@@ -105,7 +103,7 @@
     _nameLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_nameLabel];
     
-    _statusTextView = [[UITextView alloc] init];
+    _statusTextView = [[UITextView alloc] initWithFrame:CGRectZero];
     _statusTextView.textColor = [UIColor lightTextColor];
     _statusTextView.backgroundColor = bBGColor;
     _statusTextView.delegate = self;
@@ -132,6 +130,15 @@
 -(void)layoutSubviews
 {
     _statusTextView.frame = CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight);
+    if (!_mask) {
+        _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+        _mask.backgroundColor = [UIColor blackColor];
+        _mask.alpha = 0.5;
+        
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [delegate.window addSubview:_mask];
+        [delegate.window bringSubviewToFront:self];
+    }
 }
 
 #pragma mark - UIButtons
@@ -143,6 +150,7 @@
         _mask.alpha = 0;
     } completion:^(BOOL finished) {
         if (finished) {
+            NSLog(@"移除蒙板时的父视图类: %@", _mask.superview);
             _mask = nil;
             [_mask removeFromSuperview];
             [self removeFromSuperview];
@@ -236,8 +244,8 @@
                         [sdtvc.tableView.header beginRefreshing];
                     }
                 }
-                _mask = nil; //引用计数减一
                 [_mask removeFromSuperview];
+                _mask = nil; //引用计数减一
                 [self removeFromSuperview];
             }
         }];

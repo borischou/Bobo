@@ -99,16 +99,12 @@
 
 -(void)presentUpdateView
 {
-    UIView *mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
-    mask.backgroundColor = [UIColor blackColor];
-    mask.alpha = 0.0;
-    [self.superview addSubview:mask];
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1 maskView:mask]; //写评论
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
     updateStatusView.idStr = _status.idstr;
     updateStatusView.nameLabel.text = _status.user.screen_name;
-    [self.window.rootViewController.view addSubview:updateStatusView];
+    [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        mask.alpha = 0.5;
         updateStatusView.frame = CGRectMake(cSmallGap, statusBarHeight+cSmallGap, bWidth-2*cSmallGap, bHeight/2-5);
         [updateStatusView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {

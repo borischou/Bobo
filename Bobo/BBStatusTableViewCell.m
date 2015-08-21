@@ -191,16 +191,13 @@
 -(void)retweetImageViewTapped
 {
     NSLog(@"retweetImageViewTapped");
-    UIView *mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
-    mask.backgroundColor = [UIColor blackColor];
-    mask.alpha = 0.0;
-    [self.window.rootViewController.view addSubview:mask];
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2 maskView:mask]; //转发
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
     updateStatusView.idStr = _status.idstr;
     updateStatusView.nameLabel.text = @"转发";
-    [self.window.rootViewController.view addSubview:updateStatusView];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        mask.alpha = 0.5;
+        //mask.alpha = 0.5;
         updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
         [updateStatusView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {
@@ -213,16 +210,12 @@
 -(void)commentImageViewTapped
 {
     NSLog(@"commentImageViewTapped");
-    UIView *mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
-    mask.backgroundColor = [UIColor blackColor];
-    mask.alpha = 0.0;
-    [self.window.rootViewController.view addSubview:mask];
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1 maskView:mask]; //写评论
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
     updateStatusView.idStr = _status.idstr;
     updateStatusView.nameLabel.text = _status.user.screen_name;
-    [self.window.rootViewController.view addSubview:updateStatusView];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        mask.alpha = 0.5;
         updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
         [updateStatusView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {
