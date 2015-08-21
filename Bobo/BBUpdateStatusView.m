@@ -157,7 +157,7 @@
 
 -(void)cancelButtonPressed:(UIButton *)sender
 {
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
         _mask.alpha = 0;
     } completion:^(BOOL finished) {
