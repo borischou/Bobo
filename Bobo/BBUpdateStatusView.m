@@ -28,7 +28,9 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+    int _flag; //0: 发微博 1: 评论 2: 转发 3: 回复
+}
 
 @property (strong, nonatomic) UIImagePickerController *picker;
 @property (strong, nonatomic) BBKeyboardInputAccessoryView *keyboardInputView;
@@ -38,31 +40,12 @@
 
 @implementation BBUpdateStatusView
 
--(instancetype)init
-{
-    self = [super init];
-    if (self) {
-        self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
-        [self setupViewLayout];
-    }
-    return self;
-}
-
--(instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setupViewLayout];
-    }
-    return self;
-}
-
 -(instancetype)initWithFlag:(int)flag
 {
     self = [super init];
     if (self) {
-        self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
         _flag = flag;
+        self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
         [self setupViewLayout];
     }
     return self;
@@ -161,11 +144,15 @@
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
-        _mask.alpha = 0;
+        if (_mask) {
+            _mask.alpha = 0;
+        }
     } completion:^(BOOL finished) {
         if (finished) {
-            [_mask removeFromSuperview];
-            _mask = nil;
+            if (_mask) {
+                [_mask removeFromSuperview];
+                _mask = nil;
+            }
             [self removeFromSuperview];
         }
     }];
@@ -248,7 +235,9 @@
         }
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
-            _mask.alpha = 0;
+            if (_mask) {
+                _mask.alpha = 0;
+            }
         } completion:^(BOOL finished) {
             if (finished) {
                 if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
@@ -260,8 +249,10 @@
                         [sdtvc.tableView.header beginRefreshing];
                     }
                 }
-                [_mask removeFromSuperview];
-                _mask = nil; //引用计数减一
+                if (_mask) {
+                    [_mask removeFromSuperview];
+                    _mask = nil; //引用计数减一
+                }
                 [self removeFromSuperview];
             }
         }];

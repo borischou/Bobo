@@ -97,11 +97,14 @@
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _mask.alpha = 0;
         updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
         [self setFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
         [updateStatusView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {
         if (finished) {
+            [_mask removeFromSuperview];
+            _mask = nil;
             [self removeFromSuperview];
         }
     }];
@@ -112,8 +115,11 @@
     NSLog(@"repostButtonPressed");
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self setFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
+        _mask.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
+        [_mask removeFromSuperview];
+        _mask = nil;
     }];
 }
 

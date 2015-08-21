@@ -17,8 +17,6 @@
 @property (copy, nonatomic) NSString *idStr; //当前微博id
 @property (copy, nonatomic) NSString *cidStr; //评论时评论cid
 
-@property (nonatomic) int flag; //0: 发微博 1: 评论 2: 转发 3: 回复
-
 -(instancetype)initWithFlag:(int)flag;
 
 @end
