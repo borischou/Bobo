@@ -89,7 +89,7 @@
 -(void)replyButtonPressed
 {
     NSLog(@"replyButtonPressed");
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3]; //回复评论
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3 maskView:_mask]; //回复评论
     updateStatusView.idStr = _idStr;
     updateStatusView.cidStr = _cidStr;
     [self.window.rootViewController.view addSubview:updateStatusView];

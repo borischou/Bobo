@@ -20,5 +20,6 @@
 @property (nonatomic) int flag; //0: 发微博 1: 评论 2: 转发 3: 回复
 
 -(instancetype)initWithFlag:(int)flag;
+-(instancetype)initWithFlag:(int)flag maskView:(UIView *)mask;
 
 @end

@@ -108,13 +108,4 @@ typedef void (^CompletionHandler) (BOOL finished);
     return 0;
 }
 
-+(void)displayUpdateStatusView:(BBUpdateStatusView *)updateStatusView ForView:(UIView *)view necessaryParam:(id)param animationHandler:(AnimationHandler)animation completionHandler:(CompletionHandler)completion
-{
-    if (!updateStatusView) {
-        updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:(int)param];
-    }
-    [view.window.rootViewController.view addSubview:updateStatusView];
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:animation completion:completion];
-}
-
 @end

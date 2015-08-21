@@ -15,7 +15,8 @@
 
 -(void)viewDidLoad
 {
-//    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor clearColor];
+    self.view.alpha = 0.0;
 //    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 //    NSManagedObjectContext *context = appDelegate.managedObjectContext;
 //    for (int i = 0; i < 10; i ++) {

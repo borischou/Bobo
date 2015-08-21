@@ -32,6 +32,7 @@
 
 @property (strong, nonatomic) UIImagePickerController *picker;
 @property (strong, nonatomic) BBKeyboardInputAccessoryView *keyboardInputView;
+@property (strong, nonatomic) UIView *mask;
 
 @end
 
@@ -62,6 +63,18 @@
     if (self) {
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
         _flag = flag;
+        [self setupViewLayout];
+    }
+    return self;
+}
+
+-(instancetype)initWithFlag:(int)flag maskView:(UIView *)mask
+{
+    self = [super init];
+    if (self) {
+        self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
+        _flag = flag;
+        _mask = mask;
         [self setupViewLayout];
     }
     return self;
@@ -127,8 +140,11 @@
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
+        _mask.alpha = 0;
     } completion:^(BOOL finished) {
         if (finished) {
+            _mask = nil;
+            [_mask removeFromSuperview];
             [self removeFromSuperview];
         }
     }];
@@ -146,6 +162,7 @@
                 {
                     [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                         NSLog(@"result: %@", result);
+                        
                     }];
                 }
                 break;
@@ -207,6 +224,7 @@
         }
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
+            _mask.alpha = 0;
         } completion:^(BOOL finished) {
             if (finished) {
                 if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
@@ -218,6 +236,8 @@
                         [sdtvc.tableView.header beginRefreshing];
                     }
                 }
+                _mask = nil; //引用计数减一
+                [_mask removeFromSuperview];
                 [self removeFromSuperview];
             }
         }];
