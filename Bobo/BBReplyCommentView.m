@@ -73,12 +73,18 @@
     if (!_mask) {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
-        _mask.alpha = 0.5;
+        _mask.alpha = 0.0;
         [_mask addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonPressed)]];
-        
+
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [delegate.window addSubview:_mask];
         [delegate.window bringSubviewToFront:self];
+        
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            _mask.alpha = 0.5;
+        } completion:^(BOOL finished) {
+            
+        }];
     }
 }
 

@@ -79,11 +79,17 @@
     if (!_mask) {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
-        _mask.alpha = 0.5;
+        _mask.alpha = 0;
         
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [delegate.window addSubview:_mask];
         [delegate.window bringSubviewToFront:self];
+        
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            _mask.alpha = 0.5;
+        } completion:^(BOOL finished) {
+            
+        }];
     }
     
     _cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero andTitle:@"取消" withBackgroundColor:nil andTintColor:nil];
@@ -133,11 +139,17 @@
     if (!_mask) {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
-        _mask.alpha = 0.5;
+        _mask.alpha = 0.0;
         
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [delegate.window addSubview:_mask];
         [delegate.window bringSubviewToFront:self];
+        
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            _mask.alpha = 0.5;
+        } completion:^(BOOL finished) {
+            
+        }];
     }
 }
 
@@ -145,7 +157,7 @@
 
 -(void)cancelButtonPressed:(UIButton *)sender
 {
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
         _mask.alpha = 0;
     } completion:^(BOOL finished) {
@@ -168,8 +180,11 @@
             case 0: //发微博
                 {
                     [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                        NSLog(@"result: %@", result);
-                        
+                        if (!error) {
+                            NSLog(@"发布成功。");
+                        } else {
+                            NSLog(@"发布失败：%@", error);
+                        }
                     }];
                 }
                 break;
