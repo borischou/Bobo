@@ -30,6 +30,12 @@
     [self preparePhotoData];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self shouldHideMaskAndView:YES];
+}
+
 #pragma mark - Helpers
 
 -(void)preparePhotoData
@@ -77,16 +83,24 @@
     self.navigationItem.rightBarButtonItem = confirmButtonItem;
 }
 
+-(void)shouldHideMaskAndView:(BOOL)flag
+{
+    _updateView.hidden = flag;
+    _mask.hidden = flag;
+}
+
 #pragma mark - UIButtons
 
 -(void)cancelButtonItemPressed:(UIBarButtonItem *)sender
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self shouldHideMaskAndView:NO];
 }
 
 -(void)confirmButtonItemPressed:(UIBarButtonItem *)sender
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self shouldHideMaskAndView:NO];
 }
 
 #pragma mark - UICollectionViewDelegate & data source

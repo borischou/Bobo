@@ -263,8 +263,10 @@
 -(void)addPictureButtonPressed:(UIButton *)sender
 {
     [self.statusTextView resignFirstResponder];
-    BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self getFlowLayout]];
-    photoSelectionCollectionViewController.layout = [self getFlowLayout];
+    BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self flowLayout]];
+    photoSelectionCollectionViewController.layout = [self flowLayout];
+    photoSelectionCollectionViewController.mask = _mask;
+    photoSelectionCollectionViewController.updateView = self;
     UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:photoSelectionCollectionViewController];
     [self.window.rootViewController presentViewController:uinvc animated:YES completion:nil];
 }
@@ -275,7 +277,7 @@
     [self pickFromCamera];
 }
 
--(UICollectionViewFlowLayout *)getFlowLayout
+-(UICollectionViewFlowLayout *)flowLayout
 {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.itemSize = CGSizeMake((bWidth-3)/4, (bWidth-3)/4);
@@ -291,8 +293,15 @@
         _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         _picker.delegate = self;
         _picker.allowsEditing = YES;
+        [self shouldHideMaskAndView:YES];
         [self.window.rootViewController presentViewController:_picker animated:YES completion:nil];
     }
+}
+
+-(void)shouldHideMaskAndView:(BOOL)flag
+{
+    self.hidden = flag;
+    _mask.hidden = flag;
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -301,7 +310,7 @@
 {
     NSLog(@"didFinishPickingMediaWithInfo");
     [_picker dismissViewControllerAnimated:YES completion:^{
-        
+        [self shouldHideMaskAndView:NO];
     }];
 }
 
@@ -309,7 +318,7 @@
 {
     NSLog(@"imagePickerControllerDidCancel");
     [_picker dismissViewControllerAnimated:YES completion:^{
-        
+        [self shouldHideMaskAndView:NO];
     }];
 }
 
