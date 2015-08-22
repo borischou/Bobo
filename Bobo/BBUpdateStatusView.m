@@ -309,16 +309,16 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     NSLog(@"didFinishPickingMediaWithInfo");
+    [self shouldHideMaskAndView:NO];
     [_picker dismissViewControllerAnimated:YES completion:^{
-        [self shouldHideMaskAndView:NO];
     }];
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     NSLog(@"imagePickerControllerDidCancel");
+    [self shouldHideMaskAndView:NO];
     [_picker dismissViewControllerAnimated:YES completion:^{
-        [self shouldHideMaskAndView:NO];
     }];
 }
 
