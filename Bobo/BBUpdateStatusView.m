@@ -203,6 +203,11 @@
                     [params setObject:delegate.wbToken forKey:@"access_token"];
                     [params setObject:_idStr forKey:@"id"];
                     [params setObject:_statusTextView.text forKey:@"comment"];
+                    if ([_todoLabel.textColor isEqual:[UIColor greenColor]]) {
+                        [params setObject:@"1" forKey:@"comment_ori"];
+                    } else {
+                        [params setObject:@"0" forKey:@"comment_ori"];
+                    }
                     NSString *url = [bWeiboDomain stringByAppendingString:@"comments/create.json"];
                     [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                         if (!error) {
@@ -221,6 +226,11 @@
                     [params setObject:delegate.wbToken forKey:@"access_token"];
                     [params setObject:_idStr forKey:@"id"];
                     [params setObject:_statusTextView.text forKey:@"status"];
+                    if ([_todoLabel.textColor isEqual:[UIColor greenColor]]) {
+                        [params setObject:@"1" forKey:@"is_comment"];
+                    } else {
+                        [params setObject:@"0" forKey:@"is_comment"];
+                    }
                     NSString *url = [bWeiboDomain stringByAppendingString:@"statuses/repost.json"];
                     [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                         if (!error) {
@@ -240,6 +250,11 @@
                     [params setObject:_idStr forKey:@"id"];
                     [params setObject:_cidStr forKey:@"cid"];
                     [params setObject:_statusTextView.text forKey:@"comment"];
+                    if ([_todoLabel.textColor isEqual:[UIColor greenColor]]) {
+                        [params setObject:@"1" forKey:@"comment_ori"];
+                    } else {
+                        [params setObject:@"0" forKey:@"comment_ori"];
+                    }
                     NSString *url = [bWeiboDomain stringByAppendingString:@"comments/reply.json"];
                     [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                         if (!error) {
