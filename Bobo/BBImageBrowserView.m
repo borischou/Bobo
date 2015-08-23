@@ -82,7 +82,6 @@
         _scrollView.pagingEnabled = NO;
         _scrollView.alwaysBounceHorizontal = NO;
         _scrollView.alwaysBounceVertical = YES;
-        //_scrollView.contentSize = CGSizeMake(bWidth*_count, imageHeight);
     } else {
         imageView.frame = CGRectMake(originX, 0, bWidth, bHeight);
     }
