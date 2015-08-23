@@ -29,7 +29,7 @@
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 @interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
-    int _flag; //0: 发微博 1: 评论 2: 转发 3: 回复
+    int _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 }
 
 @property (strong, nonatomic) UIImagePickerController *picker;
@@ -98,28 +98,39 @@
     _statusTextView.backgroundColor = bBGColor;
     _statusTextView.delegate = self;
     [self addSubview:_statusTextView];
-
-    _keyboardInputView = [[BBKeyboardInputAccessoryView alloc] init];
-    [_keyboardInputView.addPictureBtn addTarget:self action:@selector(addPictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [_keyboardInputView.callCameraBtn addTarget:self action:@selector(callCameraButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (_flag == 0) { //发微博
-        _statusTextView.inputAccessoryView = _keyboardInputView;
-    }
-    else //评论转发无法使用图片上传功能
-    {
-        _statusTextView.inputAccessoryView = nil;
-    }
     
     [_cancelBtn setFrame:CGRectMake(uBigGap, uBigGap, uBtnWidth, uBtnHeight)];
     [_sendBtn setFrame:CGRectMake(self.frame.size.width-uBigGap-uBtnWidth, uBigGap, uBtnWidth, uBtnHeight)];
     [_nameLabel setFrame:CGRectMake(0, 0, self.frame.size.width/2, uBtnHeight)];
     [_nameLabel setCenter:CGPointMake(self.frame.size.width/2, uSmallGap+uBtnHeight/2)];
+    
+    if (_flag == 0) { //发微博
+        _statusTextView.inputAccessoryView = _keyboardInputView;
+        _keyboardInputView = [[BBKeyboardInputAccessoryView alloc] init];
+        [_keyboardInputView.addPictureBtn addTarget:self action:@selector(addPictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [_keyboardInputView.callCameraBtn addTarget:self action:@selector(callCameraButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else //评论转发无法使用图片上传功能
+    {
+        _statusTextView.inputAccessoryView = nil;
+        _todoLabel = [[UILabel alloc] initWithFrame:CGRectMake(uBigGap, self.frame.size.height-uBigGap-uBtnHeight, self.frame.size.width, uBtnHeight)];
+        _todoLabel.textColor = [UIColor lightTextColor];
+        _todoLabel.font = [UIFont systemFontOfSize:14.0];
+        _todoLabel.userInteractionEnabled = YES;
+        [_todoLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(todoLabelTapped)]];
+        [self addSubview:_todoLabel];
+        if (_flag == 1 || _flag == 3) { // 写评论(1)或回复评论(3)
+            _todoLabel.text = @"同时发微博";
+        }
+        if (_flag == 2) { //转发(2)
+            _todoLabel.text = @"评论给作者";
+        }
+    }
 }
 
 -(void)layoutSubviews
 {
-    _statusTextView.frame = CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight);
+    _statusTextView.frame = CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight);
     if (!_mask) {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
@@ -138,7 +149,16 @@
     }
 }
 
-#pragma mark - UIButtons
+#pragma mark - UIButtons & Gestures
+
+-(void)todoLabelTapped
+{
+    if ([_todoLabel.textColor isEqual:[UIColor lightTextColor]]) {
+        [_todoLabel setTextColor:[UIColor greenColor]];
+    } else {
+        [_todoLabel setTextColor:[UIColor lightTextColor]];
+    }
+}
 
 -(void)cancelButtonPressed:(UIButton *)sender
 {

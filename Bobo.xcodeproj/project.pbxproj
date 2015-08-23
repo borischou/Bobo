@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000AE6CE1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */; };
 		004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */; };
 		0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
@@ -85,6 +86,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBKIAccessoryNoImageView.h; sourceTree = "<group>"; };
+		000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBKIAccessoryNoImageView.m; sourceTree = "<group>"; };
 		004984BD1B84B1CA004E6C41 /* Bobo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bobo.xcdatamodel; sourceTree = "<group>"; };
 		007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comntbar_icon@3x.png"; sourceTree = "<group>"; };
 		009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBReplyCommentView.h; sourceTree = "<group>"; };
@@ -455,6 +458,8 @@
 				457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */,
 				456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */,
 				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
+				000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */,
+				000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */,
 				456F62331B4F514100309779 /* Cells */,
 			);
 			name = Views;
@@ -671,6 +676,7 @@
 				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,
 				45688A131B85BB810015461E /* BBCommentBarView.m in Sources */,
 				456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */,
+				000AE6CE1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
 				009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */,

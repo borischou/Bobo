@@ -10,6 +10,7 @@
 
 @interface BBUpdateStatusView : UIView
 
+@property (strong, nonatomic) UILabel *todoLabel;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UIButton *cancelBtn;
 @property (strong, nonatomic) UIButton *sendBtn;
