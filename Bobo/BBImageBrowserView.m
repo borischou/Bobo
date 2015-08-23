@@ -28,7 +28,7 @@
     if (self) {
         [[UIApplication sharedApplication] setStatusBarHidden:YES];
         self.backgroundColor = [UIColor blackColor];
-        self.count = [urls count];
+        _count = [urls count]+2;
         [self setScrollViewWithImageUrls:urls andTag:tag];
         [self loadPageControl];
     }
@@ -39,8 +39,8 @@
 {
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
     _scrollView.delegate = self;
-    _scrollView.contentSize = CGSizeMake(bWidth * [urls count], bHeight);
-    _scrollView.contentOffset = CGPointMake(bWidth * tag, 0);
+    _scrollView.contentSize = CGSizeMake(bWidth*_count, bHeight);
+    _scrollView.contentOffset = CGPointMake(bWidth*(tag+1), 0);
     _scrollView.delegate = self;
     _scrollView.pagingEnabled = YES;
     _scrollView.showsHorizontalScrollIndicator = NO;
@@ -52,9 +52,11 @@
     _scrollView.alwaysBounceHorizontal = YES;
     [_scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
     [self addSubview:_scrollView];
-    for (int i = 0; i < [urls count]; i ++) {
-        [self layoutImageOnScrollViewFromUrl:urls[i] withImageOriginX:bWidth * i];
+    [self layoutImageOnScrollViewFromUrl:[urls lastObject] withImageOriginX:0]; //第一个UIImageView放最后一张图
+    for (int i = 1; i < [urls count]+1; i ++) {
+        [self layoutImageOnScrollViewFromUrl:urls[i-1] withImageOriginX:bWidth*i]; //第二个UIImageView开始顺序放图
     }
+    [self layoutImageOnScrollViewFromUrl:[urls firstObject] withImageOriginX:bWidth*(urls.count+1)]; //最后一个UIImageView放第一张图
 }
 
 -(void)layoutImageOnScrollViewFromUrl:(NSString *)url withImageOriginX:(CGFloat)originX
@@ -74,13 +76,13 @@
 
 -(void)setSizeForImage:(UIImage *)image withImageView:(UIImageView *)imageView andOriginX:(CGFloat)originX
 {
-    CGFloat imageHeight = image.size.height * bWidth / image.size.width;
+    CGFloat imageHeight = image.size.height*bWidth/image.size.width;
     if (imageHeight > bHeight) {
         imageView.frame = CGRectMake(originX, 0, bWidth, imageHeight);
         _scrollView.pagingEnabled = NO;
         _scrollView.alwaysBounceHorizontal = NO;
         _scrollView.alwaysBounceVertical = YES;
-        _scrollView.contentSize = CGSizeMake(bWidth * _count, imageHeight);
+        //_scrollView.contentSize = CGSizeMake(bWidth*_count, imageHeight);
     } else {
         imageView.frame = CGRectMake(originX, 0, bWidth, bHeight);
     }
@@ -92,11 +94,11 @@
     _pageControl = [[UIPageControl alloc] init];
     _pageControl.bounds = CGRectMake(0, 0, bWidth/2, 20);
     _pageControl.center = CGPointMake(bWidth/2, bHeight-30);
-    _pageControl.numberOfPages = _count;
+    _pageControl.numberOfPages = _count-2;
     _pageControl.userInteractionEnabled = NO;
     _pageControl.pageIndicatorTintColor = [UIColor darkGrayColor];
     _pageControl.currentPageIndicatorTintColor = [UIColor lightTextColor];
-    _pageControl.currentPage = _scrollView.contentOffset.x/bWidth;
+    _pageControl.currentPage = _scrollView.contentOffset.x/bWidth-1;
     [self addSubview:_pageControl];
 }
 
@@ -110,7 +112,7 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    _pageControl.currentPage = _scrollView.contentOffset.x/bWidth;
+    _pageControl.currentPage = _scrollView.contentOffset.x/bWidth-1;
 }
 
 @end
