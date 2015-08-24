@@ -307,16 +307,21 @@
 -(void)setStatusData
 {
     //status
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageCacheMemoryOnly];
+    if (!_avatarView.image) {
+        [_avatarView sd_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
+    }
     _nicknameLbl.text = _status.user.screen_name;
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _postBodyLbl.text = _status.text;
     
     for (int i = 0; i < [_status.pic_urls count]; i ++) {
-        if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
-            [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageCacheMemoryOnly];
-        } else {
-            [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageCacheMemoryOnly];
+        UIImageView *statusImageView = [_statusImgViews objectAtIndex:i];
+        if (!statusImageView.image) {
+            if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
+                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
+            } else {
+                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
+            }
         }
     }
     
@@ -324,10 +329,13 @@
     _repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
     
     for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {
-        if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
-            [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageCacheMemoryOnly];
-        } else {
-            [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"] options:SDWebImageCacheMemoryOnly];
+        UIImageView *imgView = [_imgViews objectAtIndex:i];
+        if (!imgView.image) {
+            if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
+                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
+            } else {
+                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
+            }
         }
     }
     
