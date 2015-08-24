@@ -317,7 +317,7 @@
         if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
             [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
         } else {
-            [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
+            [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
         }
     }
     
@@ -328,7 +328,7 @@
         if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
             [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
         } else {
-            [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
+            [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
         }
     }
     
