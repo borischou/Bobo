@@ -56,6 +56,7 @@
     self.contentView.backgroundColor = bCellBGColor;
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
+    _avatarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
     [self.contentView addSubview:_avatarView];
     
     _nameLbl = [[UILabel alloc] initWithFrame:CGRectZero];

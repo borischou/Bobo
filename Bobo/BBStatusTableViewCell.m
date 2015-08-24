@@ -84,6 +84,7 @@
     
     //profile image
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, bAvatarWidth, bAvatarHeight)];
+    _avatarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
     [self.contentView addSubview:_avatarView];
     
     //nickname
@@ -114,6 +115,7 @@
         sImgView.contentMode = UIViewContentModeScaleAspectFill;
         [sImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(statusImageTapped:)]];
         sImgView.userInteractionEnabled = YES;
+        sImgView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pic_placeholder"]];
         [_statusImgViews addObject:sImgView];
         [self.contentView addSubview:sImgView];
     }
@@ -138,6 +140,7 @@
         imgView.contentMode = UIViewContentModeScaleAspectFill;
         [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(repostImageTapped:)]];
         imgView.userInteractionEnabled = YES;
+        imgView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pic_placeholder"]];
         [_imgViews addObject:imgView];
         [_repostView addSubview:imgView];
     }

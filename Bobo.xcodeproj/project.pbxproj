@@ -68,9 +68,9 @@
 		4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* Counts.m */; };
 		4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F7451B3BC45500EE32D0 /* car@3x.png */; };
 		4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */; };
-		45A052131B3A5CB200A1488D /* timeline_image_loading@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A052121B3A5CB200A1488D /* timeline_image_loading@3x.png */; };
 		45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountTableViewCell.m */; };
 		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
+		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -191,11 +191,11 @@
 		4588F7321B3B9B5A00EE32D0 /* Counts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Counts.m; sourceTree = "<group>"; };
 		4588F7451B3BC45500EE32D0 /* car@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@3x.png"; sourceTree = "<group>"; };
 		4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-uber@3x.png"; sourceTree = "<group>"; };
-		45A052121B3A5CB200A1488D /* timeline_image_loading@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_image_loading@3x.png"; sourceTree = "<group>"; };
 		45A052141B3A898200A1488D /* BBCountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountTableViewCell.h; sourceTree = "<group>"; };
 		45A052151B3A898200A1488D /* BBCountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountTableViewCell.m; sourceTree = "<group>"; };
 		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		45A979021B6E512000A8D472 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_placeholder@3x.png"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		68ADFD39DDA092351BC9F4D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A514AEC441207DBA08E4A83B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -382,7 +382,7 @@
 			children = (
 				4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */,
 				007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */,
-				45A052121B3A5CB200A1488D /* timeline_image_loading@3x.png */,
+				45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */,
 				457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */,
 				456254D81B8305220009A332 /* faved_icon@3x.png */,
 				456920401B74758B00E2C204 /* bb_collect_icon@3x.png */,
@@ -595,12 +595,12 @@
 				456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */,
 				451442131B29635B000532DD /* WeiboSDK.bundle in Resources */,
 				0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */,
-				45A052131B3A5CB200A1488D /* timeline_image_loading@3x.png in Resources */,
 				4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */,
 				4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */,
 				45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */,
 				456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */,
 				458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */,
+				45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */,
 				457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */,
 				456254D31B82E7E00009A332 /* cmt_icon@3x.png in Resources */,
 				456254D91B8305220009A332 /* faved_icon@3x.png in Resources */,
