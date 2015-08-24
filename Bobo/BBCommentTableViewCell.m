@@ -56,7 +56,6 @@
     self.contentView.backgroundColor = bCellBGColor;
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
-    _avatarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
     [self.contentView addSubview:_avatarView];
     
     _nameLbl = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -85,9 +84,8 @@
 
 -(void)loadCommentData
 {
-    if (!_avatarView.image) {
-        [_avatarView sd_setImageWithURL:[NSURL URLWithString:_comment.user.profile_image_url] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
-    }
+    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_comment.user.profile_image_url] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageCacheMemoryOnly];
+
     _nameLbl.text = _comment.user.screen_name;
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
     _textLbl.text = _comment.text;
