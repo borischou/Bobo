@@ -71,6 +71,7 @@
 		45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountTableViewCell.m */; };
 		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
 		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
+		45ECC8851B8B182A0076212B /* UIScreen+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECC8841B8B182A0076212B /* UIScreen+Convert.m */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -196,6 +197,8 @@
 		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		45A979021B6E512000A8D472 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_placeholder@3x.png"; sourceTree = "<group>"; };
+		45ECC8831B8B182A0076212B /* UIScreen+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Convert.h"; sourceTree = "<group>"; };
+		45ECC8841B8B182A0076212B /* UIScreen+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Convert.m"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		68ADFD39DDA092351BC9F4D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A514AEC441207DBA08E4A83B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -373,6 +376,8 @@
 				455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */,
 				454E93E61B3FCD72001126E4 /* NSString+Convert.h */,
 				454E93E71B3FCD72001126E4 /* NSString+Convert.m */,
+				45ECC8831B8B182A0076212B /* UIScreen+Convert.h */,
+				45ECC8841B8B182A0076212B /* UIScreen+Convert.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -670,6 +675,7 @@
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,
 				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
+				45ECC8851B8B182A0076212B /* UIScreen+Convert.m in Sources */,
 				45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */,
 				45688A101B85ABBF0015461E /* CUser.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,

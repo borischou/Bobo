@@ -16,6 +16,7 @@
 #import "BBUpdateBackgroundViewController.h"
 #import "BBUpdateStatusView.h"
 #import "BBPhotoSelectionCollectionViewController.h"
+#import "UIScreen+Convert.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -43,7 +44,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen screenWidth], [UIScreen screenHeight])];
     [self checkLoginStatus];
     [self startUserProfileFetch];
     [self initControllers];
