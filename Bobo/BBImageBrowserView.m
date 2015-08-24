@@ -15,6 +15,7 @@
 @interface BBImageBrowserView () <UIScrollViewDelegate>
 
 @property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (nonatomic) NSInteger count;
 
@@ -61,12 +62,12 @@
 
 -(void)layoutImageOnScrollViewFromUrl:(NSString *)url withImageOriginX:(CGFloat)originX
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [_scrollView addSubview:imageView];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"timeline_image_loading@3x"] options:SDWebImageCacheMemoryOnly completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
+    _imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [_scrollView addSubview:_imageView];
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"timeline_image_loading@3x"] options:SDWebImageCacheMemoryOnly completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (!error) {
-            [self setSizeForImage:image withImageView:imageView andOriginX:originX];
+            [self setSizeForImage:image withImageView:_imageView andOriginX:originX];
         } else {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alertView show];
@@ -104,6 +105,7 @@
 -(void)tapAction
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [_imageView sd_cancelCurrentImageLoad];
     [self removeFromSuperview];
 }
 
