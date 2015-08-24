@@ -279,21 +279,20 @@
 
 -(void)statusImageTapped:(UITapGestureRecognizer *)tap
 {
-    NSMutableArray *largeUrls = @[].mutableCopy;
+    NSMutableArray *picUrls = @[].mutableCopy;
     for (NSString *str in _status.pic_urls) {
-        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
+        [picUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self setImageBrowserWithImageUrls:picUrls andTappedViewTag:tap.view.tag];
 }
 
 -(void)repostImageTapped:(UITapGestureRecognizer *)tap
 {
-    NSMutableArray *largeUrls = @[].mutableCopy;
-
+    NSMutableArray *picUrls = @[].mutableCopy;
     for (NSString *str in _status.retweeted_status.pic_urls) {
-        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
+        [picUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self setImageBrowserWithImageUrls:picUrls andTappedViewTag:tap.view.tag];
 }
 
 //override this method to load views dynamically
@@ -317,11 +316,7 @@
     for (int i = 0; i < [_status.pic_urls count]; i ++) {
         UIImageView *statusImageView = [_statusImgViews objectAtIndex:i];
         if (!statusImageView.image) {
-            if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
-                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
-            } else {
-                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
-            }
+            [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
         }
     }
     
@@ -331,11 +326,7 @@
     for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {
         UIImageView *imgView = [_imgViews objectAtIndex:i];
         if (!imgView.image) {
-            if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
-                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
-            } else {
-                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
-            }
+            [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
         }
     }
     
