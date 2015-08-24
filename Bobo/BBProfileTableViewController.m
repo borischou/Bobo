@@ -198,6 +198,7 @@ static NSString *reuseCountsCell = @"countsCell";
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
+        [self.tableView.header endRefreshing];
         [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
     else
@@ -218,6 +219,7 @@ static NSString *reuseCountsCell = @"countsCell";
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!delegate.isLoggedIn) {
+        [self.tableView.footer endRefreshing];
         [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
     else

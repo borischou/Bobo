@@ -197,7 +197,7 @@
 -(void)fetchUserProfile
 {
     if (!self.isLoggedIn) {
-        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        [[[UIAlertView alloc] initWithTitle:@"请求用户信息失败" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
     else
     {
