@@ -307,7 +307,7 @@
 -(void)setStatusData
 {
     //status
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageCacheMemoryOnly];
+    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
     
     _nicknameLbl.text = _status.user.screen_name;
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
