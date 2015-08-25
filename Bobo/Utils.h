@@ -22,4 +22,6 @@
 
 +(CGFloat)heightForString:(NSString *)str width:(CGFloat)width fontSize:(CGFloat)size;
 
++(CGFloat)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height;
+
 @end

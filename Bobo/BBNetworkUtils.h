@@ -16,6 +16,5 @@
 
 +(void)fetchAvatarForStatus:(Status *)status withCell:(BBStatusTableViewCell *)cell;
 +(void)fetchImageFromUrl:(NSString *)url atIndex:(NSInteger)index forImages:(NSMutableArray *)imgs withViews:(NSMutableArray *)views;
-+(CGFloat)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height;
 
 @end
