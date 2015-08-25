@@ -84,7 +84,7 @@
 
 -(void)loadCommentData
 {
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_comment.user.profile_image_url] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageCacheMemoryOnly];
+    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_comment.user.profile_image_url] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
 
     _nameLbl.text = _comment.user.screen_name;
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
