@@ -11,6 +11,10 @@
 		004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */; };
 		0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
+		00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */; };
+		00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */; };
+		00E63A121B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A111B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m */; };
+		00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */; };
 		451441D31B295CA9000532DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D21B295CA9000532DD /* main.m */; };
 		451441D61B295CA9000532DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.m */; };
 		451441DE1B295CA9000532DD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 451441DD1B295CA9000532DD /* Images.xcassets */; };
@@ -92,6 +96,14 @@
 		007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comntbar_icon@3x.png"; sourceTree = "<group>"; };
 		009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBReplyCommentView.h; sourceTree = "<group>"; };
 		009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBReplyCommentView.m; sourceTree = "<group>"; };
+		00E63A0A1B8CC22500736E6A /* BBWaterfallStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallStatusViewController.h; sourceTree = "<group>"; };
+		00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallStatusViewController.m; sourceTree = "<group>"; };
+		00E63A0D1B8CC24A00736E6A /* BBWaterfallCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallCollectionView.h; sourceTree = "<group>"; };
+		00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallCollectionView.m; sourceTree = "<group>"; };
+		00E63A101B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		00E63A111B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		00E63A131B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallCollectionViewCell.h; sourceTree = "<group>"; };
+		00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallCollectionViewCell.m; sourceTree = "<group>"; };
 		380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		451441CD1B295CA9000532DD /* Bobo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bobo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		451441D11B295CA9000532DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -417,6 +429,8 @@
 				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
 				456A2F481B7985E0005AF4E0 /* BBFriendsGroupTableViewController.h */,
 				456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */,
+				00E63A0A1B8CC22500736E6A /* BBWaterfallStatusViewController.h */,
+				00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */,
 			);
 			name = Weibo;
 			sourceTree = "<group>";
@@ -446,6 +460,7 @@
 		456C77E51B2AC59B0055FBE8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				456F62331B4F514100309779 /* Cells */,
 				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
 				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				45688A111B85BB810015461E /* BBCommentBarView.h */,
@@ -460,7 +475,10 @@
 				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
 				000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */,
 				000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */,
-				456F62331B4F514100309779 /* Cells */,
+				00E63A0D1B8CC24A00736E6A /* BBWaterfallCollectionView.h */,
+				00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */,
+				00E63A101B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.h */,
+				00E63A111B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -491,6 +509,8 @@
 				45A052151B3A898200A1488D /* BBCountTableViewCell.m */,
 				45704DAE1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.h */,
 				45704DAF1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m */,
+				00E63A131B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.h */,
+				00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -659,6 +679,7 @@
 				4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */,
 				45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
+				00E63A121B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m in Sources */,
 				45688A0F1B85ABBF0015461E /* CStatus.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
@@ -674,12 +695,14 @@
 				45688A101B85ABBF0015461E /* CUser.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,
+				00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */,
 				45688A131B85BB810015461E /* BBCommentBarView.m in Sources */,
 				456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */,
 				000AE6CE1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
 				009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */,
+				00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */,
 				456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */,
 				451442061B295E8B000532DD /* BBMainStatusTableViewController.m in Sources */,
 				457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */,
@@ -688,6 +711,7 @@
 				45688A161B85D0E20015461E /* BBStatusDetailViewController.m in Sources */,
 				458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */,
 				004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */,
+				00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
