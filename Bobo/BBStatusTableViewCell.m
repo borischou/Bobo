@@ -50,9 +50,7 @@
 
 @implementation BBStatusTableViewCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
+#pragma mark - Initiations
 
 -(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
@@ -188,6 +186,36 @@
     [self.contentView addSubview:_favoritesImageView];
 }
 
+#pragma mark - Life Cycle
+
+- (void) clear
+{
+    if (_shouldBeShown) {
+        return;
+    }
+    [self resetImageViews:_imgViews];
+    [self resetImageViews:_statusImgViews];
+    _postBodyLbl.frame = CGRectZero;
+    _repostLbl.frame = CGRectZero;
+    _repostView.frame = CGRectZero;
+}
+
+- (void) releaseMemory
+{
+    [self clear];
+    [super removeFromSuperview];
+}
+
+-(void)resetImageViews:(NSMutableArray *)views
+{
+    for (int i = 0; i < [views count]; i ++) {
+        [views[i] sd_cancelCurrentImageLoad];
+        [views[i] setFrame:CGRectZero];
+    }
+}
+
+#pragma mark - Tap Actions
+
 -(void)retweetImageViewTapped
 {
     NSLog(@"retweetImageViewTapped");
@@ -296,12 +324,19 @@
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
 
+#pragma mark - Layout support
+
 //override this method to load views dynamically
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    [self setStatusData];
-    [self setCellLayout];
+    if (_shouldBeShown) {
+        [self setStatusData];
+        [self setCellLayout];
+    }
+    else {
+        return;
+    }
 }
 
 -(void)setStatusData
@@ -388,12 +423,7 @@
 
 }
 
--(void)resetImageViews:(NSMutableArray *)views
-{
-    for (int i = 0; i < [views count]; i ++) {
-        [views[i] setFrame:CGRectZero];
-    }
-}
+#pragma mark - Image Browser
 
 -(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
 {

@@ -35,4 +35,9 @@
 @property (strong, nonatomic) UILabel *commentCountLabel;
 @property (strong, nonatomic) UILabel *likeCountLabel;
 
+@property (nonatomic) BOOL shouldBeShown;
+
+- (void) clear;
+- (void) releaseMemory;
+
 @end

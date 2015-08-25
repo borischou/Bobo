@@ -40,6 +40,7 @@ static NSString *reuseBarCellId = @"barCell";
 @property (copy, nonatomic) NSString *max_id;
 @property (copy, nonatomic) NSString *since_id;
 @property (copy, nonatomic) NSMutableArray *statuses;
+@property (copy, nonatomic) NSMutableArray *statusesAsNeeded;
 
 @end
 
@@ -226,6 +227,11 @@ static NSString *reuseBarCellId = @"barCell";
         Status *status = [self.statuses objectAtIndex:indexPath.section];
         cell.status = status;
     }
+    if (_statusesAsNeeded.count > 0 && [_statusesAsNeeded indexOfObject:indexPath] == NSNotFound) {
+        cell.shouldBeShown = NO;
+    } else {
+        [self loadContent];
+    }
     return cell;
 }
 
@@ -249,6 +255,60 @@ static NSString *reuseBarCellId = @"barCell";
     Status *status = [_statuses objectAtIndex:indexPath.section];
     dtvc.status = status;
     [self.navigationController pushViewController:dtvc animated:YES];
+}
+
+#pragma mark - VVbo
+
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    NSIndexPath *currentIndexPath = [[self.tableView indexPathsForVisibleRows] firstObject];
+    NSIndexPath *targetIndexPath = [self.tableView indexPathForRowAtPoint:CGPointMake(0, targetContentOffset->y)];
+    NSInteger skippedRowNum = 8;
+    if (labs(currentIndexPath.section-targetIndexPath.section) > skippedRowNum) {
+        
+        NSArray *temp = [self.tableView indexPathsForRowsInRect:CGRectMake(0, targetContentOffset->y, bWidth, bHeight)];
+        NSMutableArray *mTemp = [NSMutableArray arrayWithArray:temp];
+        
+        if (velocity.y < 0) {
+            NSIndexPath *indexPath = [temp lastObject];
+            if (indexPath.section+3 < _statuses.count) {
+                [mTemp addObject:[NSIndexPath indexPathForItem:indexPath.row inSection:indexPath.section+3]];
+                [mTemp addObject:[NSIndexPath indexPathForItem:indexPath.row inSection:indexPath.section+2]];
+                [mTemp addObject:[NSIndexPath indexPathForItem:indexPath.row inSection:indexPath.section+1]];
+            }
+        }
+        else
+        {
+            NSIndexPath *indexPath = [temp firstObject];
+            if (indexPath.section > 3) {
+                [mTemp addObject:[NSIndexPath indexPathForItem:indexPath.row inSection:indexPath.section-3]];
+                [mTemp addObject:[NSIndexPath indexPathForItem:indexPath.row inSection:indexPath.section-2]];
+                [mTemp addObject:[NSIndexPath indexPathForItem:indexPath.row inSection:indexPath.section-1]];
+            }
+        }
+        if (!_statusesAsNeeded) {
+            _statusesAsNeeded = @[].mutableCopy;
+        }
+        [_statusesAsNeeded addObjectsFromArray:mTemp];
+    }
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [_statusesAsNeeded removeAllObjects];
+}
+
+-(void)loadContent
+{
+    if (self.tableView.indexPathsForVisibleRows.count <= 0) {
+        return;
+    }
+    if (self.tableView.visibleCells && self.tableView.visibleCells.count > 0) {
+        for (id temp in [self.tableView.visibleCells copy]) {
+            BBStatusTableViewCell *cell = (BBStatusTableViewCell *)temp;
+            cell.shouldBeShown = YES;
+        }
+    }
 }
 
 @end
