@@ -37,11 +37,14 @@
     if (count == 3) {
         height = bPostImgHeight;
     }
-    if (count >= 4 && count <= 6) {
-        height = bPostImgHeight * 2 + bSmallGap;
+    if (count == 4) {
+        height = bPostImgHeightForTwo*2+bSmallGap;
+    }
+    if (count > 4 && count <= 6) {
+        height = bPostImgHeight*2+bSmallGap;
     }
     if (count >= 7 && count <= 9) {
-        height = bPostImgHeight * 3 + bSmallGap * 2;
+        height = bPostImgHeight*3+bSmallGap*2;
     }
     return height;
 }
