@@ -79,10 +79,12 @@
 {
     CGFloat imageHeight = image.size.height*bWidth/image.size.width;
     if (imageHeight > bHeight) {
-        imageView.frame = CGRectMake(originX, 0, bWidth, imageHeight);
-        _scrollView.pagingEnabled = NO;
-        _scrollView.alwaysBounceHorizontal = NO;
-        _scrollView.alwaysBounceVertical = YES;
+        imageView.frame = CGRectMake(0, 0, bWidth, imageHeight);
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
+        [scrollView setContentOffset:CGPointMake(originX, 0)];
+        [scrollView setContentSize:CGSizeMake(bWidth, imageHeight)];
+        [scrollView addSubview:imageView];
+        [_scrollView addSubview:scrollView];
     } else {
         imageView.frame = CGRectMake(originX, 0, bWidth, bHeight);
     }
