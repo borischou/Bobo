@@ -33,6 +33,9 @@
 #define bBarHeight bHeight/25
 #define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
 
+#define bPostImgHeightForTwo ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/2
+#define bPostImgWidthForTwo bPostImgHeightForTwo
+
 #define bBarSmallGap 7
 #define bImageHeight [UIScreen mainScreen].bounds.size.height/25-2*bBarSmallGap
 #define bImageWidth bImageHeight

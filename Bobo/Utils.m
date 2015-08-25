@@ -24,12 +24,17 @@
 #define bTextFontSize 14.f
 #define bBtnHeight bHeight/25
 
+#define bPostImgHeightForTwo ([UIScreen mainScreen].bounds.size.width-bSmallGap)/2
+
 @implementation Utils
 
 -(CGFloat)heightForImgsWithCount:(NSInteger)count
 {
     CGFloat height = 0;
-    if (count >= 1 && count <= 3) {
+    if (count == 1 || count == 2) {
+        height = bPostImgHeightForTwo;
+    }
+    if (count == 3) {
         height = bPostImgHeight;
     }
     if (count >= 4 && count <= 6) {

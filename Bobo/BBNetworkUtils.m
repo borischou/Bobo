@@ -14,6 +14,9 @@
 #define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
 #define bPostImgWidth bPostImgHeight
 
+#define bPostImgHeightForTwo ([UIScreen mainScreen].bounds.size.width-bSmallGap)/2
+#define bPostImgWidthForTwo bPostImgHeightForTwo
+
 typedef void (^AnimationHandler) (void);
 typedef void (^CompletionHandler) (BOOL finished);
 
@@ -69,11 +72,16 @@ typedef void (^CompletionHandler) (BOOL finished);
         [views[i] setFrame:CGRectZero];
     }
     
-    if (count >= 1 && count <= 2) {
-        for (int i = 0; i < count; i ++) {
-            [views[i] setFrame:CGRectMake(bBigGap + i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
-        }
-        return bSmallGap+bPostImgHeight;
+    if (count == 1) {
+        UIImageView *view = [views firstObject];
+        [view setFrame:CGRectMake(bBigGap, height+bSmallGap, bPostImgWidthForTwo, bPostImgHeightForTwo)];
+        return bSmallGap+bPostImgHeightForTwo;
+    }
+    
+    if (count == 2) {
+        [views[0] setFrame:CGRectMake(0, height+bSmallGap, bPostImgWidthForTwo, bPostImgHeightForTwo)];
+        [views[1] setFrame:CGRectMake(bPostImgWidthForTwo+bSmallGap, height+bSmallGap, bPostImgWidthForTwo, bPostImgHeightForTwo)];
+        return bSmallGap+bPostImgHeightForTwo;
     }
     
     if (count == 3) {
