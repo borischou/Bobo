@@ -95,6 +95,7 @@ static NSString *reuseBarCellId = @"barCell";
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self fetchLatestStatuses];
+        [self fetchApiRateLimitStatus];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatuses)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
@@ -145,6 +146,25 @@ static NSString *reuseBarCellId = @"barCell";
         }
         NSLog(@"The currentLastStatusId is: %@", _max_id);
         [self.tableView reloadData];
+    }
+}
+
+-(void)fetchApiRateLimitStatus
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
+    if (delegate.wbToken) {
+        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
+        NSString *url;
+        
+        url = [bWeiboDomain stringByAppendingString:@"account/rate_limit_status.json"];
+        
+        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+            NSDictionary *resultDic = result;
+            NSLog(@"访问情况：%@", resultDic.description);
+        }];
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您未登录微博授权，请先登录。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
 }
 

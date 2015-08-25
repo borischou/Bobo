@@ -79,16 +79,18 @@
 {
     CGFloat imageHeight = image.size.height*bWidth/image.size.width;
     if (imageHeight > bHeight) {
-        imageView.frame = CGRectMake(0, 0, bWidth, imageHeight);
+        [imageView setFrame:CGRectMake(0, 0, bWidth, imageHeight)];
         UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
         [scrollView setContentOffset:CGPointMake(originX, 0)];
         [scrollView setContentSize:CGSizeMake(bWidth, imageHeight)];
+        [_imageView removeFromSuperview];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         [scrollView addSubview:imageView];
         [_scrollView addSubview:scrollView];
     } else {
-        imageView.frame = CGRectMake(originX, 0, bWidth, bHeight);
+        [imageView setFrame:CGRectMake(originX, 0, bWidth, bHeight)];
     }
-    imageView.image = image;
+    [imageView setImage:image];
 }
 
 -(void)loadPageControl
