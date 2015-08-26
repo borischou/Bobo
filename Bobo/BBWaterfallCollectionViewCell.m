@@ -7,6 +7,7 @@
 //
 
 #import "BBWaterfallCollectionViewCell.h"
+#import <UIImageView+WebCache.h>
 
 @implementation BBWaterfallCollectionViewCell
 
@@ -19,14 +20,94 @@
     return self;
 }
 
+-(void)initCellLayout
+{
+    _coverImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _coverImageView.backgroundColor = [UIColor blueColor];
+    [self.contentView addSubview:_coverImageView];
+    
+    _avatarView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _avatarView.backgroundColor = [UIColor greenColor];
+    [self.contentView addSubview:_avatarView];
+    
+    _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _textLabel.backgroundColor = [UIColor grayColor];
+    [self.contentView addSubview:_textLabel];
+    
+    _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _nameLabel.backgroundColor = [UIColor redColor];
+    [self.contentView addSubview:_nameLabel];
+    
+    _timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _timeLabel.backgroundColor = [UIColor purpleColor];
+    [self.contentView addSubview:_timeLabel];
+    
+    _retweetNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _retweetNumLabel.backgroundColor = [UIColor purpleColor];
+    [self.contentView addSubview:_retweetNumLabel];
+    
+    _commentNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _commentNumLabel.backgroundColor = [UIColor purpleColor];
+    [self.contentView addSubview:_commentNumLabel];
+    
+    _retweetNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _retweetNameLabel.backgroundColor = [UIColor purpleColor];
+    [self.contentView addSubview:_retweetNameLabel];
+    
+    _retweetTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _retweetTextLabel.backgroundColor = [UIColor purpleColor];
+    [self.contentView addSubview:_retweetTextLabel];
+}
+
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+}
+
 -(void)prepareForReuse
 {
     [super prepareForReuse];
 }
 
--(void)initCellLayout
+-(void)loadCellData
 {
-    
+    if (_status.pic_urls.count > 0) { //有微博配图
+        [_coverImageView sd_setImageWithURL:[NSURL URLWithString:[_status.pic_urls firstObject]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            
+        }];
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end

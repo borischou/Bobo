@@ -307,6 +307,11 @@
     [self setCellLayout];
 }
 
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+}
+
 -(void)setStatusData
 {
     //status
