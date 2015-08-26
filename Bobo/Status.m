@@ -42,6 +42,7 @@
             _retweeted_status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"retweeted_status"]];
         }
         [self calculateStatusHeight];
+        [self calculateWaterfallHeight];
     }
     return self;
 }
@@ -53,7 +54,7 @@
 
 -(void)calculateWaterfallHeight
 {
-    _heightForWaterfall = [Utils heightForWaterfallCellWithStatus:self cellWidth:([UIScreen mainScreen].bounds.size.width-10)/2];
+    _heightForWaterfall = [Utils heightForWaterfallCellWithStatus:self cellWidth:[Utils cellWidthForWaterfall]];
 }
 
 @end

@@ -310,6 +310,7 @@
 -(void)prepareForReuse
 {
     [super prepareForReuse];
+    [self resetImageViews:_statusImgViews];
 }
 
 -(void)setStatusData

@@ -14,9 +14,20 @@
 {
     self = [super init];
     if (self) {
-        
+        [self setupFlowLayoutParams];
     }
     return self;
+}
+
+-(void)setupFlowLayoutParams
+{
+    self.minimumInteritemSpacing = .5;
+    self.minimumLineSpacing = .5;
+}
+
+-(BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+    return YES;
 }
 
 @end

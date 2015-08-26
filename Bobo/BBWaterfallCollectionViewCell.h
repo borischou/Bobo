@@ -28,5 +28,7 @@
 //转发微博信息
 @property (strong, nonatomic) UILabel *retweetTextLabel;
 @property (strong, nonatomic) UILabel *retweetNameLabel;
+@property (strong, nonatomic) UIImageView *retweetIcon;
+@property (strong, nonatomic) UIImageView *commentIcon;
 
 @end

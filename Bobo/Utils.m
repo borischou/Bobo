@@ -28,8 +28,10 @@
 #define bPostImgHeightForTwo ([UIScreen mainScreen].bounds.size.width-bSmallGap)/2
 #define bPostImgWidthForTwo bPostImgHeightForTwo
 
+#define wSmallGap 2
+#define wBigGap 4
 #define wBottomLabelHeight 15
-#define wTextFontSize 13.f
+#define wTextFontSize 10.f
 
 @implementation Utils
 
@@ -162,7 +164,29 @@
     return 0;
 }
 
-+(CGFloat)heightForWaterfallCoverImageUrl:(NSString *)url
+#pragma mark - Measurements
+
++(CGFloat)maxHeightForWaterfallCoverPicture
+{
+    return [UIScreen mainScreen].bounds.size.height*1/4;
+}
+
++(CGFloat)fontSizeForWaterfall
+{
+    return 10.f;
+}
+
++(CGFloat)fontSizeForStatus
+{
+    return 14.f;
+}
+
++(CGFloat)cellWidthForWaterfall
+{
+    return ([UIScreen mainScreen].bounds.size.width-.5)*.5;
+}
+
++(CGFloat)heightForWaterfallCoverPicture
 {
     CGFloat height = 0;
     
@@ -174,33 +198,25 @@
     CGFloat height = 0;
     
     if (status.text) {
-        height += bSmallGap;
-        height += [Utils heightForString:status.text width:width fontSize:wTextFontSize];
+        height += wSmallGap;
+        height += [Utils heightForString:status.text width:width fontSize:[Utils fontSizeForWaterfall]];
     }
-    
     if (!status.retweeted_status) { //无转发微博
         if (status.pic_urls.count > 0) { //微博有图片
-            height += [Utils heightForWaterfallCoverImageUrl:[status.pic_urls firstObject]];
+            height += [Utils heightForWaterfallCoverPicture];
         }
     }
-    else //有转发微博
-    {
-        if (status.retweeted_status.pic_urls.count > 0) { //微博有转发图片
-            height += [Utils heightForWaterfallCoverImageUrl:[status.retweeted_status.pic_urls firstObject]];
-        }
-        else //微博有转发文本，无图片
-        {
-            if (status.retweeted_status.text) {
-                height += bSmallGap;
-                height += [Utils heightForString:status.retweeted_status.text width:width fontSize:wTextFontSize];
-            }
+    else
+    { //有转发微博
+        if (status.retweeted_status.pic_urls.count > 0) { //有转发配图
+            height += [Utils heightForWaterfallCoverPicture];
         }
     }
     
     //底部转发评论时间标签
-    height += bSmallGap;
+    height += wSmallGap;
     height += wBottomLabelHeight;
-    height += bSmallGap;
+    height += wSmallGap;
     
     return height;
 }

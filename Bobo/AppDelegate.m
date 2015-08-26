@@ -16,6 +16,7 @@
 #import "BBUpdateBackgroundViewController.h"
 #import "BBUpdateStatusView.h"
 #import "BBPhotoSelectionCollectionViewController.h"
+#import "BBWaterfallStatusViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -138,10 +139,17 @@
     updateBackgroundVc.title = @"Post";
     updateBackgroundVc.tabBarItem.image = [UIImage imageNamed:@"post_tab_icon"];
     
+    //Tab:图片墙
+    BBWaterfallStatusViewController *waterfallvc = [[BBWaterfallStatusViewController alloc] init];
+    waterfallvc.title = @"Waterfall";
+    waterfallvc.tabBarItem.image = [UIImage imageNamed:@"tab_waterfall"];
+    UINavigationController *waterfallnvc = [[UINavigationController alloc] initWithRootViewController:waterfallvc];
+    [self setupNavigationController:waterfallnvc withUITableViewController:nil];
+    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.delegate = self;
     
-    [tabBarController setViewControllers:@[weiboListNvc, profileNvc, collectionNvc, updateBackgroundVc] animated:YES];
+    [tabBarController setViewControllers:@[waterfallnvc, profileNvc, updateBackgroundVc, collectionNvc, weiboListNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
     //Rear:微博分组

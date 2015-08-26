@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Status.h"
 
 @interface BBWaterfallStatusViewController : UIViewController
+
+@property (copy, nonatomic) NSMutableArray *statuses;
 
 @end

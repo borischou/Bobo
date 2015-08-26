@@ -70,8 +70,7 @@
 		458393561B7B536D005B1766 /* BBUpdateBackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458393551B7B536D005B1766 /* BBUpdateBackgroundViewController.m */; };
 		458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 458393571B7B54E4005B1766 /* post_tab_icon@3x.png */; };
 		4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* Counts.m */; };
-		4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F7451B3BC45500EE32D0 /* car@3x.png */; };
-		4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */; };
+		4598BC2A1B8D890200F61A63 /* tab_waterfall@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4598BC291B8D890200F61A63 /* tab_waterfall@3x.png */; };
 		45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountTableViewCell.m */; };
 		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
 		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
@@ -201,8 +200,7 @@
 		458393571B7B54E4005B1766 /* post_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "post_tab_icon@3x.png"; sourceTree = "<group>"; };
 		4588F7311B3B9B5A00EE32D0 /* Counts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counts.h; sourceTree = "<group>"; };
 		4588F7321B3B9B5A00EE32D0 /* Counts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Counts.m; sourceTree = "<group>"; };
-		4588F7451B3BC45500EE32D0 /* car@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@3x.png"; sourceTree = "<group>"; };
-		4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-uber@3x.png"; sourceTree = "<group>"; };
+		4598BC291B8D890200F61A63 /* tab_waterfall@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_waterfall@3x.png"; sourceTree = "<group>"; };
 		45A052141B3A898200A1488D /* BBCountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountTableViewCell.h; sourceTree = "<group>"; };
 		45A052151B3A898200A1488D /* BBCountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountTableViewCell.m; sourceTree = "<group>"; };
 		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -396,6 +394,7 @@
 				007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */,
 				45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */,
 				457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */,
+				4598BC291B8D890200F61A63 /* tab_waterfall@3x.png */,
 				456254D81B8305220009A332 /* faved_icon@3x.png */,
 				456920401B74758B00E2C204 /* bb_collect_icon@3x.png */,
 				456254D01B82E7E00009A332 /* cmt_icon@3x.png */,
@@ -406,8 +405,6 @@
 				456254DC1B8306200009A332 /* fav_icon_3@3x.png */,
 				458393571B7B54E4005B1766 /* post_tab_icon@3x.png */,
 				45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */,
-				4588F74F1B3BCD5E00EE32D0 /* iconfont-uber@3x.png */,
-				4588F7451B3BC45500EE32D0 /* car@3x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -463,6 +460,10 @@
 				456F62331B4F514100309779 /* Cells */,
 				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
 				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
+				00E63A0D1B8CC24A00736E6A /* BBWaterfallCollectionView.h */,
+				00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */,
+				00E63A101B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.h */,
+				00E63A111B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m */,
 				45688A111B85BB810015461E /* BBCommentBarView.h */,
 				45688A121B85BB810015461E /* BBCommentBarView.m */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
@@ -475,10 +476,6 @@
 				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
 				000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */,
 				000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */,
-				00E63A0D1B8CC24A00736E6A /* BBWaterfallCollectionView.h */,
-				00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */,
-				00E63A101B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.h */,
-				00E63A111B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -607,6 +604,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4598BC2A1B8D890200F61A63 /* tab_waterfall@3x.png in Resources */,
 				456920451B7478A800E2C204 /* iconfont-logout.png in Resources */,
 				451441E11B295CA9000532DD /* LaunchScreen.xib in Resources */,
 				4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */,
@@ -615,8 +613,6 @@
 				456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */,
 				451442131B29635B000532DD /* WeiboSDK.bundle in Resources */,
 				0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */,
-				4588F7501B3BCD5E00EE32D0 /* iconfont-uber@3x.png in Resources */,
-				4588F7461B3BC45500EE32D0 /* car@3x.png in Resources */,
 				45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */,
 				456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */,
 				458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */,

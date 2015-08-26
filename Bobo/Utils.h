@@ -27,4 +27,10 @@
 
 +(CGFloat)heightForWaterfallCellWithStatus:(Status *)status cellWidth:(CGFloat)width;
 
++(CGFloat)fontSizeForWaterfall;
++(CGFloat)cellWidthForWaterfall;
++(CGFloat)maxHeightForWaterfallCoverPicture;
+
++(CGFloat)fontSizeForStatus;
+
 @end
