@@ -9,6 +9,8 @@
 #import "BBWaterfallCollectionViewCell.h"
 #import <UIImageView+WebCache.h>
 
+#define wCellWidth ([UIScreen mainScreen].bounds.size.width-10)*.5
+
 @implementation BBWaterfallCollectionViewCell
 
 -(instancetype)init
@@ -23,10 +25,12 @@
 -(void)initCellLayout
 {
     _coverImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     _coverImageView.backgroundColor = [UIColor blueColor];
     [self.contentView addSubview:_coverImageView];
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _avatarView.contentMode = UIViewContentModeScaleAspectFit;
     _avatarView.backgroundColor = [UIColor greenColor];
     [self.contentView addSubview:_avatarView];
     
@@ -72,9 +76,17 @@
 -(void)loadCellData
 {
     if (_status.pic_urls.count > 0) { //有微博配图
-        [_coverImageView sd_setImageWithURL:[NSURL URLWithString:[_status.pic_urls firstObject]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            
+        [_coverImageView sd_setImageWithURL:[NSURL URLWithString:[_status.pic_urls firstObject]]
+                           placeholderImage:[UIImage imageNamed:@"pic_placeholder"]
+                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+        {
+            if (!error) {
+                CGFloat imageHeight = image.size.height*wCellWidth/image.size.width;
+                _status.heightForWaterfall += imageHeight;
+                [_coverImageView setFrame:CGRectMake(0, 0, wCellWidth, imageHeight)];
+            }
         }];
+        
     }
 }
 

@@ -7,7 +7,7 @@
 //
 
 #import "Utils.h"
-#import <UIImageView+WebCache.h>
+#import <AFNetworking.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -165,6 +165,7 @@
 +(CGFloat)heightForWaterfallCoverImageUrl:(NSString *)url
 {
     CGFloat height = 0;
+    
     return height;
 }
 
@@ -181,7 +182,6 @@
         if (status.pic_urls.count > 0) { //微博有图片
             height += [Utils heightForWaterfallCoverImageUrl:[status.pic_urls firstObject]];
         }
-        
     }
     else //有转发微博
     {

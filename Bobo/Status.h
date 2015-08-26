@@ -30,8 +30,9 @@
 @property (nonatomic) NSInteger attitudes_count;
 
 @property (copy, nonatomic) NSMutableArray *pic_urls;
-@property (copy, nonatomic) NSMutableArray *images;
 @property (nonatomic) CGFloat height;
+
+@property (nonatomic) CGFloat heightForWaterfall;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

@@ -321,22 +321,26 @@
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _postBodyLbl.text = _status.text;
     
-    for (int i = 0; i < [_status.pic_urls count]; i ++) {
-        if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
-            [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
-        } else {
-            [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+    if (_status.pic_urls.count > 0) {
+        for (int i = 0; i < [_status.pic_urls count]; i ++) {
+            if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
+                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+            } else {
+                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+            }
         }
     }
     
     //repost status
     _repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
     
-    for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {
-        if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
-            [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
-        } else {
-            [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+    if (_status.retweeted_status.pic_urls.count > 0) {
+        for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {
+            if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
+                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+            } else {
+                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+            }
         }
     }
     
