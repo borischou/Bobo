@@ -22,6 +22,8 @@
 @property (strong, nonatomic) UILabel *textLabel;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *timeLabel;
+@property (strong, nonatomic) UILabel *retweetNumLabel;
+@property (strong, nonatomic) UILabel *commentNumLabel;
 
 //转发微博信息
 @property (strong, nonatomic) UILabel *retweetTextLabel;

@@ -7,6 +7,7 @@
 //
 
 #import "Utils.h"
+#import <UIImageView+WebCache.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -26,6 +27,10 @@
 
 #define bPostImgHeightForTwo ([UIScreen mainScreen].bounds.size.width-bSmallGap)/2
 #define bPostImgWidthForTwo bPostImgHeightForTwo
+
+#define wBottomLabelHeight 15
+#define wTextFontSize 13.f
+
 @implementation Utils
 
 -(CGFloat)heightForImgsWithCount:(NSInteger)count
@@ -155,6 +160,49 @@
         return bSmallGap*3+bPostImgHeight*3;
     }
     return 0;
+}
+
++(CGFloat)heightForWaterfallCoverImageUrl:(NSString *)url
+{
+    CGFloat height = 0;
+    return height;
+}
+
++(CGFloat)heightForWaterfallCellWithStatus:(Status *)status cellWidth:(CGFloat)width
+{
+    CGFloat height = 0;
+    
+    if (status.text) {
+        height += bSmallGap;
+        height += [Utils heightForString:status.text width:width fontSize:wTextFontSize];
+    }
+    
+    if (!status.retweeted_status) { //无转发微博
+        if (status.pic_urls.count > 0) { //微博有图片
+            height += [Utils heightForWaterfallCoverImageUrl:[status.pic_urls firstObject]];
+        }
+        
+    }
+    else //有转发微博
+    {
+        if (status.retweeted_status.pic_urls.count > 0) { //微博有转发图片
+            height += [Utils heightForWaterfallCoverImageUrl:[status.retweeted_status.pic_urls firstObject]];
+        }
+        else //微博有转发文本，无图片
+        {
+            if (status.retweeted_status.text) {
+                height += bSmallGap;
+                height += [Utils heightForString:status.retweeted_status.text width:width fontSize:wTextFontSize];
+            }
+        }
+    }
+    
+    //底部转发评论时间标签
+    height += bSmallGap;
+    height += wBottomLabelHeight;
+    height += bSmallGap;
+    
+    return height;
 }
 
 @end

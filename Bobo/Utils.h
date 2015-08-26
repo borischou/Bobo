@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "Status.h"
 
 @interface Utils : NSObject
 
@@ -23,5 +24,7 @@
 +(CGFloat)heightForString:(NSString *)str width:(CGFloat)width fontSize:(CGFloat)size;
 
 +(CGFloat)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height;
+
++(CGFloat)heightForWaterfallCellWithStatus:(Status *)status cellWidth:(CGFloat)width;
 
 @end

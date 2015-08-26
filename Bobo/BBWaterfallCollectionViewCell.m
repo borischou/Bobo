@@ -24,4 +24,9 @@
     [super prepareForReuse];
 }
 
+-(void)initCellLayout
+{
+    
+}
+
 @end
