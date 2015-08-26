@@ -10,4 +10,6 @@
 
 @interface BBWaterfallCollectionViewFlowLayout : UICollectionViewFlowLayout
 
+//@property (nonatomic) CGSize contentSize;
+
 @end

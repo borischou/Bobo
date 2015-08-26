@@ -325,9 +325,9 @@
     if (_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.pic_urls count]; i ++) {
             if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
-                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
             } else {
-                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
             }
         }
     }
@@ -338,9 +338,9 @@
     if (_status.retweeted_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {
             if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
-                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
             } else {
-                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageCacheMemoryOnly];
+                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
             }
         }
     }

@@ -458,12 +458,12 @@
 			isa = PBXGroup;
 			children = (
 				456F62331B4F514100309779 /* Cells */,
-				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
-				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				00E63A0D1B8CC24A00736E6A /* BBWaterfallCollectionView.h */,
 				00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */,
 				00E63A101B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.h */,
 				00E63A111B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m */,
+				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
+				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				45688A111B85BB810015461E /* BBCommentBarView.h */,
 				45688A121B85BB810015461E /* BBCommentBarView.m */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,

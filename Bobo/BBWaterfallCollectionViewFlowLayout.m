@@ -30,4 +30,9 @@
     return YES;
 }
 
+//-(CGSize)collectionViewContentSize
+//{
+//    return _contentSize;
+//}
+
 @end

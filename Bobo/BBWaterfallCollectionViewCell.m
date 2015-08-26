@@ -22,6 +22,15 @@
 
 @implementation BBWaterfallCollectionViewCell
 
+-(instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initCellLayout];
+    }
+    return self;
+}
+
 -(void)initCellLayout
 {
     self.contentView.backgroundColor = [UIColor whiteColor];
@@ -76,9 +85,6 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    if (!_coverImageView) {
-        [self initCellLayout];
-    }
     [self loadCellData];
     [self layoutCellViews];
 }
