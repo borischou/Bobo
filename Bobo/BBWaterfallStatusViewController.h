@@ -11,6 +11,4 @@
 
 @interface BBWaterfallStatusViewController : UIViewController
 
-@property (copy, nonatomic) NSMutableArray *statuses;
-
 @end

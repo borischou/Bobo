@@ -84,15 +84,15 @@
         [_waterfallView.footer endRefreshing];
         [alertView show];
     } else {
-        if (!_statuses) {
-            _statuses = @[].mutableCopy;
+        if (!_waterfallView.statuses) {
+            _waterfallView.statuses = @[].mutableCopy;
         }
         if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
             NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
             if (downloadedStatuses.count > 0) {
                 for (int i = 0; i < [downloadedStatuses count]; i ++) {
                     Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
-                    [_statuses insertObject:tmp_status atIndex:i];
+                    [_waterfallView.statuses insertObject:tmp_status atIndex:i];
                     if ([downloadedStatuses count] - 1 == i) {
                         _max_id = tmp_status.idstr;
                     }
@@ -108,7 +108,7 @@
             if (historyStatuses.count > 0) {
                 for (int i = 1; i < [historyStatuses count]; i ++) {
                     Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
-                    [_statuses addObject:tmp_status];
+                    [_waterfallView.statuses addObject:tmp_status];
                     if ([historyStatuses count] - 1 == i) {
                         _max_id = tmp_status.idstr;
                     }
@@ -116,9 +116,8 @@
             }
             [_waterfallView.footer endRefreshing];
         }
-        _waterfallView.statuses = _statuses;
-        NSLog(@"The currentLastStatusId is: %@", _max_id);
         [_waterfallView reloadData];
+        NSLog(@"The currentLastStatusId is: %@", _max_id);
     }
 }
 

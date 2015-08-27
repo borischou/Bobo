@@ -13,7 +13,6 @@
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
 		00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */; };
 		00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */; };
-		00E63A121B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A111B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m */; };
 		00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */; };
 		451441D31B295CA9000532DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D21B295CA9000532DD /* main.m */; };
 		451441D61B295CA9000532DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.m */; };
@@ -99,8 +98,6 @@
 		00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallStatusViewController.m; sourceTree = "<group>"; };
 		00E63A0D1B8CC24A00736E6A /* BBWaterfallCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallCollectionView.h; sourceTree = "<group>"; };
 		00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallCollectionView.m; sourceTree = "<group>"; };
-		00E63A101B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallCollectionViewFlowLayout.h; sourceTree = "<group>"; };
-		00E63A111B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		00E63A131B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallCollectionViewCell.h; sourceTree = "<group>"; };
 		00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallCollectionViewCell.m; sourceTree = "<group>"; };
 		380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -460,8 +457,6 @@
 				456F62331B4F514100309779 /* Cells */,
 				00E63A0D1B8CC24A00736E6A /* BBWaterfallCollectionView.h */,
 				00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */,
-				00E63A101B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.h */,
-				00E63A111B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m */,
 				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
 				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				45688A111B85BB810015461E /* BBCommentBarView.h */,
@@ -675,7 +670,6 @@
 				4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */,
 				45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
-				00E63A121B8CC2D500736E6A /* BBWaterfallCollectionViewFlowLayout.m in Sources */,
 				45688A0F1B85ABBF0015461E /* CStatus.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,

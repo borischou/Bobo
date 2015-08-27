@@ -11,6 +11,7 @@
 #import "BBWaterfallCollectionView.h"
 #import "BBWaterfallCollectionViewCell.h"
 #import "Utils.h"
+#import "BBStatusDetailViewController.h"
 
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 
@@ -30,8 +31,6 @@ static NSString *reuseCellId = @"reuseCell";
         self.dataSource = self;
         self.backgroundColor = bBGColor;
         _statuses = @[].mutableCopy;
-        [self registerClass:[BBWaterfallCollectionViewCell class] forCellWithReuseIdentifier:reuseCellId];
-        [self reloadData];
     }
     return self;
 }
@@ -45,11 +44,23 @@ static NSString *reuseCellId = @"reuseCell";
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    [collectionView registerClass:[BBWaterfallCollectionViewCell class] forCellWithReuseIdentifier:reuseCellId];
     BBWaterfallCollectionViewCell *cell = (BBWaterfallCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseCellId forIndexPath:indexPath];
     if (_statuses.count > 0) {
-        cell.status = [_statuses objectAtIndex:indexPath.row];
+        Status *status = [_statuses objectAtIndex:indexPath.row];
+        cell.status = status;
     }
     return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
+    dtvc.title = @"Detail";
+    dtvc.hidesBottomBarWhenPushed = YES;
+    Status *status = [_statuses objectAtIndex:indexPath.row];
+    dtvc.status = status;
+    
 }
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout

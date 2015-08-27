@@ -10,6 +10,7 @@
 #import <UIImageView+WebCache.h>
 #import "Utils.h"
 #import "NSString+Convert.h"
+#import "BBImageBrowserView.h"
 
 #define wMaxPictureHeight [UIScreen mainScreen].bounds.size.height*3/5
 #define wSmallGap 2
@@ -48,6 +49,8 @@
     [_coverImageView setFrame:CGRectZero];
     _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     _coverImageView.clipsToBounds = YES;
+    _coverImageView.userInteractionEnabled = YES;
+    [_coverImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverImageViewTapped)]];
     [self.contentView addSubview:_coverImageView];
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -122,12 +125,12 @@
         _retweetTextLabel.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
     }
     
-    CGFloat imageHeight = [Utils maxHeightForWaterfallCoverPicture];
-    CGFloat cellWidth = [Utils cellWidthForWaterfall];
-    
     [self resetCoverImageView];
     [_retweetTextLabel setFrame:CGRectZero];
     [_mask removeFromSuperview];
+    
+    CGFloat imageHeight = [Utils maxHeightForWaterfallCoverPicture];
+    CGFloat cellWidth = [Utils cellWidthForWaterfall];
     
     CGSize textSize = [_textLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
     if (_status.pic_urls.count > 0 || (_status.retweeted_status && _status.retweeted_status.pic_urls.count > 0)) {
@@ -157,6 +160,7 @@
         } else {
             retweetLabelHeight = rSize.height;
         }
+        
         if (!_mask) {
             _mask = [[UIView alloc] initWithFrame:CGRectZero];
         }
@@ -166,6 +170,7 @@
         _mask.layer.shadowOpacity = 0.5;
         _mask.layer.shadowColor = [UIColor blackColor].CGColor;
         [self.contentView addSubview:_mask];
+        
         [_retweetTextLabel setFrame:CGRectMake(wSmallGap, imageHeight-retweetLabelHeight, cellWidth-2*wSmallGap, retweetLabelHeight)];
         _retweetTextLabel.textColor = [UIColor whiteColor];
         [self.contentView bringSubviewToFront:_retweetTextLabel];
@@ -214,6 +219,28 @@
 -(void)resetCoverImageView
 {
     [_coverImageView setFrame:CGRectZero];
+}
+
+-(void)coverImageViewTapped
+{
+    NSMutableArray *originUrls = nil;
+    NSMutableArray *largeUrls = @[].mutableCopy;
+    if (_status.pic_urls.count > 0) {
+        originUrls = _status.pic_urls;
+    }
+    if (_status.retweeted_status.pic_urls.count > 0) {
+        originUrls = _status.retweeted_status.pic_urls;
+    }
+    for (NSString *str in originUrls) {
+        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
+    }
+    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:0];
+}
+
+-(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
+{
+    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
+    [self.window addSubview:browserView];
 }
 
 @end

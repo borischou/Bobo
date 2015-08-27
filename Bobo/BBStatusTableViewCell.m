@@ -292,7 +292,6 @@
 -(void)repostImageTapped:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
-
     for (NSString *str in _status.retweeted_status.pic_urls) {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
@@ -310,7 +309,6 @@
 -(void)prepareForReuse
 {
     [super prepareForReuse];
-    [self resetImageViews:_statusImgViews];
 }
 
 -(void)setStatusData
