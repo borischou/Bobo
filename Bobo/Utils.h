@@ -25,7 +25,7 @@
 
 +(CGFloat)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height;
 
-+(CGFloat)heightForWaterfallCellWithStatusText:(NSString *)text screenName:(NSString *)name imageContained:(BOOL)flag textWidth:(CGFloat)width;
++(CGFloat)heightForWaterfallCellWithStatus:(Status *)status textWidth:(CGFloat)width;
 
 +(CGFloat)fontSizeForWaterfall;
 +(CGFloat)cellWidthForWaterfall;

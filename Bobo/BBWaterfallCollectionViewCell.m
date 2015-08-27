@@ -21,6 +21,12 @@
 
 #define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
+@interface BBWaterfallCollectionViewCell ()
+
+@property (strong, nonatomic) UIView *mask;
+
+@end
+
 @implementation BBWaterfallCollectionViewCell
 
 -(instancetype)initWithFrame:(CGRect)frame
@@ -36,6 +42,8 @@
 {
     self.contentView.backgroundColor = bCellBGColor;
     
+    CGFloat fontSize = [Utils fontSizeForWaterfall];
+    
     _coverImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [_coverImageView setFrame:CGRectZero];
     _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -47,37 +55,38 @@
     [self.contentView addSubview:_avatarView];
     
     _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _textLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _textLabel.font = [UIFont systemFontOfSize:fontSize];
     _textLabel.numberOfLines = 0;
     _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _textLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_textLabel];
     
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _nameLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _nameLabel.font = [UIFont systemFontOfSize:fontSize];
     [self.contentView addSubview:_nameLabel];
     
     _timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _timeLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _timeLabel.font = [UIFont systemFontOfSize:fontSize];
     _timeLabel.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_timeLabel];
     
     _retweetNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _retweetNumLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _retweetNumLabel.font = [UIFont systemFontOfSize:fontSize];
     _retweetNumLabel.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_retweetNumLabel];
     
     _commentNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _commentNumLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _commentNumLabel.font = [UIFont systemFontOfSize:fontSize];
     _commentNumLabel.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_commentNumLabel];
     
     _retweetNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _retweetNameLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _retweetNameLabel.font = [UIFont systemFontOfSize:fontSize];
     [self.contentView addSubview:_retweetNameLabel];
     
     _retweetTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _retweetTextLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _retweetTextLabel.font = [UIFont systemFontOfSize:fontSize];
+    _retweetTextLabel.textColor = [UIColor lightTextColor];
     _retweetTextLabel.numberOfLines = 0;
     _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self.contentView addSubview:_retweetTextLabel];
@@ -98,7 +107,6 @@
 -(void)prepareForReuse
 {
     [super prepareForReuse];
-    [self resetCoverImageView];
 }
 
 -(void)loadCellData
@@ -111,14 +119,20 @@
     
     if (_status.retweeted_status) {
         _retweetNameLabel.text = _status.retweeted_status.user.screen_name;
-        _retweetTextLabel.text = _status.retweeted_status.text;
+        _retweetTextLabel.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
     }
     
-    CGSize textSize = [_textLabel sizeThatFits:CGSizeMake([Utils cellWidthForWaterfall]-2*wSmallGap, MAXFLOAT)];
+    CGFloat imageHeight = [Utils maxHeightForWaterfallCoverPicture];
+    CGFloat cellWidth = [Utils cellWidthForWaterfall];
+    
+    [self resetCoverImageView];
+    [_retweetTextLabel setFrame:CGRectZero];
+    [_mask removeFromSuperview];
+    
+    CGSize textSize = [_textLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
     if (_status.pic_urls.count > 0 || (_status.retweeted_status && _status.retweeted_status.pic_urls.count > 0)) {
-        [self resetCoverImageView];
         _coverImageView.hidden = NO;
-        [_coverImageView setFrame:CGRectMake(0, 0, [Utils cellWidthForWaterfall], [Utils maxHeightForWaterfallCoverPicture])];
+        [_coverImageView setFrame:CGRectMake(0, 0, cellWidth, imageHeight)];
         if (_status.pic_urls.count > 0) { //有微博配图
             [self loadCoverPictureWithUrl:[_status.pic_urls firstObject]];
         }
@@ -126,11 +140,43 @@
             [self loadCoverPictureWithUrl:[_status.retweeted_status.pic_urls firstObject]];
         }
     } else { //仅有文字
-        [self resetCoverImageView];
         _coverImageView.hidden = YES;
     }
-    [_textLabel setFrame:CGRectMake(wSmallGap, _coverImageView.frame.size.height+wSmallGap, [Utils cellWidthForWaterfall]-2*wSmallGap, textSize.height)];
-    [self layoutBottomButtonsWithTop:_coverImageView.frame.size.height+wSmallGap+textSize.height];
+    
+    [_textLabel setFrame:CGRectMake(wSmallGap, _coverImageView.frame.size.height+wSmallGap, cellWidth-2*wSmallGap, textSize.height)];
+    
+    CGSize rSize = [_retweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
+    if (_status.retweeted_status.text && _status.retweeted_status.pic_urls.count <= 0) { //转发无配图
+        [_retweetTextLabel setFrame:CGRectMake(wSmallGap, wSmallGap+textSize.height+wSmallGap, cellWidth-2*wSmallGap, rSize.height)];
+        [self layoutBottomButtonsWithTop:wSmallGap+textSize.height+wSmallGap+rSize.height];
+    }
+    else if (_status.retweeted_status.text && _status.retweeted_status.pic_urls.count > 0) { //转发有配图
+        CGFloat retweetLabelHeight = 0;
+        if (rSize.height > imageHeight/4) {
+            retweetLabelHeight = imageHeight/4;
+        } else {
+            retweetLabelHeight = rSize.height;
+        }
+        if (!_mask) {
+            _mask = [[UIView alloc] initWithFrame:CGRectZero];
+        }
+        [_mask setFrame:CGRectMake(0, imageHeight-retweetLabelHeight, cellWidth, retweetLabelHeight)];
+        _mask.backgroundColor = [UIColor blackColor];
+        _mask.alpha = 0.5;
+        _mask.layer.shadowOpacity = 0.5;
+        _mask.layer.shadowColor = [UIColor blackColor].CGColor;
+        [self.contentView addSubview:_mask];
+        [_retweetTextLabel setFrame:CGRectMake(wSmallGap, imageHeight-retweetLabelHeight, cellWidth-2*wSmallGap, retweetLabelHeight)];
+        _retweetTextLabel.textColor = [UIColor whiteColor];
+        [self.contentView bringSubviewToFront:_retweetTextLabel];
+        [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height];
+    } else {
+        if (_status.pic_urls.count > 0) {
+            [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height];
+        } else {
+            [self layoutBottomButtonsWithTop:wSmallGap+textSize.height];
+        }
+    }
 }
 
 -(void)loadCoverPictureWithUrl:(NSString *)url

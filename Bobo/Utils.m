@@ -208,15 +208,21 @@
     return 4.0;
 }
 
-+(CGFloat)heightForWaterfallCellWithStatusText:(NSString *)text screenName:(NSString *)name imageContained:(BOOL)flag textWidth:(CGFloat)width
++(CGFloat)heightForWaterfallCellWithStatus:(Status *)status textWidth:(CGFloat)width
 {
     CGFloat height = 0;
     
-    if (flag) {
+    if (status.pic_urls.count > 0 || status.retweeted_status.pic_urls.count > 0) {
         height += [Utils maxHeightForWaterfallCoverPicture];
     }
     height += wSmallGap;
-    height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", name, text] width:width fontSize:[Utils fontSizeForWaterfall]];
+    height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] width:width fontSize:[Utils fontSizeForWaterfall]];
+    
+    if (status.retweeted_status && status.retweeted_status.pic_urls.count <= 0) {
+        height += wSmallGap;
+        height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] width:width fontSize:[Utils fontSizeForWaterfall]];
+    }
+    
     //底部转发评论时间标签
     height += wSmallGap;
     height += wBottomLabelHeight;

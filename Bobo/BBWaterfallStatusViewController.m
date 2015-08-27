@@ -40,7 +40,7 @@
     
     CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
     layout.minimumColumnSpacing = 1.0;
-    layout.minimumInteritemSpacing = 1.0;
+    layout.minimumInteritemSpacing = 2.0;
     layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionLeftToRight;
     
     _waterfallView = [[BBWaterfallCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:layout];

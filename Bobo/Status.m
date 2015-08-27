@@ -54,11 +54,7 @@
 
 -(void)calculateWaterfallHeight
 {
-    if (_pic_urls.count > 0 || ((_retweeted_status && _retweeted_status.pic_urls.count > 0))) {
-        _heightForWaterfall = [Utils heightForWaterfallCellWithStatusText:_text screenName:_user.screen_name imageContained:YES textWidth:[Utils cellWidthForWaterfall]-4];
-    } else {
-        _heightForWaterfall = [Utils heightForWaterfallCellWithStatusText:_text screenName:_user.screen_name imageContained:NO textWidth:[Utils cellWidthForWaterfall]-4];
-    }
+    _heightForWaterfall = [Utils heightForWaterfallCellWithStatus:self textWidth:[Utils cellWidthForWaterfall]-4];
 }
 
 @end
