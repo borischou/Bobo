@@ -133,14 +133,13 @@
 
 -(void)loadCoverPictureWithUrl:(NSString *)url
 {
-    [_coverImageView sd_setImageWithURL:[NSURL URLWithString:[NSString largePictureUrlConvertedFromThumbUrl:url]]
-                       placeholderImage:[UIImage imageNamed:@"pic_placeholder"]
-                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
-     {
-         if (!error) {
-             _coverImageView.image = image;
-         }
-     }];
+    NSString *sdUrl;
+    if ([url hasSuffix:@"gif"]) {
+        sdUrl = url;
+    } else {
+        sdUrl = [NSString largePictureUrlConvertedFromThumbUrl:url];
+    }
+    [_coverImageView sd_setImageWithURL:[NSURL URLWithString:sdUrl] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
 }
 
 -(void)layoutBottomButtonsWithTop:(CGFloat)top
