@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 Zhouboli. All rights reserved.
 //
 
-#import <CHTCollectionViewWaterfallLayout.h>
-
+#import "CHTCollectionViewWaterfallLayout.h"
 #import "BBWaterfallStatusViewController.h"
 
 #import <MJRefresh/MJRefresh.h>

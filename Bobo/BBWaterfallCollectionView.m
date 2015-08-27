@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 Zhouboli. All rights reserved.
 //
 
-#import <CHTCollectionViewWaterfallLayout.h>
-
+#import "CHTCollectionViewWaterfallLayout.h"
 #import "BBWaterfallCollectionView.h"
 #import "BBWaterfallCollectionViewCell.h"
 #import "Utils.h"
@@ -47,7 +46,7 @@ static NSString *reuseCellId = @"reuseCell";
     [collectionView registerClass:[BBWaterfallCollectionViewCell class] forCellWithReuseIdentifier:reuseCellId];
     BBWaterfallCollectionViewCell *cell = (BBWaterfallCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseCellId forIndexPath:indexPath];
     if (_statuses.count > 0) {
-        Status *status = [_statuses objectAtIndex:indexPath.row];
+        Status *status = [_statuses objectAtIndex:indexPath.item];
         cell.status = status;
     }
     return cell;
@@ -58,7 +57,7 @@ static NSString *reuseCellId = @"reuseCell";
     BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
     dtvc.title = @"Detail";
     dtvc.hidesBottomBarWhenPushed = YES;
-    Status *status = [_statuses objectAtIndex:indexPath.row];
+    Status *status = [_statuses objectAtIndex:indexPath.item];
     dtvc.status = status;
     
 }
@@ -68,7 +67,7 @@ static NSString *reuseCellId = @"reuseCell";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_statuses.count > 0) {
-        Status *status = [_statuses objectAtIndex:indexPath.row];
+        Status *status = [_statuses objectAtIndex:indexPath.item];
         CGSize cellSize = CGSizeMake([Utils cellWidthForWaterfall], status.heightForWaterfall);
         return cellSize;
     } else {
