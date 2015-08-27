@@ -146,14 +146,23 @@
 
 -(void)layoutBottomButtonsWithTop:(CGFloat)top
 {
-    [_retweetIcon setFrame:CGRectMake(wSmallGap, top+wSmallGap, wBottomItemWidth, wBottomItemHeight)];
+    _retweetIcon.image = [UIImage imageNamed:@"retwt_icon"];
+    _commentIcon.image = [UIImage imageNamed:@"cmt_icon"];
+    
+    [_retweetIcon setFrame:CGRectMake(wSmallGap, top+wSmallGap, wBottomItemWidth*2/3, wBottomItemHeight*2/3)];
+    [_retweetIcon setCenter:CGPointMake(_retweetIcon.center.x, top+wSmallGap+wBottomItemHeight/2)];
+    
     CGSize rSize = [_retweetNumLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
-    [_retweetNumLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth+wSmallGap, top+wSmallGap, rSize.width, wBottomItemHeight)];
-    [_commentIcon setFrame:CGRectMake(wSmallGap+wBottomItemWidth+wSmallGap+rSize.width+wSmallGap, top+wSmallGap, wBottomItemWidth, wBottomItemHeight)];
+    [_retweetNumLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap, top+wSmallGap, rSize.width, wBottomItemHeight)];
+    
+    [_commentIcon setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap, top+wSmallGap, wBottomItemWidth*2/3, wBottomItemHeight*2/3)];
+    [_commentIcon setCenter:CGPointMake(_commentIcon.center.x, top+wSmallGap+wBottomItemHeight/2)];
+    
     CGSize cSize = [_commentNumLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
-    [_commentNumLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth+wSmallGap, top+wSmallGap, cSize.width, wBottomItemHeight)];
+    [_commentNumLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth*2/3+wSmallGap, top+wSmallGap, cSize.width, wBottomItemHeight)];
+    
     CGSize timeSize = [_timeLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
-    [_timeLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth+wSmallGap+cSize.width+wSmallGap, top+wSmallGap, timeSize.width, wBottomItemHeight)];
+    [_timeLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth*2/3+wSmallGap+cSize.width+wSmallGap, top+wSmallGap, timeSize.width, wBottomItemHeight)];
 }
 
 -(void)resetCoverImageView
