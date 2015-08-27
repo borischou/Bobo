@@ -105,8 +105,8 @@
     [_nameLabel setCenter:CGPointMake(self.frame.size.width/2, uSmallGap+uBtnHeight/2)];
     
     if (_flag == 0) { //发微博
-        _statusTextView.inputAccessoryView = _keyboardInputView;
         _keyboardInputView = [[BBKeyboardInputAccessoryView alloc] init];
+        _statusTextView.inputAccessoryView = _keyboardInputView;
         [_keyboardInputView.addPictureBtn addTarget:self action:@selector(addPictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [_keyboardInputView.callCameraBtn addTarget:self action:@selector(callCameraButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
