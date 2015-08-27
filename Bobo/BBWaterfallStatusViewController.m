@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Zhouboli. All rights reserved.
 //
 
+#import <CHTCollectionViewWaterfallLayout.h>
+
 #import "BBWaterfallStatusViewController.h"
 
 #import <MJRefresh/MJRefresh.h>
@@ -31,14 +33,35 @@
 
 @implementation BBWaterfallStatusViewController
 
+#pragma mark - Life Cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _waterfallView = [[BBWaterfallCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:[[BBWaterfallCollectionViewFlowLayout alloc] init]];
+    
+    CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
+    layout.minimumColumnSpacing = 1.0;
+    layout.minimumInteritemSpacing = 1.0;
+    layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionLeftToRight;
+    
+    _waterfallView = [[BBWaterfallCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:layout];
     [self.view addSubview:_waterfallView];
     
     [self setMJRefresh];
     [_waterfallView.header beginRefreshing];
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+}
+
+#pragma mark - Weibo support
 
 -(void)setMJRefresh
 {

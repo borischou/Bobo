@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Zhouboli. All rights reserved.
 //
 
+#import <CHTCollectionViewWaterfallLayout.h>
+
 #import "BBWaterfallCollectionView.h"
 #import "BBWaterfallCollectionViewCell.h"
 #import "Utils.h"
@@ -14,7 +16,7 @@
 
 static NSString *reuseCellId = @"reuseCell";
 
-@interface BBWaterfallCollectionView () <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface BBWaterfallCollectionView () <CHTCollectionViewDelegateWaterfallLayout, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @end
 
@@ -50,7 +52,7 @@ static NSString *reuseCellId = @"reuseCell";
     return cell;
 }
 
-#pragma mark - UICollectionViewDelegateFlowLayout
+#pragma mark - CHTCollectionViewDelegateWaterfallLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
