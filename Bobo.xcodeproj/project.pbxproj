@@ -412,6 +412,8 @@
 		4565EEF31B562E81009D0BCD /* Weibo */ = {
 			isa = PBXGroup;
 			children = (
+				00E63A0A1B8CC22500736E6A /* BBWaterfallStatusViewController.h */,
+				00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */,
 				45704DAB1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.h */,
 				45704DAC1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m */,
 				451442041B295E8B000532DD /* BBMainStatusTableViewController.h */,
@@ -426,8 +428,6 @@
 				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
 				456A2F481B7985E0005AF4E0 /* BBFriendsGroupTableViewController.h */,
 				456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */,
-				00E63A0A1B8CC22500736E6A /* BBWaterfallStatusViewController.h */,
-				00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */,
 			);
 			name = Weibo;
 			sourceTree = "<group>";
@@ -500,14 +500,14 @@
 			children = (
 				456C77E61B2AC5B90055FBE8 /* BBStatusTableViewCell.h */,
 				456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */,
-				00E63A131B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.h */,
-				00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */,
 				4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */,
 				4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */,
 				45A052141B3A898200A1488D /* BBCountTableViewCell.h */,
 				45A052151B3A898200A1488D /* BBCountTableViewCell.m */,
 				45704DAE1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.h */,
 				45704DAF1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m */,
+				00E63A131B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.h */,
+				00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";

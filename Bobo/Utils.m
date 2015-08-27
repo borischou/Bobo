@@ -35,7 +35,7 @@
 
 @implementation Utils
 
--(CGFloat)heightForImgsWithCount:(NSInteger)count
++(CGFloat)heightForImgsWithCount:(NSInteger)count
 {
     CGFloat height = 0;
     if (count == 1 || count == 2) {
@@ -84,7 +84,7 @@
     return sizeForFit.height;
 }
 
--(CGFloat)getHeightForCellWithStatusText:(NSString *)text statusImageCount:(NSInteger)count andRetweetScreenName:(NSString *)retweetedScreenName retweetText:(NSString *)retweetText retweetImageCount:(NSInteger)retweetImgCount
++(CGFloat)getHeightForCellWithStatusText:(NSString *)text statusImageCount:(NSInteger)count andRetweetScreenName:(NSString *)retweetedScreenName retweetText:(NSString *)retweetText retweetImageCount:(NSInteger)retweetImgCount
 {
     CGFloat height = 0;
     
@@ -193,26 +193,30 @@
     return height;
 }
 
-+(CGFloat)heightForWaterfallCellWithStatus:(Status *)status cellWidth:(CGFloat)width
++(CGFloat)heightForWaterfallBottom
+{
+    return 15.0;
+}
+
++(CGFloat)smallGapForWaterfall
+{
+    return 2.0;
+}
+
++(CGFloat)bigGapForWaterfall
+{
+    return 4.0;
+}
+
++(CGFloat)heightForWaterfallCellWithStatusText:(NSString *)text screenName:(NSString *)name imageContained:(BOOL)flag textWidth:(CGFloat)width
 {
     CGFloat height = 0;
     
-    if (status.text) {
-        height += wSmallGap;
-        height += [Utils heightForString:status.text width:width fontSize:[Utils fontSizeForWaterfall]];
+    if (flag) {
+        height += [Utils maxHeightForWaterfallCoverPicture];
     }
-    if (!status.retweeted_status) { //无转发微博
-        if (status.pic_urls.count > 0) { //微博有图片
-            height += [Utils heightForWaterfallCoverPicture];
-        }
-    }
-    else
-    { //有转发微博
-        if (status.retweeted_status.pic_urls.count > 0) { //有转发配图
-            height += [Utils heightForWaterfallCoverPicture];
-        }
-    }
-    
+    height += wSmallGap;
+    height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", name, text] width:width fontSize:[Utils fontSizeForWaterfall]];
     //底部转发评论时间标签
     height += wSmallGap;
     height += wBottomLabelHeight;

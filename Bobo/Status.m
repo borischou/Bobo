@@ -49,12 +49,16 @@
 
 -(void)calculateStatusHeight
 {
-    _height = [[[Utils alloc] init] getHeightForCellWithStatusText:_text statusImageCount:[_pic_urls count] andRetweetScreenName:_retweeted_status.user.screen_name retweetText:_retweeted_status.text retweetImageCount:[_retweeted_status.pic_urls count]];
+    _height = [Utils getHeightForCellWithStatusText:_text statusImageCount:[_pic_urls count] andRetweetScreenName:_retweeted_status.user.screen_name retweetText:_retweeted_status.text retweetImageCount:[_retweeted_status.pic_urls count]];
 }
 
 -(void)calculateWaterfallHeight
 {
-    _heightForWaterfall = [Utils heightForWaterfallCellWithStatus:self cellWidth:[Utils cellWidthForWaterfall]];
+    if (_pic_urls.count > 0 || ((_retweeted_status && _retweeted_status.pic_urls.count > 0))) {
+        _heightForWaterfall = [Utils heightForWaterfallCellWithStatusText:_text screenName:_user.screen_name imageContained:YES textWidth:[Utils cellWidthForWaterfall]-4];
+    } else {
+        _heightForWaterfall = [Utils heightForWaterfallCellWithStatusText:_text screenName:_user.screen_name imageContained:NO textWidth:[Utils cellWidthForWaterfall]-4];
+    }
 }
 
 @end

@@ -16,7 +16,7 @@
 #define wSmallGap 2
 #define wBigGap 4
 #define wTextWidth wCellWidth-2*wSmallGap
-#define wBottomItemHeight 15
+#define wBottomItemHeight 15.0
 #define wBottomItemWidth wBottomItemHeight
 #define wTextFontSize 10.f
 
@@ -34,11 +34,9 @@
 -(void)initCellLayout
 {
     self.contentView.backgroundColor = [UIColor whiteColor];
-    self.layer.borderColor = [UIColor redColor].CGColor;
-    self.layer.borderWidth = 2.0;
     
     _coverImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [_coverImageView setFrame:CGRectMake(0, 0, [Utils cellWidthForWaterfall], [Utils maxHeightForWaterfallCoverPicture])];
+    [_coverImageView setFrame:CGRectZero];
     _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     _coverImageView.clipsToBounds = YES;
     [self.contentView addSubview:_coverImageView];
@@ -49,6 +47,8 @@
     
     _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _textLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _textLabel.numberOfLines = 0;
+    _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self.contentView addSubview:_textLabel];
     
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -57,14 +57,17 @@
     
     _timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _timeLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _timeLabel.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_timeLabel];
     
     _retweetNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _retweetNumLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _retweetNumLabel.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_retweetNumLabel];
     
     _commentNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _commentNumLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _commentNumLabel.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_commentNumLabel];
     
     _retweetNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -73,6 +76,8 @@
     
     _retweetTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _retweetTextLabel.font = [UIFont systemFontOfSize:[Utils fontSizeForWaterfall]];
+    _retweetTextLabel.numberOfLines = 0;
+    _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self.contentView addSubview:_retweetTextLabel];
     
     _retweetIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -86,7 +91,6 @@
 {
     [super layoutSubviews];
     [self loadCellData];
-    [self layoutCellViews];
 }
 
 -(void)prepareForReuse
@@ -101,19 +105,30 @@
     _retweetNumLabel.text = [NSString stringWithFormat:@"%ld", _status.reposts_count];
     _commentNumLabel.text = [NSString stringWithFormat:@"%ld", _status.comments_count];
     _nameLabel.text = _status.user.screen_name;
-    _textLabel.text = _status.text;
+    _textLabel.text = [NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text];
     
     if (_status.retweeted_status) {
         _retweetNameLabel.text = _status.retweeted_status.user.screen_name;
         _retweetTextLabel.text = _status.retweeted_status.text;
     }
     
-    if (_status.pic_urls.count > 0) { //有微博配图
-        [self loadCoverPictureWithUrl:[_status.pic_urls firstObject]];
+    CGSize textSize = [_textLabel sizeThatFits:CGSizeMake(wTextWidth, MAXFLOAT)];
+    if (_status.pic_urls.count > 0 || (_status.retweeted_status && _status.retweeted_status.pic_urls.count > 0)) {
+        [self resetCoverImageView];
+        _coverImageView.hidden = NO;
+        [_coverImageView setFrame:CGRectMake(0, 0, [Utils cellWidthForWaterfall], [Utils maxHeightForWaterfallCoverPicture])];
+        if (_status.pic_urls.count > 0) { //有微博配图
+            [self loadCoverPictureWithUrl:[_status.pic_urls firstObject]];
+        }
+        if (_status.retweeted_status.pic_urls.count > 0) { //转发配图
+            [self loadCoverPictureWithUrl:[_status.retweeted_status.pic_urls firstObject]];
+        }
+    } else { //仅有文字
+        [self resetCoverImageView];
+        _coverImageView.hidden = YES;
     }
-    if (_status.retweeted_status.pic_urls.count > 0) { //转发配图
-        [self loadCoverPictureWithUrl:[_status.retweeted_status.pic_urls firstObject]];
-    }
+    [_textLabel setFrame:CGRectMake(wSmallGap, _coverImageView.frame.size.height+wSmallGap, wTextWidth, textSize.height)];
+    [self layoutBottomButtonsWithTop:_coverImageView.frame.size.height+wSmallGap+textSize.height];
 }
 
 -(void)loadCoverPictureWithUrl:(NSString *)url
@@ -126,17 +141,6 @@
              _coverImageView.image = image;
          }
      }];
-}
-
--(void)layoutCellViews
-{
-    [self resetCoverImageView];
-    [_coverImageView setFrame:CGRectMake(0, 0, [Utils cellWidthForWaterfall], [Utils maxHeightForWaterfallCoverPicture])];
-
-    CGSize textSize = [_textLabel sizeThatFits:CGSizeMake(wTextWidth, MAXFLOAT)];
-    [_textLabel setFrame:CGRectMake(wSmallGap, [Utils maxHeightForWaterfallCoverPicture]+wSmallGap, wTextWidth, textSize.height)];
-    
-    [self layoutBottomButtonsWithTop:[Utils maxHeightForWaterfallCoverPicture]+wSmallGap+textSize.height];
 }
 
 -(void)layoutBottomButtonsWithTop:(CGFloat)top

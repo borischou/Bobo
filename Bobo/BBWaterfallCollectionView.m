@@ -10,6 +10,8 @@
 #import "BBWaterfallCollectionViewCell.h"
 #import "Utils.h"
 
+#define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
+
 static NSString *reuseCellId = @"reuseCell";
 
 @interface BBWaterfallCollectionView () <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource>
@@ -24,6 +26,7 @@ static NSString *reuseCellId = @"reuseCell";
     if (self) {
         self.delegate = self;
         self.dataSource = self;
+        self.backgroundColor = bBGColor;
         _statuses = @[].mutableCopy;
         [self registerClass:[BBWaterfallCollectionViewCell class] forCellWithReuseIdentifier:reuseCellId];
         [self reloadData];
