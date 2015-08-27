@@ -14,7 +14,6 @@
 #import "SWRevealViewController.h"
 
 #import "BBWaterfallCollectionView.h"
-#import "BBWaterfallCollectionViewFlowLayout.h"
 #import "AppDelegate.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
@@ -42,7 +41,6 @@
     layout.minimumInteritemSpacing = 4.0;
     layout.sectionInset = UIEdgeInsetsMake(2, 2, 2, 2);
     layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst;
-    
     _waterfallView = [[BBWaterfallCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:layout];
     [self.view addSubview:_waterfallView];
     

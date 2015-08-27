@@ -41,8 +41,8 @@
 
 -(void)initCellLayout
 {
-    self.contentView.layer.cornerRadius = 6.0;
-    self.contentView.layer.shadowOpacity = 0.2;
+    self.contentView.layer.cornerRadius = 5.0;
+    self.contentView.layer.shadowOpacity = 0.1;
     self.contentView.layer.shadowOffset = CGSizeMake(1, 2);
     self.contentView.backgroundColor = bCellBGColor;
     

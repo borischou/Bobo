@@ -21,8 +21,8 @@
 
 -(void)setupFlowLayoutParams
 {
-    self.minimumInteritemSpacing = .5;
-    self.minimumLineSpacing = .5;
+//    self.minimumInteritemSpacing = .5;
+//    self.minimumLineSpacing = .5;
 }
 
 -(BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
