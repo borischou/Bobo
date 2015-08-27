@@ -183,7 +183,7 @@
 
 +(CGFloat)cellWidthForWaterfall
 {
-    return ([UIScreen mainScreen].bounds.size.width-1.0)*.5;
+    return ([UIScreen mainScreen].bounds.size.width-8.0)*.5;
 }
 
 +(CGFloat)heightForWaterfallCoverPicture

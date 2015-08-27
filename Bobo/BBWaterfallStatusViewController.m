@@ -38,8 +38,9 @@
     [super viewDidLoad];
     
     CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
-    layout.minimumColumnSpacing = 1.0;
-    layout.minimumInteritemSpacing = 2.0;
+    layout.minimumColumnSpacing = 4.0;
+    layout.minimumInteritemSpacing = 4.0;
+    layout.sectionInset = UIEdgeInsetsMake(2, 2, 2, 2);
     layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst;
     
     _waterfallView = [[BBWaterfallCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:layout];

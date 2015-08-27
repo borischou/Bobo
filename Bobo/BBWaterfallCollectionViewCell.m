@@ -41,6 +41,9 @@
 
 -(void)initCellLayout
 {
+    self.contentView.layer.cornerRadius = 6.0;
+    self.contentView.layer.shadowOpacity = 0.2;
+    self.contentView.layer.shadowOffset = CGSizeMake(1, 2);
     self.contentView.backgroundColor = bCellBGColor;
     
     CGFloat fontSize = [Utils fontSizeForWaterfall];
@@ -168,7 +171,8 @@
         [_mask setFrame:CGRectMake(0, imageHeight-retweetLabelHeight, cellWidth, retweetLabelHeight)];
         _mask.backgroundColor = [UIColor blackColor];
         _mask.alpha = 0.5;
-        _mask.layer.shadowOpacity = 0.5;
+        _mask.layer.shadowOpacity = 0.1;
+        _mask.layer.shadowOffset = CGSizeMake(0, 1);
         _mask.layer.shadowColor = [UIColor blackColor].CGColor;
         [self.contentView addSubview:_mask];
         
