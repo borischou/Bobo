@@ -151,6 +151,7 @@
     CGSize rSize = [_retweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
     if (_status.retweeted_status.text && _status.retweeted_status.pic_urls.count <= 0) { //转发无配图
         [_retweetTextLabel setFrame:CGRectMake(wSmallGap, wSmallGap+textSize.height+wSmallGap, cellWidth-2*wSmallGap, rSize.height)];
+        [_retweetTextLabel setTextColor:[UIColor lightTextColor]];
         [self layoutBottomButtonsWithTop:wSmallGap+textSize.height+wSmallGap+rSize.height];
     }
     else if (_status.retweeted_status.text && _status.retweeted_status.pic_urls.count > 0) { //转发有配图
@@ -172,7 +173,7 @@
         [self.contentView addSubview:_mask];
         
         [_retweetTextLabel setFrame:CGRectMake(wSmallGap, imageHeight-retweetLabelHeight, cellWidth-2*wSmallGap, retweetLabelHeight)];
-        _retweetTextLabel.textColor = [UIColor whiteColor];
+        [_retweetTextLabel setTextColor:[UIColor whiteColor]];
         [self.contentView bringSubviewToFront:_retweetTextLabel];
         [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height];
     } else {
