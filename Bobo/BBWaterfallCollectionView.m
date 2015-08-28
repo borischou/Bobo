@@ -53,7 +53,11 @@ static NSString *reuseCellId = @"reuseCell";
              targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     if (fabs(targetContentOffset->y+bHeight-self.contentSize.height) <= 150) {
-        [self.footer beginRefreshing];
+        id nextResponder = [self nextResponder];
+        if ([nextResponder isKindOfClass:[BBWaterfallStatusViewController class]]) {
+            BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)nextResponder;
+            [wsvc fetchHistoryStatuses];
+        }
     }
 }
 

@@ -12,6 +12,8 @@
 
 @interface BBPhotoPickerCollectionView () <UICollectionViewDelegate, UICollectionViewDataSource>
 
+@property (copy, nonatomic) NSMutableArray *pickOnes;
+
 @end
 
 @implementation BBPhotoPickerCollectionView
@@ -23,6 +25,7 @@
         self.delegate = self;
         self.dataSource = self;
         [self preparePhotoDataWithLayout:(UICollectionViewFlowLayout *)layout];
+        _pickOnes = @[].mutableCopy;
     }
     return self;
 }
@@ -31,21 +34,29 @@
 {
     PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
     fetchOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+    
     PHFetchResult *fetchResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL *stop) {
         NSLog(@"ALBUM NAME: %@", collection.localizedTitle);
         if ([collection.localizedTitle isEqualToString:@"Camera Roll"]) {
+            
             PHFetchResult *photos = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
             NSLog(@"PHOTOS: %ld", photos.count);
+            
             _photos = nil;
             _photos = @[].mutableCopy;
+            
             NSMutableArray *assets = @[].mutableCopy;
+            
             PHCachingImageManager *manager = [[PHCachingImageManager alloc] init];
+            
             PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
             options.resizeMode = PHImageRequestOptionsResizeModeExact;
             options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
             options.synchronous = YES;
+            
             CGFloat scale = [UIScreen mainScreen].scale;
+            
             CGSize targetSize = CGSizeMake(layout.itemSize.width*scale, layout.itemSize.height*scale);
             for (PHAsset *asset in photos) {
                 [self loadImageFromPHAsset:asset withManager:manager options:options targetSize:targetSize];
@@ -58,9 +69,11 @@
 
 -(void)loadImageFromPHAsset:(PHAsset *)asset withManager:(PHCachingImageManager *)manager options:(PHImageRequestOptions *)options targetSize:(CGSize)targetSize
 {
+    __block NSMutableArray *photos = @[].mutableCopy;
     [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
-        [_photos addObject:result];
+        [photos addObject:result];
     }];
+    _photos = photos;
     [self reloadData];
 }
 
@@ -80,14 +93,28 @@
 {
     [collectionView registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
     BBPhotoSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseCell" forIndexPath:indexPath];
-    UIImage *image = [_photos objectAtIndex:indexPath.row];
+    UIImage *image = [_photos objectAtIndex:indexPath.item];
     cell.imageView.image = image;
     return cell;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    BBPhotoSelectionCollectionViewCell *cell = (BBPhotoSelectionCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    if (cell.isPicked) {
+        cell.layer.borderWidth = 0.0;
+        if (_pickOnes.count) {
+            [_pickOnes removeObject:[_photos objectAtIndex:indexPath.item]];
+        }
+    } else {
+        if (_pickOnes.count == 9) {
+            NSLog(@"PICKED: %ld", _pickOnes.count);
+            return;
+        }
+        [_pickOnes addObject:[_photos objectAtIndex:indexPath.item]];
+        cell.layer.borderWidth = 2.0;
+        cell.layer.borderColor = UIColor.greenColor.CGColor;
+    }
 }
 
 @end

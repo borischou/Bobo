@@ -11,4 +11,6 @@
 
 @interface BBWaterfallStatusViewController : UIViewController
 
+-(void)fetchHistoryStatuses;
+
 @end
