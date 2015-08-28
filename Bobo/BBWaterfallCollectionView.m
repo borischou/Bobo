@@ -14,10 +14,14 @@
 #import "Utils.h"
 #import <UIImageView+WebCache.h>
 #import "NSString+Convert.h"
+#import <MJRefresh/MJRefresh.h>
 
 #define wSmallGap 2
 #define wBottomItemHeight 15
 #define wBottomItemWidth wBottomItemHeight
+
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
 
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 
@@ -40,6 +44,17 @@ static NSString *reuseCellId = @"reuseCell";
         [self registerClass:[BBWaterfallCollectionViewCell class] forCellWithReuseIdentifier:reuseCellId];
     }
     return self;
+}
+
+#pragma mark - UIScrollDelegate
+
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                    withVelocity:(CGPoint)velocity
+             targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (fabs(targetContentOffset->y+bHeight-self.contentSize.height) <= 100) {
+        [self.footer beginRefreshing];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
