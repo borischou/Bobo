@@ -299,7 +299,6 @@
 {
     [self.statusTextView resignFirstResponder];
     BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self flowLayout]];
-    photoSelectionCollectionViewController.layout = [self flowLayout];
     photoSelectionCollectionViewController.mask = _mask;
     photoSelectionCollectionViewController.updateView = self;
     UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:photoSelectionCollectionViewController];

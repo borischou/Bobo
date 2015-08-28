@@ -52,7 +52,7 @@ static NSString *reuseCellId = @"reuseCell";
                     withVelocity:(CGPoint)velocity
              targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (fabs(targetContentOffset->y+bHeight-self.contentSize.height) <= 100) {
+    if (fabs(targetContentOffset->y+bHeight-self.contentSize.height) <= 150) {
         [self.footer beginRefreshing];
     }
 }

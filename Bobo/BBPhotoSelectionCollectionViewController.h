@@ -11,7 +11,6 @@
 
 @interface BBPhotoSelectionCollectionViewController : UICollectionViewController
 
-@property (strong, nonatomic) UICollectionViewFlowLayout *layout;
 @property (strong, nonatomic) UIView *mask;
 @property (strong, nonatomic) BBUpdateStatusView *updateView;
 
