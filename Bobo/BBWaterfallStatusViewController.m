@@ -21,7 +21,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBWaterfallStatusViewController () <WBHttpRequestDelegate>
+@interface BBWaterfallStatusViewController () <WBHttpRequestDelegate, UICollectionViewDelegate>
 
 @property (strong, nonatomic) BBWaterfallCollectionView *waterfallView;
 @property (copy, nonatomic) NSString *max_id;
@@ -42,7 +42,7 @@
     layout.sectionInset = UIEdgeInsetsMake(2, 2, 2, 2);
     layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst;
     _waterfallView = [[BBWaterfallCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:layout];
-    [self.view addSubview:_waterfallView];
+    self.view = _waterfallView;
     
     [self setMJRefresh];
     [_waterfallView.header beginRefreshing];

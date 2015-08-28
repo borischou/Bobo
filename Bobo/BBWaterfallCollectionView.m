@@ -9,8 +9,9 @@
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "BBWaterfallCollectionView.h"
 #import "BBWaterfallCollectionViewCell.h"
-#import "Utils.h"
 #import "BBStatusDetailViewController.h"
+#import "BBWaterfallStatusViewController.h"
+#import "Utils.h"
 #import <UIImageView+WebCache.h>
 #import "NSString+Convert.h"
 
@@ -22,7 +23,7 @@
 
 static NSString *reuseCellId = @"reuseCell";
 
-@interface BBWaterfallCollectionView () <CHTCollectionViewDelegateWaterfallLayout, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface BBWaterfallCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout>
 
 @end
 
@@ -32,8 +33,8 @@ static NSString *reuseCellId = @"reuseCell";
 {
     self = [super initWithFrame:frame collectionViewLayout:layout];
     if (self) {
-        self.delegate = self;
         self.dataSource = self;
+        self.delegate = self;
         self.backgroundColor = bBGColor;
         _statuses = @[].mutableCopy;
         [self registerClass:[BBWaterfallCollectionViewCell class] forCellWithReuseIdentifier:reuseCellId];
@@ -41,7 +42,7 @@ static NSString *reuseCellId = @"reuseCell";
     return self;
 }
 
-#pragma mark - UICollectionViewDelegate & UICollectionViewDataSource
+#pragma mark - UICollectionViewDataSource
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -62,6 +63,8 @@ static NSString *reuseCellId = @"reuseCell";
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegate
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
@@ -69,7 +72,11 @@ static NSString *reuseCellId = @"reuseCell";
     dtvc.hidesBottomBarWhenPushed = YES;
     Status *status = [_statuses objectAtIndex:indexPath.item];
     dtvc.status = status;
-    
+    id nextResponder = [self nextResponder];
+    if ([nextResponder isKindOfClass:[BBWaterfallStatusViewController class]]) {
+        BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)nextResponder;
+        [wsvc.navigationController pushViewController:dtvc animated:YES];
+    }
 }
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
