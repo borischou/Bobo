@@ -107,11 +107,7 @@ static NSString *reuseCellId = @"reuseCell";
     CGFloat cellWidth = [Utils cellWidthForWaterfall];
     CGSize textSize = [cell.textLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
     CGSize rSize = [cell.retweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
-    
-    [cell.coverImageView setFrame:CGRectZero];
-    [cell.retweetTextLabel setFrame:CGRectZero];
-    [cell.mask removeFromSuperview];
-    
+  
     if (status.pic_urls.count > 0 || (status.retweeted_status && status.retweeted_status.pic_urls.count > 0)) {
         cell.coverImageView.hidden = NO;
         [cell.coverImageView setFrame:CGRectMake(0, 0, cellWidth, imageHeight)];

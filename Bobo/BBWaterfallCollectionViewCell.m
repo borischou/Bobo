@@ -124,16 +124,24 @@
     [self.window addSubview:browserView];
 }
 
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    [self resetCoverImageView];
+}
+
+-(void)resetCoverImageView
+{
+    [_coverImageView setFrame:CGRectZero];
+    [_retweetTextLabel setFrame:CGRectZero];
+    [_mask removeFromSuperview];
+}
+
 //-(void)layoutSubviews
 //{
 //    [super layoutSubviews];
 //    [self loadData];
 //    [self loadLayout];
-//}
-//
-//-(void)prepareForReuse
-//{
-//    [super prepareForReuse];
 //}
 //
 //-(void)loadData
@@ -149,7 +157,7 @@
 //        _retweetTextLabel.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
 //    }
 //}
-//
+
 //-(void)loadLayout
 //{
 //    CGFloat imageHeight = [Utils maxHeightForWaterfallCoverPicture];
@@ -241,10 +249,5 @@
 //    CGSize timeSize = [_timeLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
 //    [_timeLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth*2/3+wSmallGap+cSize.width+wSmallGap, top+wSmallGap, timeSize.width, wBottomItemHeight)];
 //}
-//
-//-(void)resetCoverImageView
-//{
-//    [_coverImageView setFrame:CGRectZero];
-//}
-//
+
 @end
