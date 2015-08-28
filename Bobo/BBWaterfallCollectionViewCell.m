@@ -24,8 +24,6 @@
 
 @interface BBWaterfallCollectionViewCell ()
 
-@property (strong, nonatomic) UIView *mask;
-
 @end
 
 @implementation BBWaterfallCollectionViewCell
@@ -104,128 +102,6 @@
     [self.contentView addSubview:_commentIcon];
 }
 
--(void)layoutSubviews
-{
-    [super layoutSubviews];
-    [self loadCellData];
-}
-
--(void)prepareForReuse
-{
-    [super prepareForReuse];
-}
-
--(void)loadCellData
-{
-    _timeLabel.text = [Utils formatPostTime:_status.created_at];
-    _retweetNumLabel.text = [NSString stringWithFormat:@"%ld", _status.reposts_count];
-    _commentNumLabel.text = [NSString stringWithFormat:@"%ld", _status.comments_count];
-    _nameLabel.text = _status.user.screen_name;
-    _textLabel.text = [NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text];
-    
-    if (_status.retweeted_status) {
-        _retweetNameLabel.text = _status.retweeted_status.user.screen_name;
-        _retweetTextLabel.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
-    }
-    
-    [self resetCoverImageView];
-    [_retweetTextLabel setFrame:CGRectZero];
-    [_mask removeFromSuperview];
-    
-    CGFloat imageHeight = [Utils maxHeightForWaterfallCoverPicture];
-    CGFloat cellWidth = [Utils cellWidthForWaterfall];
-    
-    CGSize textSize = [_textLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
-    if (_status.pic_urls.count > 0 || (_status.retweeted_status && _status.retweeted_status.pic_urls.count > 0)) {
-        _coverImageView.hidden = NO;
-        [_coverImageView setFrame:CGRectMake(0, 0, cellWidth, imageHeight)];
-        if (_status.pic_urls.count > 0) { //有微博配图
-            [self loadCoverPictureWithUrl:[_status.pic_urls firstObject]];
-        }
-        if (_status.retweeted_status.pic_urls.count > 0) { //转发配图
-            [self loadCoverPictureWithUrl:[_status.retweeted_status.pic_urls firstObject]];
-        }
-    } else { //仅有文字
-        _coverImageView.hidden = YES;
-    }
-    
-    [_textLabel setFrame:CGRectMake(wSmallGap, _coverImageView.frame.size.height+wSmallGap, cellWidth-2*wSmallGap, textSize.height)];
-    
-    CGSize rSize = [_retweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
-    if (_status.retweeted_status.text && _status.retweeted_status.pic_urls.count <= 0) { //转发无配图
-        [_retweetTextLabel setFrame:CGRectMake(wSmallGap, wSmallGap+textSize.height+wSmallGap, cellWidth-2*wSmallGap, rSize.height)];
-        [_retweetTextLabel setTextColor:[UIColor lightTextColor]];
-        [self layoutBottomButtonsWithTop:wSmallGap+textSize.height+wSmallGap+rSize.height];
-    }
-    else if (_status.retweeted_status.text && _status.retweeted_status.pic_urls.count > 0) { //转发有配图
-        CGFloat retweetLabelHeight = 0;
-        if (rSize.height > imageHeight/4) {
-            retweetLabelHeight = imageHeight/4;
-        } else {
-            retweetLabelHeight = rSize.height;
-        }
-        
-        if (!_mask) {
-            _mask = [[UIView alloc] initWithFrame:CGRectZero];
-        }
-        [_mask setFrame:CGRectMake(0, imageHeight-retweetLabelHeight, cellWidth, retweetLabelHeight)];
-        _mask.backgroundColor = [UIColor blackColor];
-        _mask.alpha = 0.5;
-        _mask.layer.shadowOpacity = 0.1;
-        _mask.layer.shadowOffset = CGSizeMake(0, 1);
-        _mask.layer.shadowColor = [UIColor blackColor].CGColor;
-        [self.contentView addSubview:_mask];
-        
-        [_retweetTextLabel setFrame:CGRectMake(wSmallGap, imageHeight-retweetLabelHeight, cellWidth-2*wSmallGap, retweetLabelHeight)];
-        [_retweetTextLabel setTextColor:[UIColor whiteColor]];
-        [self.contentView bringSubviewToFront:_retweetTextLabel];
-        [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height];
-    } else {
-        if (_status.pic_urls.count > 0) {
-            [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height];
-        } else {
-            [self layoutBottomButtonsWithTop:wSmallGap+textSize.height];
-        }
-    }
-}
-
--(void)loadCoverPictureWithUrl:(NSString *)url
-{
-    NSString *sdUrl;
-    if ([url hasSuffix:@"gif"]) {
-        sdUrl = url;
-    } else {
-        sdUrl = [NSString largePictureUrlConvertedFromThumbUrl:url];
-    }
-    [_coverImageView sd_setImageWithURL:[NSURL URLWithString:sdUrl] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
-}
-
--(void)layoutBottomButtonsWithTop:(CGFloat)top
-{
-    _retweetIcon.image = [UIImage imageNamed:@"retwt_icon"];
-    _commentIcon.image = [UIImage imageNamed:@"cmt_icon"];
-    
-    [_retweetIcon setFrame:CGRectMake(wSmallGap, top+wSmallGap, wBottomItemWidth*2/3, wBottomItemHeight*2/3)];
-    [_retweetIcon setCenter:CGPointMake(_retweetIcon.center.x, top+wSmallGap+wBottomItemHeight/2)];
-    
-    CGSize rSize = [_retweetNumLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
-    [_retweetNumLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap, top+wSmallGap, rSize.width, wBottomItemHeight)];
-    
-    [_commentIcon setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap, top+wSmallGap, wBottomItemWidth*2/3, wBottomItemHeight*2/3)];
-    [_commentIcon setCenter:CGPointMake(_commentIcon.center.x, top+wSmallGap+wBottomItemHeight/2)];
-    
-    CGSize cSize = [_commentNumLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
-    [_commentNumLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth*2/3+wSmallGap, top+wSmallGap, cSize.width, wBottomItemHeight)];
-    
-    CGSize timeSize = [_timeLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
-    [_timeLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth*2/3+wSmallGap+cSize.width+wSmallGap, top+wSmallGap, timeSize.width, wBottomItemHeight)];
-}
-
--(void)resetCoverImageView
-{
-    [_coverImageView setFrame:CGRectZero];
-}
-
 -(void)coverImageViewTapped
 {
     NSMutableArray *originUrls = nil;
@@ -248,4 +124,127 @@
     [self.window addSubview:browserView];
 }
 
+//-(void)layoutSubviews
+//{
+//    [super layoutSubviews];
+//    [self loadData];
+//    [self loadLayout];
+//}
+//
+//-(void)prepareForReuse
+//{
+//    [super prepareForReuse];
+//}
+//
+//-(void)loadData
+//{
+//    _timeLabel.text = [Utils formatPostTime:_status.created_at];
+//    _retweetNumLabel.text = [NSString stringWithFormat:@"%ld", _status.reposts_count];
+//    _commentNumLabel.text = [NSString stringWithFormat:@"%ld", _status.comments_count];
+//    _nameLabel.text = _status.user.screen_name;
+//    _textLabel.text = [NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text];
+//    
+//    if (_status.retweeted_status) {
+//        _retweetNameLabel.text = _status.retweeted_status.user.screen_name;
+//        _retweetTextLabel.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
+//    }
+//}
+//
+//-(void)loadLayout
+//{
+//    CGFloat imageHeight = [Utils maxHeightForWaterfallCoverPicture];
+//    CGFloat cellWidth = [Utils cellWidthForWaterfall];
+//    CGSize textSize = [_textLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
+//    CGSize rSize = [_retweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
+//
+//    [self resetCoverImageView];
+//    [_retweetTextLabel setFrame:CGRectZero];
+//    [_mask removeFromSuperview];
+//    
+//    if (_status.pic_urls.count > 0 || (_status.retweeted_status && _status.retweeted_status.pic_urls.count > 0)) {
+//        _coverImageView.hidden = NO;
+//        [_coverImageView setFrame:CGRectMake(0, 0, cellWidth, imageHeight)];
+//        if (_status.pic_urls.count > 0) { //有微博配图
+//            [self loadCoverPictureWithUrl:[_status.pic_urls firstObject]];
+//        }
+//        if (_status.retweeted_status.pic_urls.count > 0) { //转发配图
+//            [self loadCoverPictureWithUrl:[_status.retweeted_status.pic_urls firstObject]];
+//        }
+//    } else { //仅有文字
+//        _coverImageView.hidden = YES;
+//    }
+//    
+//    [_textLabel setFrame:CGRectMake(wSmallGap, _coverImageView.frame.size.height+wSmallGap, cellWidth-2*wSmallGap, textSize.height)];
+//    
+//    if (_status.retweeted_status.text && _status.retweeted_status.pic_urls.count <= 0) { //转发无配图
+//        [_retweetTextLabel setFrame:CGRectMake(wSmallGap, wSmallGap+textSize.height+wSmallGap, cellWidth-2*wSmallGap, rSize.height)];
+//        [_retweetTextLabel setTextColor:[UIColor lightTextColor]];
+//        [self layoutBottomButtonsWithTop:wSmallGap+textSize.height+wSmallGap+rSize.height];
+//    }
+//    else if (_status.retweeted_status.text && _status.retweeted_status.pic_urls.count > 0) { //转发有配图
+//        CGFloat retweetLabelHeight = 0;
+//        if (rSize.height > imageHeight/4) {
+//            retweetLabelHeight = imageHeight/4;
+//        } else {
+//            retweetLabelHeight = rSize.height;
+//        }
+//        
+//        if (!_mask) {
+//            _mask = [[UIView alloc] initWithFrame:CGRectZero];
+//        }
+//        [_mask setFrame:CGRectMake(0, imageHeight-retweetLabelHeight, cellWidth, retweetLabelHeight)];
+//        _mask.backgroundColor = [UIColor blackColor];
+//        _mask.alpha = 0.5;
+//        [self.contentView addSubview:_mask];
+//        
+//        [_retweetTextLabel setFrame:CGRectMake(wSmallGap, imageHeight-retweetLabelHeight, cellWidth-2*wSmallGap, retweetLabelHeight)];
+//        [_retweetTextLabel setTextColor:[UIColor whiteColor]];
+//        [self.contentView bringSubviewToFront:_retweetTextLabel];
+//        [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height];
+//    } else {
+//        if (_status.pic_urls.count > 0) {
+//            [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height];
+//        } else {
+//            [self layoutBottomButtonsWithTop:wSmallGap+textSize.height];
+//        }
+//    }
+//}
+//
+//-(void)loadCoverPictureWithUrl:(NSString *)url
+//{
+//    NSString *sdUrl;
+//    if ([url hasSuffix:@"gif"]) {
+//        sdUrl = url;
+//    } else {
+//        sdUrl = [NSString largePictureUrlConvertedFromThumbUrl:url];
+//    }
+//    [_coverImageView sd_setImageWithURL:[NSURL URLWithString:sdUrl] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
+//}
+//
+//-(void)layoutBottomButtonsWithTop:(CGFloat)top
+//{
+//    _retweetIcon.image = [UIImage imageNamed:@"retwt_icon"];
+//    _commentIcon.image = [UIImage imageNamed:@"cmt_icon"];
+//    
+//    [_retweetIcon setFrame:CGRectMake(wSmallGap, top+wSmallGap, wBottomItemWidth*2/3, wBottomItemHeight*2/3)];
+//    [_retweetIcon setCenter:CGPointMake(_retweetIcon.center.x, top+wSmallGap+wBottomItemHeight/2)];
+//    
+//    CGSize rSize = [_retweetNumLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
+//    [_retweetNumLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap, top+wSmallGap, rSize.width, wBottomItemHeight)];
+//    
+//    [_commentIcon setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap, top+wSmallGap, wBottomItemWidth*2/3, wBottomItemHeight*2/3)];
+//    [_commentIcon setCenter:CGPointMake(_commentIcon.center.x, top+wSmallGap+wBottomItemHeight/2)];
+//    
+//    CGSize cSize = [_commentNumLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
+//    [_commentNumLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth*2/3+wSmallGap, top+wSmallGap, cSize.width, wBottomItemHeight)];
+//    
+//    CGSize timeSize = [_timeLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
+//    [_timeLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth*2/3+wSmallGap+cSize.width+wSmallGap, top+wSmallGap, timeSize.width, wBottomItemHeight)];
+//}
+//
+//-(void)resetCoverImageView
+//{
+//    [_coverImageView setFrame:CGRectZero];
+//}
+//
 @end
