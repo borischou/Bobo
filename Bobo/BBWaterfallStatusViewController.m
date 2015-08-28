@@ -8,6 +8,7 @@
 
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "BBWaterfallStatusViewController.h"
+#import "SWRevealViewController.h"
 
 #import <MJRefresh/MJRefresh.h>
 #import "WeiboSDK.h"
@@ -51,12 +52,25 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self addSWRevealViewControllerGestureRecognizer];
 }
 
--(void)viewDidDisappear:(BOOL)animated
+-(void)viewWillDisappear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
-    
+    [super viewWillDisappear:animated];
+    [self removeSWRevealControllerGestureRecognizer];
+}
+
+-(void)addSWRevealViewControllerGestureRecognizer
+{
+    [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [self.view addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
+}
+
+-(void)removeSWRevealControllerGestureRecognizer
+{
+    [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
 }
 
 #pragma mark - Weibo support
