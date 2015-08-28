@@ -149,7 +149,7 @@
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.delegate = self;
     
-    [tabBarController setViewControllers:@[waterfallnvc, weiboListNvc, updateBackgroundVc, profileNvc, collectionNvc] animated:YES];
+    [tabBarController setViewControllers:@[weiboListNvc, waterfallnvc, updateBackgroundVc, profileNvc, collectionNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
     //Rear:微博分组

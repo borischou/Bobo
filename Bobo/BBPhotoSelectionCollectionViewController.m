@@ -25,6 +25,7 @@
 {
     BBPhotoPickerCollectionView *photoPickerCollectionView = [[BBPhotoPickerCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:self.collectionViewLayout];
     self.view = photoPickerCollectionView;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self setupNavigationBarButtonItems];
 }
 

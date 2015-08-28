@@ -25,6 +25,7 @@
         self.delegate = self;
         self.dataSource = self;
         [self preparePhotoDataWithLayout:(UICollectionViewFlowLayout *)layout];
+        [self registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
         _pickOnes = @[].mutableCopy;
     }
     return self;
@@ -69,11 +70,9 @@
 
 -(void)loadImageFromPHAsset:(PHAsset *)asset withManager:(PHCachingImageManager *)manager options:(PHImageRequestOptions *)options targetSize:(CGSize)targetSize
 {
-    __block NSMutableArray *photos = @[].mutableCopy;
     [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
-        [photos addObject:result];
+        [_photos addObject:result];
     }];
-    _photos = photos;
     [self reloadData];
 }
 
@@ -91,7 +90,6 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [collectionView registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
     BBPhotoSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseCell" forIndexPath:indexPath];
     UIImage *image = [_photos objectAtIndex:indexPath.item];
     cell.imageView.image = image;
@@ -105,13 +103,14 @@
         cell.layer.borderWidth = 0.0;
         if (_pickOnes.count) {
             [_pickOnes removeObject:[_photos objectAtIndex:indexPath.item]];
+            NSLog(@"LEFT: %ld", _pickOnes.count);
         }
     } else {
         if (_pickOnes.count == 9) {
-            NSLog(@"PICKED: %ld", _pickOnes.count);
             return;
         }
         [_pickOnes addObject:[_photos objectAtIndex:indexPath.item]];
+        NSLog(@"PICKED: %ld", _pickOnes.count);
         cell.layer.borderWidth = 2.0;
         cell.layer.borderColor = UIColor.greenColor.CGColor;
     }
