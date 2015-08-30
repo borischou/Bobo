@@ -234,6 +234,17 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [self.tableView reloadData];
 }
 
+#pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                    withVelocity:(CGPoint)velocity
+             targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (fabs(targetContentOffset->y+bHeight-self.tableView.contentSize.height) <= 250) {
+        [self fetchLatestComments];
+    }
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
