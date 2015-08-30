@@ -52,7 +52,7 @@ static NSString *reuseCellId = @"reuseCell";
                     withVelocity:(CGPoint)velocity
              targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (fabs(targetContentOffset->y+bHeight-self.contentSize.height) <= 250) {
+    if (fabs(targetContentOffset->y+bHeight-self.contentSize.height) <= 350) {
         id nextResponder = [self nextResponder];
         if ([nextResponder isKindOfClass:[BBWaterfallStatusViewController class]]) {
             BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)nextResponder;
