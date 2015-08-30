@@ -13,6 +13,7 @@
 @interface BBPhotoPickerCollectionView () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (copy, nonatomic) NSMutableArray *pickOnes;
+@property (copy, nonatomic) NSMutableArray *pickedStatuses;
 
 @end
 
@@ -47,6 +48,9 @@
             _photos = nil;
             _photos = @[].mutableCopy;
             
+            _pickedStatuses = nil;
+            _pickedStatuses = @[].mutableCopy;
+            
             NSMutableArray *assets = @[].mutableCopy;
             
             PHCachingImageManager *manager = [[PHCachingImageManager alloc] init];
@@ -72,6 +76,7 @@
 {
     [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
         [_photos addObject:result];
+        [_pickedStatuses addObject:@"0"];
     }];
     [self reloadData];
 }
@@ -91,6 +96,13 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BBPhotoSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseCell" forIndexPath:indexPath];
+    if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"0"]) {
+        cell.layer.borderWidth = 0.0;
+    }
+    if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"1"]) {
+        cell.layer.borderWidth = 2.0;
+        cell.layer.borderColor = UIColor.greenColor.CGColor;
+    }
     UIImage *image = [_photos objectAtIndex:indexPath.item];
     cell.imageView.image = image;
     return cell;
@@ -99,9 +111,10 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BBPhotoSelectionCollectionViewCell *cell = (BBPhotoSelectionCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    if (cell.isPicked) {
+    if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"1"]) {
         cell.layer.borderWidth = 0.0;
         if (_pickOnes.count) {
+            [_pickedStatuses setObject:@"0" atIndexedSubscript:indexPath.item];
             [_pickOnes removeObject:[_photos objectAtIndex:indexPath.item]];
             NSLog(@"LEFT: %ld", _pickOnes.count);
         }
@@ -110,6 +123,7 @@
             return;
         }
         [_pickOnes addObject:[_photos objectAtIndex:indexPath.item]];
+        [_pickedStatuses setObject:@"1" atIndexedSubscript:indexPath.item];
         NSLog(@"PICKED: %ld", _pickOnes.count);
         cell.layer.borderWidth = 2.0;
         cell.layer.borderColor = UIColor.greenColor.CGColor;

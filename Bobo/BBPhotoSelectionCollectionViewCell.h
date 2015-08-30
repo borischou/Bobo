@@ -12,6 +12,4 @@
 
 @property (strong, nonatomic) UIImageView *imageView;
 
-@property (nonatomic) BOOL isPicked;
-
 @end
