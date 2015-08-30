@@ -214,6 +214,17 @@ static NSString *reuseBarCellId = @"barCell";
     }
 }
 
+#pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                    withVelocity:(CGPoint)velocity
+             targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (fabs(targetContentOffset->y+bHeight-self.tableView.contentSize.height) <= 250) {
+        [self fetchHistoryStatuses];
+    }
+}
+
 #pragma mark - Table view data source & delegate & Helpers
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
