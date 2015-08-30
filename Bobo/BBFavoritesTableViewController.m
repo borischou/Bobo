@@ -145,6 +145,17 @@
     }
 }
 
+#pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                    withVelocity:(CGPoint)velocity
+             targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (fabs(targetContentOffset->y+bHeight-self.tableView.contentSize.height) <= 250) {
+        [self fetchFavoriteStatuses];
+    }
+}
+
 #pragma mark - UITableView data source & delegate & Helpers
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
