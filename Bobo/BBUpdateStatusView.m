@@ -376,7 +376,9 @@
 {
     NSLog(@"didFinishPickingMediaWithInfo");
     [self shouldHideMaskAndView:NO];
+    NSLog(@"INFO: %@", info);
     [_picker dismissViewControllerAnimated:YES completion:^{
+        [_statusTextView becomeFirstResponder];
     }];
 }
 
@@ -385,6 +387,7 @@
     NSLog(@"imagePickerControllerDidCancel");
     [self shouldHideMaskAndView:NO];
     [_picker dismissViewControllerAnimated:YES completion:^{
+        [_statusTextView becomeFirstResponder];
     }];
 }
 
