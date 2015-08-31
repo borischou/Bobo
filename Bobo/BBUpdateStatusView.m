@@ -358,7 +358,7 @@
         _picker = [[UIImagePickerController alloc] init];
         _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         _picker.delegate = self;
-        _picker.allowsEditing = YES;
+        _picker.allowsEditing = NO;
         [self shouldHideMaskAndView:YES];
         [self.window.rootViewController presentViewController:_picker animated:YES completion:nil];
     }
