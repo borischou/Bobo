@@ -53,6 +53,7 @@
 {
     [super didReceiveMemoryWarning];
     [_waterfallView.statuses removeAllObjects];
+    [_waterfallView.header beginRefreshing];
 }
 
 -(void)viewDidAppear:(BOOL)animated
