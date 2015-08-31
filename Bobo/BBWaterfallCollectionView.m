@@ -46,7 +46,7 @@ static NSString *reuseCellId = @"reuseCell";
     return self;
 }
 
-#pragma mark - UIScrollDelegate
+#pragma mark - UIScrollViewDelegate
 
 -(void)scrollViewWillEndDragging:(UIScrollView *)scrollView
                     withVelocity:(CGPoint)velocity

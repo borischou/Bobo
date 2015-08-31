@@ -49,16 +49,26 @@
     [_waterfallView.header beginRefreshing];
 }
 
+-(void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    [_waterfallView.statuses removeAllObjects];
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self addSWRevealViewControllerGestureRecognizer];
+    if (_waterfallView.statuses.count <= 0) {
+        [_waterfallView.header beginRefreshing];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self removeSWRevealControllerGestureRecognizer];
+    [_waterfallView.statuses removeAllObjects];
 }
 
 -(void)addSWRevealViewControllerGestureRecognizer
@@ -112,6 +122,9 @@
                 Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
                 _since_id = status.idstr;
             }
+            if (_waterfallView.statuses.count <= 8) {
+                [self fetchHistoryStatuses];
+            }
             [_waterfallView.header endRefreshing];
         }
         
@@ -135,7 +148,7 @@
 
 -(void)fetchApiRateLimitStatus
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
     if (delegate.wbToken) {
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
@@ -154,7 +167,7 @@
 
 -(void)fetchLatestStatuses
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [_waterfallView.header endRefreshing];
@@ -181,7 +194,7 @@
 
 -(void)fetchHistoryStatuses
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [_waterfallView.footer endRefreshing];
