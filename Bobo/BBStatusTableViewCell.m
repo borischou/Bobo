@@ -15,6 +15,8 @@
 #import "BBUpdateStatusView.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
+#import "BBStatusDetailViewController.h"
+#import "BBMainStatusTableViewController.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -122,6 +124,9 @@
     }
     //retweet view
     _repostView = [[UIView alloc] initWithFrame:CGRectZero];
+    _repostView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(repostViewTapped:)];
+    [_repostView addGestureRecognizer:tap];
     _repostView.backgroundColor = bRetweetBGColor;
     
     //repost text
@@ -296,6 +301,20 @@
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+}
+
+-(void)repostViewTapped:(UITapGestureRecognizer *)tap
+{
+    BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
+    dtvc.title = @"Detail";
+    dtvc.hidesBottomBarWhenPushed = YES;
+    dtvc.status = _status.retweeted_status;
+    
+    id tableViewController = [[[self nextResponder] nextResponder] nextResponder];
+    if ([tableViewController isKindOfClass:[BBMainStatusTableViewController class]]) {
+        BBMainStatusTableViewController *mstvc = (BBMainStatusTableViewController *)tableViewController;
+        [mstvc.navigationController pushViewController:dtvc animated:YES];
+    }
 }
 
 //override this method to load views dynamically
