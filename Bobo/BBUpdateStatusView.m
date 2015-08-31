@@ -186,6 +186,8 @@
                 [_mask removeFromSuperview];
                 _mask = nil;
             }
+            [_pickedStatuses removeAllObjects];
+            [_pickOnes removeAllObjects];
             [self removeFromSuperview];
         }
     }];
@@ -316,6 +318,8 @@
                     [_mask removeFromSuperview];
                     _mask = nil; //引用计数减一
                 }
+                [_pickedStatuses removeAllObjects];
+                [_pickOnes removeAllObjects];
                 [self removeFromSuperview];
             }
         }];
