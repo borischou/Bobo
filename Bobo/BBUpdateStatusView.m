@@ -201,13 +201,27 @@
         switch (_flag) {
             case 0: //发微博
                 {
-                    [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                        if (!error) {
-                            NSLog(@"发布成功。");
-                        } else {
-                            NSLog(@"发布失败：%@", error);
-                        }
-                    }];
+                    if (_pickOnes.count > 0) { //有配图
+                        NSData *imgData = UIImageJPEGRepresentation([_pickOnes firstObject], 1.0);
+                        WBImageObject *imgObject = [WBImageObject object];
+                        imgObject.imageData = imgData;
+                        [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:imgObject orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                            if (!error) {
+                                NSLog(@"发布成功。");
+                            } else {
+                                NSLog(@"发布失败：%@", error);
+                            }
+                        }];
+                    } else { //无配图
+                        [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                            if (!error) {
+                                NSLog(@"发布成功。");
+                            } else {
+                                NSLog(@"发布失败：%@", error);
+                            }
+                        }];
+                    }
+                    
                 }
                 break;
             case 1: //写评论
