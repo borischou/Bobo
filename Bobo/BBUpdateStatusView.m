@@ -310,8 +310,10 @@
                     UITabBarController *tbc = (UITabBarController *)rvc.frontViewController;
                     UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
                     if ([nvc.viewControllers count] >= 2) {
-                        BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
-                        [sdtvc.tableView.header beginRefreshing];
+                        if ([nvc.viewControllers[1] isKindOfClass:[BBStatusDetailViewController class]]) {
+                            BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
+                            [sdtvc.tableView.header beginRefreshing];
+                        }
                     }
                 }
                 if (_mask) {
