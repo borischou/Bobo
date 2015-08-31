@@ -38,33 +38,29 @@
     [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL *stop) {
         NSLog(@"ALBUM NAME: %@", collection.localizedTitle);
         if ([collection.localizedTitle isEqualToString:@"Camera Roll"]) {
-            
             PHFetchResult *photos = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
             NSLog(@"PHOTOS: %ld", photos.count);
             
             _photos = nil;
             _photos = @[].mutableCopy;
-            
             _pickedStatuses = nil;
             _pickedStatuses = @[].mutableCopy;
             
             NSMutableArray *assets = @[].mutableCopy;
-            
             PHCachingImageManager *manager = [[PHCachingImageManager alloc] init];
-            
             PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
             options.resizeMode = PHImageRequestOptionsResizeModeExact;
             options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
             options.synchronous = YES;
-            
+
             CGFloat scale = [UIScreen mainScreen].scale;
-            
             CGSize targetSize = CGSizeMake(layout.itemSize.width*scale, layout.itemSize.height*scale);
+            [manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options];
             for (PHAsset *asset in photos) {
                 [self loadImageFromPHAsset:asset withManager:manager options:options targetSize:targetSize];
                 [assets addObject:asset];
             }
-            [manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options];
+            [manager stopCachingImagesForAllAssets];
         }
     }];
 }
