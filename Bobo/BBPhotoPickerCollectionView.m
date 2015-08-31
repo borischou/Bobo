@@ -55,11 +55,11 @@
 
             CGFloat scale = [UIScreen mainScreen].scale;
             CGSize targetSize = CGSizeMake(layout.itemSize.width*scale, layout.itemSize.height*scale);
-            [manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options];
             for (PHAsset *asset in photos) {
                 [self loadImageFromPHAsset:asset withManager:manager options:options targetSize:targetSize];
                 [assets addObject:asset];
             }
+            [manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options];
             [manager stopCachingImagesForAllAssets];
         }
     }];
