@@ -69,7 +69,7 @@
 {
     [super viewWillDisappear:animated];
     [self removeSWRevealControllerGestureRecognizer];
-    [_waterfallView.statuses removeAllObjects];
+//    [_waterfallView.statuses removeAllObjects];
 }
 
 -(void)addSWRevealViewControllerGestureRecognizer
