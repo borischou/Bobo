@@ -139,9 +139,9 @@
 {
     [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
     
-    if (_pickOnes.count > 0) {
+    if (_pickedOnes.count > 0) {
         [_imageView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight+uSmallGap, uImgWidth, uImgHeight)];
-        _imageView.image = [_pickOnes firstObject];
+        _imageView.image = [_pickedOnes firstObject];
     }
     
     if (!_mask) {
@@ -187,7 +187,7 @@
                 _mask = nil;
             }
             [_pickedStatuses removeAllObjects];
-            [_pickOnes removeAllObjects];
+            [_pickedOnes removeAllObjects];
             [self removeFromSuperview];
         }
     }];
@@ -203,8 +203,8 @@
         switch (_flag) {
             case 0: //发微博
                 {
-                    if (_pickOnes.count > 0) { //有配图
-                        NSData *imgData = UIImageJPEGRepresentation([_pickOnes firstObject], 1.0);
+                    if (_pickedOnes.count > 0) { //有配图
+                        NSData *imgData = UIImageJPEGRepresentation([_pickedOnes firstObject], 1.0);
                         WBImageObject *imgObject = [WBImageObject object];
                         imgObject.imageData = imgData;
                         [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:imgObject orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -319,7 +319,7 @@
                     _mask = nil; //引用计数减一
                 }
                 [_pickedStatuses removeAllObjects];
-                [_pickOnes removeAllObjects];
+                [_pickedOnes removeAllObjects];
                 [self removeFromSuperview];
             }
         }];
@@ -376,19 +376,22 @@
 {
     NSLog(@"didFinishPickingMediaWithInfo");
     [self shouldHideMaskAndView:NO];
-    NSLog(@"INFO: %@", info);
-    [_picker dismissViewControllerAnimated:YES completion:^{
-        [_statusTextView becomeFirstResponder];
-    }];
+    UIImage *takenImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    if (!_pickedOnes) {
+        _pickedOnes = @[].mutableCopy;
+    }
+    [_pickedOnes addObject:takenImage];
+    [_picker dismissViewControllerAnimated:YES completion:nil];
+    [self setNeedsLayout];
+    [_statusTextView becomeFirstResponder];
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     NSLog(@"imagePickerControllerDidCancel");
     [self shouldHideMaskAndView:NO];
-    [_picker dismissViewControllerAnimated:YES completion:^{
-        [_statusTextView becomeFirstResponder];
-    }];
+    [_picker dismissViewControllerAnimated:YES completion:nil];
+    [_statusTextView becomeFirstResponder];
 }
 
 #pragma mark - UITextViewDelegate

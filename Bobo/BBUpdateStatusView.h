@@ -18,7 +18,7 @@
 @property (copy, nonatomic) NSString *idStr; //当前微博id
 @property (copy, nonatomic) NSString *cidStr; //评论时评论cid
 
-@property (copy, nonatomic) NSMutableArray *pickOnes;
+@property (copy, nonatomic) NSMutableArray *pickedOnes;
 @property (copy, nonatomic) NSMutableArray *pickedStatuses;
 
 -(instancetype)initWithFlag:(int)flag;

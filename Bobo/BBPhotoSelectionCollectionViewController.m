@@ -65,7 +65,7 @@
 -(void)confirmButtonItemPressed:(UIBarButtonItem *)sender
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    _updateView.pickOnes = _photoPickerCollectionView.pickOnes;
+    _updateView.pickedOnes = _photoPickerCollectionView.pickedOnes;
     _updateView.pickedStatuses = _photoPickerCollectionView.pickedStatuses;
     [self shouldHideMaskAndView:NO];
     [_updateView.statusTextView becomeFirstResponder];

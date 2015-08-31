@@ -24,7 +24,7 @@
         self.dataSource = self;
         [self preparePhotoDataWithLayout:(UICollectionViewFlowLayout *)layout];
         [self registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
-        _pickOnes = @[].mutableCopy;
+        _pickedOnes = @[].mutableCopy;
     }
     return self;
 }
@@ -106,18 +106,18 @@
     BBPhotoSelectionCollectionViewCell *cell = (BBPhotoSelectionCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"1"]) {
         cell.layer.borderWidth = 0.0;
-        if (_pickOnes.count) {
+        if (_pickedOnes.count) {
             [_pickedStatuses setObject:@"0" atIndexedSubscript:indexPath.item];
-            [_pickOnes removeObject:[_photos objectAtIndex:indexPath.item]];
-            NSLog(@"LEFT: %ld", _pickOnes.count);
+            [_pickedOnes removeObject:[_photos objectAtIndex:indexPath.item]];
+            NSLog(@"LEFT: %ld", _pickedOnes.count);
         }
     } else {
-        if (_pickOnes.count == 9) {
+        if (_pickedOnes.count == 9) {
             return;
         }
-        [_pickOnes addObject:[_photos objectAtIndex:indexPath.item]];
+        [_pickedOnes addObject:[_photos objectAtIndex:indexPath.item]];
         [_pickedStatuses setObject:@"1" atIndexedSubscript:indexPath.item];
-        NSLog(@"PICKED: %ld", _pickOnes.count);
+        NSLog(@"PICKED: %ld", _pickedOnes.count);
         cell.layer.borderWidth = 2.0;
         cell.layer.borderColor = UIColor.greenColor.CGColor;
     }
