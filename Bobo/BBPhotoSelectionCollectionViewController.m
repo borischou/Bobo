@@ -15,6 +15,8 @@
 
 @interface BBPhotoSelectionCollectionViewController ()
 
+@property (strong, nonatomic) BBPhotoPickerCollectionView *photoPickerCollectionView;
+
 @end
 
 @implementation BBPhotoSelectionCollectionViewController
@@ -23,8 +25,8 @@
 
 -(void)viewDidLoad
 {
-    BBPhotoPickerCollectionView *photoPickerCollectionView = [[BBPhotoPickerCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:self.collectionViewLayout];
-    self.view = photoPickerCollectionView;
+    _photoPickerCollectionView = [[BBPhotoPickerCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:self.collectionViewLayout];
+    self.view = _photoPickerCollectionView;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self setupNavigationBarButtonItems];
 }
@@ -57,12 +59,17 @@
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     [self shouldHideMaskAndView:NO];
+    [_updateView.statusTextView becomeFirstResponder];
 }
 
 -(void)confirmButtonItemPressed:(UIBarButtonItem *)sender
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    _updateView.pickOnes = _photoPickerCollectionView.pickOnes;
+    _updateView.pickedStatuses = _photoPickerCollectionView.pickedStatuses;
     [self shouldHideMaskAndView:NO];
+    [_updateView.statusTextView becomeFirstResponder];
+    [_updateView setNeedsLayout];
 }
 
 @end

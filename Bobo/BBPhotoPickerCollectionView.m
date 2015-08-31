@@ -12,9 +12,6 @@
 
 @interface BBPhotoPickerCollectionView () <UICollectionViewDelegate, UICollectionViewDataSource>
 
-@property (copy, nonatomic) NSMutableArray *pickOnes;
-@property (copy, nonatomic) NSMutableArray *pickedStatuses;
-
 @end
 
 @implementation BBPhotoPickerCollectionView

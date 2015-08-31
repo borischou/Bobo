@@ -34,8 +34,6 @@
 
 @interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate, UITabBarControllerDelegate>
 
-@property (strong, nonatomic) BBUpdateStatusView *updateStatusView;
-
 @end
 
 @implementation AppDelegate
@@ -48,7 +46,7 @@
     [self checkLoginStatus];
     [self startUserProfileFetch];
     [self initControllers];
-    [self.window makeKeyAndVisible];
+    [_window makeKeyAndVisible];
     return YES;
 }
 
@@ -87,26 +85,31 @@
 
 #pragma mark - Helpers
 
++(id)delegate
+{
+    return [[UIApplication sharedApplication] delegate];
+}
+
 -(void)saveTokenAndUserID
 {
-    self.isLoggedIn = YES;
-    [[NSUserDefaults standardUserDefaults] setValue:@(self.isLoggedIn) forKey:@"loginstatus"];
-    [[NSUserDefaults standardUserDefaults] setObject:self.wbToken forKey:@"wbtoken"];
-    [[NSUserDefaults standardUserDefaults] setObject:self.wbCurrentUserID forKey:@"userID"];
+    _isLoggedIn = YES;
+    [[NSUserDefaults standardUserDefaults] setObject:@(_isLoggedIn) forKey:@"loginstatus"];
+    [[NSUserDefaults standardUserDefaults] setObject:_wbToken forKey:@"wbtoken"];
+    [[NSUserDefaults standardUserDefaults] setObject:_wbCurrentUserID forKey:@"userID"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(BOOL)checkLoginStatus
 {
-    self.isLoggedIn = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginstatus"];
-    self.wbToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"wbtoken"];
-    self.wbCurrentUserID = [[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
-    NSLog(@"self.wbCurrentUserID: %@\nself.wbToken: %@", self.wbCurrentUserID, self.wbToken);
-    if (!self.isLoggedIn || !self.wbToken || !self.wbCurrentUserID) {
+    _isLoggedIn = [[NSUserDefaults standardUserDefaults] objectForKey:@"loginstatus"];
+    _wbToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"wbtoken"];
+    _wbCurrentUserID = [[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
+    NSLog(@"self.wbCurrentUserID: %@\nself.wbToken: %@", _wbCurrentUserID, _wbToken);
+    if (!_isLoggedIn || !_wbToken || !_wbCurrentUserID) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Auto login failed" message:@"Please login later." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }
-    return self.isLoggedIn && self.wbToken && self.wbCurrentUserID;
+    return _isLoggedIn && _wbToken && _wbCurrentUserID;
 }
 
 -(void)initControllers
@@ -183,15 +186,14 @@
 {
     if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
         //initialize update view here
-        if (!_updateStatusView) {
-            _updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
-        }
-        _updateStatusView.nameLabel.text = _user.screen_name;
-        [_window addSubview:_updateStatusView];
+        BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
+        
+        updateStatusView.nameLabel.text = _user.screen_name;
+        [_window addSubview:updateStatusView];
         
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            _updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
-            [_updateStatusView.statusTextView becomeFirstResponder];
+            updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
+            [updateStatusView.statusTextView becomeFirstResponder];
         } completion:^(BOOL finished) {
             if (finished) {
                 //what are you gonna do
@@ -208,15 +210,15 @@
 //https://api.weibo.com/2/users/show.json?uid=id_string
 -(void)fetchUserProfile
 {
-    if (!self.isLoggedIn) {
+    if (!_isLoggedIn) {
         [[[UIAlertView alloc] initWithTitle:@"请求用户信息失败" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
     else
     {
         NSMutableDictionary *params = @{}.mutableCopy;
-        if (self.wbToken) {
-            [params setObject:self.wbToken forKey:@"access_token"];
-            [params setObject:self.wbCurrentUserID forKey:@"uid"];
+        if (_wbToken) {
+            [params setObject:_wbToken forKey:@"access_token"];
+            [params setObject:_wbCurrentUserID forKey:@"uid"];
             NSString *url = [bWeiboDomain stringByAppendingString:@"users/show.json"];
             [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                 if (!error) {
@@ -269,10 +271,10 @@
     
     if ([response isKindOfClass:[WBAuthorizeResponse class]]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"WeiboSDKDelegate" message:[NSString stringWithFormat:@"didReceiveWeiboResponse:\n%@\n 响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求数据: %@", [response class], (int)response.statusCode, [(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        self.wbToken = [(WBAuthorizeResponse *)response accessToken];
-        self.wbCurrentUserID = [(WBAuthorizeResponse *)response userID];
-        NSLog(@"self.wbToken: %@", self.wbToken);
-        NSLog(@"self.wbCurrentUserID: %@", self.wbCurrentUserID);
+        _wbToken = [(WBAuthorizeResponse *)response accessToken];
+        _wbCurrentUserID = [(WBAuthorizeResponse *)response userID];
+        NSLog(@"self.wbToken: %@", _wbToken);
+        NSLog(@"self.wbCurrentUserID: %@", _wbCurrentUserID);
         
         [self saveTokenAndUserID];
         [alertView show];

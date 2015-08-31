@@ -18,7 +18,7 @@
 @property (copy, nonatomic) NSString *wbToken;
 @property (copy, nonatomic) NSString *wbCurrentUserID;
 @property (strong, nonatomic) User *user;
-@property BOOL isLoggedIn;
+@property (nonatomic) BOOL isLoggedIn;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
@@ -26,5 +26,7 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+
++(id)delegate;
 
 @end

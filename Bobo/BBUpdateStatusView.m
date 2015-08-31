@@ -19,6 +19,8 @@
 #define uBigGap 10
 #define uBtnHeight 20
 #define uBtnWidth 50
+#define uImgHeight 60
+#define uImgWidth uImgHeight
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -32,9 +34,10 @@
     int _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 }
 
-@property (strong, nonatomic) UIImagePickerController *picker;
 @property (strong, nonatomic) BBKeyboardInputAccessoryView *keyboardInputView;
+@property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIView *mask;
+@property (strong, nonatomic) UIImagePickerController *picker;
 
 @end
 
@@ -104,6 +107,10 @@
     [_nameLabel setFrame:CGRectMake(0, 0, self.frame.size.width/2, uBtnHeight)];
     [_nameLabel setCenter:CGPointMake(self.frame.size.width/2, uSmallGap+uBtnHeight/2)];
     
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _imageView.backgroundColor = [UIColor redColor];
+    [self addSubview:_imageView];
+    
     if (_flag == 0) { //发微博
         _keyboardInputView = [[BBKeyboardInputAccessoryView alloc] init];
         _statusTextView.inputAccessoryView = _keyboardInputView;
@@ -130,7 +137,13 @@
 
 -(void)layoutSubviews
 {
-    _statusTextView.frame = CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight);
+    [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
+    
+    if (_pickOnes.count > 0) {
+        [_imageView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight+uSmallGap, uImgWidth, uImgHeight)];
+        _imageView.image = [_pickOnes firstObject];
+    }
+    
     if (!_mask) {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
@@ -268,6 +281,7 @@
                 }
                 break;
         }
+        
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
             if (_mask) {
