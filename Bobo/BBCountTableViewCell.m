@@ -89,7 +89,7 @@
     label = [[UILabel alloc] initWithFrame:frame];
     label.backgroundColor = [UIColor clearColor];
     label.attributedText = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:size]}];
-    label.textColor = [UIColor whiteColor];
+    label.textColor = [UIColor lightGrayColor];
     label.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:label];
 }
