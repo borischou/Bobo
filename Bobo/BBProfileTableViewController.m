@@ -111,8 +111,7 @@ static NSString *reuseCountsCell = @"countsCell";
         request.scope = @"all";
         [WeiboSDK sendRequest:request];
     } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Logged in" message:@"You are logged in already." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
+        [[[UIAlertView alloc] initWithTitle:@"Logged in" message:@"You are logged in already." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
 }
 

@@ -141,50 +141,8 @@ static NSString *reuseCMCell = @"reuseCMCell";
         NSLog(@"The full url is: %@", url);
         
         [WBHttpRequest requestWithAccessToken:delegate.wbToken url:url httpMethod:@"GET" params:nil delegate:self withTag:@"comment"];
-        
-//        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-//        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-//        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"comments"];
-//        }];
     }
 }
-
-//-(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
-//{
-//    if (error) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [self.tableView.header endRefreshing];
-//        [self.tableView.footer endRefreshing];
-//        [alertView show];
-//    }
-//    else
-//    {
-//        if ([type isEqualToString:@"comments"]) {
-//            if (!_comments) {
-//                _comments = @[].mutableCopy;
-//            }
-//            if (_page == 1) {
-//                _comments = nil;
-//                _comments = @[].mutableCopy;
-//            }
-//            NSDictionary *resultDict = (NSDictionary *)result;
-//            if (![[resultDict objectForKey:@"comments"] isEqual:[NSNull null]]) {
-//                NSArray *commentsArray = [resultDict objectForKey:@"comments"];
-//                if (commentsArray.count > 0) {
-//                    for (NSDictionary *dict in commentsArray) {
-//                        Comment *comment = [[Comment alloc] initWithDictionary:dict];
-//                        [_comments addObject:comment];
-//                    }
-//                    _page += 1;
-//                }
-//            }
-//        }
-//        [self.tableView.header endRefreshing];
-//        [self.tableView.footer endRefreshing];
-//        [self.tableView reloadData];
-//    }
-//}
 
 #pragma mark - WBHttpRequestDelegate
 
@@ -232,17 +190,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [self.tableView.header endRefreshing];
     [self.tableView.footer endRefreshing];
     [self.tableView reloadData];
-}
-
-#pragma mark - UIScrollViewDelegate
-
--(void)scrollViewWillEndDragging:(UIScrollView *)scrollView
-                    withVelocity:(CGPoint)velocity
-             targetContentOffset:(inout CGPoint *)targetContentOffset
-{
-    if (fabs(targetContentOffset->y+bHeight-self.tableView.contentSize.height) <= 250) {
-        [self fetchLatestComments];
-    }
 }
 
 #pragma mark - Table view data source

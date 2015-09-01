@@ -15,6 +15,8 @@
 #import "BBPhotoSelectionCollectionViewController.h"
 #import "BBStatusDetailViewController.h"
 
+#import "BBNotificationView.h"
+
 #define uSmallGap 5
 #define uBigGap 10
 #define uBtnHeight 20
@@ -193,6 +195,21 @@
     }];
 }
 
+-(void)callbackForUpdateCompletionWithNotificationView:(BBNotificationView *)view text:(NSString *)text
+{
+    view.notificationLabel.text = text;
+    
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [view setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 delay:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [view setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
+        } completion:^(BOOL finished) {
+            [view removeFromSuperview];
+        }];
+    }];
+}
+
 -(void)sendButtonPressed:(UIButton *)sender
 {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -200,6 +217,10 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     } else {
+        BBNotificationView *notificationView = [[BBNotificationView alloc] init];
+        AppDelegate *delegate = [AppDelegate delegate];
+        [delegate.window addSubview:notificationView];
+        __block NSString *notificationText = nil;
         switch (_flag) {
             case 0: //发微博
                 {
@@ -210,17 +231,23 @@
                         [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:imgObject orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                             if (!error) {
                                 NSLog(@"发布成功。");
+                                notificationText = @"微博发布成功";
                             } else {
                                 NSLog(@"发布失败：%@", error);
+                                notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
                             }
+                            [self callbackForUpdateCompletionWithNotificationView:notificationView text:notificationText];
                         }];
                     } else { //无配图
                         [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                             if (!error) {
                                 NSLog(@"发布成功。");
+                                notificationText = @"微博发布成功";
                             } else {
                                 NSLog(@"发布失败：%@", error);
+                                notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
                             }
+                            [self callbackForUpdateCompletionWithNotificationView:notificationView text:notificationText];
                         }];
                     }
                     
@@ -241,11 +268,14 @@
                     [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                         if (!error) {
                             NSLog(@"评论成功。");
+                            notificationText = @"评论发布成功";
                         }
                         else
                         {
                             NSLog(@"评论失败：%@", error);
+                            notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
                         }
+                        [self callbackForUpdateCompletionWithNotificationView:notificationView text:notificationText];
                     }];
                 }
                 break;
@@ -264,11 +294,14 @@
                     [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                         if (!error) {
                             NSLog(@"转发成功。");
+                            notificationText = @"转发发布成功";
                         }
                         else
                         {
                             NSLog(@"转发失败：%@", error);
+                            notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
                         }
+                        [self callbackForUpdateCompletionWithNotificationView:notificationView text:notificationText];
                     }];
                 }
                 break;
@@ -288,16 +321,18 @@
                     [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
                         if (!error) {
                             NSLog(@"评论成功。");
+                            notificationText = @"评论发布成功";
                         }
                         else
                         {
                             NSLog(@"评论失败：%@", error);
+                            notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
                         }
+                        [self callbackForUpdateCompletionWithNotificationView:notificationView text:notificationText];
                     }];
                 }
                 break;
         }
-        
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
             if (_mask) {
@@ -320,8 +355,6 @@
                     [_mask removeFromSuperview];
                     _mask = nil; //引用计数减一
                 }
-                [_pickedStatuses removeAllObjects];
-                [_pickedOnes removeAllObjects];
                 [self removeFromSuperview];
             }
         }];

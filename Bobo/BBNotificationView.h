@@ -10,4 +10,8 @@
 
 @interface BBNotificationView : UIView
 
+@property (strong, nonatomic) UILabel *notificationLabel;
+
+-(instancetype)initWithNotification:(NSString *)text;
+
 @end
