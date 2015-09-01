@@ -20,7 +20,7 @@
 #define wBottomItemWidth wBottomItemHeight
 #define wTextFontSize 10.f
 
-#define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
+#define bCellBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 
 @interface BBWaterfallCollectionViewCell ()
 

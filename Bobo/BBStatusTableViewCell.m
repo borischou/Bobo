@@ -45,9 +45,11 @@
 #define bImageWidth bImageHeight
 #define bFontSize 12.0
 
-#define bRetweetBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
-#define bImgBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
-#define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
+#define bRetweetBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
+#define bCellBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
+
+#define bMaleColor [UIColor colorWithRed:0.0/255 green:154.0/255 blue:205.0/255 alpha:1.0] //light blue
+#define bFemaleColor [UIColor colorWithRed:255.0/255 green:52.0/255 blue:181.0/255 alpha:1.0] //pink
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
@@ -344,6 +346,16 @@
     [_avatarView sd_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
     
     _nicknameLbl.text = _status.user.screen_name;
+    if ([_status.user.gender isEqualToString:@"m"]) {
+        [_nicknameLbl setTextColor:bMaleColor];
+    }
+    if ([_status.user.gender isEqualToString:@"f"]) {
+        [_nicknameLbl setTextColor:bFemaleColor];
+    }
+    if ([_status.user.gender isEqualToString:@"n"]) {
+        [_nicknameLbl setTextColor:[UIColor lightTextColor]];
+    }
+    
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _sourceLbl.text = [NSString trim:_status.source];
     _postBodyLbl.text = _status.text;
