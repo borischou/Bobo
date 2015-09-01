@@ -96,9 +96,13 @@
     [self.contentView addSubview:_avatarView];
     
     //nickname
-    _nicknameLbl = [[UILabel alloc] initWithFrame:CGRectMake(10 + bAvatarWidth + 10, 10 + 5, bNicknameWidth, bNicknameHeight)];
+    _nicknameLbl = [[UILabel alloc] initWithFrame:CGRectMake(10+bAvatarWidth+10, 10+5, bNicknameWidth, bNicknameHeight)];
     _nicknameLbl.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_nicknameLbl];
+    
+    //vip
+    _vipView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:_vipView];
     
     //post time
     _postTimeLbl = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -397,6 +401,16 @@
 
 -(void)setCellLayout
 {
+    //vip
+    if (_status.user.verified) {
+        CGSize nameSize = [_nicknameLbl sizeThatFits:CGSizeMake(MAXFLOAT, bNicknameHeight)];
+        [_vipView setFrame:CGRectMake(10+bAvatarWidth+10+nameSize.width, 10+5, 15, 15)];
+        [_vipView setImage:[UIImage imageNamed:@"icon_vip"]];
+    } else {
+        [_vipView setFrame:CGRectZero];
+        [_vipView setImage:nil];
+    }
+    
     //时间
     CGSize timeSize = [_postTimeLbl sizeThatFits:CGSizeMake(MAXFLOAT, bPostTimeHeight)];
     [_postTimeLbl setFrame:CGRectMake(10+bAvatarWidth+10, 10+5+bNicknameHeight+3, timeSize.width, bPostTimeHeight)];

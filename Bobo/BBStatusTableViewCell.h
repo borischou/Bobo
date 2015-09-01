@@ -19,6 +19,7 @@
 @property (strong, nonatomic) UILabel *postTimeLbl;
 @property (strong, nonatomic) UILabel *sourceLbl;
 @property (strong, nonatomic) UIImageView *avatarView;
+@property (strong, nonatomic) UIImageView *vipView;
 @property (strong, nonatomic) NSMutableArray *statusImgViews;
 
 //repost status
