@@ -27,8 +27,14 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         self.backgroundColor = [UIColor blackColor];
+        self.alpha = 0.0;
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.alpha = 1.0;
+            [[UIApplication sharedApplication] setStatusBarHidden:YES];
+        } completion:^(BOOL finished) {
+            
+        }];
         _count = [urls count]+2;
         [self setScrollViewWithImageUrls:urls andTag:tag];
         [self loadPageControl];
@@ -65,6 +71,7 @@
     _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
     _imageView.contentMode = UIViewContentModeScaleAspectFit;
     [_scrollView addSubview:_imageView];
+    
     [_imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"pic_placeholder@3x"] options:SDWebImageCacheMemoryOnly completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (!error) {
             [self setSizeForImage:image withImageView:_imageView andOriginX:originX];
@@ -110,7 +117,12 @@
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [_imageView sd_cancelCurrentImageLoad];
-    [self removeFromSuperview];
+    
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [self removeFromSuperview];
+    }];
 }
 
 #pragma mark - UIScrollViewDelegate
