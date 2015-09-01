@@ -126,6 +126,8 @@ static NSString *reuseCountsCell = @"countsCell";
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         if (!_user) {
             [self fetchUserProfile];
+        } else {
+            self.tableView.tableHeaderView = [self getAvatarView];
         }
         [self fetchUserLatestStatuses];
     }];
