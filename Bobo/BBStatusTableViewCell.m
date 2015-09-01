@@ -97,10 +97,16 @@
     [self.contentView addSubview:_nicknameLbl];
     
     //post time
-    _postTimeLbl = [[UILabel alloc] initWithFrame:CGRectMake(10 + bAvatarWidth + 10, 10 + 5 + bNicknameHeight + 3, bPostTimeWidth, bPostTimeHeight)];
+    _postTimeLbl = [[UILabel alloc] initWithFrame:CGRectZero];
     _postTimeLbl.textColor = [UIColor lightTextColor];
     _postTimeLbl.font = [UIFont systemFontOfSize:10.f];
     [self.contentView addSubview:_postTimeLbl];
+    
+    //source
+    _sourceLbl = [[UILabel alloc] initWithFrame:CGRectZero];
+    _sourceLbl.textColor = [UIColor lightTextColor];
+    [_sourceLbl setFont:[UIFont systemFontOfSize:10.f]];
+    [self.contentView addSubview:_sourceLbl];
     
     //text
     _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -337,6 +343,7 @@
     
     _nicknameLbl.text = _status.user.screen_name;
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
+    _sourceLbl.text = [NSString trim:_status.source];
     _postBodyLbl.text = _status.text;
     
     if (_status.pic_urls.count > 0) {
@@ -375,24 +382,36 @@
 }
 
 -(void)setCellLayout
-{    
-    CGSize postSize = [_postBodyLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
-    _postBodyLbl.frame = CGRectMake(bBigGap, bBigGap + bAvatarHeight + bBigGap, bWidth - bBigGap * 2, postSize.height);
+{
+    //时间
+    CGSize timeSize = [_postTimeLbl sizeThatFits:CGSizeMake(MAXFLOAT, bPostTimeHeight)];
+    [_postTimeLbl setFrame:CGRectMake(10+bAvatarWidth+10, 10+5+bNicknameHeight+3, timeSize.width, bPostTimeHeight)];
+    
+    //来源
+    CGSize sourceSize = [_sourceLbl sizeThatFits:CGSizeMake(MAXFLOAT, bPostTimeHeight)];
+    [_sourceLbl setFrame:CGRectMake(10+bAvatarWidth+10+timeSize.width+10, 10+5+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
+    
+    //微博正文
+    CGSize postSize = [_postBodyLbl sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
+    _postBodyLbl.frame = CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height);
+    
     _repostView.hidden = YES;
     if (_status.retweeted_status) {
-        //retweeted_status
+        
+        //转发微博
         _repostView.hidden = NO;
         [self resetImageViews:_statusImgViews];
-        CGSize repostSize = [_repostLbl sizeThatFits:CGSizeMake(bWidth - 2 * bBigGap, MAXFLOAT)];
-        [_repostLbl setFrame:CGRectMake(bBigGap, 0, bWidth - 2 * bBigGap, repostSize.height)];
+        CGSize repostSize = [_repostLbl sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
+        [_repostLbl setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
         [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
         
         [_repostView setFrame:CGRectMake(0, bBigGap + bAvatarHeight + bBigGap + postSize.height + bBigGap, bWidth, repostSize.height + bSmallGap + [Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];        
     }
     else
-    { //status imgs
+    {
+        //微博配图
         _repostView.hidden = YES;
-        [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap + bAvatarHeight + bBigGap + postSize.height];
+        [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap+bAvatarHeight+bBigGap+postSize.height];
     }
     [self layoutBarButtonsWithTop:_status.height-bBarHeight];
 }

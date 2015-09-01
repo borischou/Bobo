@@ -38,4 +38,21 @@
     return numStr;
 }
 
++(NSString *)trim:(NSString *)source
+{
+    NSString *text = nil;
+    
+    NSScanner *scanner = [NSScanner scannerWithString:source];
+    while (scanner.isAtEnd == NO) {
+        [scanner scanUpToString:@"<" intoString:NULL];
+        [scanner scanUpToString:@">" intoString:&text];
+        source = [source stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>", text] withString:@""];
+    }
+    
+    NSString *regEx = @"<([^>]*)>";
+    source = [source stringByReplacingOccurrencesOfString:regEx withString:@""];
+    
+    return source;
+}
+
 @end

@@ -16,4 +16,6 @@
 
 +(NSString *)getNumStrFrom:(NSInteger)num;
 
++(NSString *)trim:(NSString *)source;
+
 @end
