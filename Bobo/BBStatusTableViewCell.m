@@ -17,6 +17,8 @@
 #import "WeiboSDK.h"
 #import "BBStatusDetailViewController.h"
 #import "BBMainStatusTableViewController.h"
+#import "BBFavoritesTableViewController.h"
+#import "BBProfileTableViewController.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -317,7 +319,7 @@
     dtvc.status = _status.retweeted_status;
     
     id tableViewController = [[[self nextResponder] nextResponder] nextResponder];
-    if ([tableViewController isKindOfClass:[BBMainStatusTableViewController class]]) {
+    if ([tableViewController isKindOfClass:[BBMainStatusTableViewController class]] || [tableViewController isKindOfClass:[BBProfileTableViewController class]] || [tableViewController isKindOfClass:[BBFavoritesTableViewController class]] || [tableViewController isKindOfClass:[BBStatusDetailViewController class]]) {
         BBMainStatusTableViewController *mstvc = (BBMainStatusTableViewController *)tableViewController;
         [mstvc.navigationController pushViewController:dtvc animated:YES];
     }
