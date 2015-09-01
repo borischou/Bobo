@@ -18,7 +18,7 @@
 #define cNameHeight 15
 #define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
 
-#define bCellBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
+#define bCellBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 
 @implementation BBCommentTableViewCell
 
