@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BBMessageTableViewController : UITableViewController
+@interface BBMessageViewController : UIViewController
 
 @end

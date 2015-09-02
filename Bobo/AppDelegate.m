@@ -148,7 +148,8 @@
     waterfallvc.tabBarItem.image = [UIImage imageNamed:@"tab_waterfall"];
     UINavigationController *waterfallnvc = [[UINavigationController alloc] initWithRootViewController:waterfallvc];
     [self setupNavigationController:waterfallnvc withUIViewController:waterfallvc];
-    
+
+    //Tabbar
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.delegate = self;
     
