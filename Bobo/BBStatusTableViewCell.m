@@ -325,9 +325,15 @@
     dtvc.status = _status.retweeted_status;
     
     id tableViewController = [[[self nextResponder] nextResponder] nextResponder];
-    if ([tableViewController isKindOfClass:[BBMainStatusTableViewController class]] || [tableViewController isKindOfClass:[BBProfileTableViewController class]] || [tableViewController isKindOfClass:[BBFavoritesTableViewController class]] || [tableViewController isKindOfClass:[BBStatusDetailViewController class]]) {
+    id detailTableViewController = [tableViewController nextResponder];
+
+    if ([tableViewController isKindOfClass:[BBMainStatusTableViewController class]] || [tableViewController isKindOfClass:[BBProfileTableViewController class]] || [tableViewController isKindOfClass:[BBFavoritesTableViewController class]]) {
         BBMainStatusTableViewController *mstvc = (BBMainStatusTableViewController *)tableViewController;
         [mstvc.navigationController pushViewController:dtvc animated:YES];
+    }
+    if ([detailTableViewController isKindOfClass:[BBStatusDetailViewController class]]) {
+        BBStatusDetailViewController *sdvc = (BBStatusDetailViewController *)detailTableViewController;
+        [sdvc.navigationController pushViewController:dtvc animated:YES];
     }
 }
 
