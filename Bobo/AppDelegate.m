@@ -101,7 +101,7 @@
 
 -(BOOL)checkLoginStatus
 {
-    _isLoggedIn = [[NSUserDefaults standardUserDefaults] objectForKey:@"loginstatus"];
+    _isLoggedIn = [[[NSUserDefaults standardUserDefaults] objectForKey:@"loginstatus"] boolValue];
     _wbToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"wbtoken"];
     _wbCurrentUserID = [[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
     NSLog(@"self.wbCurrentUserID: %@\nself.wbToken: %@", _wbCurrentUserID, _wbToken);
