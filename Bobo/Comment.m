@@ -33,7 +33,9 @@
         _user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];
         _status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"status"]];
         
-        _height = cAvatarHeight > cNameHeight+cSmallGap+[Utils heightForString:_text width:cTextWidth fontSize:cTextFontSize]? cBigGap*2+cAvatarHeight: cBigGap*2+cNameHeight+cSmallGap+[Utils heightForString:_text width:cTextWidth fontSize:cTextFontSize];
+        CGFloat textHeight = [Utils heightForString:_text width:cTextWidth fontSize:cTextFontSize];
+        _height = cAvatarHeight > cNameHeight+cSmallGap+textHeight? cBigGap*2+cAvatarHeight: cBigGap*2+cNameHeight+cSmallGap+textHeight;
+        _heightForMessageCell = cBigGap+cAvatarHeight+cBigGap+textHeight+cBigGap+[Utils heightForString:_status.text width:cTextWidth fontSize:cTextFontSize]+cSmallGap;
     }
     return self;
 }

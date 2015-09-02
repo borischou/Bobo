@@ -1,145 +1,97 @@
 //
-//  BBWaterfallStatusViewController.m
+//  BBMessageTableViewController.m
 //  Bobo
 //
-//  Created by Boris Chow on 8/25/15.
-//  Copyright (c) 2015 Zhouboli. All rights reserved.
+//  Created by Zhouboli on 15/9/2.
+//  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import "CHTCollectionViewWaterfallLayout.h"
-#import "BBWaterfallStatusViewController.h"
+#import "BBMessageViewController.h"
+#import "BBMessageTableView.h"
 #import <MJRefresh/MJRefresh.h>
 #import "WeiboSDK.h"
 #import "SWRevealViewController.h"
 #import "AppDelegate.h"
-#import "BBWaterfallCollectionView.h"
+#import "Comment.h"
 
+#define bWeiboDomain @"https://api.weibo.com/2/"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-#define bWeiboDomain @"https://api.weibo.com/2/"
+@interface BBMessageViewController ()
 
-@interface BBWaterfallStatusViewController () <WBHttpRequestDelegate, UICollectionViewDelegate>
-
-@property (strong, nonatomic) BBWaterfallCollectionView *waterfallView;
+@property (strong, nonatomic) BBMessageTableView *messageTableView;
 @property (copy, nonatomic) NSString *max_id;
 @property (copy, nonatomic) NSString *since_id;
 
 @end
 
-@implementation BBWaterfallStatusViewController
-
-#pragma mark - Life Cycle
+@implementation BBMessageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
-    layout.minimumColumnSpacing = 4.0;
-    layout.minimumInteritemSpacing = 4.0;
-    layout.sectionInset = UIEdgeInsetsMake(2, 2, 2, 2);
-    layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst;
-    _waterfallView = [[BBWaterfallCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:layout];
-    self.view = _waterfallView;
-    
-    [self setMJRefresh];
-    [_waterfallView.header beginRefreshing];
+    _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) style:UITableViewStyleGrouped];
+    self.view = _messageTableView;
 }
 
--(void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    [_waterfallView.statuses removeAllObjects];
-    [_waterfallView.header beginRefreshing];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self addSWRevealViewControllerGestureRecognizer];
-    if (_waterfallView.statuses.count <= 0) {
-        [_waterfallView.header beginRefreshing];
-    }
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self removeSWRevealControllerGestureRecognizer];
-//    [_waterfallView.statuses removeAllObjects];
-}
-
--(void)addSWRevealViewControllerGestureRecognizer
-{
-    [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
-
--(void)removeSWRevealControllerGestureRecognizer
-{
-    [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
+    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Weibo support
 
 -(void)setMJRefresh
 {
-    _waterfallView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self fetchLatestStatuses];
+    _messageTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self fetchLatestCommentsToMe];
         [self fetchApiRateLimitStatus];
     }];
-    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatuses)];
+    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryCommentsToMe)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
     [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
     [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
-    _waterfallView.footer = footer;
+    _messageTableView.footer = footer;
 }
 
 -(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
 {
     if (error) {
         [[[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-        [_waterfallView.header endRefreshing];
-        [_waterfallView.footer endRefreshing];
+        [_messageTableView.header endRefreshing];
+        [_messageTableView.footer endRefreshing];
     } else {
-        if (!_waterfallView.statuses) {
-            _waterfallView.statuses = @[].mutableCopy;
-        }
-        if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
-            NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
-            if (downloadedStatuses.count > 0) {
-                for (int i = 0; i < [downloadedStatuses count]; i ++) {
-                    Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
-                    [_waterfallView.statuses insertObject:tmp_status atIndex:i];
-                    if ([downloadedStatuses count] - 1 == i) {
-                        _max_id = tmp_status.idstr;
+        if ([type isEqualToString:@"refresh"]) { //下拉刷新最新消息
+            NSArray *downloadedComments = [result objectForKey:@"comments"];
+            if (downloadedComments.count > 0) {
+                for (int i = 0; i < [downloadedComments count]; i ++) {
+                    Comment *tmp_comment = [[Comment alloc] initWithDictionary:downloadedComments[i]];
+                    [_messageTableView.comments insertObject:tmp_comment atIndex:i];
+                    if ([downloadedComments count] - 1 == i) {
+                        _max_id = tmp_comment.idstr;
                     }
                 }
-                Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
-                _since_id = status.idstr;
+                Comment *comment = [[Comment alloc] initWithDictionary:[downloadedComments objectAtIndex:0]];
+                _since_id = comment.idstr;
             }
-            if (_waterfallView.statuses.count <= 8) {
-                [self fetchHistoryStatuses];
-            }
-            [_waterfallView.header endRefreshing];
+            [_messageTableView.header endRefreshing];
         }
         
-        if ([type isEqualToString:@"history"]) { //上拉刷新历史微博
-            NSArray *historyStatuses = [result objectForKey:@"statuses"];
-            if (historyStatuses.count > 0) {
-                for (int i = 1; i < [historyStatuses count]; i ++) {
-                    Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
-                    [_waterfallView.statuses addObject:tmp_status];
-                    if ([historyStatuses count] - 1 == i) {
-                        _max_id = tmp_status.idstr;
+        if ([type isEqualToString:@"history"]) { //上拉刷新历史消息
+            NSArray *historyMessages = [result objectForKey:@"statuses"];
+            if (historyMessages.count > 0) {
+                for (int i = 1; i < [historyMessages count]; i ++) {
+                    Comment *tmp_comment = [[Comment alloc] initWithDictionary:historyMessages[i]];
+                    [_messageTableView.comments addObject:tmp_comment];
+                    if ([historyMessages count] - 1 == i) {
+                        _max_id = tmp_comment.idstr;
                     }
                 }
             }
-            [_waterfallView.footer endRefreshing];
+            [_messageTableView.footer endRefreshing];
         }
-        [_waterfallView reloadData];
+        [_messageTableView reloadData];
         NSLog(@"The currentLastStatusId is: %@", _max_id);
     }
 }
@@ -163,12 +115,12 @@
     }
 }
 
--(void)fetchLatestStatuses
+-(void)fetchLatestCommentsToMe
 {
     AppDelegate *delegate = [AppDelegate delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [_waterfallView.header endRefreshing];
+        [_messageTableView.header endRefreshing];
         [alertView show];
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
@@ -190,12 +142,12 @@
     }
 }
 
--(void)fetchHistoryStatuses
+-(void)fetchHistoryCommentsToMe
 {
     AppDelegate *delegate = [AppDelegate delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [_waterfallView.footer endRefreshing];
+        [_messageTableView.footer endRefreshing];
         [alertView show];
     } else {
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
@@ -208,5 +160,6 @@
         }];
     }
 }
+
 
 @end

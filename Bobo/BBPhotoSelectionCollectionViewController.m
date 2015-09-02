@@ -59,6 +59,9 @@
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     [self shouldHideMaskAndView:NO];
+    _photoPickerCollectionView.photos = nil;
+    _photoPickerCollectionView.pickedOnes = nil;
+    _photoPickerCollectionView.pickedStatuses = nil;
     [_updateView.statusTextView becomeFirstResponder];
 }
 

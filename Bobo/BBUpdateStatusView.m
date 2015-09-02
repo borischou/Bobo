@@ -188,8 +188,9 @@
                 [_mask removeFromSuperview];
                 _mask = nil;
             }
-            [_pickedStatuses removeAllObjects];
-            [_pickedOnes removeAllObjects];
+            _pickedOnes = nil;
+            _pickedStatuses = nil;
+            _nameLabel.text = nil;
             [self removeFromSuperview];
         }
     }];
@@ -364,7 +365,7 @@
 
 -(void)addPictureButtonPressed:(UIButton *)sender
 {
-    [self.statusTextView resignFirstResponder];
+    [_statusTextView resignFirstResponder];
     BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self flowLayout]];
     photoSelectionCollectionViewController.mask = _mask;
     photoSelectionCollectionViewController.updateView = self;

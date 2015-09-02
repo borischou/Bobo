@@ -31,15 +31,15 @@
 #define bTopPadding 10.0
 #define bSmallGap 5
 #define bBigGap 10
-#define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
-#define bPostImgWidth bPostImgHeight
 #define bTextFontSize 14.f
-#define bBarHeight bHeight/25
 #define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
 
+#define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
 #define bPostImgHeightForTwo ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/2
+#define bPostImgWidth bPostImgHeight
 #define bPostImgWidthForTwo bPostImgHeightForTwo
 
+#define bBarHeight bHeight/25
 #define bBarSmallGap 7
 #define bImageHeight [UIScreen mainScreen].bounds.size.height/25-2*bBarSmallGap
 #define bImageWidth bImageHeight

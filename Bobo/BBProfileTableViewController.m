@@ -288,9 +288,9 @@ static NSString *reuseCountsCell = @"countsCell";
         [tableView registerClass:[BBCountTableViewCell class] forCellReuseIdentifier:reuseCountsCell];
         BBCountTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCountsCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.wbcounts.text = [NSString stringWithFormat:@"%ld", _user.statuses_count];
-        cell.followercounts.text = [NSString stringWithFormat:@"%ld", _user.followers_count];
-        cell.friendcounts.text = [NSString stringWithFormat:@"%ld", _user.friends_count];
+        cell.wbcounts.text = [NSString stringWithFormat:@"%ld", (long)_user.statuses_count];
+        cell.followercounts.text = [NSString stringWithFormat:@"%ld", (long)_user.followers_count];
+        cell.friendcounts.text = [NSString stringWithFormat:@"%ld", (long)_user.friends_count];
         return cell;
     }
     else
