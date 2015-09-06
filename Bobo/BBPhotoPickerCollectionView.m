@@ -31,9 +31,6 @@
 
 -(void)preparePhotoDataWithLayout:(UICollectionViewFlowLayout *)layout
 {
-    PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
-    fetchOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
-    
     PHFetchResult *fetchResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL *stop) {
         NSLog(@"ALBUM NAME: %@", collection.localizedTitle);
@@ -59,20 +56,15 @@
             [manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options];
             
             for (PHAsset *asset in photos) {
-                [self loadImageFromPHAsset:asset withManager:manager options:options targetSize:targetSize];
+                [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+                    [_photos addObject:result];
+                    [_pickedStatuses addObject:@"0"];
+                }];
                 [assets addObject:asset];
             }
             [manager stopCachingImagesForAllAssets];
             [self reloadData];
         }
-    }];
-}
-
--(void)loadImageFromPHAsset:(PHAsset *)asset withManager:(PHCachingImageManager *)manager options:(PHImageRequestOptions *)options targetSize:(CGSize)targetSize
-{
-    [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
-        [_photos addObject:result];
-        [_pickedStatuses addObject:@"0"];
     }];
 }
 
