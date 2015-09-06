@@ -210,6 +210,21 @@
     }];
 }
 
+-(void)refreshComments
+{
+    if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
+        SWRevealViewController *rvc = (SWRevealViewController *)self.window.rootViewController;
+        UITabBarController *tbc = (UITabBarController *)rvc.frontViewController;
+        UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
+        if ([nvc.viewControllers count] >= 2) {
+            if ([nvc.viewControllers[1] isKindOfClass:[BBStatusDetailViewController class]]) {
+                BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
+                [sdtvc.tableView.header beginRefreshing];
+            }
+        }
+    }
+}
+
 -(void)sendButtonPressed:(UIButton *)sender
 {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -269,6 +284,7 @@
                         if (!error) {
                             NSLog(@"评论成功。");
                             notificationText = @"评论发布成功";
+                            [self refreshComments];
                         }
                         else
                         {
@@ -322,6 +338,7 @@
                         if (!error) {
                             NSLog(@"评论成功。");
                             notificationText = @"评论发布成功";
+                            [self refreshComments];
                         }
                         else
                         {
@@ -340,17 +357,6 @@
             }
         } completion:^(BOOL finished) {
             if (finished) {
-                if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
-                    SWRevealViewController *rvc = (SWRevealViewController *)self.window.rootViewController;
-                    UITabBarController *tbc = (UITabBarController *)rvc.frontViewController;
-                    UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
-                    if ([nvc.viewControllers count] >= 2) {
-                        if ([nvc.viewControllers[1] isKindOfClass:[BBStatusDetailViewController class]]) {
-                            BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
-                            [sdtvc.tableView.header beginRefreshing];
-                        }
-                    }
-                }
                 if (_mask) {
                     [_mask removeFromSuperview];
                     _mask = nil; //引用计数减一
