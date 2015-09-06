@@ -11,7 +11,7 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-#define kBtnWidth bWidth/4
+#define kBtnWidth bWidth/8
 #define kBtnHeight self.bounds.size.height
 
 @interface BBKeyboardInputAccessoryView ()
@@ -33,11 +33,13 @@
 -(void)setupAccessoryButtons
 {
     _addPictureBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-    _addPictureBtn.backgroundColor = [UIColor redColor];
+    [_addPictureBtn setImage:[UIImage imageNamed:@"icon_album"] forState:UIControlStateNormal];
+    [_addPictureBtn setImage:[UIImage imageNamed:@"icon_album_selected"] forState:UIControlStateHighlighted];
     [self addSubview:_addPictureBtn];
     
     _callCameraBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-    _callCameraBtn.backgroundColor = [UIColor blueColor];
+    [_callCameraBtn setImage:[UIImage imageNamed:@"icon_camera"] forState:UIControlStateNormal];
+    [_callCameraBtn setImage:[UIImage imageNamed:@"icon_camera_selected"] forState:UIControlStateHighlighted];
     [self addSubview:_callCameraBtn];
     
     [_addPictureBtn setFrame:CGRectMake(0, 0, kBtnWidth, kBtnHeight)];
