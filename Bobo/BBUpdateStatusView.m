@@ -14,7 +14,6 @@
 #import "WeiboSDK.h"
 #import "BBPhotoSelectionCollectionViewController.h"
 #import "BBStatusDetailViewController.h"
-
 #import "BBNotificationView.h"
 
 #define uSmallGap 5
