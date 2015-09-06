@@ -62,7 +62,6 @@
                 }];
                 [assets addObject:asset];
             }
-            [manager stopCachingImagesForAllAssets];
             [self reloadData];
         }
     }];
