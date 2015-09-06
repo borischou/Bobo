@@ -47,7 +47,7 @@
             PHCachingImageManager *manager = [[PHCachingImageManager alloc] init];
             PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
             options.resizeMode = PHImageRequestOptionsResizeModeExact;
-            options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+            options.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
             options.synchronous = YES;
 
             CGFloat scale = [UIScreen mainScreen].scale;
