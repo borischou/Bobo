@@ -183,6 +183,7 @@
     
     _commentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     _commentImageView.image = [UIImage imageNamed:@"cmt_icon"];
+    _commentImageView.clipsToBounds = YES;
     _commentImageView.userInteractionEnabled = YES;
     [_commentImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentImageViewTapped)]];
     [self.contentView addSubview:_commentImageView];
@@ -194,6 +195,7 @@
     
     _likeImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     _likeImageView.image = [UIImage imageNamed:@"like_icon_2"];
+    _likeImageView.clipsToBounds = YES;
     _likeImageView.userInteractionEnabled = YES;
     [_likeImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageViewTapped)]];
     [self.contentView addSubview:_likeImageView];
@@ -205,6 +207,7 @@
     
     _favoritesImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
+    _favoritesImageView.clipsToBounds = YES;
     _favoritesImageView.userInteractionEnabled = YES;
     [_favoritesImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(favoritesImageViewTapped)]];
     [self.contentView addSubview:_favoritesImageView];
