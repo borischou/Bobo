@@ -71,7 +71,7 @@ static CGFloat imageQuality = 0.8;
         _mask.alpha = 0;
         [_mask addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonPressed:)]];
         
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        AppDelegate *delegate = [AppDelegate delegate];
         [delegate.window addSubview:_mask];
         [delegate.window bringSubviewToFront:self];
         
@@ -154,7 +154,7 @@ static CGFloat imageQuality = 0.8;
         _mask.alpha = 0.0;
         [_mask addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonPressed:)]];
         
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        AppDelegate *delegate = [AppDelegate delegate];
         [delegate.window addSubview:_mask];
         [delegate.window bringSubviewToFront:self];
         
@@ -235,7 +235,7 @@ static CGFloat imageQuality = 0.8;
 
 -(void)sendButtonPressed:(UIButton *)sender
 {
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    AppDelegate *delegate = [AppDelegate delegate];
     if (!delegate.isLoggedIn) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
