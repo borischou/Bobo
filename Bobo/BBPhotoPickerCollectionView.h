@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Photos/Photos.h>
 
 @interface BBPhotoPickerCollectionView : UICollectionView
 
-@property (copy, nonatomic) NSMutableArray *photos;
 @property (copy, nonatomic) NSMutableArray *pickedOnes;
 @property (copy, nonatomic) NSMutableArray *pickedStatuses;
+
+@property (strong, nonatomic) UICollectionViewFlowLayout *layout;
+@property (strong, nonatomic) PHFetchResult *fetchedPhotos;
+@property (strong, nonatomic) PHCachingImageManager *manager;
+@property (strong, nonatomic) PHImageRequestOptions *options;
 
 @end

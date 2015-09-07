@@ -43,6 +43,10 @@
 		456254DF1B8306910009A332 /* like_icon_2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254DE1B8306910009A332 /* like_icon_2@3x.png */; };
 		4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */; };
 		4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */; };
+		4567C2D61B9C2A6900C8660B /* icon_album@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4567C2D51B9C2A6900C8660B /* icon_album@3x.png */; };
+		4567C2D81B9C2AF700C8660B /* icon_camera@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4567C2D71B9C2AF700C8660B /* icon_camera@3x.png */; };
+		4567C2DA1B9C2B5E00C8660B /* icon_camera_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4567C2D91B9C2B5E00C8660B /* icon_camera_selected@3x.png */; };
+		4567C2DC1B9C2BA300C8660B /* icon_album_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4567C2DB1B9C2BA300C8660B /* icon_album_selected@3x.png */; };
 		45688A0A1B85A8BA0015461E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45688A091B85A8BA0015461E /* CoreData.framework */; };
 		45688A0F1B85ABBF0015461E /* CStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 45688A0C1B85ABBF0015461E /* CStatus.m */; };
 		45688A101B85ABBF0015461E /* CUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45688A0E1B85ABBF0015461E /* CUser.m */; };
@@ -161,6 +165,10 @@
 		4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileTableViewController.h; sourceTree = "<group>"; };
 		4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileTableViewController.m; sourceTree = "<group>"; };
 		4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gerenshiwu@3x.png"; sourceTree = "<group>"; };
+		4567C2D51B9C2A6900C8660B /* icon_album@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_album@3x.png"; sourceTree = "<group>"; };
+		4567C2D71B9C2AF700C8660B /* icon_camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@3x.png"; sourceTree = "<group>"; };
+		4567C2D91B9C2B5E00C8660B /* icon_camera_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera_selected@3x.png"; sourceTree = "<group>"; };
+		4567C2DB1B9C2BA300C8660B /* icon_album_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_album_selected@3x.png"; sourceTree = "<group>"; };
 		45688A091B85A8BA0015461E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		45688A0B1B85ABBF0015461E /* CStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CStatus.h; sourceTree = "<group>"; };
 		45688A0C1B85ABBF0015461E /* CStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CStatus.m; sourceTree = "<group>"; };
@@ -412,6 +420,7 @@
 			children = (
 				4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */,
 				007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */,
+				4567C2D51B9C2A6900C8660B /* icon_album@3x.png */,
 				45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */,
 				459232521B96BE530006A123 /* tab_icon_message@3x.png */,
 				457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */,
@@ -427,6 +436,9 @@
 				456254DC1B8306200009A332 /* fav_icon_3@3x.png */,
 				458393571B7B54E4005B1766 /* post_tab_icon@3x.png */,
 				45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */,
+				4567C2DB1B9C2BA300C8660B /* icon_album_selected@3x.png */,
+				4567C2D91B9C2B5E00C8660B /* icon_camera_selected@3x.png */,
+				4567C2D71B9C2AF700C8660B /* icon_camera@3x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -648,8 +660,12 @@
 				451441E11B295CA9000532DD /* LaunchScreen.xib in Resources */,
 				4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */,
 				456254DD1B8306200009A332 /* fav_icon_3@3x.png in Resources */,
+				4567C2DC1B9C2BA300C8660B /* icon_album_selected@3x.png in Resources */,
 				451441DE1B295CA9000532DD /* Images.xcassets in Resources */,
+				4567C2DA1B9C2B5E00C8660B /* icon_camera_selected@3x.png in Resources */,
+				4567C2D61B9C2A6900C8660B /* icon_album@3x.png in Resources */,
 				456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */,
+				4567C2D81B9C2AF700C8660B /* icon_camera@3x.png in Resources */,
 				451442131B29635B000532DD /* WeiboSDK.bundle in Resources */,
 				0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */,
 				45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */,
