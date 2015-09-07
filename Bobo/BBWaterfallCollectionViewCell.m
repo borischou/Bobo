@@ -53,7 +53,8 @@
     [self.contentView addSubview:_coverImageView];
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _avatarView.contentMode = UIViewContentModeScaleAspectFit;
+    _avatarView.contentMode = UIViewContentModeScaleAspectFill;
+    _avatarView.clipsToBounds = YES;
     [self.contentView addSubview:_avatarView];
     
     _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];

@@ -56,6 +56,7 @@
     self.contentView.backgroundColor = bCellBGColor;
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
+    _avatarView.clipsToBounds = YES;
     [self.contentView addSubview:_avatarView];
     
     _nameLbl = [[UILabel alloc] initWithFrame:CGRectZero];

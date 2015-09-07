@@ -67,6 +67,7 @@
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
     [_avatarView sd_setImageWithURL:[NSURL URLWithString:delegate.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
+    _avatarView.clipsToBounds = YES;
     _avatarView.layer.masksToBounds = YES;
     _avatarView.layer.cornerRadius = _avatarView.bounds.size.width*0.5;
     _avatarView.layer.borderWidth = 0.1;
