@@ -66,7 +66,6 @@
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     _updateView.pickedOnes = _photoPickerCollectionView.pickedOnes;
-    _updateView.pickedStatuses = _photoPickerCollectionView.pickedStatuses;
     [self shouldHideMaskAndView:NO];
     [_updateView.statusTextView becomeFirstResponder];
     [_updateView setNeedsLayout];

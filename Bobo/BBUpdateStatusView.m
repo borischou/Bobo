@@ -187,7 +187,6 @@
                 [_mask removeFromSuperview];
                 _mask = nil;
             }
-            _pickedStatuses = nil;
             _pickedOnes = nil;
             [self removeFromSuperview];
         }
