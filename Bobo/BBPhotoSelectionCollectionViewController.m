@@ -66,12 +66,12 @@
 -(void)confirmButtonItemPressed:(UIBarButtonItem *)sender
 {
     NSMutableArray *images = @[].mutableCopy;
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.resizeMode = PHImageRequestOptionsResizeModeExact;
+    options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     for (int i = 0; i < _photoPickerCollectionView.pickedOnes.count; i ++) {
         PHAsset *asset = _photoPickerCollectionView.pickedOnes[i];
         CGSize targetSize = CGSizeMake(asset.pixelWidth, asset.pixelHeight);
-        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-        options.resizeMode = PHImageRequestOptionsResizeModeExact;
-        options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
         [_photoPickerCollectionView.manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
             [images addObject:result];
             if (i == _photoPickerCollectionView.pickedOnes.count-1) {
