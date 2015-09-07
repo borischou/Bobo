@@ -257,7 +257,7 @@
 -(void)favoritesImageViewTapped
 {
     NSLog(@"favoritesImageViewTapped");
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    AppDelegate *delegate = [AppDelegate delegate];
     if (!delegate.isLoggedIn) {
         [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
