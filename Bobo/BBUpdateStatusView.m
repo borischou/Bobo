@@ -271,7 +271,6 @@ static CGFloat imageQuality = 0.8;
                             [self callbackForUpdateCompletionWithNotificationText:notificationText];
                         }];
                     }
-                    
                 }
                 break;
             case 1: //写评论
