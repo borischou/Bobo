@@ -99,7 +99,7 @@
 
 -(void)presentUpdateView
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
     updateStatusView.idStr = _status.idstr;
     updateStatusView.nameLabel.text = _status.user.screen_name;

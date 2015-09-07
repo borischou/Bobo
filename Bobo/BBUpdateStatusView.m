@@ -198,11 +198,13 @@ static CGFloat imageQuality = 0.8;
 
 -(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
 {
+    [self refreshComments];
+
     BBNotificationView *notificationView = [[BBNotificationView alloc] init];
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:notificationView];
+    [delegate.window bringSubviewToFront:notificationView];
     notificationView.notificationLabel.text = text;
-    
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [notificationView setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
     } completion:^(BOOL finished) {
@@ -217,17 +219,18 @@ static CGFloat imageQuality = 0.8;
 
 -(void)refreshComments
 {
-    if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
-        SWRevealViewController *rvc = (SWRevealViewController *)self.window.rootViewController;
-        UITabBarController *tbc = (UITabBarController *)rvc.frontViewController;
-        UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
-        if ([nvc.viewControllers count] >= 2) {
-            if ([nvc.viewControllers[1] isKindOfClass:[BBStatusDetailViewController class]]) {
-                BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
-                [sdtvc.tableView.header beginRefreshing];
-            }
-        }
-    }
+//    NSLog(@"SELF!!!!!!!!!: %@", self);
+//    if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
+//        SWRevealViewController *rvc = (SWRevealViewController *)self.window.rootViewController;
+//        UITabBarController *tbc = (UITabBarController *)rvc.frontViewController;
+//        UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
+//        if ([nvc.viewControllers count] >= 2) {
+//            if ([nvc.viewControllers[1] isKindOfClass:[BBStatusDetailViewController class]]) {
+//                BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
+//                [sdtvc.tableView.header beginRefreshing];
+//            }
+//        }
+//    }
 }
 
 -(void)sendButtonPressed:(UIButton *)sender
@@ -284,7 +287,6 @@ static CGFloat imageQuality = 0.8;
                         if (!error) {
                             NSLog(@"评论成功。");
                             notificationText = @"评论发布成功";
-                            [self refreshComments];
                         }
                         else
                         {
@@ -332,7 +334,6 @@ static CGFloat imageQuality = 0.8;
                         if (!error) {
                             NSLog(@"评论成功。");
                             notificationText = @"评论发布成功";
-                            [self refreshComments];
                         }
                         else
                         {
