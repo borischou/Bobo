@@ -57,6 +57,7 @@
 
 -(void)cancelButtonItemPressed:(UIBarButtonItem *)sender
 {
+    [_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     [self shouldHideMaskAndView:NO];
     [_updateView.statusTextView becomeFirstResponder];
@@ -64,11 +65,25 @@
 
 -(void)confirmButtonItemPressed:(UIBarButtonItem *)sender
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    _updateView.pickedOnes = _photoPickerCollectionView.pickedOnes;
-    [self shouldHideMaskAndView:NO];
-    [_updateView.statusTextView becomeFirstResponder];
-    [_updateView setNeedsLayout];
+    NSMutableArray *images = @[].mutableCopy;
+    for (int i = 0; i < _photoPickerCollectionView.pickedOnes.count; i ++) {
+        PHAsset *asset = _photoPickerCollectionView.pickedOnes[i];
+        CGSize targetSize = CGSizeMake(asset.pixelWidth, asset.pixelHeight);
+        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+        options.resizeMode = PHImageRequestOptionsResizeModeExact;
+        options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+        [_photoPickerCollectionView.manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+            [images addObject:result];
+            if (i == _photoPickerCollectionView.pickedOnes.count-1) {
+                _updateView.pickedOnes = images;
+                [_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                [self shouldHideMaskAndView:NO];
+                [_updateView.statusTextView becomeFirstResponder];
+                [_updateView setNeedsLayout];
+            }
+        }];
+    }
 }
 
 @end

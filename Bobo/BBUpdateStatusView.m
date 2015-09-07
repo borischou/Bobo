@@ -31,6 +31,8 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
+static CGFloat imageQuality = 0.8;
+
 @interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     int _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 }
@@ -109,6 +111,7 @@
     [_nameLabel setCenter:CGPointMake(self.frame.size.width/2, uSmallGap+uBtnHeight/2)];
     
     _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _imageView.contentMode = UIViewContentModeScaleAspectFill;
     _imageView.backgroundColor = [UIColor redColor];
     [self addSubview:_imageView];
     
@@ -207,6 +210,7 @@
             [notificationView setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
         } completion:^(BOOL finished) {
             [notificationView removeFromSuperview];
+            _pickedOnes = nil;
         }];
     }];
 }
@@ -237,7 +241,7 @@
             case 0: //发微博
                 {
                     if (_pickedOnes.count > 0) { //有配图
-                        NSData *imgData = UIImageJPEGRepresentation([_pickedOnes firstObject], 1.0);
+                        NSData *imgData = UIImageJPEGRepresentation([_pickedOnes firstObject], imageQuality);
                         WBImageObject *imgObject = [WBImageObject object];
                         imgObject.imageData = imgData;
                         [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:imgObject orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {

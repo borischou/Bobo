@@ -8,14 +8,10 @@
 
 #import "BBPhotoPickerCollectionView.h"
 #import "BBPhotoSelectionCollectionViewCell.h"
-#import <Photos/Photos.h>
+
+static CGFloat scale = 1.5;
 
 @interface BBPhotoPickerCollectionView () <UICollectionViewDelegate, UICollectionViewDataSource>
-
-@property (strong, nonatomic) UICollectionViewFlowLayout *layout;
-@property (strong, nonatomic) PHFetchResult *fetchedPhotos;
-@property (strong, nonatomic) PHCachingImageManager *manager;
-@property (strong, nonatomic) PHImageRequestOptions *options;
 
 @end
 
@@ -50,16 +46,20 @@
             for (int i = 0; i < _fetchedPhotos.count; i ++) {
                 [_pickedStatuses addObject:@"0"];
             }
-            
-            NSMutableArray *assets = @[].mutableCopy;
-            
-            _manager = [[PHCachingImageManager alloc] init];
-            _options = [[PHImageRequestOptions alloc] init];
+            if (!_manager) {
+                _manager = [[PHCachingImageManager alloc] init];
+            }
+            if (!_options) {
+                _options = [[PHImageRequestOptions alloc] init];
+            }
             _options.resizeMode = PHImageRequestOptionsResizeModeExact;
-            _options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+            _options.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
             
-            CGFloat scale = [UIScreen mainScreen].scale;
-            CGSize targetSize = CGSizeMake(layout.itemSize.width*scale, layout.itemSize.height*scale);
+            NSRange range = NSMakeRange(0, _fetchedPhotos.count);
+            NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+            NSArray *assets = [_fetchedPhotos objectsAtIndexes:set];
+            
+            CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
             
             [_manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:_options];
         }
@@ -89,9 +89,7 @@
         cell.layer.borderColor = UIColor.greenColor.CGColor;
     }
     
-    CGFloat scale = [UIScreen mainScreen].scale;
     CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
-    
     PHAsset *asset = _fetchedPhotos[indexPath.item];
     [_manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:_options resultHandler:^(UIImage *result, NSDictionary *info) {
         cell.imageView.image = result;
@@ -107,14 +105,14 @@
         cell.layer.borderWidth = 0.0;
         if (_pickedOnes.count) {
             [_pickedStatuses setObject:@"0" atIndexedSubscript:indexPath.item];
-            [_pickedOnes removeObject:cell.imageView.image];
+            [_pickedOnes removeObject:_fetchedPhotos[indexPath.item]];
             NSLog(@"LEFT: %ld", _pickedOnes.count);
         }
     } else {
         if (_pickedOnes.count == 9) {
             return;
         }
-        [_pickedOnes addObject:cell.imageView.image];
+        [_pickedOnes addObject:_fetchedPhotos[indexPath.item]];
         [_pickedStatuses setObject:@"1" atIndexedSubscript:indexPath.item];
         NSLog(@"PICKED: %ld", _pickedOnes.count);
         cell.layer.borderWidth = 2.0;
