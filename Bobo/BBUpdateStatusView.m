@@ -112,7 +112,7 @@ static CGFloat imageQuality = 0.8;
     
     _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
-    _imageView.backgroundColor = [UIColor redColor];
+    _imageView.clipsToBounds = YES;
     [self addSubview:_imageView];
     
     if (_flag == 0) { //发微博
