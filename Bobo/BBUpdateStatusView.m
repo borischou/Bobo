@@ -191,6 +191,7 @@ static CGFloat imageQuality = 0.8;
                 _mask = nil;
             }
             _pickedOnes = nil;
+            [self removeFromSuperview];
         }
     }];
 }
