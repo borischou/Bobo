@@ -8,7 +8,7 @@
 
 #import "BBMessageMenuView.h"
 
-#define mButtonWidth [UIScreen mainScreen].bounds.size.width/3
+#define mButtonWidth [UIScreen mainScreen].bounds.size.width/4
 
 #define mBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 
@@ -65,6 +65,13 @@ static CGFloat lineHeight = 3;
     [button3.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [button3 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button3];
+    
+    UIButton *button4 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button4 setFrame:CGRectMake(mButtonWidth*3, 0, mButtonWidth, height-lineHeight)];
+    [button4 setTitle:@"所有的评论" forState:UIControlStateNormal];
+    [button4.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
+    [button4 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:button4];
 }
 
 -(void)buttonPressed:(UIButton *)sender
@@ -86,6 +93,13 @@ static CGFloat lineHeight = 3;
     if ([sender.titleLabel.text isEqualToString:@"@我的评论"]) {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_bgImgView setCenter:CGPointMake(mButtonWidth*2+mButtonWidth/2, height-lineHeight/2)];
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    if ([sender.titleLabel.text isEqualToString:@"所有的评论"]) {
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [_bgImgView setCenter:CGPointMake(mButtonWidth*3+mButtonWidth/2, height-lineHeight/2)];
         } completion:^(BOOL finished) {
             
         }];
