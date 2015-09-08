@@ -17,6 +17,7 @@
 #import "BBUpdateStatusView.h"
 #import "BBPhotoSelectionCollectionViewController.h"
 #import "BBWaterfallStatusViewController.h"
+#import "BBMessageViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -148,12 +149,19 @@
     waterfallvc.tabBarItem.image = [UIImage imageNamed:@"tab_waterfall"];
     UINavigationController *waterfallnvc = [[UINavigationController alloc] initWithRootViewController:waterfallvc];
     [self setupNavigationController:waterfallnvc withUIViewController:waterfallvc];
+    
+    //Tab:消息
+    BBMessageViewController *messagevc = [[BBMessageViewController alloc] init];
+    messagevc.title = @"Message";
+    messagevc.tabBarItem.image = [UIImage imageNamed:@"tab_icon_message"];
+    UINavigationController *messagenvc = [[UINavigationController alloc] initWithRootViewController:messagevc];
+    [self setupNavigationController:messagenvc withUIViewController:messagevc];
 
     //Tabbar
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.delegate = self;
     
-    [tabBarController setViewControllers:@[weiboListNvc, waterfallnvc, updateBackgroundVc, profileNvc, collectionNvc] animated:YES];
+    [tabBarController setViewControllers:@[messagenvc, weiboListNvc, updateBackgroundVc, profileNvc, collectionNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
     //Rear:微博分组

@@ -72,14 +72,16 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        [self initCellLayout];
     }
     return self;
 }
 
 -(void)layoutSubviews
 {
-
+    [super layoutSubviews];
+    [self loadData];
+    [self loadLayout];
 }
 
 -(void)initCellLayout
