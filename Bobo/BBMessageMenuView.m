@@ -47,14 +47,14 @@ static CGFloat lineHeight = 3;
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [button1 setFrame:CGRectMake(0, 0, mButtonWidth, height-lineHeight)];
-    [button1 setTitle:@"我发出的评论" forState:UIControlStateNormal];
+    [button1 setTitle:@"我收到的评论" forState:UIControlStateNormal];
     [button1.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [button1 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button1];
     
     UIButton *button2 = [UIButton buttonWithType:UIButtonTypeCustom];
     [button2 setFrame:CGRectMake(mButtonWidth, 0, mButtonWidth, height-lineHeight)];
-    [button2 setTitle:@"我收到的评论" forState:UIControlStateNormal];
+    [button2 setTitle:@"我发出的评论" forState:UIControlStateNormal];
     [button2.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [button2 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button2];
@@ -76,28 +76,28 @@ static CGFloat lineHeight = 3;
 
 -(void)buttonPressed:(UIButton *)sender
 {
-    if ([sender.titleLabel.text isEqualToString:@"我发出的评论"]) {
+    if ([sender.titleLabel.text isEqualToString:@"我收到的评论"] || _flag == 0) {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_bgImgView setCenter:CGPointMake(mButtonWidth/2, height-lineHeight/2)];
         } completion:^(BOOL finished) {
             
         }];
     }
-    if ([sender.titleLabel.text isEqualToString:@"我收到的评论"]) {
+    if ([sender.titleLabel.text isEqualToString:@"我发出的评论"] || _flag == 1) {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_bgImgView setCenter:CGPointMake(mButtonWidth+mButtonWidth/2, height-lineHeight/2)];
         } completion:^(BOOL finished) {
             
         }];
     }
-    if ([sender.titleLabel.text isEqualToString:@"@我的评论"]) {
+    if ([sender.titleLabel.text isEqualToString:@"@我的评论"] || _flag == 2) {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_bgImgView setCenter:CGPointMake(mButtonWidth*2+mButtonWidth/2, height-lineHeight/2)];
         } completion:^(BOOL finished) {
             
         }];
     }
-    if ([sender.titleLabel.text isEqualToString:@"所有的评论"]) {
+    if ([sender.titleLabel.text isEqualToString:@"所有的评论"] || _flag == 3) {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_bgImgView setCenter:CGPointMake(mButtonWidth*3+mButtonWidth/2, height-lineHeight/2)];
         } completion:^(BOOL finished) {
