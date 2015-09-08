@@ -8,6 +8,8 @@
 
 #import "BBMessageTableView.h"
 #import "BBMessageTableViewCell.h"
+#import "BBStatusDetailViewController.h"
+#import "BBMessageViewController.h"
 
 #define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 
@@ -53,6 +55,24 @@ static NSString *messageCell = @"messageCell";
         cell.comment = comment;
     }
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
+    dtvc.title = @"Detail";
+    dtvc.hidesBottomBarWhenPushed = YES;
+    Comment *comment = [_comments objectAtIndex:indexPath.row];
+    dtvc.status = comment.status;
+    id nextResponder = [self nextResponder];
+    if ([nextResponder isKindOfClass:[UIScrollView class]]) {
+        UIScrollView *scrollView = (UIScrollView *)nextResponder;
+        id vcResponder = scrollView.nextResponder.nextResponder;
+        if ([vcResponder isKindOfClass:[BBMessageViewController class]]) {
+            BBMessageViewController *mvc = (BBMessageViewController *)vcResponder;
+            [mvc.navigationController pushViewController:dtvc animated:YES];
+        }
+    }
 }
 
 @end
