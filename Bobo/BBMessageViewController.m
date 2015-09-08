@@ -22,10 +22,11 @@
 #define mMenuHeight 35
 #define mTableViewHeight bHeight-mMenuHeight-49-44-[UIApplication sharedApplication].statusBarFrame.size.height
 
-@interface BBMessageViewController () <UIScrollViewDelegate>
+@interface BBMessageViewController () <UIScrollViewDelegate, BBMessageMenuViewDelegate>
+
+@property (strong, nonatomic) UIScrollView *scrollView;
 
 @property (strong, nonatomic) BBMessageMenuView *menuView;
-
 @property (strong, nonatomic) BBMessageTableView *messageTableView;
 @property (strong, nonatomic) BBMessageTableView *byMeTableView;
 @property (strong, nonatomic) BBMessageTableView *mentionTableView;
@@ -41,23 +42,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     _uri = @"to_me";
     _maxids = @[[NSNull null], [NSNull null], [NSNull null], [NSNull null]].mutableCopy;
     _sinceids = @[[NSNull null], [NSNull null], [NSNull null], [NSNull null]].mutableCopy;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, mMenuHeight, bWidth, mTableViewHeight)];
-    scrollView.contentSize = CGSizeMake(bWidth*4, mTableViewHeight);
-    scrollView.delegate = self;
-    scrollView.bounces = NO;
-    scrollView.pagingEnabled = YES;
-    scrollView.showsVerticalScrollIndicator = NO;
-    scrollView.showsHorizontalScrollIndicator = NO;
-    [self.view addSubview:scrollView];
+    
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, mMenuHeight, bWidth, mTableViewHeight)];
+    _scrollView.contentSize = CGSizeMake(bWidth*4, mTableViewHeight);
+    _scrollView.delegate = self;
+    _scrollView.bounces = NO;
+    _scrollView.pagingEnabled = YES;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    [self.view addSubview:_scrollView];
     
     _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
-    [scrollView addSubview:_messageTableView];
+    [_scrollView addSubview:_messageTableView];
     
     _menuView = [[BBMessageMenuView alloc] init];
+    _menuView.delegate = self;
     [self.view addSubview:_menuView];
     
     [self setMJRefreshWithTableView:_messageTableView flag:0];
@@ -69,13 +73,29 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - BBMessageMenuViewDelegate
+
+-(void)didClickMenuButtonAtIndex:(NSInteger)index
+{
+    [_scrollView setContentOffset:CGPointMake(index*bWidth, 0) animated:YES];
+}
+
 #pragma mark - UIScrollViewDelegate & support
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    [self loadTableViewInScrollView:scrollView];
+}
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    [self loadTableViewInScrollView:scrollView];
+}
+
+-(void)loadTableViewInScrollView:(UIScrollView *)scrollView
+{
     if (scrollView.contentOffset.x == 0) { //to_me
-        _menuView.flag = 0;
-        [_menuView setNeedsLayout];
+        [_menuView moveLineAccordingToFlag:0];
         _uri = @"to_me";
         if (!_messageTableView) {
             _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
@@ -85,8 +105,7 @@
         }
     }
     if (scrollView.contentOffset.x == bWidth) { //by_me
-        _menuView.flag = 1;
-        [_menuView setNeedsLayout];
+        [_menuView moveLineAccordingToFlag:1];
         _uri = @"by_me";
         if (!_byMeTableView) {
             _byMeTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
@@ -96,8 +115,7 @@
         }
     }
     if (scrollView.contentOffset.x == bWidth*2) { //mentions
-        _menuView.flag = 2;
-        [_menuView setNeedsLayout];
+        [_menuView moveLineAccordingToFlag:2];
         _uri = @"mentions";
         if (!_mentionTableView) {
             _mentionTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*2, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
@@ -107,8 +125,7 @@
         }
     }
     if (scrollView.contentOffset.x == bWidth*3) { //timeline
-        _menuView.flag = 3;
-        [_menuView setNeedsLayout];
+        [_menuView moveLineAccordingToFlag:3];
         _uri = @"timeline";
         if (!_allTableView) {
             _allTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*3, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
