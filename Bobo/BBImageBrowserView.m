@@ -48,11 +48,9 @@
     _scrollView.delegate = self;
     _scrollView.contentSize = CGSizeMake(bWidth*_count, bHeight);
     _scrollView.contentOffset = CGPointMake(bWidth*(tag+1), 0);
-    _scrollView.delegate = self;
     _scrollView.pagingEnabled = YES;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.userInteractionEnabled = YES;
-    _scrollView.bounces = YES;
     _scrollView.minimumZoomScale = 0.5;
     _scrollView.maximumZoomScale = 2.0;
     _scrollView.alwaysBounceVertical = NO;
