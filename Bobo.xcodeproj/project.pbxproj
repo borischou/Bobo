@@ -324,8 +324,6 @@
 				45620D3C1B3706BF00B9F9F2 /* Image */,
 				456C77E91B2AE3E30055FBE8 /* Model */,
 				456C77E51B2AC59B0055FBE8 /* View */,
-				451441DD1B295CA9000532DD /* Images.xcassets */,
-				451441DF1B295CA9000532DD /* LaunchScreen.xib */,
 				451441D01B295CA9000532DD /* Supporting Files */,
 			);
 			path = Bobo;
@@ -334,6 +332,8 @@
 		451441D01B295CA9000532DD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				451441DD1B295CA9000532DD /* Images.xcassets */,
+				451441DF1B295CA9000532DD /* LaunchScreen.xib */,
 				45A979041B6E512D00A8D472 /* SWRevealViewController */,
 				451442221B296413000532DD /* syslib */,
 				451442031B295E3C000532DD /* libWeiboSDK */,
@@ -574,10 +574,10 @@
 				45704DAF1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m */,
 				45BBDA581B902FA200BABEDD /* BBPhotoPickerCollectionView.h */,
 				45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */,
-				458393511B7B4B98005B1766 /* BBUpdateStatusView.h */,
-				458393521B7B4B98005B1766 /* BBUpdateStatusView.m */,
 				45704DAB1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.h */,
 				45704DAC1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m */,
+				458393511B7B4B98005B1766 /* BBUpdateStatusView.h */,
+				458393521B7B4B98005B1766 /* BBUpdateStatusView.m */,
 				458393541B7B536D005B1766 /* BBUpdateBackgroundViewController.h */,
 				458393551B7B536D005B1766 /* BBUpdateBackgroundViewController.m */,
 			);
