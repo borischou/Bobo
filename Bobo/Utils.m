@@ -79,7 +79,11 @@
     }
     NSMutableParagraphStyle *parastyle = [[NSMutableParagraphStyle alloc] init];
     parastyle.lineBreakMode = NSLineBreakByWordWrapping;
-    CGSize sizeForFit = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:size], NSParagraphStyleAttributeName: parastyle} context:nil].size;
+    CGSize sizeForFit = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
+                                          options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
+                                       attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:size],
+                                                    NSParagraphStyleAttributeName: parastyle}
+                                          context:nil].size;
     
     return sizeForFit.height;
 }
@@ -89,17 +93,17 @@
     CGFloat height = 0;
     
     height = 0;
-    height += bBigGap + bHeadImgHeight; //头像
-    height += bBigGap + [Utils heightForString:text width:bWidth - bBigGap * 2 fontSize:bTextFontSize]; //微博正文
+    height += bBigGap+bHeadImgHeight; //头像
+    height += bBigGap+[Utils heightForString:text width:bWidth-bBigGap*2 fontSize:bTextFontSize]; //微博正文
     
     if (count > 0) {
-        height += bSmallGap + [self heightForImgsWithCount:count]; //微博配图
+        height += bSmallGap+[self heightForImgsWithCount:count]; //微博配图
     }
     
     if (retweetedScreenName != nil) { //转发微博
-        height += bBigGap + [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] width:bWidth - bBigGap * 2 fontSize:bTextFontSize]; //转发微博正文
+        height += bBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] width:bWidth-bBigGap*2 fontSize:bTextFontSize]; //转发微博正文
         if (retweetImgCount > 0) {
-            height += bSmallGap + [self heightForImgsWithCount:retweetImgCount]; //转发微博配图
+            height += bSmallGap+[self heightForImgsWithCount:retweetImgCount]; //转发微博配图
         }
     }
     
