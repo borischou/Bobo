@@ -19,8 +19,6 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
-
 @interface BBMessageViewController ()
 
 @property (strong, nonatomic) BBMessageTableView *messageTableView;
@@ -34,9 +32,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) style:UITableViewStyleGrouped];
-    _messageTableView.backgroundColor = bBGColor;
     [self.view addSubview:_messageTableView];
     [self setMJRefresh];
+    [_messageTableView.header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
