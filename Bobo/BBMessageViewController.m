@@ -19,8 +19,9 @@
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
+#define mMenuHeight 35
 
-@interface BBMessageViewController ()
+@interface BBMessageViewController () <UIScrollViewDelegate>
 
 @property (strong, nonatomic) BBMessageTableView *messageTableView;
 @property (copy, nonatomic) NSString *max_id;
@@ -33,8 +34,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 35, bWidth, bHeight-35) style:UITableViewStyleGrouped];
-    [self.view addSubview:_messageTableView];
+    
+    CGFloat statusHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, mMenuHeight, bWidth, bHeight-mMenuHeight-49-44-statusHeight)];
+    scrollView.contentSize = CGSizeMake(bWidth*4, bHeight-mMenuHeight-49-44-statusHeight);
+    scrollView.delegate = self;
+    scrollView.bounces = NO;
+    scrollView.pagingEnabled = YES;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    [self.view addSubview:scrollView];
+    
+    _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight-mMenuHeight-49-44-statusHeight) style:UITableViewStyleGrouped];
+    [scrollView addSubview:_messageTableView];
     
     BBMessageMenuView *menuView = [[BBMessageMenuView alloc] init];
     [self.view addSubview:menuView];
