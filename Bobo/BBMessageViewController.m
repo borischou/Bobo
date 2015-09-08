@@ -73,6 +73,17 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    if (scrollView.contentOffset.x == 0) { //to_me
+        _menuView.flag = 0;
+        [_menuView setNeedsLayout];
+        _uri = @"to_me";
+        if (!_messageTableView) {
+            _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
+            [scrollView addSubview:_messageTableView];
+            [self setMJRefreshWithTableView:_messageTableView flag:0];
+            [_messageTableView.header beginRefreshing];
+        }
+    }
     if (scrollView.contentOffset.x == bWidth) { //by_me
         _menuView.flag = 1;
         [_menuView setNeedsLayout];
@@ -82,6 +93,28 @@
             [scrollView addSubview:_byMeTableView];
             [self setMJRefreshWithTableView:_byMeTableView flag:1];
             [_byMeTableView.header beginRefreshing];
+        }
+    }
+    if (scrollView.contentOffset.x == bWidth*2) { //mentions
+        _menuView.flag = 2;
+        [_menuView setNeedsLayout];
+        _uri = @"mentions";
+        if (!_mentionTableView) {
+            _mentionTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*2, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
+            [scrollView addSubview:_mentionTableView];
+            [self setMJRefreshWithTableView:_mentionTableView flag:2];
+            [_mentionTableView.header beginRefreshing];
+        }
+    }
+    if (scrollView.contentOffset.x == bWidth*3) { //timeline
+        _menuView.flag = 3;
+        [_menuView setNeedsLayout];
+        _uri = @"timeline";
+        if (!_allTableView) {
+            _allTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*3, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
+            [scrollView addSubview:_allTableView];
+            [self setMJRefreshWithTableView:_allTableView flag:3];
+            [_allTableView.header beginRefreshing];
         }
     }
 }
@@ -99,7 +132,7 @@
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
     [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
     [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
-    _messageTableView.footer = footer;
+    tableView.footer = footer;
 }
 
 -(void)weiboRequestHandler:(WBHttpRequest *)request forTableView:(BBMessageTableView *)tableView withResult:(id)result error:(NSError *)error type:(NSString *)type flag:(NSInteger)flag
