@@ -320,7 +320,7 @@
 				45BEC7571B9E78D200001DAE /* Utility */,
 				45BEC74F1B9E773200001DAE /* Module */,
 				457C9E391B8F13C800932B37 /* Vender */,
-				456889B31B8573620015461E /* CoreDataModel */,
+				456889B31B8573620015461E /* Coredata */,
 				45620D3C1B3706BF00B9F9F2 /* Image */,
 				456C77E91B2AE3E30055FBE8 /* Model */,
 				456C77E51B2AC59B0055FBE8 /* View */,
@@ -431,7 +431,7 @@
 			name = Image;
 			sourceTree = "<group>";
 		};
-		456889B31B8573620015461E /* CoreDataModel */ = {
+		456889B31B8573620015461E /* Coredata */ = {
 			isa = PBXGroup;
 			children = (
 				45688A0B1B85ABBF0015461E /* CStatus.h */,
@@ -440,7 +440,7 @@
 				45688A0E1B85ABBF0015461E /* CUser.m */,
 				004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */,
 			);
-			name = CoreDataModel;
+			name = Coredata;
 			sourceTree = "<group>";
 		};
 		456C77E51B2AC59B0055FBE8 /* View */ = {
