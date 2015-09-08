@@ -15,7 +15,7 @@
 #define cSmallGap 5
 #define cNameHeight 15
 #define bWidth [UIScreen mainScreen].bounds.size.width
-#define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
+#define cTextWidth bWidth-2*cBigGap
 #define cTextFontSize 13.f
 
 @implementation Comment
