@@ -84,6 +84,7 @@
 		45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountTableViewCell.m */; };
 		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
 		45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */; };
+		45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */; };
 		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
@@ -232,6 +233,8 @@
 		45A979021B6E512000A8D472 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		45BBDA581B902FA200BABEDD /* BBPhotoPickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBPhotoPickerCollectionView.h; sourceTree = "<group>"; };
 		45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBPhotoPickerCollectionView.m; sourceTree = "<group>"; };
+		45BEC7591B9EB62500001DAE /* BBMessageMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMessageMenuView.h; sourceTree = "<group>"; };
+		45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessageMenuView.m; sourceTree = "<group>"; };
 		45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_placeholder@3x.png"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		68ADFD39DDA092351BC9F4D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -517,6 +520,8 @@
 				4592324D1B969A3B0006A123 /* BBMessageTableView.m */,
 				459232491B969A170006A123 /* BBMessageViewController.h */,
 				4592324A1B969A170006A123 /* BBMessageViewController.m */,
+				45BEC7591B9EB62500001DAE /* BBMessageMenuView.h */,
+				45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */,
 			);
 			name = Message;
 			sourceTree = "<group>";
@@ -814,6 +819,7 @@
 				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,
 				45688A161B85D0E20015461E /* BBStatusDetailViewController.m in Sources */,
+				45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */,
 				458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */,
 				004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */,
 				00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */,

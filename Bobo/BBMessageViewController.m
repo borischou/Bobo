@@ -13,6 +13,7 @@
 #import "SWRevealViewController.h"
 #import "AppDelegate.h"
 #import "Comment.h"
+#import "BBMessageMenuView.h"
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
@@ -31,8 +32,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) style:UITableViewStyleGrouped];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 35, bWidth, bHeight-35) style:UITableViewStyleGrouped];
     [self.view addSubview:_messageTableView];
+    
+    BBMessageMenuView *menuView = [[BBMessageMenuView alloc] init];
+    [self.view addSubview:menuView];
+    
     [self setMJRefresh];
     [_messageTableView.header beginRefreshing];
 }
