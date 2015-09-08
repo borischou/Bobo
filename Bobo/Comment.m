@@ -17,6 +17,7 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
 #define cTextFontSize 13.f
+#define mTextWidth bWidth-2*cBigGap
 
 @implementation Comment
 
@@ -35,7 +36,7 @@
         
         CGFloat textHeight = [Utils heightForString:_text width:cTextWidth fontSize:cTextFontSize];
         _height = cAvatarHeight > cNameHeight+cSmallGap+textHeight? cBigGap*2+cAvatarHeight: cBigGap*2+cNameHeight+cSmallGap+textHeight;
-        _heightForMessageCell = cBigGap+cAvatarHeight+cBigGap+textHeight+cBigGap+[Utils heightForString:_status.text width:cTextWidth fontSize:cTextFontSize]+cSmallGap;
+        _heightForMessageCell = cBigGap+cAvatarHeight+cBigGap+[Utils heightForString:_text width:mTextWidth fontSize:cTextFontSize]+cBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text] width:mTextWidth fontSize:cTextFontSize]+cBigGap;
     }
     return self;
 }

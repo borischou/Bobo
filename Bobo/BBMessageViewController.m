@@ -32,7 +32,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) style:UITableViewStyleGrouped];
-    self.view = _messageTableView;
+    [self.view addSubview:_messageTableView];
+    [self setMJRefresh];
+    [_messageTableView.header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -128,9 +130,9 @@
             [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
             NSString *url;
             if (!_since_id) {
-                url = [bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"];
+                url = [bWeiboDomain stringByAppendingString:@"comments/to_me.json"];
             } else {
-                url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json?since_id=%@", _since_id];
+                url = [bWeiboDomain stringByAppendingFormat:@"comments/to_me.json?since_id=%@", _since_id];
             }
             NSLog(@"The full url for latest statuses is: %@", url);
             [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -153,7 +155,7 @@
         NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
         NSString *para = [NSString stringWithFormat:@"max_id=%@&count=20", _max_id];
-        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json?%@", para];
+        NSString *url = [bWeiboDomain stringByAppendingFormat:@"comments/to_me.json?%@", para];
         NSLog(@"The full url for history statuses is: %@", url);
         [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
             [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];

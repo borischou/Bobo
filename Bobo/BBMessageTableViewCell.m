@@ -30,7 +30,7 @@
 #define bTopPadding 10.0
 #define bSmallGap 5
 #define bBigGap 10
-#define bTextFontSize 14.f
+#define bTextFontSize 13.f
 
 @interface BBMessageTableViewCell ()
 
@@ -72,14 +72,16 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        [self initCellLayout];
     }
     return self;
 }
 
 -(void)layoutSubviews
 {
-
+    [super layoutSubviews];
+    [self loadData];
+    [self loadLayout];
 }
 
 -(void)initCellLayout
@@ -127,6 +129,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(repostViewTapped:)];
     [_repostView addGestureRecognizer:tap];
     _repostView.backgroundColor = bRetweetBGColor;
+    [self.contentView addSubview:_repostView];
     
     //repost text
     _repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
