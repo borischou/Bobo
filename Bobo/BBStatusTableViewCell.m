@@ -305,7 +305,7 @@
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
     for (NSString *str in _status.pic_urls) {
-        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
+        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
@@ -314,7 +314,7 @@
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
     for (NSString *str in _status.retweeted_status.pic_urls) {
-        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
+        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }

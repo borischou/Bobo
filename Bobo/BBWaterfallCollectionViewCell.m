@@ -112,7 +112,7 @@
         originUrls = _status.retweeted_status.pic_urls;
     }
     for (NSString *str in originUrls) {
-        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
+        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:0];
 }
