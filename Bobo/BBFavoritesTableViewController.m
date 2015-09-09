@@ -18,12 +18,15 @@
 #import "BBNetworkUtils.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
+#import "BBUpdateStatusView.h"
 #import <MJRefresh/MJRefresh.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 #define bBtnHeight bHeight/25
-
+#define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
+#define uSmallGap 5
+#define uBigGap 10
 #define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
@@ -45,6 +48,7 @@
 {
     [super viewDidLoad];
     _page = 1;
+    [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
 }
@@ -87,6 +91,37 @@
     [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
     self.tableView.footer = footer;
 }
+
+-(void)setNavBarBtn
+{
+    UIButton *postBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    postBtn.frame = CGRectMake(0, 0, 23, 23);
+    [postBtn setImage:[UIImage imageNamed:@"barbutton_icon_post"] forState:UIControlStateNormal];
+    [postBtn addTarget:self action:@selector(postBarbuttonPressed) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *postBarBtn = [[UIBarButtonItem alloc] initWithCustomView:postBtn];
+    self.navigationItem.rightBarButtonItem = postBarBtn;
+}
+
+#pragma mark - UIButtons
+
+-(void)postBarbuttonPressed
+{
+    AppDelegate *delegate = [AppDelegate delegate];
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
+    updateStatusView.nameLabel.text = delegate.user.screen_name;
+    [delegate.window addSubview:updateStatusView];
+    
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
+        [updateStatusView.statusTextView becomeFirstResponder];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            //what are you gonna do
+        }
+    }];
+}
+
+#pragma mark - Weibo support
 
 //https://api.weibo.com/2/favorites.json?count=count_num&page=page_num
 -(void)fetchFavoriteStatuses
