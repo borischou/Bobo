@@ -189,7 +189,7 @@ static NSString *reuseCellId = @"reuseCell";
     if ([url hasSuffix:@"gif"]) {
         sdUrl = url;
     } else {
-        sdUrl = [NSString largePictureUrlConvertedFromThumbUrl:url];
+        sdUrl = [NSString middlePictureUrlConvertedFromThumbUrl:url];
     }
     [cell.coverImageView sd_setImageWithURL:[NSURL URLWithString:sdUrl] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
 }
