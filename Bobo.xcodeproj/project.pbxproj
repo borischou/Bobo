@@ -35,7 +35,6 @@
 		4553E4041B54D73D0020989C /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4031B54D73D0020989C /* Comment.m */; };
 		455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */; };
 		455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE81B3404540007B883 /* BBNetworkUtils.m */; };
-		45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */; };
 		456254D31B82E7E00009A332 /* cmt_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D01B82E7E00009A332 /* cmt_icon@3x.png */; };
 		456254D51B82E7E00009A332 /* retwt_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D21B82E7E00009A332 /* retwt_icon@3x.png */; };
 		456254D91B8305220009A332 /* faved_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D81B8305220009A332 /* faved_icon@3x.png */; };
@@ -86,6 +85,7 @@
 		45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */; };
 		45C57B451B9FE97000FE040E /* barbutton_icon_post@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */; };
 		45C57B471B9FEC6D00FE040E /* tab_waterfall@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B461B9FEC6D00FE040E /* tab_waterfall@3x.png */; };
+		45C57B4D1B9FFDC700FE040E /* bobo_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B4C1B9FFDC700FE040E /* bobo_tab_icon@3x.png */; };
 		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
@@ -158,7 +158,6 @@
 		455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Bobtn.m"; sourceTree = "<group>"; };
 		455FFAE71B3404540007B883 /* BBNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNetworkUtils.h; sourceTree = "<group>"; };
 		455FFAE81B3404540007B883 /* BBNetworkUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBNetworkUtils.m; sourceTree = "<group>"; };
-		45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chunvzuo@3x.png"; sourceTree = "<group>"; };
 		456254D01B82E7E00009A332 /* cmt_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cmt_icon@3x.png"; sourceTree = "<group>"; };
 		456254D21B82E7E00009A332 /* retwt_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retwt_icon@3x.png"; sourceTree = "<group>"; };
 		456254D81B8305220009A332 /* faved_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "faved_icon@3x.png"; sourceTree = "<group>"; };
@@ -237,6 +236,7 @@
 		45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessageMenuView.m; sourceTree = "<group>"; };
 		45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barbutton_icon_post@3x.png"; sourceTree = "<group>"; };
 		45C57B461B9FEC6D00FE040E /* tab_waterfall@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_waterfall@3x.png"; sourceTree = "<group>"; };
+		45C57B4C1B9FFDC700FE040E /* bobo_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bobo_tab_icon@3x.png"; sourceTree = "<group>"; };
 		45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_placeholder@3x.png"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		68ADFD39DDA092351BC9F4D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -417,6 +417,7 @@
 				4567C2D51B9C2A6900C8660B /* icon_album@3x.png */,
 				45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */,
 				45C57B461B9FEC6D00FE040E /* tab_waterfall@3x.png */,
+				45C57B4C1B9FFDC700FE040E /* bobo_tab_icon@3x.png */,
 				459232521B96BE530006A123 /* tab_icon_message@3x.png */,
 				457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */,
 				458B60DF1B95A8E8005A1749 /* icon_vip.png */,
@@ -429,7 +430,6 @@
 				456920431B7478A800E2C204 /* iconfont-logout.png */,
 				456254DC1B8306200009A332 /* fav_icon_3@3x.png */,
 				458393571B7B54E4005B1766 /* post_tab_icon@3x.png */,
-				45620D431B370CF500B9F9F2 /* chunvzuo@3x.png */,
 				4567C2DB1B9C2BA300C8660B /* icon_album_selected@3x.png */,
 				4567C2D91B9C2B5E00C8660B /* icon_camera_selected@3x.png */,
 				4567C2D71B9C2AF700C8660B /* icon_camera@3x.png */,
@@ -713,6 +713,7 @@
 			files = (
 				456920451B7478A800E2C204 /* iconfont-logout.png in Resources */,
 				451441E11B295CA9000532DD /* LaunchScreen.xib in Resources */,
+				45C57B4D1B9FFDC700FE040E /* bobo_tab_icon@3x.png in Resources */,
 				4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */,
 				456254DD1B8306200009A332 /* fav_icon_3@3x.png in Resources */,
 				4567C2DC1B9C2BA300C8660B /* icon_album_selected@3x.png in Resources */,
@@ -725,7 +726,6 @@
 				4567C2D81B9C2AF700C8660B /* icon_camera@3x.png in Resources */,
 				451442131B29635B000532DD /* WeiboSDK.bundle in Resources */,
 				0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */,
-				45620D441B370CF500B9F9F2 /* chunvzuo@3x.png in Resources */,
 				456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */,
 				458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */,
 				45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */,

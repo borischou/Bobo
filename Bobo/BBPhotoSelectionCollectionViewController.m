@@ -58,9 +58,10 @@
 -(void)cancelButtonItemPressed:(UIBarButtonItem *)sender
 {
     [_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    [self shouldHideMaskAndView:NO];
-    [_updateView.statusTextView becomeFirstResponder];
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        [self shouldHideMaskAndView:NO];
+        [_updateView.statusTextView becomeFirstResponder];
+    }];
 }
 
 -(void)confirmButtonItemPressed:(UIBarButtonItem *)sender
@@ -77,10 +78,11 @@
             if (i == _photoPickerCollectionView.pickedOnes.count-1) {
                 _updateView.pickedOnes = images;
                 [_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                [self shouldHideMaskAndView:NO];
-                [_updateView.statusTextView becomeFirstResponder];
-                [_updateView setNeedsLayout];
+                [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                    [self shouldHideMaskAndView:NO];
+                    [_updateView.statusTextView becomeFirstResponder];
+                    [_updateView setNeedsLayout];
+                }];
             }
         }];
     }

@@ -199,7 +199,7 @@ static CGFloat imageQuality = 0.8;
 -(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
 {
     [self refreshComments];
-
+    _pickedOnes = nil;
     BBNotificationView *notificationView = [[BBNotificationView alloc] init];
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:notificationView];
@@ -212,7 +212,6 @@ static CGFloat imageQuality = 0.8;
             [notificationView setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
         } completion:^(BOOL finished) {
             [notificationView removeFromSuperview];
-            _pickedOnes = nil;
         }];
     }];
 }

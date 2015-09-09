@@ -119,7 +119,7 @@
     //Tab:微博主页
     BBMainStatusTableViewController *weiboListTvc = [[BBMainStatusTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     weiboListTvc.title = @"Bobo";
-    weiboListTvc.tabBarItem.image = [UIImage imageNamed:@"chunvzuo"];
+    weiboListTvc.tabBarItem.image = [UIImage imageNamed:@"bobo_tab_icon"];
     UINavigationController *weiboListNvc = [[UINavigationController alloc] initWithRootViewController:weiboListTvc];
     [self setupNavigationController:weiboListNvc withUIViewController:weiboListTvc];
     
