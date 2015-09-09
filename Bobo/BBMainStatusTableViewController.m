@@ -148,7 +148,7 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)fetchApiRateLimitStatus
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
     if (delegate.wbToken) {
         [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
@@ -167,7 +167,7 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)fetchLatestStatuses
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     if (!delegate.isLoggedIn) {
         [self.tableView.header endRefreshing];
         [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
@@ -193,7 +193,7 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)fetchHistoryStatuses
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     if (!delegate.isLoggedIn) {
         [self.tableView.footer endRefreshing];
         [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
