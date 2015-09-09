@@ -37,6 +37,15 @@
     [self shouldHideMaskAndView:YES];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
+    [self shouldHideMaskAndView:NO];
+    [_updateView.statusTextView becomeFirstResponder];
+    [_updateView setNeedsLayout];
+}
+
 #pragma mark - Helpers
 
 -(void)setupNavigationBarButtonItems
@@ -57,11 +66,7 @@
 
 -(void)cancelButtonItemPressed:(UIBarButtonItem *)sender
 {
-    [_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [self shouldHideMaskAndView:NO];
-        [_updateView.statusTextView becomeFirstResponder];
-    }];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)confirmButtonItemPressed:(UIBarButtonItem *)sender
@@ -77,12 +82,7 @@
             [images addObject:result];
             if (i == _photoPickerCollectionView.pickedOnes.count-1) {
                 _updateView.pickedOnes = images;
-                [_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                    [self shouldHideMaskAndView:NO];
-                    [_updateView.statusTextView becomeFirstResponder];
-                    [_updateView setNeedsLayout];
-                }];
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             }
         }];
     }
