@@ -38,7 +38,6 @@ static CGFloat scale = 1.5;
         NSLog(@"ALBUM NAME: %@", collection.localizedTitle);
         if ([collection.localizedTitle isEqualToString:@"Camera Roll"]) {
             _fetchedPhotos = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
-            NSLog(@"PHOTOS: %ld", _fetchedPhotos.count);
             
             _pickedStatuses = nil;
             _pickedStatuses = @[].mutableCopy;
@@ -106,7 +105,6 @@ static CGFloat scale = 1.5;
         if (_pickedOnes.count) {
             [_pickedStatuses setObject:@"0" atIndexedSubscript:indexPath.item];
             [_pickedOnes removeObject:_fetchedPhotos[indexPath.item]];
-            NSLog(@"LEFT: %ld", _pickedOnes.count);
         }
     } else {
         if (_pickedOnes.count == 9) {
@@ -114,7 +112,6 @@ static CGFloat scale = 1.5;
         }
         [_pickedOnes addObject:_fetchedPhotos[indexPath.item]];
         [_pickedStatuses setObject:@"1" atIndexedSubscript:indexPath.item];
-        NSLog(@"PICKED: %ld", _pickedOnes.count);
         cell.layer.borderWidth = 2.0;
         cell.layer.borderColor = UIColor.greenColor.CGColor;
     }
