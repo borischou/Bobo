@@ -13,10 +13,14 @@
 #import "SWRevealViewController.h"
 #import "AppDelegate.h"
 #import "BBWaterfallCollectionView.h"
-
+#import "BBUpdateStatusView.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
+
+#define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
+#define uSmallGap 5
+#define uBigGap 10
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
@@ -42,7 +46,7 @@
     layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst;
     _waterfallView = [[BBWaterfallCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:layout];
     self.view = _waterfallView;
-    
+    [self setNavBarBtn];
     [self setMJRefresh];
     [_waterfallView.header beginRefreshing];
 }
@@ -70,6 +74,8 @@
 //    [_waterfallView.statuses removeAllObjects];
 }
 
+#pragma mark - Helpers
+
 -(void)addSWRevealViewControllerGestureRecognizer
 {
     [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
@@ -80,6 +86,35 @@
 {
     [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
     [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
+}
+
+-(void)setNavBarBtn
+{
+    UIButton *postBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    postBtn.frame = CGRectMake(0, 0, 23, 23);
+    [postBtn setImage:[UIImage imageNamed:@"barbutton_icon_post"] forState:UIControlStateNormal];
+    [postBtn addTarget:self action:@selector(postBarbuttonPressed) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *postBarBtn = [[UIBarButtonItem alloc] initWithCustomView:postBtn];
+    self.navigationItem.rightBarButtonItem = postBarBtn;
+}
+
+#pragma mark - UIButtons
+
+-(void)postBarbuttonPressed
+{
+    AppDelegate *delegate = [AppDelegate delegate];
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
+    updateStatusView.nameLabel.text = delegate.user.screen_name;
+    [delegate.window addSubview:updateStatusView];
+    
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
+        [updateStatusView.statusTextView becomeFirstResponder];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            //what are you gonna do
+        }
+    }];
 }
 
 #pragma mark - Weibo support

@@ -13,7 +13,6 @@
 #import "BBMainStatusTableViewController.h"
 #import "BBFavoritesTableViewController.h"
 #import "BBFriendsGroupTableViewController.h"
-#import "BBUpdateBackgroundViewController.h"
 #import "BBUpdateStatusView.h"
 #import "BBPhotoSelectionCollectionViewController.h"
 #import "BBWaterfallStatusViewController.h"
@@ -33,7 +32,7 @@
 #define uSmallGap 5
 #define uBigGap 10
 
-@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate, UITabBarControllerDelegate>
+@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate>
 
 @end
 
@@ -137,12 +136,7 @@
     collectionTvc.tabBarItem.image = [UIImage imageNamed:@"bb_collect_icon"];
     UINavigationController *collectionNvc = [[UINavigationController alloc] initWithRootViewController:collectionTvc];
     [self setupNavigationController:collectionNvc withUIViewController:collectionTvc];
-    
-    //Tab:发微博
-    BBUpdateBackgroundViewController *updateBackgroundVc = [[BBUpdateBackgroundViewController alloc] init];
-    updateBackgroundVc.title = @"Post";
-    updateBackgroundVc.tabBarItem.image = [UIImage imageNamed:@"post_tab_icon"];
-    
+
     //Tab:图片墙
     BBWaterfallStatusViewController *waterfallvc = [[BBWaterfallStatusViewController alloc] init];
     waterfallvc.title = @"Waterfall";
@@ -159,9 +153,7 @@
 
     //Tabbar
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    tabBarController.delegate = self;
-    
-    [tabBarController setViewControllers:@[messagenvc, weiboListNvc, updateBackgroundVc, profileNvc, collectionNvc] animated:YES];
+    [tabBarController setViewControllers:@[weiboListNvc, messagenvc, waterfallnvc, profileNvc, collectionNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
     //Rear:微博分组
@@ -186,31 +178,6 @@
     if ([uivc isKindOfClass:[UITableViewController class]]) {
         UITableViewController *uitvc = (UITableViewController *)uivc;
         uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    }
-}
-
-#pragma mark - UITabBarControllerDelegate
-
--(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
-{
-    if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
-        //initialize update view here
-        BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
-        
-        updateStatusView.nameLabel.text = _user.screen_name;
-        [_window addSubview:updateStatusView];
-        
-        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
-            [updateStatusView.statusTextView becomeFirstResponder];
-        } completion:^(BOOL finished) {
-            if (finished) {
-                //what are you gonna do
-            }
-        }];
-        return NO;
-    } else {
-        return YES;
     }
 }
 
