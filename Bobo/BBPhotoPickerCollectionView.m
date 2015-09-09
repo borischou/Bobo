@@ -47,7 +47,7 @@ static CGFloat scale = 1.5;
                 [_pickedStatuses addObject:@"0"];
             }
             if (!_manager) {
-                _manager = [[PHCachingImageManager alloc] init];
+                _manager = [[PHImageManager alloc] init];
             }
             if (!_options) {
                 _options = [[PHImageRequestOptions alloc] init];
@@ -55,13 +55,13 @@ static CGFloat scale = 1.5;
             _options.resizeMode = PHImageRequestOptionsResizeModeExact;
             _options.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
             
-            NSRange range = NSMakeRange(0, _fetchedPhotos.count);
-            NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
-            NSArray *assets = [_fetchedPhotos objectsAtIndexes:set];
+//            NSRange range = NSMakeRange(0, _fetchedPhotos.count);
+//            NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+//            NSArray *assets = [_fetchedPhotos objectsAtIndexes:set];
+//            
+//            CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
             
-            CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
-            
-            [_manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:_options];
+//            [_manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:_options];
         }
     }];
 }

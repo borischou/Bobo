@@ -40,7 +40,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
+    //[_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
     [self shouldHideMaskAndView:NO];
     [_updateView.statusTextView becomeFirstResponder];
     [_updateView setNeedsLayout];
@@ -77,7 +77,7 @@
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     for (int i = 0; i < _photoPickerCollectionView.pickedOnes.count; i ++) {
         PHAsset *asset = _photoPickerCollectionView.pickedOnes[i];
-        CGSize targetSize = CGSizeMake(asset.pixelWidth, asset.pixelHeight);
+        CGSize targetSize = CGSizeMake(asset.pixelWidth*0.6, asset.pixelHeight*0.6);
         [_photoPickerCollectionView.manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
             [images addObject:result];
             if (i == _photoPickerCollectionView.pickedOnes.count-1) {

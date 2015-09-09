@@ -190,6 +190,7 @@ static CGFloat imageQuality = 0.8;
                 [_mask removeFromSuperview];
                 _mask = nil;
             }
+            _imageView.image = nil;
             _pickedOnes = nil;
             [self removeFromSuperview];
         }
@@ -200,6 +201,7 @@ static CGFloat imageQuality = 0.8;
 {
     [self refreshComments];
     _pickedOnes = nil;
+    _imageView.image = nil;
     BBNotificationView *notificationView = [[BBNotificationView alloc] init];
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:notificationView];
