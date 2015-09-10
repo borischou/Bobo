@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "BBUpdateStatusView.h"
 
+@protocol BBPhotoSelectionCollectionViewControllerDelegate <NSObject>
+
+-(void)didFetchedPickedPhotos:(NSMutableArray *)photos;
+-(void)didCancelPhotoSelection;
+
+@end
+
 @interface BBPhotoSelectionCollectionViewController : UICollectionViewController
+
+@property (weak, nonatomic) id <BBPhotoSelectionCollectionViewControllerDelegate> delegate;
 
 @property (strong, nonatomic) UIView *mask;
 @property (strong, nonatomic) BBUpdateStatusView *updateView;

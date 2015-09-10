@@ -31,20 +31,6 @@
     [self setupNavigationBarButtonItems];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self shouldHideMaskAndView:YES];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self shouldHideMaskAndView:NO];
-    [_updateView.statusTextView becomeFirstResponder];
-    [_updateView setNeedsLayout];
-}
-
 #pragma mark - Helpers
 
 -(void)setupNavigationBarButtonItems
@@ -55,37 +41,32 @@
     self.navigationItem.rightBarButtonItem = confirmButtonItem;
 }
 
--(void)shouldHideMaskAndView:(BOOL)flag
-{
-    _updateView.hidden = flag;
-    _mask.hidden = flag;
-}
-
 #pragma mark - UIButtons
 
 -(void)cancelButtonItemPressed:(UIBarButtonItem *)sender
 {
+    [self.delegate didCancelPhotoSelection];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)confirmButtonItemPressed:(UIBarButtonItem *)sender
 {
     NSMutableArray *images = @[].mutableCopy;
+    PHImageManager *manager = [PHImageManager defaultManager];
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-    options.resizeMode = PHImageRequestOptionsResizeModeExact;
-    options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    options.synchronous = YES;
     NSInteger pickedNum = _photoPickerCollectionView.pickedOnes.count;
     for (int i = 0; i < pickedNum; i ++) {
         PHAsset *asset = _photoPickerCollectionView.pickedOnes[i];
-        CGSize targetSize = CGSizeMake(asset.pixelWidth, asset.pixelHeight);
-        [_photoPickerCollectionView.manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+        CGSize targetSize = CGSizeMake(asset.pixelWidth*0.5, asset.pixelHeight*0.5);
+        [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
             [images addObject:result];
             if (i == pickedNum-1) {
-                _updateView.pickedOnes = images;
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                [self.delegate didFetchedPickedPhotos:images];
             }
         }];
     }
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

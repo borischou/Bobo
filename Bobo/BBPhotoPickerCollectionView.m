@@ -9,9 +9,11 @@
 #import "BBPhotoPickerCollectionView.h"
 #import "BBPhotoSelectionCollectionViewCell.h"
 
-static CGFloat scale = 1.5;
+static CGFloat scale = 1.0;
 
 @interface BBPhotoPickerCollectionView () <UICollectionViewDelegate, UICollectionViewDataSource>
+
+@property (strong, nonatomic) PHCachingImageManager *manager;
 
 @end
 
@@ -48,11 +50,6 @@ static CGFloat scale = 1.5;
             if (!_manager) {
                 _manager = [[PHCachingImageManager alloc] init];
             }
-            if (!_options) {
-                _options = [[PHImageRequestOptions alloc] init];
-            }
-            _options.resizeMode = PHImageRequestOptionsResizeModeExact;
-            _options.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
             
             NSRange range = NSMakeRange(0, _fetchedPhotos.count);
             NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
@@ -60,7 +57,7 @@ static CGFloat scale = 1.5;
             
             CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
             
-            [_manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:_options];
+            [_manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:nil];
             [_manager stopCachingImagesForAllAssets];
         }
     }];
@@ -91,7 +88,7 @@ static CGFloat scale = 1.5;
     
     CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
     PHAsset *asset = _fetchedPhotos[indexPath.item];
-    [_manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:_options resultHandler:^(UIImage *result, NSDictionary *info) {
+    [_manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage *result, NSDictionary *info) {
         cell.imageView.image = result;
     }];
     

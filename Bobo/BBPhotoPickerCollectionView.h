@@ -16,7 +16,5 @@
 
 @property (strong, nonatomic) UICollectionViewFlowLayout *layout;
 @property (strong, nonatomic) PHFetchResult *fetchedPhotos;
-@property (strong, nonatomic) PHCachingImageManager *manager;
-@property (strong, nonatomic) PHImageRequestOptions *options;
 
 @end

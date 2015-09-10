@@ -31,9 +31,9 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-static CGFloat imageQuality = 0.8;
+static CGFloat imageQuality = 0.7;
 
-@interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BBPhotoSelectionCollectionViewControllerDelegate> {
     int _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 }
 
@@ -190,6 +190,9 @@ static CGFloat imageQuality = 0.8;
                 [_mask removeFromSuperview];
                 _mask = nil;
             }
+            if (_pickedOnes.count > 0) {
+                [_pickedOnes removeAllObjects];
+            }
             _pickedOnes = nil;
             [self removeFromSuperview];
         }
@@ -243,7 +246,8 @@ static CGFloat imageQuality = 0.8;
             case 0: //发微博
                 {
                     if (_pickedOnes.count > 0) { //有配图
-                        NSData *imgData = UIImageJPEGRepresentation([_pickedOnes firstObject], imageQuality);
+                        UIImage *firstImage = [[_pickedOnes firstObject] copy];
+                        NSData *imgData = UIImageJPEGRepresentation(firstImage, imageQuality);
                         WBImageObject *imgObject = [WBImageObject object];
                         imgObject.imageData = imgData;
                         [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:imgObject orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -365,9 +369,9 @@ static CGFloat imageQuality = 0.8;
 {
     [_statusTextView resignFirstResponder];
     BBPhotoSelectionCollectionViewController *photoSelectionCollectionViewController = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:[self flowLayout]];
-    photoSelectionCollectionViewController.mask = _mask;
-    photoSelectionCollectionViewController.updateView = self;
+    photoSelectionCollectionViewController.delegate = self;
     UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:photoSelectionCollectionViewController];
+    [self shouldHideMaskAndView:YES];
     [self.window.rootViewController presentViewController:uinvc animated:YES completion:nil];
 }
 
@@ -402,6 +406,25 @@ static CGFloat imageQuality = 0.8;
 {
     self.hidden = flag;
     _mask.hidden = flag;
+}
+
+#pragma mark - BBPhotoSelectionCollectionViewControllerDelegate
+
+-(void)didFetchedPickedPhotos:(NSMutableArray *)photos
+{
+    _pickedOnes = photos;
+    [self shouldHideMaskAndView:NO];
+    [self setNeedsLayout];
+    [_statusTextView becomeFirstResponder];
+}
+
+-(void)didCancelPhotoSelection
+{
+    if (_pickedOnes.count > 0) {
+        [_pickedOnes removeAllObjects];
+    }
+    [self shouldHideMaskAndView:NO];
+    [_statusTextView becomeFirstResponder];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
