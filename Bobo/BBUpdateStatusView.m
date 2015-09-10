@@ -202,7 +202,9 @@ static CGFloat imageQuality = 0.7;
 -(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
 {
     [self refreshComments];
-    _pickedOnes = nil;
+    if (_pickedOnes.count > 0) {
+        [_pickedOnes removeAllObjects];
+    }
     BBNotificationView *notificationView = [[BBNotificationView alloc] init];
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:notificationView];
