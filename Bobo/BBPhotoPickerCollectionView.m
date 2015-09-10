@@ -61,6 +61,7 @@ static CGFloat scale = 1.5;
             CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
             
             [_manager startCachingImagesForAssets:assets targetSize:targetSize contentMode:PHImageContentModeAspectFill options:_options];
+            [_manager stopCachingImagesForAllAssets];
         }
     }];
 }

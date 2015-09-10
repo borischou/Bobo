@@ -40,7 +40,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [_photoPickerCollectionView.manager stopCachingImagesForAllAssets];
     [self shouldHideMaskAndView:NO];
     [_updateView.statusTextView becomeFirstResponder];
     [_updateView setNeedsLayout];
@@ -75,12 +74,13 @@
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.resizeMode = PHImageRequestOptionsResizeModeExact;
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-    for (int i = 0; i < _photoPickerCollectionView.pickedOnes.count; i ++) {
+    NSInteger pickedNum = _photoPickerCollectionView.pickedOnes.count;
+    for (int i = 0; i < pickedNum; i ++) {
         PHAsset *asset = _photoPickerCollectionView.pickedOnes[i];
         CGSize targetSize = CGSizeMake(asset.pixelWidth, asset.pixelHeight);
         [_photoPickerCollectionView.manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
             [images addObject:result];
-            if (i == _photoPickerCollectionView.pickedOnes.count-1) {
+            if (i == pickedNum-1) {
                 _updateView.pickedOnes = images;
                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             }
