@@ -374,7 +374,7 @@ static CGFloat imageQuality = 0.7;
     photoSelectionCollectionViewController.delegate = self;
     UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:photoSelectionCollectionViewController];
     [self shouldHideMaskAndView:YES];
-    [self.window.rootViewController presentViewController:uinvc animated:YES completion:nil];
+    [self.window.rootViewController presentViewController:uinvc animated:YES completion:^{}];
 }
 
 -(void)callCameraButtonPressed:(UIButton *)sender
@@ -400,7 +400,7 @@ static CGFloat imageQuality = 0.7;
         _picker.delegate = self;
         _picker.allowsEditing = NO;
         [self shouldHideMaskAndView:YES];
-        [self.window.rootViewController presentViewController:_picker animated:YES completion:nil];
+        [self.window.rootViewController presentViewController:_picker animated:YES completion:^{}];
     }
 }
 
@@ -440,7 +440,7 @@ static CGFloat imageQuality = 0.7;
         _pickedOnes = @[].mutableCopy;
     }
     [_pickedOnes addObject:takenImage];
-    [_picker dismissViewControllerAnimated:YES completion:nil];
+    [_picker dismissViewControllerAnimated:YES completion:^{}];
     [self setNeedsLayout];
     [_statusTextView becomeFirstResponder];
 }
@@ -449,7 +449,7 @@ static CGFloat imageQuality = 0.7;
 {
     NSLog(@"imagePickerControllerDidCancel");
     [self shouldHideMaskAndView:NO];
-    [_picker dismissViewControllerAnimated:YES completion:nil];
+    [_picker dismissViewControllerAnimated:YES completion:^{}];
     [_statusTextView becomeFirstResponder];
 }
 

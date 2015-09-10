@@ -46,7 +46,7 @@
 -(void)cancelButtonItemPressed:(UIBarButtonItem *)sender
 {
     [self.delegate didCancelPhotoSelection];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{}];
 }
 
 -(void)confirmButtonItemPressed:(UIBarButtonItem *)sender
@@ -66,7 +66,7 @@
             }
         }];
     }
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{}];
 }
 
 @end
