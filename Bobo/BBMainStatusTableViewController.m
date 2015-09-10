@@ -53,7 +53,7 @@ static NSString *reuseBarCellId = @"barCell";
     [super viewDidLoad];
     [self setNavBarBtn];
     [self setMJRefresh];
-    //[self.tableView.header beginRefreshing];
+    [self.tableView.header beginRefreshing];
 }
 
 -(void)viewDidAppear:(BOOL)animated
