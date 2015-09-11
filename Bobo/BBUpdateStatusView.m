@@ -241,8 +241,7 @@ static CGFloat imageQuality = 0.7;
 {
     AppDelegate *delegate = [AppDelegate delegate];
     if (!delegate.isLoggedIn) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
+        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     } else {
         switch (_flag) {
             case 0: //发微博
