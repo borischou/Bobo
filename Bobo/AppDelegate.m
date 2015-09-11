@@ -153,6 +153,8 @@
 
     //Tabbar
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    tabBarController.tabBar.layer.shadowOpacity = 0.3;
+    tabBarController.tabBar.layer.shadowColor = [UIColor blackColor].CGColor;
     [tabBarController setViewControllers:@[weiboListNvc, messagenvc, waterfallnvc, profileNvc, collectionNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
@@ -171,6 +173,9 @@
 {
     uinvc.navigationBar.barTintColor = kBarColor;
     uinvc.navigationBar.tintColor = [UIColor whiteColor];
+    uinvc.navigationBar.layer.shadowOpacity = 0.3;
+    uinvc.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
+    uinvc.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
     
     uivc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     uivc.view.backgroundColor = bBGColor;
