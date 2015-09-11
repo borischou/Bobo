@@ -9,19 +9,20 @@
 #import "BBReplyCommentView.h"
 #import "BBUpdateStatusView.h"
 #import "AppDelegate.h"
+#import "BBStatusDetailViewController.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 #define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
-#define rReplyViewHeight 150
 #define bSmallGap 5
 #define rSmallGap 1
-#define rBtnHeight (self.frame.size.height-rSmallGap*2)/3
 #define rBtnWidth self.frame.size.width
 
 @interface BBReplyCommentView ()
 
 @property (strong, nonatomic) UIView *mask;
+@property (nonatomic) CGFloat rBtnHeight;
+@property (nonatomic) CGFloat viewHeight;
 
 @end
 
@@ -29,11 +30,7 @@
 
 -(instancetype)init
 {
-    self = [super initWithFrame:CGRectMake(0, bHeight-rReplyViewHeight, bWidth, rReplyViewHeight)];
-    if (self) {
-        [self setupButtonLayout];
-    }
-    return self;
+    return [self initWithFrame:CGRectMake(0, bHeight, bWidth, 150)];
 }
 
 -(instancetype)initWithFrame:(CGRect)frame
@@ -48,27 +45,41 @@
 -(void)setupButtonLayout
 {
     self.backgroundColor = [UIColor lightTextColor];
-
-    _replyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, rBtnWidth, rBtnHeight)];
-    [_replyBtn setTitle:@"回复" forState:UIControlStateNormal];
+    
+    _replyBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    [_replyBtn setTitle:@"回复评论" forState:UIControlStateNormal];
     [_replyBtn setBackgroundColor:[UIColor darkGrayColor]];
     [_replyBtn addTarget:self action:@selector(replyButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [_replyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_replyBtn];
     
-    _repostBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, rBtnHeight+rSmallGap, rBtnWidth, rBtnHeight)];
-    [_repostBtn setTitle:@"转发" forState:UIControlStateNormal];
+    _repostBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    [_repostBtn setTitle:@"转发评论" forState:UIControlStateNormal];
     [_repostBtn setBackgroundColor:[UIColor darkGrayColor]];
     [_repostBtn addTarget:self action:@selector(repostButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [_repostBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_repostBtn];
     
-    _cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, rBtnHeight*2+rSmallGap*2, rBtnWidth, rBtnHeight)];
+    _cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
     [_cancelBtn setBackgroundColor:[UIColor darkGrayColor]];
     [_cancelBtn addTarget:self action:@selector(cancelButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_cancelBtn];
+    
+    _viewStatusBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    [_viewStatusBtn setTitle:@"查看微博" forState:UIControlStateNormal];
+    [_viewStatusBtn setBackgroundColor:[UIColor darkGrayColor]];
+    [_viewStatusBtn addTarget:self action:@selector(viewStatusButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [_viewStatusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self addSubview:_viewStatusBtn];
+    
+    _deleteBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    [_deleteBtn setTitle:@"删除评论" forState:UIControlStateNormal];
+    [_deleteBtn setBackgroundColor:[UIColor darkGrayColor]];
+    [_deleteBtn addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [_deleteBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self addSubview:_deleteBtn];
     
     if (!_mask) {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
@@ -88,9 +99,64 @@
     }
 }
 
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    CGFloat rBtnHeight = (self.frame.size.height-rSmallGap*2)/3;
+    _viewHeight = rBtnHeight*3+rSmallGap*2;
+    if (_shouldShowViewStatusOption && _shouldShowDeleteOption) {
+        rBtnHeight = (self.frame.size.height-rSmallGap*4)/5;
+    }
+    if ((_shouldShowDeleteOption && !_shouldShowViewStatusOption) || (!_shouldShowDeleteOption && _shouldShowViewStatusOption)) {
+        rBtnHeight = (self.frame.size.height-rSmallGap*3)/4;
+    }
+    
+    [_replyBtn setFrame:CGRectMake(0, 0, rBtnWidth, rBtnHeight)];
+    [_repostBtn setFrame:CGRectMake(0, rBtnHeight+rSmallGap, rBtnWidth, rBtnHeight)];
+    
+    if (_shouldShowDeleteOption && _shouldShowViewStatusOption) {
+        [_viewStatusBtn setFrame:CGRectMake(0, rBtnHeight*2+rSmallGap*2, rBtnWidth, rBtnHeight)];
+        [_deleteBtn setFrame:CGRectMake(0, rBtnHeight*3+rSmallGap*3, rBtnWidth, rBtnHeight)];
+        [_cancelBtn setFrame:CGRectMake(0, rBtnHeight*4+rSmallGap*4, rBtnWidth, rBtnHeight)];
+        _viewHeight = rBtnHeight*5+rSmallGap*4;
+    }
+    if (_shouldShowViewStatusOption && !_shouldShowDeleteOption) {
+        [_viewStatusBtn setFrame:CGRectMake(0, rBtnHeight*2+rSmallGap*2, rBtnWidth, rBtnHeight)];
+        [_cancelBtn setFrame:CGRectMake(0, rBtnHeight*3+rSmallGap*3, rBtnWidth, rBtnHeight)];
+        _viewHeight = rBtnHeight*4+rSmallGap*3;
+    }
+    if (!_shouldShowViewStatusOption && _shouldShowDeleteOption) {
+        [_deleteBtn setFrame:CGRectMake(0, rBtnHeight*2+rSmallGap*2, rBtnWidth, rBtnHeight)];
+        [_cancelBtn setFrame:CGRectMake(0, rBtnHeight*3+rSmallGap*3, rBtnWidth, rBtnHeight)];
+        _viewHeight = rBtnHeight*4+rSmallGap*3;
+    }
+}
+
+-(void)viewStatusButtonPressed
+{
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _mask.alpha = 0;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [_mask removeFromSuperview];
+            _mask = nil;
+            
+            
+            //BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
+            
+            [self removeFromSuperview];
+        }
+    }];
+}
+
+-(void)deleteButtonPressed
+{
+    //调用删除接口
+}
+
 -(void)replyButtonPressed
 {
-    NSLog(@"replyButtonPressed");
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3]; //回复评论
     updateStatusView.idStr = _idStr;
     updateStatusView.cidStr = _cidStr;
@@ -99,7 +165,7 @@
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _mask.alpha = 0;
         updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
-        [self setFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
+        [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
         [updateStatusView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {
         if (finished) {
@@ -112,9 +178,8 @@
 
 -(void)repostButtonPressed
 {
-    NSLog(@"repostButtonPressed");
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [self setFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
+        [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
         _mask.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
@@ -125,9 +190,8 @@
 
 -(void)cancelButtonPressed
 {
-    NSLog(@"cancelButtonPressed");
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [self setFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
+        [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
         _mask.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];

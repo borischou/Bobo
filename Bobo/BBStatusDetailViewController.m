@@ -24,7 +24,6 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-#define rReplyViewHeight 150
 #define dComntBarViewHeight 60
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
@@ -245,17 +244,25 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1) {
-        BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, rReplyViewHeight)];
-        replyCommentView.idStr = _status.idstr;
+        AppDelegate *delegate = [AppDelegate delegate];
+
+        BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 150)];
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         replyCommentView.cidStr = comment.idstr;
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        replyCommentView.idStr = _status.idstr;
+        replyCommentView.shouldShowViewStatusOption = NO;
+        int param = 0;
+        if ([comment.user.idstr isEqualToString:delegate.user.idstr]) {
+            replyCommentView.shouldShowDeleteOption = YES;
+            param = 1;
+        } else {
+            replyCommentView.shouldShowDeleteOption = NO;
+            param = 0;
+        }
         [delegate.window addSubview:replyCommentView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            [replyCommentView setFrame:CGRectMake(0, bHeight-rReplyViewHeight, bWidth, rReplyViewHeight)];
-        } completion:^(BOOL finished) {
-            
-        }];
+            [replyCommentView setFrame:CGRectMake(0, bHeight-(3*50+param*50), bWidth, 3*50+param*50)];
+        } completion:^(BOOL finished) {}];
     }
 }
 

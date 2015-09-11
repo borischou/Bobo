@@ -10,8 +10,13 @@
 #import "BBMessageTableViewCell.h"
 #import "BBStatusDetailViewController.h"
 #import "BBMessageViewController.h"
+#import "BBReplyCommentView.h"
+#import "AppDelegate.h"
 
 #define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
+
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
 
 static NSString *messageCell = @"messageCell";
 
@@ -59,20 +64,17 @@ static NSString *messageCell = @"messageCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
-    dtvc.title = @"Detail";
-    dtvc.hidesBottomBarWhenPushed = YES;
     Comment *comment = [_comments objectAtIndex:indexPath.row];
-    dtvc.status = comment.status;
-    id nextResponder = [self nextResponder];
-    if ([nextResponder isKindOfClass:[UIScrollView class]]) {
-        UIScrollView *scrollView = (UIScrollView *)nextResponder;
-        id vcResponder = scrollView.nextResponder.nextResponder;
-        if ([vcResponder isKindOfClass:[BBMessageViewController class]]) {
-            BBMessageViewController *mvc = (BBMessageViewController *)vcResponder;
-            [mvc.navigationController pushViewController:dtvc animated:YES];
-        }
-    }
+    BBReplyCommentView *replyView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 50*5)];
+    replyView.idStr = comment.status.idstr;
+    replyView.cidStr = comment.idstr;
+    replyView.shouldShowDeleteOption = YES;
+    replyView.shouldShowViewStatusOption = YES;
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:replyView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [replyView setFrame:CGRectMake(0, bHeight-50*5, bWidth, 50*5)];
+    } completion:^(BOOL finished) {}];
 }
 
 @end

@@ -13,8 +13,13 @@
 @property (strong, nonatomic) UIButton *replyBtn;
 @property (strong, nonatomic) UIButton *repostBtn;
 @property (strong, nonatomic) UIButton *cancelBtn;
+@property (strong, nonatomic) UIButton *viewStatusBtn;
+@property (strong, nonatomic) UIButton *deleteBtn;
 
 @property (copy, nonatomic) NSString *idStr;
 @property (copy, nonatomic) NSString *cidStr;
+
+@property (nonatomic) BOOL shouldShowViewStatusOption;
+@property (nonatomic) BOOL shouldShowDeleteOption;
 
 @end

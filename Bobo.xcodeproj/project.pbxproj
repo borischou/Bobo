@@ -449,6 +449,8 @@
 		456C77E51B2AC59B0055FBE8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
+				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
 				4572E1C21B3C59F900348866 /* BBImageBrowserView.m */,
 				456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */,
@@ -592,8 +594,6 @@
 			children = (
 				4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */,
 				4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */,
-				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
-				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				45688A111B85BB810015461E /* BBCommentBarView.h */,
 				45688A121B85BB810015461E /* BBCommentBarView.m */,
 				45688A141B85D0E20015461E /* BBStatusDetailViewController.h */,
