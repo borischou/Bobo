@@ -66,8 +66,7 @@ static NSString *messageCell = @"messageCell";
 {
     Comment *comment = [_comments objectAtIndex:indexPath.row];
     BBReplyCommentView *replyView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 50*5)];
-    replyView.idStr = comment.status.idstr;
-    replyView.cidStr = comment.idstr;
+    replyView.comment = comment;
     replyView.shouldShowDeleteOption = YES;
     replyView.shouldShowViewStatusOption = YES;
     AppDelegate *delegate = [AppDelegate delegate];

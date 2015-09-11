@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Comment.h"
 
 @interface BBReplyCommentView : UIView
 
@@ -16,10 +17,9 @@
 @property (strong, nonatomic) UIButton *viewStatusBtn;
 @property (strong, nonatomic) UIButton *deleteBtn;
 
-@property (copy, nonatomic) NSString *idStr;
-@property (copy, nonatomic) NSString *cidStr;
-
 @property (nonatomic) BOOL shouldShowViewStatusOption;
 @property (nonatomic) BOOL shouldShowDeleteOption;
+
+@property (strong, nonatomic) Comment *comment;
 
 @end

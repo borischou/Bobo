@@ -248,8 +248,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
         BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 150)];
         Comment *comment = [_comments objectAtIndex:indexPath.row];
-        replyCommentView.cidStr = comment.idstr;
-        replyCommentView.idStr = _status.idstr;
+        replyCommentView.comment = comment;
         replyCommentView.shouldShowViewStatusOption = NO;
         int param = 0;
         if ([comment.user.idstr isEqualToString:delegate.user.idstr]) {

@@ -10,6 +10,7 @@
 #import "BBUpdateStatusView.h"
 #import "AppDelegate.h"
 #import "BBStatusDetailViewController.h"
+#import "SWRevealViewController.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -137,14 +138,21 @@
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _mask.alpha = 0;
+        [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
     } completion:^(BOOL finished) {
         if (finished) {
             [_mask removeFromSuperview];
             _mask = nil;
-            
-            
-            //BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
-            
+            if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
+                BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
+                dtvc.title = @"Detail";
+                dtvc.hidesBottomBarWhenPushed = YES;
+                dtvc.status = _comment.status;
+                SWRevealViewController *swrvc = (SWRevealViewController *)self.window.rootViewController;
+                UITabBarController *tbc = (UITabBarController *)swrvc.frontViewController;
+                UINavigationController *uinc = (UINavigationController *)tbc.selectedViewController;
+                [uinc pushViewController:dtvc animated:YES];
+            }
             [self removeFromSuperview];
         }
     }];
@@ -158,8 +166,8 @@
 -(void)replyButtonPressed
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3]; //回复评论
-    updateStatusView.idStr = _idStr;
-    updateStatusView.cidStr = _cidStr;
+    updateStatusView.idStr = _comment.status.idstr;
+    updateStatusView.cidStr = _comment.idstr;
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
