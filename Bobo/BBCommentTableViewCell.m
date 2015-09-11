@@ -19,6 +19,8 @@
 #define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
 
 #define bCellBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
+#define bMaleColor [UIColor colorWithRed:0.0/255 green:154.0/255 blue:205.0/255 alpha:1.0] //light blue
+#define bFemaleColor [UIColor colorWithRed:255.0/255 green:52.0/255 blue:181.0/255 alpha:1.0] //pink
 
 @implementation BBCommentTableViewCell
 
@@ -88,6 +90,16 @@
     [_avatarView sd_setImageWithURL:[NSURL URLWithString:_comment.user.profile_image_url] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
 
     _nameLbl.text = _comment.user.screen_name;
+    if ([_comment.user.gender isEqualToString:@"m"]) {
+        [_nameLbl setTextColor:bMaleColor];
+    }
+    if ([_comment.user.gender isEqualToString:@"f"]) {
+        [_nameLbl setTextColor:bFemaleColor];
+    }
+    if ([_comment.user.gender isEqualToString:@"n"]) {
+        [_nameLbl setTextColor:[UIColor lightTextColor]];
+    }
+    
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
     _textLbl.text = _comment.text;
 }
