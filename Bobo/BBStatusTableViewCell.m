@@ -370,7 +370,7 @@
     
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _sourceLbl.text = [NSString trim:_status.source];
-    _postBodyLbl.text = _status.text;
+    _postBodyLbl.attributedText = [NSString markedText:_status.text];
     
     if (_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.pic_urls count]; i ++) {
@@ -383,7 +383,7 @@
     }
     
     //repost status
-    _repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text];
+    _repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text]];
     
     if (_status.retweeted_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {

@@ -158,7 +158,7 @@
     
     _postTimeLbl.text = [Utils formatPostTime:_comment.created_at];
     _sourceLbl.text = [NSString trim:_comment.source];
-    _postBodyLbl.text = _comment.text;
+    _postBodyLbl.attributedText = [NSString markedText:_comment.text];
     
     //repost status
     _repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text];

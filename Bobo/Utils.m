@@ -24,10 +24,8 @@
 #define bPostImgWidth bPostImgHeight
 #define bTextFontSize 14.f
 #define bBtnHeight bHeight/25
-
 #define bPostImgHeightForTwo ([UIScreen mainScreen].bounds.size.width-bSmallGap)/2
 #define bPostImgWidthForTwo bPostImgHeightForTwo
-
 #define wSmallGap 2
 #define wBigGap 4
 #define wBottomLabelHeight 15

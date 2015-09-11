@@ -9,6 +9,7 @@
 #import "BBCommentTableViewCell.h"
 #import <UIImageView+WebCache.h>
 #import "Utils.h"
+#import "NSString+Convert.h"
 
 #define cAvatarHeight 40
 #define cAvatarWidth cAvatarHeight
@@ -101,7 +102,7 @@
     }
     
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
-    _textLbl.text = _comment.text;
+    _textLbl.attributedText = [NSString markedText:_comment.text];
 }
 
 -(void)loadCommentLayout

@@ -7,6 +7,10 @@
 //
 
 #import "NSString+Convert.h"
+#import <UIKit/UIKit.h>
+
+#define bTextFontSize 14.0
+#define markColor [UIColor colorWithRed:105.0/255 green:90.0/255 blue:205.0/255 alpha:1.0]
 
 @implementation NSString (Convert)
 
@@ -53,6 +57,24 @@
     source = [source stringByReplacingOccurrencesOfString:regEx withString:@""];
     
     return source;
+}
+
++(NSAttributedString *)markedText:(NSString *)text
+{
+    NSString *pattern = @"(@(\\w)+)|((http://((\\w)+).((\\w)+))+/(\\w)+)|(#(\\w)+#)";
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:bTextFontSize],
+                                 NSForegroundColorAttributeName: markColor};
+    
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    [regex enumerateMatchesInString:text options:0 range:NSMakeRange(0, text.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+        NSLog(@"%@\n", [text substringWithRange:result.range]);
+        [attributedString setAttributes:attributes range:result.range];
+    }];
+    
+    return attributedString.copy;
 }
 
 @end

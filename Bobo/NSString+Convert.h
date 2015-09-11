@@ -11,11 +11,9 @@
 @interface NSString (Convert)
 
 +(NSString *)largePictureUrlConvertedFromThumbUrl:(NSString *)url;
-
 +(NSString *)middlePictureUrlConvertedFromThumbUrl:(NSString *)url;
-
 +(NSString *)getNumStrFrom:(NSInteger)num;
-
 +(NSString *)trim:(NSString *)source;
++(NSAttributedString *)markedText:(NSString *)text;
 
 @end

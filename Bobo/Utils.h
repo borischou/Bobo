@@ -14,23 +14,14 @@
 
 //Calculates the height of cell
 +(CGFloat)getHeightForCellWithStatusText:(NSString *)text statusImageCount:(NSInteger)count andRetweetScreenName:(NSString *)screenName retweetText:(NSString *)retweetText retweetImageCount:(NSInteger)retweetImgCount;
-
-//Calculates the height of images in total
-+(CGFloat)heightForImgsWithCount:(NSInteger)count;
-
-//EEE HH:mm:ss yy-MM-dd
-+(NSString *)formatPostTime:(NSString *)postTime;
-
++(CGFloat)heightForImgsWithCount:(NSInteger)count; //Calculates the height of images in total
++(NSString *)formatPostTime:(NSString *)postTime; //EEE HH:mm:ss yy-MM-dd
 +(CGFloat)heightForString:(NSString *)str width:(CGFloat)width fontSize:(CGFloat)size;
-
 +(CGFloat)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height;
-
 +(CGFloat)heightForWaterfallCellWithStatus:(Status *)status textWidth:(CGFloat)width;
-
 +(CGFloat)fontSizeForWaterfall;
 +(CGFloat)cellWidthForWaterfall;
 +(CGFloat)maxHeightForWaterfallCoverPicture;
-
 +(CGFloat)fontSizeForStatus;
 
 @end
