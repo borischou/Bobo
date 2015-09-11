@@ -61,7 +61,7 @@
 
 +(NSAttributedString *)markedText:(NSString *)text
 {
-    NSString *pattern = @"(@([\\w-]+[\\w-]*))|((http://((\\w)+).((\\w)+))+/(\\w)+)|(#(\\w)+#)";
+    NSString *pattern = @"(@([\\w-]+[\\w-]*))|((http://((\\w)+).((\\w)+))+/(\\w)+)|(#[^#]+#)";
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:bTextFontSize],
