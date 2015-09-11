@@ -73,6 +73,32 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self addSWRevealViewControllerGestureRecognizer];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self removeSWRevealControllerGestureRecognizer];
+}
+
+#pragma mark - Helpers
+
+-(void)addSWRevealViewControllerGestureRecognizer
+{
+    [_scrollView addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [_scrollView addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
+}
+
+-(void)removeSWRevealControllerGestureRecognizer
+{
+    [_scrollView removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
+    [_scrollView removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
+}
+
 #pragma mark - BBMessageMenuViewDelegate
 
 -(void)didClickMenuButtonAtIndex:(NSInteger)index
