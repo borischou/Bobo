@@ -39,7 +39,10 @@ static CGFloat scale = 1.0;
     [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL *stop) {
         NSLog(@"ALBUM NAME: %@", collection.localizedTitle);
         if ([collection.localizedTitle isEqualToString:@"Camera Roll"]) {
-            _fetchedPhotos = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+            PHFetchOptions *options  = [[PHFetchOptions alloc] init];
+            options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+            
+            _fetchedPhotos = [PHAsset fetchAssetsInAssetCollection:collection options:options];
             
             _pickedStatuses = nil;
             _pickedStatuses = @[].mutableCopy;
