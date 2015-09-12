@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 #import "BBStatusDetailViewController.h"
 #import "SWRevealViewController.h"
+#import "WeiboSDK.h"
+#import "BBNotificationView.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -18,6 +20,8 @@
 #define bSmallGap 5
 #define rSmallGap 1
 #define rBtnWidth self.frame.size.width
+
+#define bWeiboDomain @"https://api.weibo.com/2/"
 
 @interface BBReplyCommentView ()
 
@@ -161,6 +165,36 @@
 -(void)deleteButtonPressed
 {
     //调用删除接口
+    AppDelegate *delegate = [AppDelegate delegate];
+    if (!delegate.isLoggedIn) {
+        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    } else {
+        NSDictionary *params = @{@"access_token": delegate.wbToken, @"cid": _comment.idstr};
+        NSString *url = [bWeiboDomain stringByAppendingString:@"comments/destroy.json"];
+        [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+            NSString *notificationText = nil;
+            if (!error) {
+                NSLog(@"评论删除成功。");
+                notificationText = @"评论删除成功";
+            }
+            else
+            {
+                NSLog(@"评论删除失败：%@", error);
+                notificationText = [NSString stringWithFormat:@"评论删除失败: %@", error];
+            }
+            [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                _mask.alpha = 0;
+                [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                    [_mask removeFromSuperview];
+                    _mask = nil;
+                    [self removeFromSuperview];
+                }
+            }];
+        }];
+    }
 }
 
 -(void)replyButtonPressed
@@ -213,6 +247,24 @@
         [self removeFromSuperview];
         [_mask removeFromSuperview];
         _mask = nil;
+    }];
+}
+
+-(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
+{
+    BBNotificationView *notificationView = [[BBNotificationView alloc] init];
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:notificationView];
+    [delegate.window bringSubviewToFront:notificationView];
+    notificationView.notificationLabel.text = text;
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [notificationView setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 delay:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [notificationView setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
+        } completion:^(BOOL finished) {
+            [notificationView removeFromSuperview];
+        }];
     }];
 }
 
