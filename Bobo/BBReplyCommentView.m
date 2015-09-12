@@ -168,7 +168,7 @@
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3]; //回复评论
     updateStatusView.idStr = _comment.status.idstr;
     updateStatusView.cidStr = _comment.idstr;
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _mask.alpha = 0;
@@ -186,13 +186,21 @@
 
 -(void)repostButtonPressed
 {
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发评论
+    updateStatusView.idStr = _comment.status.idstr;
+    updateStatusView.cidStr = _comment.idstr;
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
         _mask.alpha = 0;
+        updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
+        [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
+        [updateStatusView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {
-        [self removeFromSuperview];
         [_mask removeFromSuperview];
         _mask = nil;
+        [self removeFromSuperview];
     }];
 }
 
