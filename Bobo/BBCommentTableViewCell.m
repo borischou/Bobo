@@ -9,6 +9,7 @@
 #import "BBCommentTableViewCell.h"
 #import <UIImageView+WebCache.h>
 #import "Utils.h"
+#import "UIColor+Custom.h"
 #import "NSString+Convert.h"
 
 #define cAvatarHeight 40
@@ -73,10 +74,9 @@
     [self.contentView addSubview:_timeLbl];
     
     _textLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _textLbl.textColor = [UIColor lightTextColor];
+    _textLbl.textColor = [UIColor mintCream];
     _textLbl.lineBreakMode = NSLineBreakByWordWrapping;
     _textLbl.numberOfLines = 0;
-    _textLbl.font = [UIFont systemFontOfSize:13.f];
     [self.contentView addSubview:_textLbl];
 }
 
@@ -102,7 +102,7 @@
     }
     
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
-    _textLbl.attributedText = [NSString markedText:_comment.text];
+    _textLbl.attributedText = [NSString markedText:_comment.text fontSize:14.0];
 }
 
 -(void)loadCommentLayout

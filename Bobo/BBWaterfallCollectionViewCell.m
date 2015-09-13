@@ -10,6 +10,7 @@
 #import <UIImageView+WebCache.h>
 #import "Utils.h"
 #import "NSString+Convert.h"
+#import "UIColor+Custom.h"
 #import "BBImageBrowserView.h"
 
 #define wMaxPictureHeight [UIScreen mainScreen].bounds.size.height*3/5
@@ -58,10 +59,9 @@
     [self.contentView addSubview:_avatarView];
     
     _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _textLabel.font = [UIFont systemFontOfSize:fontSize];
     _textLabel.numberOfLines = 0;
     _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _textLabel.textColor = [UIColor whiteColor];
+    _textLabel.textColor = [UIColor mintCream];
     [self.contentView addSubview:_textLabel];
     
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -69,26 +69,25 @@
     [self.contentView addSubview:_nameLabel];
     
     _timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _timeLabel.font = [UIFont systemFontOfSize:fontSize];
+    _timeLabel.font = [UIFont systemFontOfSize:10.0];
     _timeLabel.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_timeLabel];
     
     _retweetNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _retweetNumLabel.font = [UIFont systemFontOfSize:fontSize];
+    _retweetNumLabel.font = [UIFont systemFontOfSize:10.0];
     _retweetNumLabel.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_retweetNumLabel];
     
     _commentNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _commentNumLabel.font = [UIFont systemFontOfSize:fontSize];
+    _commentNumLabel.font = [UIFont systemFontOfSize:10.0];
     _commentNumLabel.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_commentNumLabel];
     
     _retweetNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _retweetNameLabel.font = [UIFont systemFontOfSize:fontSize];
+    _retweetNameLabel.font = [UIFont systemFontOfSize:10.0];
     [self.contentView addSubview:_retweetNameLabel];
     
     _retweetTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _retweetTextLabel.font = [UIFont systemFontOfSize:fontSize];
     _retweetTextLabel.textColor = [UIColor lightTextColor];
     _retweetTextLabel.numberOfLines = 0;
     _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;

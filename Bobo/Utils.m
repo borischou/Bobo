@@ -22,7 +22,7 @@
 #define bBigGap 10
 #define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
 #define bPostImgWidth bPostImgHeight
-#define bTextFontSize 14.f
+#define bTextFontSize 17.f
 #define bBtnHeight bHeight/25
 #define bPostImgHeightForTwo ([UIScreen mainScreen].bounds.size.width-bSmallGap)/2
 #define bPostImgWidthForTwo bPostImgHeightForTwo
@@ -77,6 +77,7 @@
     }
     NSMutableParagraphStyle *parastyle = [[NSMutableParagraphStyle alloc] init];
     parastyle.lineBreakMode = NSLineBreakByWordWrapping;
+    [parastyle setLineSpacing:2.0];
     CGSize sizeForFit = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
                                           options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
                                        attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:size],
@@ -89,17 +90,18 @@
 +(CGFloat)getHeightForCellWithStatusText:(NSString *)text statusImageCount:(NSInteger)count andRetweetScreenName:(NSString *)retweetedScreenName retweetText:(NSString *)retweetText retweetImageCount:(NSInteger)retweetImgCount
 {
     CGFloat height = 0;
+    CGFloat fontSize = [Utils fontSizeForStatus];
     
     height = 0;
     height += bBigGap+bHeadImgHeight; //头像
-    height += bBigGap+[Utils heightForString:text width:bWidth-bBigGap*2 fontSize:bTextFontSize]; //微博正文
+    height += bBigGap+[Utils heightForString:text width:bWidth-bBigGap*2 fontSize:fontSize]; //微博正文
     
     if (count > 0) {
         height += bSmallGap+[self heightForImgsWithCount:count]; //微博配图
     }
     
     if (retweetedScreenName != nil) { //转发微博
-        height += bBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] width:bWidth-bBigGap*2 fontSize:bTextFontSize]; //转发微博正文
+        height += bBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] width:bWidth-bBigGap*2 fontSize:fontSize]; //转发微博正文
         if (retweetImgCount > 0) {
             height += bSmallGap+[self heightForImgsWithCount:retweetImgCount]; //转发微博配图
         }
@@ -175,12 +177,17 @@
 
 +(CGFloat)fontSizeForWaterfall
 {
-    return 10.f;
+    return 16.f;
 }
 
 +(CGFloat)fontSizeForStatus
 {
-    return 14.f;
+    return 16.f;
+}
+
++(CGFloat)fontSizeForComment
+{
+    return 13.0;
 }
 
 +(CGFloat)cellWidthForWaterfall
@@ -213,16 +220,17 @@
 +(CGFloat)heightForWaterfallCellWithStatus:(Status *)status textWidth:(CGFloat)width
 {
     CGFloat height = 0;
+    CGFloat fontSize = [Utils fontSizeForWaterfall];
     
     if (status.pic_urls.count > 0 || status.retweeted_status.pic_urls.count > 0) {
         height += [Utils maxHeightForWaterfallCoverPicture];
     }
     height += wSmallGap;
-    height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] width:width fontSize:[Utils fontSizeForWaterfall]];
+    height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] width:width fontSize:fontSize];
     
     if (status.retweeted_status && status.retweeted_status.pic_urls.count <= 0) {
         height += wSmallGap;
-        height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] width:width fontSize:[Utils fontSizeForWaterfall]];
+        height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] width:width fontSize:fontSize];
     }
     
     //底部转发评论时间标签

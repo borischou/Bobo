@@ -20,8 +20,9 @@
 +(CGFloat)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height;
 +(CGFloat)heightForWaterfallCellWithStatus:(Status *)status textWidth:(CGFloat)width;
 +(CGFloat)fontSizeForWaterfall;
++(CGFloat)fontSizeForComment;
++(CGFloat)fontSizeForStatus;
 +(CGFloat)cellWidthForWaterfall;
 +(CGFloat)maxHeightForWaterfallCoverPicture;
-+(CGFloat)fontSizeForStatus;
 
 @end

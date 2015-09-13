@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface NSString (Convert)
 
@@ -14,6 +15,6 @@
 +(NSString *)middlePictureUrlConvertedFromThumbUrl:(NSString *)url;
 +(NSString *)getNumStrFrom:(NSInteger)num;
 +(NSString *)trim:(NSString *)source;
-+(NSAttributedString *)markedText:(NSString *)text;
++(NSAttributedString *)markedText:(NSString *)text fontSize:(CGFloat)fontSize;
 
 @end

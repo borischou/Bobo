@@ -11,6 +11,7 @@
 #import <UIImageView+WebCache.h>
 #import "BBImageBrowserView.h"
 #import "NSString+Convert.h"
+#import "UIColor+Custom.h"
 #import "Utils.h"
 #import "BBUpdateStatusView.h"
 #import "AppDelegate.h"
@@ -97,7 +98,6 @@
     
     //nickname
     _nicknameLbl = [[UILabel alloc] initWithFrame:CGRectMake(10+bAvatarWidth+10, 10+5, bNicknameWidth, bNicknameHeight)];
-    _nicknameLbl.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_nicknameLbl];
     
     //vip
@@ -118,10 +118,9 @@
     
     //text
     _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _postBodyLbl.textColor = [UIColor whiteColor];
+    _postBodyLbl.textColor = [UIColor mintCream];
     _postBodyLbl.numberOfLines = 0;
     _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
-    _postBodyLbl.font = [UIFont systemFontOfSize:bTextFontSize];
     [self.contentView addSubview:_postBodyLbl];
     
     //img views for status
@@ -145,10 +144,9 @@
     
     //repost text
     _repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _repostLbl.textColor = [UIColor whiteColor];
+    _repostLbl.textColor = [UIColor mintCream];
     _repostLbl.numberOfLines = 0;
     _repostLbl.lineBreakMode = NSLineBreakByWordWrapping;
-    _repostLbl.font = [UIFont systemFontOfSize:bTextFontSize];
     [_repostView addSubview:_repostLbl];
     
     //img views for retweeted_status
@@ -370,7 +368,7 @@
     
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _sourceLbl.text = [NSString trim:_status.source];
-    _postBodyLbl.attributedText = [NSString markedText:_status.text];
+    _postBodyLbl.attributedText = [NSString markedText:_status.text fontSize:[Utils fontSizeForStatus]];
     
     if (_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.pic_urls count]; i ++) {
@@ -383,7 +381,7 @@
     }
     
     //repost status
-    _repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text]];
+    _repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] fontSize:[Utils fontSizeForStatus]];
     
     if (_status.retweeted_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {

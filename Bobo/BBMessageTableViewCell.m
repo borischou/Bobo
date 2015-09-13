@@ -10,6 +10,7 @@
 #import <UIImageView+WebCache.h>
 #import "Utils.h"
 #import "NSString+Convert.h"
+#import "UIColor+Custom.h"
 
 #define bRetweetBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 #define bCellBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
@@ -30,7 +31,6 @@
 #define bTopPadding 10.0
 #define bSmallGap 5
 #define bBigGap 10
-#define bTextFontSize 13.f
 
 @interface BBMessageTableViewCell ()
 
@@ -96,7 +96,6 @@
     
     //nickname
     _nicknameLbl = [[UILabel alloc] initWithFrame:CGRectMake(10+bAvatarWidth+10, 10+5, bNicknameWidth, bNicknameHeight)];
-    _nicknameLbl.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_nicknameLbl];
     
     //vip
@@ -117,10 +116,9 @@
     
     //text
     _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _postBodyLbl.textColor = [UIColor whiteColor];
+    _postBodyLbl.textColor = [UIColor mintCream];
     _postBodyLbl.numberOfLines = 0;
     _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
-    _postBodyLbl.font = [UIFont systemFontOfSize:bTextFontSize];
     [self.contentView addSubview:_postBodyLbl];
     
     //retweet view
@@ -133,10 +131,9 @@
     
     //repost text
     _repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _repostLbl.textColor = [UIColor whiteColor];
+    _repostLbl.textColor = [UIColor mintCream];
     _repostLbl.numberOfLines = 0;
     _repostLbl.lineBreakMode = NSLineBreakByWordWrapping;
-    _repostLbl.font = [UIFont systemFontOfSize:bTextFontSize];
     [_repostView addSubview:_repostLbl];
 }
 
@@ -156,12 +153,13 @@
         [_nicknameLbl setTextColor:[UIColor lightTextColor]];
     }
     
+    CGFloat fontSize = [Utils fontSizeForStatus];
     _postTimeLbl.text = [Utils formatPostTime:_comment.created_at];
     _sourceLbl.text = [NSString trim:_comment.source];
-    _postBodyLbl.attributedText = [NSString markedText:_comment.text];
+    _postBodyLbl.attributedText = [NSString markedText:_comment.text fontSize:fontSize];
     
     //repost status
-    _repostLbl.text = [NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text];
+    _repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text] fontSize:fontSize];
 }
 
 -(void)loadLayout

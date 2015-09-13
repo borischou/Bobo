@@ -115,15 +115,15 @@ static NSString *reuseCellId = @"reuseCell";
 
 -(void)loadDataWithStatus:(Status *)status cell:(BBWaterfallCollectionViewCell *)cell
 {
+    CGFloat fontSize = [Utils fontSizeForWaterfall];
     cell.timeLabel.text = [Utils formatPostTime:status.created_at];
     cell.retweetNumLabel.text = [NSString stringWithFormat:@"%ld", status.reposts_count];
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", status.comments_count];
     cell.nameLabel.text = status.user.screen_name;
-    cell.textLabel.text = [NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text];
-    
+    cell.textLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] fontSize:fontSize];
     if (status.retweeted_status) {
         cell.retweetNameLabel.text = status.retweeted_status.user.screen_name;
-        cell.retweetTextLabel.text = [NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text];
+        cell.retweetTextLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] fontSize:fontSize];
     }
 }
 

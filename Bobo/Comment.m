@@ -34,9 +34,10 @@
         _user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];
         _status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"status"]];
         
-        CGFloat textHeight = [Utils heightForString:_text width:cTextWidth fontSize:cTextFontSize];
+        CGFloat textHeight = [Utils heightForString:_text width:cTextWidth fontSize:[Utils fontSizeForComment]];
         _height = cAvatarHeight > cNameHeight+cSmallGap+textHeight? cBigGap*2+cAvatarHeight: cBigGap*2+cNameHeight+cSmallGap+textHeight;
-        _heightForMessageCell = cBigGap+cAvatarHeight+cBigGap+[Utils heightForString:_text width:mTextWidth fontSize:cTextFontSize]+cBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text] width:mTextWidth fontSize:cTextFontSize]+cBigGap;
+        CGFloat messageFontSize = [Utils fontSizeForStatus];
+        _heightForMessageCell = cBigGap+cAvatarHeight+cBigGap+[Utils heightForString:_text width:mTextWidth fontSize:messageFontSize]+cBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text] width:mTextWidth fontSize:messageFontSize]+cBigGap;
     }
     return self;
 }

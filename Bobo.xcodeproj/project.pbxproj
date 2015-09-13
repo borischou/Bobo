@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		000AE6CE1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */; };
 		004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */; };
+		0060CCC41BA5C660005F3E20 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0060CCC31BA5C660005F3E20 /* UIColor+Custom.m */; };
 		006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006E2F641B949FD2008AB6DF /* BBNotificationView.m */; };
 		0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
@@ -104,6 +105,8 @@
 		000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBKIAccessoryNoImageView.h; sourceTree = "<group>"; };
 		000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBKIAccessoryNoImageView.m; sourceTree = "<group>"; };
 		004984BD1B84B1CA004E6C41 /* Bobo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bobo.xcdatamodel; sourceTree = "<group>"; };
+		0060CCC21BA5C660005F3E20 /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
+		0060CCC31BA5C660005F3E20 /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		006E2F631B949FD2008AB6DF /* BBNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNotificationView.h; sourceTree = "<group>"; };
 		006E2F641B949FD2008AB6DF /* BBNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBNotificationView.m; sourceTree = "<group>"; };
 		007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comntbar_icon@3x.png"; sourceTree = "<group>"; };
@@ -401,6 +404,8 @@
 				455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */,
 				454E93E61B3FCD72001126E4 /* NSString+Convert.h */,
 				454E93E71B3FCD72001126E4 /* NSString+Convert.m */,
+				0060CCC21BA5C660005F3E20 /* UIColor+Custom.h */,
+				0060CCC31BA5C660005F3E20 /* UIColor+Custom.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -815,6 +820,7 @@
 				451442061B295E8B000532DD /* BBMainStatusTableViewController.m in Sources */,
 				457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */,
 				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
+				0060CCC41BA5C660005F3E20 /* UIColor+Custom.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,
 				45688A161B85D0E20015461E /* BBStatusDetailViewController.m in Sources */,
 				45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */,
