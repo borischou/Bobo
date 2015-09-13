@@ -61,7 +61,6 @@
     _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _textLabel.numberOfLines = 0;
     _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _textLabel.textColor = [UIColor mintCream];
     [self.contentView addSubview:_textLabel];
     
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];

@@ -12,5 +12,7 @@
 
 +(UIColor *)mintCream;
 +(UIColor *)honeydew;
++(UIColor *)customGray;
++(UIColor *)lightSnow;
 
 @end

@@ -116,7 +116,6 @@
     
     //text
     _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _postBodyLbl.textColor = [UIColor mintCream];
     _postBodyLbl.numberOfLines = 0;
     _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
     [self.contentView addSubview:_postBodyLbl];
@@ -131,7 +130,6 @@
     
     //repost text
     _repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _repostLbl.textColor = [UIColor mintCream];
     _repostLbl.numberOfLines = 0;
     _repostLbl.lineBreakMode = NSLineBreakByWordWrapping;
     [_repostView addSubview:_repostLbl];
@@ -156,10 +154,10 @@
     CGFloat fontSize = [Utils fontSizeForStatus];
     _postTimeLbl.text = [Utils formatPostTime:_comment.created_at];
     _sourceLbl.text = [NSString trim:_comment.source];
-    _postBodyLbl.attributedText = [NSString markedText:_comment.text fontSize:fontSize];
+    _postBodyLbl.attributedText = [NSString markedText:_comment.text fontSize:fontSize fontColor:[UIColor customGray]];
     
     //repost status
-    _repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text] fontSize:fontSize];
+    _repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text] fontSize:fontSize fontColor:[UIColor customGray]];
 }
 
 -(void)loadLayout

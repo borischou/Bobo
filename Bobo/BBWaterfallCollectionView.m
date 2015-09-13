@@ -14,6 +14,7 @@
 #import "Utils.h"
 #import <UIImageView+WebCache.h>
 #import "NSString+Convert.h"
+#import "UIColor+Custom.h"
 #import <MJRefresh/MJRefresh.h>
 
 #define wSmallGap 2
@@ -120,10 +121,10 @@ static NSString *reuseCellId = @"reuseCell";
     cell.retweetNumLabel.text = [NSString stringWithFormat:@"%ld", status.reposts_count];
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", status.comments_count];
     cell.nameLabel.text = status.user.screen_name;
-    cell.textLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] fontSize:fontSize];
+    cell.textLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] fontSize:fontSize fontColor:[UIColor customGray]];
     if (status.retweeted_status) {
         cell.retweetNameLabel.text = status.retweeted_status.user.screen_name;
-        cell.retweetTextLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] fontSize:fontSize];
+        cell.retweetTextLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] fontSize:fontSize fontColor:[UIColor lightTextColor]];
     }
 }
 

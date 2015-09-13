@@ -118,7 +118,6 @@
     
     //text
     _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _postBodyLbl.textColor = [UIColor mintCream];
     _postBodyLbl.numberOfLines = 0;
     _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
     [self.contentView addSubview:_postBodyLbl];
@@ -144,7 +143,6 @@
     
     //repost text
     _repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _repostLbl.textColor = [UIColor mintCream];
     _repostLbl.numberOfLines = 0;
     _repostLbl.lineBreakMode = NSLineBreakByWordWrapping;
     [_repostView addSubview:_repostLbl];
@@ -368,7 +366,7 @@
     
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _sourceLbl.text = [NSString trim:_status.source];
-    _postBodyLbl.attributedText = [NSString markedText:_status.text fontSize:[Utils fontSizeForStatus]];
+    _postBodyLbl.attributedText = [NSString markedText:_status.text fontSize:[Utils fontSizeForStatus] fontColor:[UIColor customGray]];
     
     if (_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.pic_urls count]; i ++) {
@@ -381,7 +379,7 @@
     }
     
     //repost status
-    _repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] fontSize:[Utils fontSizeForStatus]];
+    _repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] fontSize:[Utils fontSizeForStatus] fontColor:[UIColor customGray]];
     
     if (_status.retweeted_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {

@@ -7,6 +7,7 @@
 //
 
 #import "NSString+Convert.h"
+#import "UIColor+Custom.h"
 #import <UIKit/UIKit.h>
 #import "Utils.h"
 
@@ -60,7 +61,7 @@
     return source;
 }
 
-+(NSAttributedString *)markedText:(NSString *)text fontSize:(CGFloat)fontSize
++(NSAttributedString *)markedText:(NSString *)text fontSize:(CGFloat)fontSize fontColor:(UIColor *)color
 {
     NSString *pattern = @"(@([\\w-]+[\\w-]*))|((http://((\\w)+).((\\w)+))+/(\\w)+)|(#[^#]+#)";
     
@@ -69,12 +70,13 @@
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
     NSDictionary *genericAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
-                                                        NSParagraphStyleAttributeName: paragraphStyle};
+                                        NSForegroundColorAttributeName: color,
+                                        NSParagraphStyleAttributeName: paragraphStyle};
     [attributedString setAttributes:genericAttributes range:NSMakeRange(0, text.length)];
     
     NSDictionary *markAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
-                                 NSForegroundColorAttributeName: markColor,
-                                 NSParagraphStyleAttributeName: paragraphStyle};
+                                     NSForegroundColorAttributeName: markColor,
+                                     NSParagraphStyleAttributeName: paragraphStyle};
     NSError *error = NULL;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
     [regex enumerateMatchesInString:text options:0 range:NSMakeRange(0, text.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
