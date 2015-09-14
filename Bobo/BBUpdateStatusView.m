@@ -15,6 +15,7 @@
 #import "BBPhotoSelectionCollectionViewController.h"
 #import "BBStatusDetailViewController.h"
 #import "BBNotificationView.h"
+#import "UIColor+Custom.h"
 
 #define uSmallGap 5
 #define uBigGap 10
@@ -83,11 +84,13 @@ static CGFloat imageQuality = 0.7;
     }
     
     _cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero andTitle:@"取消" withBackgroundColor:nil andTintColor:nil];
+    [_cancelBtn setBackgroundColor:[UIColor firebrick]];
     [_cancelBtn setTitleColor:[UIColor lightTextColor] forState:UIControlStateNormal];
     [_cancelBtn addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_cancelBtn];
     
     _sendBtn = [[UIButton alloc] initWithFrame:CGRectZero andTitle:@"发送" withBackgroundColor:nil andTintColor:nil];
+    [_sendBtn setBackgroundColor:[UIColor dodgerBlue]];
     [_sendBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [_sendBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
     [_sendBtn addTarget:self action:@selector(sendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];

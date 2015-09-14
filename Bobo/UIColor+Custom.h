@@ -14,5 +14,7 @@
 +(UIColor *)honeydew;
 +(UIColor *)customGray;
 +(UIColor *)lightSnow;
++(UIColor *)firebrick;
++(UIColor *)dodgerBlue;
 
 @end

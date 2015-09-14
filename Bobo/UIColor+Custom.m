@@ -30,4 +30,14 @@
     return [UIColor colorWithRed:238.0/255 green:238.0/255 blue:224.0/255 alpha:1.0];
 }
 
++(UIColor *)firebrick
+{
+    return [UIColor colorWithRed:139.0/255 green:26.0/255 blue:26.0/255 alpha:1.0];
+}
+
++(UIColor *)dodgerBlue
+{
+    return [UIColor colorWithRed:16.0/255 green:78.0/255 blue:139.0/255 alpha:1.0];
+}
+
 @end
