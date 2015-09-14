@@ -60,8 +60,8 @@
 -(void)setupBarViews
 {
     self.backgroundColor = [UIColor whiteColor];
-    self.layer.shadowColor = [UIColor darkGrayColor].CGColor;
-    self.layer.shadowOpacity = 0.3;
+    self.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.layer.shadowOpacity = 0.2;
 
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
