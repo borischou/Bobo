@@ -48,9 +48,9 @@
 	}
 	
 	NSMutableArray *tempLinks = [_links mutableCopy];
-	NSArray *expressions = [[[NSArray alloc] initWithObjects:@"(@[a-zA-Z0-9_]+/[a-zA-Z]{1}\\S*)", // lists
-                             @"(@[a-zA-Z0-9_]+)", // screen names
-                             @"(#[a-zA-Z0-9_-]+)", // hash tags
+	NSArray *expressions = [[[NSArray alloc] initWithObjects:@"((https?://((\\w)+).((\\w)+))+/(\\w)+)|(#[^#]+#)", // lists
+                             @"(@([\\w-]+[\\w-]*))", // screen names
+                             @"(#[^#]+#)", // hash tags
                              nil] autorelease];
 	//get @list/full-names, #hashtags and @usernames
 	for (NSString *expression in expressions)
