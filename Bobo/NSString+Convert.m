@@ -63,7 +63,7 @@
 
 +(NSAttributedString *)markedText:(NSString *)text fontSize:(CGFloat)fontSize fontColor:(UIColor *)color
 {
-    NSString *pattern = @"(@([\\w-]+[\\w-]*))|((http://((\\w)+).((\\w)+))+/(\\w)+)|(#[^#]+#)";
+    NSString *pattern = @"(@([\\w-]+[\\w-]*))|((https?://((\\w)+).((\\w)+))+/(\\w)+)|(#[^#]+#)";
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setLineSpacing:2.0];
@@ -74,9 +74,7 @@
                                         NSParagraphStyleAttributeName: paragraphStyle};
     [attributedString setAttributes:genericAttributes range:NSMakeRange(0, text.length)];
     
-    NSDictionary *markAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
-                                     NSForegroundColorAttributeName: markColor,
-                                     NSParagraphStyleAttributeName: paragraphStyle};
+    NSDictionary *markAttributes = @{NSForegroundColorAttributeName: markColor};
     NSError *error = NULL;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
     [regex enumerateMatchesInString:text options:0 range:NSMakeRange(0, text.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {

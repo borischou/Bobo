@@ -117,10 +117,14 @@
     [self.contentView addSubview:_sourceLbl];
     
     //text
-    _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _postBodyLbl.numberOfLines = 0;
-    _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
-    [self.contentView addSubview:_postBodyLbl];
+//    _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
+//    _postBodyLbl.numberOfLines = 0;
+//    _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
+//    [self.contentView addSubview:_postBodyLbl];
+    
+    //CoreTextHyberlinkView
+    _statusTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:_statusTextView];
     
     //img views for status
     _statusImgViews = [[NSMutableArray alloc] init];
@@ -366,7 +370,13 @@
     
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _sourceLbl.text = [NSString trim:_status.source];
-    _postBodyLbl.attributedText = [NSString markedText:_status.text fontSize:[Utils fontSizeForStatus] fontColor:[UIColor customGray]];
+    //_postBodyLbl.attributedText = [NSString markedText:_status.text fontSize:[Utils fontSizeForStatus] fontColor:[UIColor customGray]];
+    [_statusTextView setText:_status.text];
+    [_statusTextView setFontSize:[Utils fontSizeForStatus]];
+    [_statusTextView setBackgroundColor:[UIColor clearColor]];
+    [_statusTextView setPaddingTop:0.0];
+    [_statusTextView setTextColor:[UIColor customGray]];
+    [_statusTextView setLinkColor:[UIColor dodgerBlue]];
     
     if (_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.pic_urls count]; i ++) {
@@ -424,8 +434,10 @@
     [_sourceLbl setFrame:CGRectMake(10+bAvatarWidth+10+timeSize.width+10, 10+5+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
     
     //微博正文
-    CGSize postSize = [_postBodyLbl sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
-    _postBodyLbl.frame = CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height);
+    //CGSize postSize = [_postBodyLbl sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
+    //_postBodyLbl.frame = CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height);
+    CGFloat heightForStatusText = [JSTwitterCoreTextView measureFrameHeightForText:_status.text fontName:nil fontSize:[Utils fontSizeForStatus] constrainedToWidth:bWidth-bBigGap*2 paddingTop:0.0 paddingLeft:0.0];
+    [_statusTextView setFrame:CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, heightForStatusText)];
     
     _repostView.hidden = YES;
     if (_status.retweeted_status) {
@@ -437,13 +449,15 @@
         [_repostLbl setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
         [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
         
-        [_repostView setFrame:CGRectMake(0, bBigGap+bAvatarHeight+bBigGap+postSize.height+bBigGap, bWidth, repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];        
+        //[_repostView setFrame:CGRectMake(0, bBigGap+bAvatarHeight+bBigGap+postSize.height+bBigGap, bWidth, repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
+        [_repostView setFrame:CGRectMake(0, bBigGap+bAvatarHeight+bBigGap+heightForStatusText+bBigGap, bWidth, repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
     }
     else
     {
         //微博配图
         _repostView.hidden = YES;
-        [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap+bAvatarHeight+bBigGap+postSize.height];
+        //[Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap+bAvatarHeight+bBigGap+postSize.height];
+        [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap+bAvatarHeight+bBigGap+heightForStatusText];
     }
     [self layoutBarButtonsWithTop:_status.height-bBarHeight];
 }

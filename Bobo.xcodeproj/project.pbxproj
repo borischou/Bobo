@@ -57,7 +57,6 @@
 		456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920421B7478A800E2C204 /* iconfont-denglu.png */; };
 		456920451B7478A800E2C204 /* iconfont-logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920431B7478A800E2C204 /* iconfont-logout.png */; };
 		456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */; };
-		456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C0FDA1B31570C007B5CFB /* CoreText.framework */; };
 		456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C77E21B2A88110055FBE8 /* libz.dylib */; };
 		456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */; };
 		456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */; };
@@ -68,6 +67,12 @@
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
 		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
 		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
+		4579C4BD1BA6AC75004D9128 /* AHHyperlinkScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4579C4B71BA6AC75004D9128 /* AHHyperlinkScanner.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4579C4BE1BA6AC75004D9128 /* AHLinkLexer.l in Sources */ = {isa = PBXBuildFile; fileRef = 4579C4B91BA6AC75004D9128 /* AHLinkLexer.l */; };
+		4579C4BF1BA6AC75004D9128 /* AHMarkedHyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 4579C4BB1BA6AC75004D9128 /* AHMarkedHyperlink.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4579C4C41BA6AE42004D9128 /* JSCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4579C4C11BA6AE42004D9128 /* JSCoreTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4579C4C51BA6AE42004D9128 /* JSTwitterCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4579C4C31BA6AE42004D9128 /* JSTwitterCoreTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4579C4C61BA6B461004D9128 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C0FDA1B31570C007B5CFB /* CoreText.framework */; };
 		457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */; };
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
@@ -208,6 +213,17 @@
 		457278831B53900D00AC0C9C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4572E1C11B3C59F900348866 /* BBImageBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBImageBrowserView.h; sourceTree = "<group>"; };
 		4572E1C21B3C59F900348866 /* BBImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBImageBrowserView.m; sourceTree = "<group>"; };
+		4579C4B61BA6AC75004D9128 /* AHHyperlinkScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHHyperlinkScanner.h; sourceTree = "<group>"; };
+		4579C4B71BA6AC75004D9128 /* AHHyperlinkScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AHHyperlinkScanner.m; sourceTree = "<group>"; };
+		4579C4B81BA6AC75004D9128 /* AHLinkLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHLinkLexer.h; sourceTree = "<group>"; };
+		4579C4B91BA6AC75004D9128 /* AHLinkLexer.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = AHLinkLexer.l; sourceTree = "<group>"; };
+		4579C4BA1BA6AC75004D9128 /* AHMarkedHyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHMarkedHyperlink.h; sourceTree = "<group>"; };
+		4579C4BB1BA6AC75004D9128 /* AHMarkedHyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AHMarkedHyperlink.m; sourceTree = "<group>"; };
+		4579C4BC1BA6AC75004D9128 /* AutoHyperlinks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHyperlinks.h; sourceTree = "<group>"; };
+		4579C4C01BA6AE42004D9128 /* JSCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSCoreTextView.h; sourceTree = "<group>"; };
+		4579C4C11BA6AE42004D9128 /* JSCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSCoreTextView.m; sourceTree = "<group>"; };
+		4579C4C21BA6AE42004D9128 /* JSTwitterCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTwitterCoreTextView.h; sourceTree = "<group>"; };
+		4579C4C31BA6AE42004D9128 /* JSTwitterCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTwitterCoreTextView.m; sourceTree = "<group>"; };
 		457C60E91B7301F500B10D53 /* BBMeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMeHeaderView.h; sourceTree = "<group>"; };
 		457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMeHeaderView.m; sourceTree = "<group>"; };
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_holder_profile_image@3x.png"; sourceTree = "<group>"; };
@@ -248,9 +264,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4579C4C61BA6B461004D9128 /* CoreText.framework in Frameworks */,
 				45688A0A1B85A8BA0015461E /* CoreData.framework in Frameworks */,
 				45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */,
-				456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */,
 				45702AD21B2B37F200B81F90 /* CFNetwork.framework in Frameworks */,
 				456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */,
 				451442211B296401000532DD /* CoreGraphics.framework in Frameworks */,
@@ -483,11 +499,38 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		457C9E391B8F13C800932B37 /* Vender */ = {
+		4579C4B41BA6AC51004D9128 /* CHTCollectionViewWaterfallLayout */ = {
 			isa = PBXGroup;
 			children = (
 				457C9E3A1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.h */,
 				457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */,
+			);
+			name = CHTCollectionViewWaterfallLayout;
+			sourceTree = "<group>";
+		};
+		4579C4B51BA6AC60004D9128 /* CoreTextHyberlinkView */ = {
+			isa = PBXGroup;
+			children = (
+				4579C4C01BA6AE42004D9128 /* JSCoreTextView.h */,
+				4579C4C11BA6AE42004D9128 /* JSCoreTextView.m */,
+				4579C4C21BA6AE42004D9128 /* JSTwitterCoreTextView.h */,
+				4579C4C31BA6AE42004D9128 /* JSTwitterCoreTextView.m */,
+				4579C4B61BA6AC75004D9128 /* AHHyperlinkScanner.h */,
+				4579C4B71BA6AC75004D9128 /* AHHyperlinkScanner.m */,
+				4579C4B81BA6AC75004D9128 /* AHLinkLexer.h */,
+				4579C4B91BA6AC75004D9128 /* AHLinkLexer.l */,
+				4579C4BA1BA6AC75004D9128 /* AHMarkedHyperlink.h */,
+				4579C4BB1BA6AC75004D9128 /* AHMarkedHyperlink.m */,
+				4579C4BC1BA6AC75004D9128 /* AutoHyperlinks.h */,
+			);
+			name = CoreTextHyberlinkView;
+			sourceTree = "<group>";
+		};
+		457C9E391B8F13C800932B37 /* Vender */ = {
+			isa = PBXGroup;
+			children = (
+				4579C4B51BA6AC60004D9128 /* CoreTextHyberlinkView */,
+				4579C4B41BA6AC51004D9128 /* CHTCollectionViewWaterfallLayout */,
 			);
 			name = Vender;
 			sourceTree = "<group>";
@@ -795,11 +838,13 @@
 				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
 				45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */,
 				459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */,
+				4579C4BD1BA6AC75004D9128 /* AHHyperlinkScanner.m in Sources */,
 				45704DB01B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */,
 				454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */,
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,
+				4579C4C41BA6AE42004D9128 /* JSCoreTextView.m in Sources */,
 				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
 				45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */,
 				45688A101B85ABBF0015461E /* CUser.m in Sources */,
@@ -814,6 +859,7 @@
 				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
 				009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */,
+				4579C4BF1BA6AC75004D9128 /* AHMarkedHyperlink.m in Sources */,
 				00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */,
 				456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */,
 				4592324B1B969A170006A123 /* BBMessageViewController.m in Sources */,
@@ -825,8 +871,10 @@
 				45688A161B85D0E20015461E /* BBStatusDetailViewController.m in Sources */,
 				45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */,
 				458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */,
+				4579C4C51BA6AE42004D9128 /* JSTwitterCoreTextView.m in Sources */,
 				004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */,
 				00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */,
+				4579C4BE1BA6AC75004D9128 /* AHLinkLexer.l in Sources */,
 				006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

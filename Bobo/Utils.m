@@ -7,6 +7,7 @@
 //
 
 #import "Utils.h"
+#import <CoreText/CoreText.h>
 #import <AFNetworking.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
@@ -239,6 +240,43 @@
     height += wSmallGap;
     
     return height;
+}
+
++ (CGFloat)measureFrameHeightForText:(NSString *)text
+                            fontName:(NSString *)fontName
+                            fontSize:(CGFloat)fontSize
+                  constrainedToWidth:(CGFloat)width
+                          paddingTop:(CGFloat)paddingTop
+                         paddingLeft:(CGFloat)paddingLeft
+{
+    if (![text length])
+        return 0.0;
+    
+    CFMutableAttributedStringRef maString = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
+    
+    CFAttributedStringBeginEditing(maString);
+    CFAttributedStringReplaceString(maString, CFRangeMake(0, 0), (CFStringRef)text);
+    
+    CTFontRef font = CTFontCreateWithName((CFStringRef)fontName, fontSize, NULL);
+    
+    CFAttributedStringSetAttribute(maString, CFRangeMake(0, CFAttributedStringGetLength(maString)), kCTFontAttributeName, font);
+    
+    CFAttributedStringEndEditing(maString);
+    
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(maString);
+    
+    CFRelease(font);
+    
+    CFRange fitRange = CFRangeMake(0,0);
+    CGSize size = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, CFStringGetLength((CFStringRef)maString)), NULL, CGSizeMake(width,CGFLOAT_MAX), &fitRange);
+    
+    CFRelease(maString);
+    CFRelease(framesetter);
+    
+    int returnVal = size.height + (paddingTop * 2) + 1; // the + 1 might be a bit hacky, but it solves an issue where suggestFrameSizeWithContstrains may return a height that *only-just* doesn't
+    // fit the given text and it's attributes... It doesn't appear to have any adverse effects in every other situation.
+    
+    return (CGFloat)returnVal;
 }
 
 @end

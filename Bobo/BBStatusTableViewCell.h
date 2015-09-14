@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "Status.h"
+#import "JSTwitterCoreTextView.h"
 
 @interface BBStatusTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) Status *status;
 
 //status
-@property (strong, nonatomic) UILabel *postBodyLbl;
+//@property (strong, nonatomic) UILabel *postBodyLbl;
+
+@property (strong, nonatomic) JSTwitterCoreTextView *statusTextView;
+
 @property (strong, nonatomic) UILabel *nicknameLbl;
 @property (strong, nonatomic) UILabel *postTimeLbl;
 @property (strong, nonatomic) UILabel *sourceLbl;
