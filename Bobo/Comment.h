@@ -20,7 +20,7 @@
 @property (nonatomic) NSInteger comnt_id;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) Status *status;
-@property (nonatomic) CGFloat height;
+@property (nonatomic) CGFloat height; //评论cell高度
 
 @property (nonatomic) CGFloat heightForMessageCell;
 

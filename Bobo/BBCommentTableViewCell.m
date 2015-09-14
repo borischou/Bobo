@@ -101,7 +101,7 @@
     }
     
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
-    _textLbl.attributedText = [NSString markedText:_comment.text fontSize:14.0 fontColor:[UIColor customGray]];
+    _textLbl.attributedText = [NSString markedText:_comment.text fontSize:[Utils fontSizeForComment] fontColor:[UIColor customGray]];
 }
 
 -(void)loadCommentLayout
