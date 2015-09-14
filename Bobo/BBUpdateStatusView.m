@@ -91,8 +91,8 @@ static CGFloat imageQuality = 0.7;
     
     _sendBtn = [[UIButton alloc] initWithFrame:CGRectZero andTitle:@"发送" withBackgroundColor:nil andTintColor:nil];
     [_sendBtn setBackgroundColor:[UIColor dodgerBlue]];
-    [_sendBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [_sendBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    [_sendBtn setTitleColor:[UIColor mintCream] forState:UIControlStateNormal];
+    [_sendBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
     [_sendBtn addTarget:self action:@selector(sendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _sendBtn.enabled = NO;
     [self addSubview:_sendBtn];
