@@ -125,6 +125,7 @@ static NSString *reuseCellId = @"reuseCell";
     [cell.tweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text]];
     if (status.retweeted_status) {
         [cell.retweetNameLabel setText:status.retweeted_status.user.screen_name];
+        [cell.retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text]];
         //cell.retweetTextLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] fontSize:fontSize fontColor:[UIColor lightTextColor]];
     }
 }
@@ -156,7 +157,7 @@ static NSString *reuseCellId = @"reuseCell";
     
     if (status.retweeted_status.text && status.retweeted_status.pic_urls.count <= 0) { //转发无配图
         [cell.retweetTextLabel setFrame:CGRectMake(wSmallGap, wSmallGap+textSize.height+wSmallGap, cellWidth-2*wSmallGap, rSize.height)];
-        [cell.retweetTextLabel setTextColor:[UIColor lightTextColor]];
+        //[cell.retweetTextLabel setTextColor:[UIColor lightTextColor]];
         [self layoutBottomButtonsWithTop:wSmallGap+textSize.height+wSmallGap+rSize.height forCell:cell];
     }
     else if (status.retweeted_status.text && status.retweeted_status.pic_urls.count > 0) { //转发有配图
