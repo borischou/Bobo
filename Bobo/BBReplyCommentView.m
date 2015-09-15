@@ -136,6 +136,10 @@
         [_cancelBtn setFrame:CGRectMake(0, rBtnHeight*3+rSmallGap*3, rBtnWidth, rBtnHeight)];
         _viewHeight = rBtnHeight*4+rSmallGap*3;
     }
+    if (!_shouldShowDeleteOption && !_shouldShowViewStatusOption) {
+        [_cancelBtn setFrame:CGRectMake(0, rBtnHeight*2+rSmallGap*2, rBtnWidth, rBtnHeight)];
+        _viewHeight = rBtnHeight*3+rSmallGap*2;
+    }
 }
 
 -(void)viewStatusButtonPressed
