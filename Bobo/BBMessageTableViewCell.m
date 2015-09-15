@@ -128,7 +128,6 @@
     _tweetTextLabel.numberOfLines = 0;
     _tweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _tweetTextLabel.backgroundColor = [UIColor clearColor];
-    _tweetTextLabel.textAlignment = NSTextAlignmentLeft;
     [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
     [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
     [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
@@ -153,7 +152,6 @@
     _retweetTextLabel.numberOfLines = 0;
     _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _retweetTextLabel.backgroundColor = [UIColor clearColor];
-    _retweetTextLabel.textAlignment = NSTextAlignmentLeft;
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];

@@ -125,6 +125,7 @@ static NSString *reuseCellId = @"reuseCell";
     [cell.tweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text]];
     if (status.retweeted_status) {
         [cell.retweetNameLabel setText:status.retweeted_status.user.screen_name];
+        [cell.retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text]];
         //cell.retweetTextLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] fontSize:fontSize fontColor:[UIColor lightTextColor]];
     }
 }
