@@ -143,6 +143,7 @@
     [_sourceLbl setFont:[UIFont systemFontOfSize:10.f]];
     [self.contentView addSubview:_sourceLbl];
     
+    __weak BBStatusTableViewCell *weakSelf = self;
     //text
 //    _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
 //    _postBodyLbl.numberOfLines = 0;
@@ -158,6 +159,7 @@
     [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
     [_tweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
         //callback
+        [weakSelf didTapHotword:string];
     }];
     [self.contentView addSubview:_tweetTextLabel];
     
@@ -195,6 +197,7 @@
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
     [_retweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
         //callback
+        [weakSelf didTapHotword:string];
     }];
     [_repostView addSubview:_retweetTextLabel];
     
@@ -534,6 +537,13 @@
 {
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
     [self.window addSubview:browserView];
+}
+
+#pragma mark - STTweetLabelBlockCallbacks
+
+-(void)didTapHotword:(NSString *)string
+{
+    NSLog(@"点击%@", string);
 }
 
 @end
