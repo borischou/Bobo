@@ -118,7 +118,6 @@
 {
     self.contentView.backgroundColor = bCellBGColor;
     
-    CGFloat fontSize = [Utils fontSizeForStatus];
     //profile image
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, bAvatarWidth, bAvatarHeight)];
     [self.contentView addSubview:_avatarView];
@@ -144,6 +143,7 @@
     [self.contentView addSubview:_sourceLbl];
     
     __weak BBStatusTableViewCell *weakSelf = self;
+    CGFloat fontSize = [Utils fontSizeForStatus];
     //text
 //    _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
 //    _postBodyLbl.numberOfLines = 0;

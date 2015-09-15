@@ -116,15 +116,16 @@ static NSString *reuseCellId = @"reuseCell";
 
 -(void)loadDataWithStatus:(Status *)status cell:(BBWaterfallCollectionViewCell *)cell
 {
-    CGFloat fontSize = [Utils fontSizeForWaterfall];
+    //CGFloat fontSize = [Utils fontSizeForWaterfall];
     cell.timeLabel.text = [Utils formatPostTime:status.created_at];
     cell.retweetNumLabel.text = [NSString stringWithFormat:@"%ld", status.reposts_count];
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", status.comments_count];
     cell.nameLabel.text = status.user.screen_name;
-    cell.textLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] fontSize:fontSize fontColor:[UIColor customGray]];
+    //cell.textLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] fontSize:fontSize fontColor:[UIColor customGray]];
+    [cell.tweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text]];
     if (status.retweeted_status) {
-        cell.retweetNameLabel.text = status.retweeted_status.user.screen_name;
-        cell.retweetTextLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] fontSize:fontSize fontColor:[UIColor lightTextColor]];
+        [cell.retweetNameLabel setText:status.retweeted_status.user.screen_name];
+        //cell.retweetTextLabel.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] fontSize:fontSize fontColor:[UIColor lightTextColor]];
     }
 }
 
@@ -132,8 +133,10 @@ static NSString *reuseCellId = @"reuseCell";
 {
     CGFloat imageHeight = [Utils maxHeightForWaterfallCoverPicture];
     CGFloat cellWidth = [Utils cellWidthForWaterfall];
-    CGSize textSize = [cell.textLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
-    CGSize rSize = [cell.retweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
+    //CGSize textSize = [cell.textLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
+    //CGSize rSize = [cell.retweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
+    CGSize textSize = [cell.tweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:cellWidth-2*wSmallGap];
+    CGSize rSize = [cell.retweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:cellWidth-2*wSmallGap];
   
     if (status.pic_urls.count > 0 || (status.retweeted_status && status.retweeted_status.pic_urls.count > 0)) {
         cell.coverImageView.hidden = NO;
@@ -148,7 +151,8 @@ static NSString *reuseCellId = @"reuseCell";
         cell.coverImageView.hidden = YES;
     }
     
-    [cell.textLabel setFrame:CGRectMake(wSmallGap, cell.coverImageView.frame.size.height+wSmallGap, cellWidth-2*wSmallGap, textSize.height)];
+    //[cell.textLabel setFrame:CGRectMake(wSmallGap, cell.coverImageView.frame.size.height+wSmallGap, cellWidth-2*wSmallGap, textSize.height)];
+    [cell.tweetTextLabel setFrame:CGRectMake(wSmallGap, cell.coverImageView.frame.size.height+wSmallGap, cellWidth-2*wSmallGap, textSize.height)];
     
     if (status.retweeted_status.text && status.retweeted_status.pic_urls.count <= 0) { //转发无配图
         [cell.retweetTextLabel setFrame:CGRectMake(wSmallGap, wSmallGap+textSize.height+wSmallGap, cellWidth-2*wSmallGap, rSize.height)];
@@ -172,7 +176,7 @@ static NSString *reuseCellId = @"reuseCell";
         [cell.contentView addSubview:cell.mask];
         
         [cell.retweetTextLabel setFrame:CGRectMake(wSmallGap, imageHeight-retweetLabelHeight, cellWidth-2*wSmallGap, retweetLabelHeight)];
-        [cell.retweetTextLabel setTextColor:[UIColor whiteColor]];
+        //[cell.retweetTextLabel setTextColor:[UIColor whiteColor]];
         [cell.contentView bringSubviewToFront:cell.retweetTextLabel];
         [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height forCell:cell];
     } else {

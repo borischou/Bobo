@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "Comment.h"
+#import "STTweetLabel.h"
 
 @interface BBCommentTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UILabel *nameLbl;
 @property (strong, nonatomic) UILabel *timeLbl;
-@property (strong, nonatomic) UILabel *textLbl;
+@property (strong, nonatomic) STTweetLabel *commentTextLabel;
+//@property (strong, nonatomic) UILabel *textLbl;
 @property (strong, nonatomic) Comment *comment;
 
 @end

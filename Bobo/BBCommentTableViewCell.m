@@ -73,10 +73,24 @@
     _timeLbl.font = [UIFont systemFontOfSize:10.f];
     [self.contentView addSubview:_timeLbl];
     
-    _textLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-    _textLbl.lineBreakMode = NSLineBreakByWordWrapping;
-    _textLbl.numberOfLines = 0;
-    [self.contentView addSubview:_textLbl];
+//    _textLbl = [[UILabel alloc] initWithFrame:CGRectZero];
+//    _textLbl.lineBreakMode = NSLineBreakByWordWrapping;
+//    _textLbl.numberOfLines = 0;
+//    [self.contentView addSubview:_textLbl];
+    __weak BBCommentTableViewCell *weakSelf = self;
+    CGFloat fontSize = [Utils fontSizeForComment];
+    _commentTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
+    [_commentTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [_commentTextLabel setNumberOfLines:0];
+    [_commentTextLabel setBackgroundColor:[UIColor clearColor]];
+    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
+    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
+    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
+    [_commentTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
+        //callback
+        [weakSelf didTapHotword:string];
+    }];
+    [self.contentView addSubview:_commentTextLabel];
 }
 
 -(void)layoutSubviews
@@ -101,7 +115,8 @@
     }
     
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
-    _textLbl.attributedText = [NSString markedText:_comment.text fontSize:[Utils fontSizeForComment] fontColor:[UIColor customGray]];
+    [_commentTextLabel setText:_comment.text];
+    //_textLbl.attributedText = [NSString markedText:_comment.text fontSize:[Utils fontSizeForComment] fontColor:[UIColor customGray]];
 }
 
 -(void)loadCommentLayout
@@ -112,8 +127,17 @@
     CGSize timeSize = [_timeLbl sizeThatFits:CGSizeMake(MAXFLOAT, cNameHeight)];
     _timeLbl.frame = CGRectMake(cBigGap+2*cSmallGap+cAvatarWidth+_nameLbl.frame.size.width, cBigGap, timeSize.width, cNameHeight);
     
-    CGSize textSize = [_textLbl sizeThatFits:CGSizeMake(cTextWidth, MAXFLOAT)];
-    _textLbl.frame = CGRectMake(cBigGap+cSmallGap+cAvatarWidth, cBigGap+cNameHeight+cSmallGap, cTextWidth, textSize.height);
+    //CGSize textSize = [_textLbl sizeThatFits:CGSizeMake(cTextWidth, MAXFLOAT)];
+    //_textLbl.frame = CGRectMake(cBigGap+cSmallGap+cAvatarWidth, cBigGap+cNameHeight+cSmallGap, cTextWidth, textSize.height);
+    CGSize textSize = [_commentTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:cTextWidth];
+    [_commentTextLabel setFrame:CGRectMake(cBigGap+cSmallGap+cAvatarWidth, cBigGap+cNameHeight+cSmallGap, cTextWidth, textSize.height)];
+}
+
+#pragma mark - STTweetLabelBlockCallbacks
+
+-(void)didTapHotword:(NSString *)string
+{
+    NSLog(@"点击%@", string);
 }
 
 @end
