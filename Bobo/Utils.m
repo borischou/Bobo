@@ -252,4 +252,14 @@
     return genericAttributes;
 }
 
++(NSString *)appKey
+{
+    return @"916936343";
+}
+
++(NSString *)accessToken
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"wbtoken"];
+}
+
 @end

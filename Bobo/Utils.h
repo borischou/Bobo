@@ -26,4 +26,7 @@
 +(CGFloat)maxHeightForWaterfallCoverPicture;
 +(NSDictionary *)genericAttributesWithFontSize:(CGFloat)fontSize fontColor:(UIColor *)color;
 
++(NSString *)appKey;
++(NSString *)accessToken;
+
 @end

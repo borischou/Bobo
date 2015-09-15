@@ -20,6 +20,9 @@
 #import "BBMainStatusTableViewController.h"
 #import "BBFavoritesTableViewController.h"
 #import "BBProfileTableViewController.h"
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+#import <AFNetworking.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -54,7 +57,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBStatusTableViewCell ()
+@interface BBStatusTableViewCell () <NSURLConnectionDataDelegate>
 
 //status
 @property (strong, nonatomic) STTweetLabel *tweetTextLabel;
@@ -541,9 +544,48 @@
 
 #pragma mark - STTweetLabelBlockCallbacks
 
--(void)didTapHotword:(NSString *)string
+-(void)didTapHotword:(NSString *)hotword
 {
-    NSLog(@"点击%@", string);
+    NSLog(@"点击%@", hotword);
+    //SLRequest *slRequest = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo
+    //                   requestMethod:SLRequestMethodGET
+    //                             URL:[NSURL URLWithString:@"https://api.weibo.com/2/statuses/user_timeline.json"]
+    //                      parameters:@{@"access_token": [Utils accessToken], @"screen_name": hotword}];
+    //NSLog(@"SLRequest: %@", slRequest.URL.absoluteString);
+    
+    //[slRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+    //    NSLog(@"responseData: %@\nurlResponse: %@\nerror: %@", responseData, urlResponse, error);
+    //    NSString *result = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    //    NSLog(@"RESULT: %@", result);
+    //}];
+    
+//    //ACAccountCredential *credential = [[ACAccountCredential alloc] initWithOAuthToken:[Utils accessToken] tokenSecret:[Utils appKey]];
+//    ACAccountType *type = [[[ACAccountStore alloc] init] accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
+//    ACAccount *account = [[ACAccount alloc] initWithAccountType:type];
+//    //[account setCredential:credential];
+//    SLRequest *slRequest = [[SLRequest alloc] init];
+//    [slRequest setAccount:account];
+//    NSMutableURLRequest *mRequest = [[slRequest preparedURLRequest] mutableCopy];
+//    [mRequest setHTTPMethod:@"GET"];
+//    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    [manager HTTPRequestOperationWithRequest:mRequest.copy success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"RESPONSE: %@", responseObject);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        
+//    }];
+}
+
+#pragma mark - NSURLConnectionDataDelegate
+
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSLog(@"didReceiveResponse: %@", response);
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSLog(@"didReceiveData: %@", data);
 }
 
 @end
