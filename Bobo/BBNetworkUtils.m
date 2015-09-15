@@ -37,7 +37,6 @@ typedef void (^CompletionHandler) (BOOL finished);
             UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (cell) {
-                    cell.avatarView.image = img;
                 }
             });
         }

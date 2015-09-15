@@ -24,5 +24,6 @@
 +(CGFloat)fontSizeForStatus;
 +(CGFloat)cellWidthForWaterfall;
 +(CGFloat)maxHeightForWaterfallCoverPicture;
++(NSDictionary *)genericAttributesWithFontSize:(CGFloat)fontSize fontColor:(UIColor *)color;
 
 @end

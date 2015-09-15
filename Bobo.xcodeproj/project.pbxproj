@@ -35,7 +35,6 @@
 		4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */; };
 		4553E4041B54D73D0020989C /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4031B54D73D0020989C /* Comment.m */; };
 		455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */; };
-		455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FFAE81B3404540007B883 /* BBNetworkUtils.m */; };
 		456254D31B82E7E00009A332 /* cmt_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D01B82E7E00009A332 /* cmt_icon@3x.png */; };
 		456254D51B82E7E00009A332 /* retwt_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D21B82E7E00009A332 /* retwt_icon@3x.png */; };
 		456254D91B8305220009A332 /* faved_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456254D81B8305220009A332 /* faved_icon@3x.png */; };
@@ -71,6 +70,7 @@
 		457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */; };
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
+		457CE3191BA7E73D00D3926B /* STTweetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CE3181BA7E73D00D3926B /* STTweetLabel.m */; };
 		458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 458393521B7B4B98005B1766 /* BBUpdateStatusView.m */; };
 		458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 458393571B7B54E4005B1766 /* post_tab_icon@3x.png */; };
 		4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* Counts.m */; };
@@ -158,8 +158,6 @@
 		4553E4031B54D73D0020989C /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		455FFAE31B33F4480007B883 /* UIButton+Bobtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Bobtn.h"; sourceTree = "<group>"; };
 		455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Bobtn.m"; sourceTree = "<group>"; };
-		455FFAE71B3404540007B883 /* BBNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNetworkUtils.h; sourceTree = "<group>"; };
-		455FFAE81B3404540007B883 /* BBNetworkUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBNetworkUtils.m; sourceTree = "<group>"; };
 		456254D01B82E7E00009A332 /* cmt_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cmt_icon@3x.png"; sourceTree = "<group>"; };
 		456254D21B82E7E00009A332 /* retwt_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retwt_icon@3x.png"; sourceTree = "<group>"; };
 		456254D81B8305220009A332 /* faved_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "faved_icon@3x.png"; sourceTree = "<group>"; };
@@ -213,6 +211,8 @@
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_holder_profile_image@3x.png"; sourceTree = "<group>"; };
 		457C9E3A1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
 		457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
+		457CE3171BA7E73D00D3926B /* STTweetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTweetLabel.h; sourceTree = "<group>"; };
+		457CE3181BA7E73D00D3926B /* STTweetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTweetLabel.m; sourceTree = "<group>"; };
 		458393511B7B4B98005B1766 /* BBUpdateStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUpdateStatusView.h; sourceTree = "<group>"; };
 		458393521B7B4B98005B1766 /* BBUpdateStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBUpdateStatusView.m; sourceTree = "<group>"; };
 		458393571B7B54E4005B1766 /* post_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "post_tab_icon@3x.png"; sourceTree = "<group>"; };
@@ -402,10 +402,10 @@
 			children = (
 				455FFAE31B33F4480007B883 /* UIButton+Bobtn.h */,
 				455FFAE41B33F4480007B883 /* UIButton+Bobtn.m */,
-				454E93E61B3FCD72001126E4 /* NSString+Convert.h */,
-				454E93E71B3FCD72001126E4 /* NSString+Convert.m */,
 				0060CCC21BA5C660005F3E20 /* UIColor+Custom.h */,
 				0060CCC31BA5C660005F3E20 /* UIColor+Custom.m */,
+				454E93E61B3FCD72001126E4 /* NSString+Convert.h */,
+				454E93E71B3FCD72001126E4 /* NSString+Convert.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -486,10 +486,28 @@
 		457C9E391B8F13C800932B37 /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				457CE3161BA7E72C00D3926B /* STTweetLabel */,
+				457CE3151BA7E72000D3926B /* CHTCollectionViewWaterfallLayout */,
+			);
+			name = Vender;
+			sourceTree = "<group>";
+		};
+		457CE3151BA7E72000D3926B /* CHTCollectionViewWaterfallLayout */ = {
+			isa = PBXGroup;
+			children = (
 				457C9E3A1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.h */,
 				457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */,
 			);
-			name = Vender;
+			name = CHTCollectionViewWaterfallLayout;
+			sourceTree = "<group>";
+		};
+		457CE3161BA7E72C00D3926B /* STTweetLabel */ = {
+			isa = PBXGroup;
+			children = (
+				457CE3171BA7E73D00D3926B /* STTweetLabel.h */,
+				457CE3181BA7E73D00D3926B /* STTweetLabel.m */,
+			);
+			name = STTweetLabel;
 			sourceTree = "<group>";
 		};
 		45A979041B6E512D00A8D472 /* SWRevealViewController */ = {
@@ -611,8 +629,6 @@
 			isa = PBXGroup;
 			children = (
 				45617A671B2ECA1600BDFE7F /* Category */,
-				455FFAE71B3404540007B883 /* BBNetworkUtils.h */,
-				455FFAE81B3404540007B883 /* BBNetworkUtils.m */,
 				457278821B53900D00AC0C9C /* Utils.h */,
 				457278831B53900D00AC0C9C /* Utils.m */,
 			);
@@ -792,11 +808,11 @@
 				45688A0F1B85ABBF0015461E /* CStatus.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
-				455FFAE91B3404540007B883 /* BBNetworkUtils.m in Sources */,
 				45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */,
 				459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */,
 				45704DB01B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */,
+				457CE3191BA7E73D00D3926B /* STTweetLabel.m in Sources */,
 				454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */,
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,

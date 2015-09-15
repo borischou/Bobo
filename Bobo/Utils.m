@@ -241,4 +241,15 @@
     return height;
 }
 
++(NSDictionary *)genericAttributesWithFontSize:(CGFloat)fontSize fontColor:(UIColor *)color
+{
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:2.0];
+    
+    NSDictionary *genericAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
+                                        NSForegroundColorAttributeName: color,
+                                        NSParagraphStyleAttributeName: paragraphStyle};
+    return genericAttributes;
+}
+
 @end
