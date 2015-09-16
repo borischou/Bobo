@@ -157,7 +157,7 @@ static NSString *reuseCellId = @"reuseCell";
     
     if (status.retweeted_status.text && status.retweeted_status.pic_urls.count <= 0) { //转发无配图
         [cell.retweetTextLabel setFrame:CGRectMake(wSmallGap, wSmallGap+textSize.height+wSmallGap, cellWidth-2*wSmallGap, rSize.height)];
-        [cell.retweetTextLabel setTextColor:[UIColor lightTextColor]];
+        //[cell.retweetTextLabel setTextColor:[UIColor lightTextColor]];
         [self layoutBottomButtonsWithTop:wSmallGap+textSize.height+wSmallGap+rSize.height forCell:cell];
     }
     else if (status.retweeted_status.text && status.retweeted_status.pic_urls.count > 0) { //转发有配图

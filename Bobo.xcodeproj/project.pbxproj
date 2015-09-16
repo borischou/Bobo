@@ -71,6 +71,8 @@
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */; };
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
 		457CE3191BA7E73D00D3926B /* STTweetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CE3181BA7E73D00D3926B /* STTweetLabel.m */; };
+		457CE31B1BA812D200D3926B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457CE31A1BA812D200D3926B /* Social.framework */; };
+		457CE31D1BA812E600D3926B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457CE31C1BA812E600D3926B /* Accounts.framework */; };
 		458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 458393521B7B4B98005B1766 /* BBUpdateStatusView.m */; };
 		458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 458393571B7B54E4005B1766 /* post_tab_icon@3x.png */; };
 		4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* Counts.m */; };
@@ -213,6 +215,8 @@
 		457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
 		457CE3171BA7E73D00D3926B /* STTweetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTweetLabel.h; sourceTree = "<group>"; };
 		457CE3181BA7E73D00D3926B /* STTweetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTweetLabel.m; sourceTree = "<group>"; };
+		457CE31A1BA812D200D3926B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		457CE31C1BA812E600D3926B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		458393511B7B4B98005B1766 /* BBUpdateStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUpdateStatusView.h; sourceTree = "<group>"; };
 		458393521B7B4B98005B1766 /* BBUpdateStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBUpdateStatusView.m; sourceTree = "<group>"; };
 		458393571B7B54E4005B1766 /* post_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "post_tab_icon@3x.png"; sourceTree = "<group>"; };
@@ -248,6 +252,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				457CE31D1BA812E600D3926B /* Accounts.framework in Frameworks */,
+				457CE31B1BA812D200D3926B /* Social.framework in Frameworks */,
 				45688A0A1B85A8BA0015461E /* CoreData.framework in Frameworks */,
 				45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */,
 				456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */,
@@ -278,6 +284,8 @@
 		0B724CE50D0FC385A918684B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				457CE31C1BA812E600D3926B /* Accounts.framework */,
+				457CE31A1BA812D200D3926B /* Social.framework */,
 				45688A091B85A8BA0015461E /* CoreData.framework */,
 				45704DA61B7D865F00DC1C8B /* Photos.framework */,
 				453035D21B4A609400647ACC /* Release-iphoneos */,
