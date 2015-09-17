@@ -150,10 +150,11 @@ static NSString *reuseCountsCell = @"countsCell";
     
     ACAccountStore *store = [[ACAccountStore alloc] init];
     ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
+    NSArray *accounts = [store accountsWithAccountType:type];
     [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
         if (granted == YES) { //授权成功
-            NSArray *accounts = [store accountsWithAccountType:type];
             ACAccount *weiboAccout = accounts.firstObject;
+            NSLog(@"account: %@", weiboAccout);
             SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:[bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"]] parameters:nil];
             request.account = weiboAccout;
 //            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
@@ -168,6 +169,7 @@ static NSString *reuseCountsCell = @"countsCell";
 //            }];
 //            NSURLConnection *connection = [NSURLConnection connectionWithRequest:urlrequest delegate:self];
 //            [connection start];
+            
             [NSURLConnection sendAsynchronousRequest:urlrequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                 NSLog(@"response: %@\ndata: %@\nerror: %@", response, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], connectionError);
             }];
