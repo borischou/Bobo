@@ -42,7 +42,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <WBHttpRequestDelegate, UIAlertViewDelegate, NSURLConnectionDataDelegate>
+@interface BBProfileTableViewController () <WBHttpRequestDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *statuses;
 @property (copy, nonatomic) NSString *currentLastStatusId;
@@ -154,12 +154,12 @@ static NSString *reuseCountsCell = @"countsCell";
         if (granted == YES) { //授权成功
             NSArray *accounts = [store accountsWithAccountType:type];
             ACAccount *weiboAccout = accounts.firstObject;
-            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:[bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"]] parameters:@{@"access_token": weiboAccout.credential.oauthToken}];
+            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:[bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"]] parameters:nil];
             request.account = weiboAccout;
-            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                NSLog(@"data: %@\nresponse: %@\n error: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding], urlResponse, error);
-            }];
-//            NSURLRequest *urlrequest = [request preparedURLRequest];
+//            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+//                NSLog(@"data: %@\nresponse: %@\n error: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding], urlResponse, error);
+//            }];
+            NSURLRequest *urlrequest = [request preparedURLRequest];
 //            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 //            [manager HTTPRequestOperationWithRequest:urlrequest success:^(AFHTTPRequestOperation *operation, id responseObject) {
 //                NSLog(@"RESPONSE: %@", responseObject);
@@ -168,28 +168,11 @@ static NSString *reuseCountsCell = @"countsCell";
 //            }];
 //            NSURLConnection *connection = [NSURLConnection connectionWithRequest:urlrequest delegate:self];
 //            [connection start];
+            [NSURLConnection sendAsynchronousRequest:urlrequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                NSLog(@"response: %@\ndata: %@\nerror: %@", response, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], connectionError);
+            }];
         }
     }];
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSLog(@"data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    NSLog(@"response: %@", response);
-}
-
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    NSLog(@"error: %@", error);
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    NSLog(@"connectionDidFinishLoading");
 }
 
 -(void)logoutBtnPressed
