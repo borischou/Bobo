@@ -43,8 +43,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    [self checkLoginStatus];
-    [self startUserProfileFetch];
+    //[self checkLoginStatus];
+    //[self startUserProfileFetch];
     [self initControllers];
     [_window makeKeyAndVisible];
     return YES;
@@ -155,7 +155,7 @@
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.tabBar.layer.shadowOpacity = 0.2;
     tabBarController.tabBar.layer.shadowColor = [UIColor blackColor].CGColor;
-    [tabBarController setViewControllers:@[weiboListNvc, messagenvc, waterfallnvc, profileNvc, collectionNvc] animated:YES];
+    [tabBarController setViewControllers:@[profileNvc, weiboListNvc, messagenvc, waterfallnvc, collectionNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
     //Rear:微博分组
