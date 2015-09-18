@@ -45,7 +45,7 @@
     _notificationLabel.textAlignment = NSTextAlignmentCenter;
     _notificationLabel.numberOfLines = 1;
     _notificationLabel.font = [UIFont systemFontOfSize:12.0];
-    _notificationLabel.textColor = [UIColor lightTextColor];
+    _notificationLabel.textColor = [UIColor whiteColor];
     [self addSubview:_notificationLabel];
 }
 

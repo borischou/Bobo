@@ -13,6 +13,9 @@
 #import "SWRevealViewController.h"
 #import "WeiboSDK.h"
 #import "BBNotificationView.h"
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+#import "Utils.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -169,23 +172,12 @@
 -(void)deleteButtonPressed
 {
     //调用删除接口
-    AppDelegate *delegate = [AppDelegate delegate];
-    if (!delegate.isLoggedIn) {
-        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    } else {
-        NSDictionary *params = @{@"access_token": delegate.wbToken, @"cid": _comment.idstr};
-        NSString *url = [bWeiboDomain stringByAppendingString:@"comments/destroy.json"];
-        [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-            NSString *notificationText = nil;
-            if (!error) {
-                NSLog(@"评论删除成功。");
-                notificationText = @"评论删除成功";
-            }
-            else
-            {
-                NSLog(@"评论删除失败：%@", error);
-                notificationText = [NSString stringWithFormat:@"评论删除失败: %@", error];
-            }
+    NSDictionary *params = @{@"cid": _comment.idstr};
+    [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"comments/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        NSString *notificationText = nil;
+        if (!error) {
+            NSLog(@"评论删除成功。");
+            notificationText = @"评论删除成功";
             [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                 _mask.alpha = 0;
                 [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
@@ -197,8 +189,45 @@
                     [self removeFromSuperview];
                 }
             }];
-        }];
-    }
+        }
+        else
+        {
+            NSLog(@"评论删除失败：%@", error);
+            notificationText = [NSString stringWithFormat:@"评论删除失败: %@", error];
+        }
+        
+    }];
+    
+//    AppDelegate *delegate = [AppDelegate delegate];
+//    if (!delegate.isLoggedIn) {
+//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//    } else {
+//        NSDictionary *params = @{@"access_token": delegate.wbToken, @"cid": _comment.idstr};
+//        NSString *url = [bWeiboDomain stringByAppendingString:@"comments/destroy.json"];
+//        [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//            NSString *notificationText = nil;
+//            if (!error) {
+//                NSLog(@"评论删除成功。");
+//                notificationText = @"评论删除成功";
+//            }
+//            else
+//            {
+//                NSLog(@"评论删除失败：%@", error);
+//                notificationText = [NSString stringWithFormat:@"评论删除失败: %@", error];
+//            }
+//            [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//                _mask.alpha = 0;
+//                [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
+//            } completion:^(BOOL finished) {
+//                if (finished) {
+//                    [self callbackForUpdateCompletionWithNotificationText:notificationText];
+//                    [_mask removeFromSuperview];
+//                    _mask = nil;
+//                    [self removeFromSuperview];
+//                }
+//            }];
+//        }];
+//    }
 }
 
 -(void)replyButtonPressed
@@ -256,11 +285,11 @@
 
 -(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
 {
-    BBNotificationView *notificationView = [[BBNotificationView alloc] init];
+    BBNotificationView *notificationView = [[BBNotificationView alloc] initWithNotification:text];
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:notificationView];
     [delegate.window bringSubviewToFront:notificationView];
-    notificationView.notificationLabel.text = text;
+    //notificationView.notificationLabel.text = text;
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [notificationView setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
     } completion:^(BOOL finished) {

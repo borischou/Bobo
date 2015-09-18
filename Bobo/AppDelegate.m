@@ -164,7 +164,7 @@
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.tabBar.layer.shadowOpacity = 0.2;
     tabBarController.tabBar.layer.shadowColor = [UIColor blackColor].CGColor;
-    [tabBarController setViewControllers:@[profileNvc, weiboListNvc, messagenvc, waterfallnvc, collectionNvc] animated:YES];
+    [tabBarController setViewControllers:@[weiboListNvc, messagenvc, waterfallnvc, profileNvc, collectionNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
     //Rear:微博分组
@@ -202,7 +202,6 @@
 {
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
         NSError *error = nil;
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
         _user = [[User alloc] initWithDictionary:dict];
