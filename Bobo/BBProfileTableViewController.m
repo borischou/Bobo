@@ -59,7 +59,7 @@ static NSString *reuseCountsCell = @"countsCell";
 {
     [super viewDidLoad];
     _uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-    _weiboAccount = [Utils systemAccounts].firstObject;
+    _weiboAccount = [[AppDelegate delegate] defaultAccount];
     [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
@@ -263,7 +263,6 @@ static NSString *reuseCountsCell = @"countsCell";
         [self.tableView.header endRefreshing];
     } else {
         [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
             NSError *error = nil;
             [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"show"];
         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {

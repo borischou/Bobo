@@ -48,6 +48,8 @@
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
+    _weiboAccount = [[AppDelegate delegate] defaultAccount];
+
     _uri = @"to_me";
     _maxids = @[[NSNull null], [NSNull null], [NSNull null], [NSNull null]].mutableCopy;
     _sinceids = @[[NSNull null], [NSNull null], [NSNull null], [NSNull null]].mutableCopy;

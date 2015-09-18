@@ -70,7 +70,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     //_wbRequest = [[WBHttpRequest alloc] init];
     //_wbRequest.delegate = self;
     
-    _weiboAccount = [Utils systemAccounts].firstObject;
+    _weiboAccount = [[AppDelegate delegate] defaultAccount];
 
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];

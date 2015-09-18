@@ -7,6 +7,9 @@
 //
 
 #import <MJRefresh/MJRefresh.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+#import "Utils.h"
 #import "BBUpdateStatusView.h"
 #import "UIButton+Bobtn.h"
 #import "BBKeyboardInputAccessoryView.h"
@@ -242,130 +245,200 @@ static CGFloat imageQuality = 0.7;
 
 -(void)sendButtonPressed:(UIButton *)sender
 {
-    AppDelegate *delegate = [AppDelegate delegate];
-    if (!delegate.isLoggedIn) {
-        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    } else {
-        switch (_flag) {
-            case 0: //发微博
-                {
-                    if (_pickedOnes.count > 0) { //有配图
-                        UIImage *firstImage = [[_pickedOnes firstObject] copy];
-                        NSData *imgData = UIImageJPEGRepresentation(firstImage, imageQuality);
-                        WBImageObject *imgObject = [WBImageObject object];
-                        imgObject.imageData = imgData;
-                        [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:imgObject orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                            NSString *notificationText = nil;
-                            if (!error) {
-                                NSLog(@"发布成功。");
-                                notificationText = @"微博发布成功";
-                            } else {
-                                NSLog(@"发布失败：%@", error);
-                                notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
-                            }
-                            [self callbackForUpdateCompletionWithNotificationText:notificationText];
-                        }];
-                    } else { //无配图
-                        [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                            NSString *notificationText = nil;
-                            if (!error) {
-                                NSLog(@"发布成功。");
-                                notificationText = @"微博发布成功";
-                            } else {
-                                NSLog(@"发布失败：%@", error);
-                                notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
-                            }
-                            [self callbackForUpdateCompletionWithNotificationText:notificationText];
-                        }];
-                    }
-                }
-                break;
-            case 1: //写评论
-                {
-                    NSDictionary *params = @{@"access_token": delegate.wbToken,
-                                             @"comment": _statusTextView.text,
-                                             @"id": _idStr,
-                                             @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
-
-                    NSString *url = [bWeiboDomain stringByAppendingString:@"comments/create.json"];
-                    [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                        NSString *notificationText = nil;
-                        if (!error) {
-                            NSLog(@"评论成功。");
-                            notificationText = @"评论发布成功";
-                        }
-                        else
-                        {
-                            NSLog(@"评论失败：%@", error);
-                            notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
-                        }
-                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
-                    }];
-                }
-                break;
-            case 2: //转发微博
-                {
-                    NSDictionary *params = @{@"access_token": delegate.wbToken,
-                                             @"status": _statusTextView.text,
-                                             @"id": _idStr,
-                                             @"is_comment": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
+//    AppDelegate *delegate = [AppDelegate delegate];
+//    if (!delegate.isLoggedIn) {
+//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//    } else {
+    ACAccount *weiboAccount = [[AppDelegate delegate] defaultAccount];
+    switch (_flag) {
+        case 0: //发微博
+            {
+                if (_pickedOnes.count > 0) { //有配图
+                    UIImage *firstImage = [[_pickedOnes firstObject] copy];
+                    NSData *imgData = UIImageJPEGRepresentation(firstImage, imageQuality);
+                    WBImageObject *imgObject = [WBImageObject object];
+                    imgObject.imageData = imgData;
                     
-                    NSString *url = [bWeiboDomain stringByAppendingString:@"statuses/repost.json"];
-                    [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+                    [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/upload.json" parameters:@{@"status": _statusTextView.text, @"pic": imgData} completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                         NSString *notificationText = nil;
                         if (!error) {
-                            NSLog(@"转发成功。");
-                            notificationText = @"转发发布成功";
-                        }
-                        else
-                        {
-                            NSLog(@"转发失败：%@", error);
-                            notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
+                            NSLog(@"发布成功。");
+                            notificationText = @"微博发布成功";
+                        } else {
+                            NSLog(@"发布失败：%@", error);
+                            notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
                         }
                         [self callbackForUpdateCompletionWithNotificationText:notificationText];
                     }];
+                    
+//                        [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:imgObject orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                            NSString *notificationText = nil;
+//                            if (!error) {
+//                                NSLog(@"发布成功。");
+//                                notificationText = @"微博发布成功";
+//                            } else {
+//                                NSLog(@"发布失败：%@", error);
+//                                notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
+//                            }
+//                            [self callbackForUpdateCompletionWithNotificationText:notificationText];
+//                        }];
+                } else { //无配图
+                    [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/update.json" parameters:@{@"status": _statusTextView.text} completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                        NSString *notificationText = nil;
+                        if (!error) {
+                            NSLog(@"发布成功。");
+                            notificationText = @"微博发布成功";
+                        } else {
+                            NSLog(@"发布失败：%@", error);
+                            notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
+                        }
+                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                    }];
+                    
+//                    [Utils genericWeiboRequestWithAccount:weiboAccount URL:@"statuses/upload_url_text.json" SLRequestHTTPMethod:SLRequestMethodPOST parameters:@{@"status": _statusTextView.text} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//                        NSString *notificationText = @"微博发布成功";
+//                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+//                        
+//                    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                        NSString *notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
+//                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+//                    }];
+                    
+//                        [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:nil orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                            NSString *notificationText = nil;
+//                            if (!error) {
+//                                NSLog(@"发布成功。");
+//                                notificationText = @"微博发布成功";
+//                            } else {
+//                                NSLog(@"发布失败：%@", error);
+//                                notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
+//                            }
+//                            [self callbackForUpdateCompletionWithNotificationText:notificationText];
+//                        }];
                 }
-                break;
-            case 3: //回复评论
-                {
-                    NSDictionary *params = @{@"access_token": delegate.wbToken,
-                                             @"comment": _statusTextView.text,
-                                             @"id": _idStr,
-                                             @"cid": _cidStr,
-                                             @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
+            }
+            break;
+        case 1: //写评论
+            {
+                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:@{@"comment": _statusTextView.text, @"id": _idStr, @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"} completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    NSString *notificationText = nil;
+                    if (!error) {
+                        NSLog(@"发布成功。");
+                        notificationText = @"评论发布成功";
+                    } else {
+                        NSLog(@"发布失败：%@", error);
+                        notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
+                    }
+                    [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                }];
+                
+//                    NSDictionary *params = @{@"access_token": delegate.wbToken,
+//                                             @"comment": _statusTextView.text,
+//                                             @"id": _idStr,
+//                                             @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
+//
+//                    NSString *url = [bWeiboDomain stringByAppendingString:@"comments/create.json"];
+//                    [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                        NSString *notificationText = nil;
+//                        if (!error) {
+//                            NSLog(@"评论成功。");
+//                            notificationText = @"评论发布成功";
+//                        }
+//                        else
+//                        {
+//                            NSLog(@"评论失败：%@", error);
+//                            notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
+//                        }
+//                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+//                    }];
+            }
+            break;
+        case 2: //转发微博
+            {
+                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/repost.json" parameters:@{@"status": _statusTextView.text, @"id": _idStr, @"is_comment": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"} completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    NSString *notificationText = nil;
+                    if (!error) {
+                        NSLog(@"发布成功。");
+                        notificationText = @"转发发布成功";
+                    } else {
+                        NSLog(@"发布失败：%@", error);
+                        notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
+                    }
+                    [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                }];
+//                    NSDictionary *params = @{@"access_token": delegate.wbToken,
+//                                             @"status": _statusTextView.text,
+//                                             @"id": _idStr,
+//                                             @"is_comment": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
+//                    
+//                    NSString *url = [bWeiboDomain stringByAppendingString:@"statuses/repost.json"];
+//                    [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                        NSString *notificationText = nil;
+//                        if (!error) {
+//                            NSLog(@"转发成功。");
+//                            notificationText = @"转发发布成功";
+//                        }
+//                        else
+//                        {
+//                            NSLog(@"转发失败：%@", error);
+//                            notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
+//                        }
+//                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+//                    }];
+            }
+            break;
+        case 3: //回复评论
+            {
+                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:@{@"comment": _statusTextView.text, @"id": _idStr, @"cid": _cidStr, @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"} completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    NSString *notificationText = nil;
+                    if (!error) {
+                        NSLog(@"发布成功。");
+                        notificationText = @"评论发布成功";
+                    } else {
+                        NSLog(@"发布失败：%@", error);
+                        notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
+                    }
+                    [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                }];
 
-                    NSString *url = [bWeiboDomain stringByAppendingString:@"comments/reply.json"];
-                    [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                        NSString *notificationText = nil;
-                        if (!error) {
-                            NSLog(@"评论成功。");
-                            notificationText = @"评论发布成功";
-                        }
-                        else
-                        {
-                            NSLog(@"评论失败：%@", error);
-                            notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
-                        }
-                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
-                    }];
-                }
-                break;
-        }
-        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
-            if (_mask) {
-                _mask.alpha = 0;
+//                    NSDictionary *params = @{@"access_token": delegate.wbToken,
+//                                             @"comment": _statusTextView.text,
+//                                             @"id": _idStr,
+//                                             @"cid": _cidStr,
+//                                             @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
+//
+//                    NSString *url = [bWeiboDomain stringByAppendingString:@"comments/reply.json"];
+//                    [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                        NSString *notificationText = nil;
+//                        if (!error) {
+//                            NSLog(@"评论成功。");
+//                            notificationText = @"评论发布成功";
+//                        }
+//                        else
+//                        {
+//                            NSLog(@"评论失败：%@", error);
+//                            notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
+//                        }
+//                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+//                    }];
             }
-        } completion:^(BOOL finished) {
-            if (finished) {
-                if (_mask) {
-                    [_mask removeFromSuperview];
-                    _mask = nil; //引用计数减一
-                }
-                [self removeFromSuperview];
-            }
-        }];
+            break;
     }
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
+        if (_mask) {
+            _mask.alpha = 0;
+        }
+    } completion:^(BOOL finished) {
+        if (finished) {
+            if (_mask) {
+                [_mask removeFromSuperview];
+                _mask = nil; //引用计数减一
+            }
+            [self removeFromSuperview];
+        }
+    }];
+    
     
 }
 

@@ -54,7 +54,7 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _weiboAccount = [Utils systemAccounts].firstObject;
+    _weiboAccount = [[AppDelegate delegate] defaultAccount];
     [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];

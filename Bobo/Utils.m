@@ -281,6 +281,15 @@
     [operation start];
 }
 
++(void)weiboPostRequestWithAccount:(ACAccount *)weiboAccount URL:(NSString *)url parameters:(NSDictionary *)params completionHandler:(SLRequestCompletionHandler)completion
+{
+    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodPOST URL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.weibo.com/2/%@", url]] parameters:params];
+    [request setAccount:weiboAccount];
+    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        completion(responseData, urlResponse, error);
+    }];
+}
+
 +(NSArray *)systemAccounts
 {
     static dispatch_once_t onceToken;

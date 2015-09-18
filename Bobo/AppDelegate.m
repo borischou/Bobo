@@ -6,8 +6,6 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import <Social/Social.h>
-#import <Accounts/Accounts.h>
 #import "Utils.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
@@ -37,6 +35,8 @@
 
 @interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate>
 
+@property (strong, nonatomic) ACAccount *weiboAccount;
+
 @end
 
 @implementation AppDelegate
@@ -47,6 +47,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     //[self checkLoginStatus];
+    _weiboAccount = [Utils systemAccounts].firstObject;
     [self startUserProfileFetch];
     [self initControllers];
     [_window makeKeyAndVisible];
@@ -91,6 +92,11 @@
 +(id)delegate
 {
     return [[UIApplication sharedApplication] delegate];
+}
+
+-(ACAccount *)defaultAccount
+{
+    return _weiboAccount;
 }
 
 -(void)saveTokenAndUserID

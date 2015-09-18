@@ -42,7 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _weiboAccount = [Utils systemAccounts].firstObject;
+    _weiboAccount = [[AppDelegate delegate] defaultAccount];
     CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
     layout.minimumColumnSpacing = 4.0;
     layout.minimumInteritemSpacing = 4.0;

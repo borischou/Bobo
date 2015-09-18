@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
 #import "SWRevealViewController.h"
 #import "User.h"
 
@@ -27,6 +29,7 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
+-(ACAccount *)defaultAccount;
 +(id)delegate;
 
 @end

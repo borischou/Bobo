@@ -13,10 +13,11 @@
 #import <Accounts/Accounts.h>
 #import "Status.h"
 
-@interface Utils : NSObject
-
 typedef void (^AFHTTPRequestOperationSuccessCompletionHandler) (AFHTTPRequestOperation *operation, id responseObject);
 typedef void (^AFHTTPRequestOperationFailureCompletionHandler) (AFHTTPRequestOperation *operation, NSError *error);
+typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error);
+
+@interface Utils : NSObject
 
 //Calculates the height of cell
 +(CGFloat)getHeightForCellWithStatusText:(NSString *)text statusImageCount:(NSInteger)count andRetweetScreenName:(NSString *)screenName retweetText:(NSString *)retweetText retweetImageCount:(NSInteger)retweetImgCount;
@@ -37,5 +38,6 @@ typedef void (^AFHTTPRequestOperationFailureCompletionHandler) (AFHTTPRequestOpe
 
 +(void)genericWeiboRequestWithAccount:(ACAccount *)weiboAccount URL:(NSString *)url SLRequestHTTPMethod:(SLRequestMethod)method parameters:(NSDictionary *)params completionBlockWithSuccess:(AFHTTPRequestOperationSuccessCompletionHandler)success completionBlockWithFailure:(AFHTTPRequestOperationFailureCompletionHandler)failure;
 +(NSArray *)systemAccounts;
++(void)weiboPostRequestWithAccount:(ACAccount *)weiboAccount URL:(NSString *)url parameters:(NSDictionary *)params completionHandler:(SLRequestCompletionHandler)completion;
 
 @end
