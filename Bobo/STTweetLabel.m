@@ -164,7 +164,7 @@
     while ([tmpText rangeOfCharacterFromSet:hotCharactersSet].location < tmpText.length) {
         NSRange range = [tmpText rangeOfCharacterFromSet:hotCharactersSet];
 
-        STTweetHotWord hotWord;
+        STTweetHotWord hotWord = 0;
 
         switch ([tmpText characterAtIndex:range.location]) {
             case '@':
