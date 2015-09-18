@@ -270,7 +270,9 @@ static CGFloat imageQuality = 0.7;
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
                         }
-                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                        });
                     }];
                     
 //                        [WBHttpRequest requestForShareAStatus:_statusTextView.text contatinsAPicture:imgObject orPictureUrl:nil withAccessToken:delegate.wbToken andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -295,7 +297,9 @@ static CGFloat imageQuality = 0.7;
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
                         }
-                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                        });
                     }];
                     
 //                    [Utils genericWeiboRequestWithAccount:weiboAccount URL:@"statuses/upload_url_text.json" SLRequestHTTPMethod:SLRequestMethodPOST parameters:@{@"status": _statusTextView.text} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -336,7 +340,9 @@ static CGFloat imageQuality = 0.7;
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
                     }
-                    [self callbackForUpdateCompletionWithNotificationText:notificationText.copy];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                    });
                 }];
                 
 //                    NSDictionary *params = @{@"access_token": delegate.wbToken,
@@ -373,7 +379,9 @@ static CGFloat imageQuality = 0.7;
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
                     }
-                    [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                    });
                 }];
 //                    NSDictionary *params = @{@"access_token": delegate.wbToken,
 //                                             @"status": _statusTextView.text,
@@ -411,7 +419,9 @@ static CGFloat imageQuality = 0.7;
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
                     }
-                    [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                    });
                 }];
 
 //                    NSDictionary *params = @{@"access_token": delegate.wbToken,

@@ -178,6 +178,13 @@
         if (!error) {
             NSLog(@"评论删除成功。");
             notificationText = @"评论删除成功";
+        }
+        else
+        {
+            NSLog(@"评论删除失败：%@", error);
+            notificationText = [NSString stringWithFormat:@"评论删除失败: %@", error];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                 _mask.alpha = 0;
                 [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
@@ -189,13 +196,7 @@
                     [self removeFromSuperview];
                 }
             }];
-        }
-        else
-        {
-            NSLog(@"评论删除失败：%@", error);
-            notificationText = [NSString stringWithFormat:@"评论删除失败: %@", error];
-        }
-        
+        });
     }];
     
 //    AppDelegate *delegate = [AppDelegate delegate];
