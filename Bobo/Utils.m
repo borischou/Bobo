@@ -283,9 +283,15 @@
 
 +(NSArray *)systemAccounts
 {
-    ACAccountStore *store = [[ACAccountStore alloc] init];
-    ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
-    NSArray *accounts = [store accountsWithAccountType:type];
+    static dispatch_once_t onceToken;
+    static ACAccountStore *store;
+    static ACAccountType *type;
+    static NSArray *accounts;
+    dispatch_once(&onceToken, ^{
+        store = [[ACAccountStore alloc] init];
+        type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
+        accounts = [store accountsWithAccountType:type];
+    });
     return accounts;
 }
 

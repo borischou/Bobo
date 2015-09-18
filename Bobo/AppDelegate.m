@@ -6,6 +6,9 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+#import "Utils.h"
 #import "AppDelegate.h"
 #import "WeiboSDK.h"
 
@@ -44,7 +47,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     //[self checkLoginStatus];
-    //[self startUserProfileFetch];
+    [self startUserProfileFetch];
     [self initControllers];
     [_window makeKeyAndVisible];
     return YES;
@@ -191,31 +194,44 @@
 //https://api.weibo.com/2/users/show.json?uid=id_string
 -(void)fetchUserProfile
 {
-    if (!_isLoggedIn) {
-        [[[UIAlertView alloc] initWithTitle:@"请求用户信息失败" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }
-    else
-    {
-        NSMutableDictionary *params = @{}.mutableCopy;
-        if (_wbToken) {
-            [params setObject:_wbToken forKey:@"access_token"];
-            [params setObject:_wbCurrentUserID forKey:@"uid"];
-            NSString *url = [bWeiboDomain stringByAppendingString:@"users/show.json"];
-            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                if (!error) {
-                    _user = [[User alloc] initWithDictionary:result];
-                    NSLog(@"GOT USER PROFILE");
-                } else {
-                    [[[UIAlertView alloc] initWithTitle:@"错误" message:@"请求用户信息失败。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                }
-            }];
-        }
-        else
-        {
-            [[[UIAlertView alloc] initWithTitle:@"错误" message:@"用户授权令牌过期。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-        }
-    }
+    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+        NSError *error = nil;
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
+        _user = [[User alloc] initWithDictionary:dict];
+    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", error);
+    }];
+    
 }
+//-(void)fetchUserProfile
+//{
+//    if (!_isLoggedIn) {
+//        [[[UIAlertView alloc] initWithTitle:@"请求用户信息失败" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//    }
+//    else
+//    {
+//        NSMutableDictionary *params = @{}.mutableCopy;
+//        if (_wbToken) {
+//            [params setObject:_wbToken forKey:@"access_token"];
+//            [params setObject:_wbCurrentUserID forKey:@"uid"];
+//            NSString *url = [bWeiboDomain stringByAppendingString:@"users/show.json"];
+//            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                if (!error) {
+//                    _user = [[User alloc] initWithDictionary:result];
+//                    NSLog(@"GOT USER PROFILE");
+//                } else {
+//                    [[[UIAlertView alloc] initWithTitle:@"错误" message:@"请求用户信息失败。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//                }
+//            }];
+//        }
+//        else
+//        {
+//            [[[UIAlertView alloc] initWithTitle:@"错误" message:@"用户授权令牌过期。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//        }
+//    }
+//}
 
 -(void)startUserProfileFetch
 {
