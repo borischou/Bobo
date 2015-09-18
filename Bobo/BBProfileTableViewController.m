@@ -21,6 +21,7 @@
 #import "BBButtonbarTableViewCell.h"
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
+#import "Utils.h"
 
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
@@ -135,46 +136,68 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)loginBtnPressed
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"bobo" object:self];
-//    AppDelegate *delegate = [AppDelegate delegate];
-//    NSLog(@"isLoggedIn: %d\ndelegate.wbCurrentUserID: %@\ndelegate.wbToken: %@", delegate.isLoggedIn, delegate.wbCurrentUserID, delegate.wbToken);
-//    if (!delegate.isLoggedIn || !delegate.wbCurrentUserID || !delegate.wbToken) {
-//        [WeiboSDK enableDebugMode:YES];
-//        [WeiboSDK registerApp:kAppKey];
-//        WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-//        request.redirectURI = kRedirectURI;
-//        request.scope = @"all";
-//        [WeiboSDK sendRequest:request];
-//    } else {
-//        [[[UIAlertView alloc] initWithTitle:@"Logged in" message:@"You are logged in already." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//    }
     
     ACAccountStore *store = [[ACAccountStore alloc] init];
     ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
     NSArray *accounts = [store accountsWithAccountType:type];
-    [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
-        if (granted == YES) { //授权成功
-            ACAccount *weiboAccout = accounts.firstObject;
-            NSLog(@"account: %@", weiboAccout);
-            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:[bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"]] parameters:nil];
-            [request setAccount:weiboAccout];
-//            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-//                NSLog(@"data: %@\nresponse: %@\n error: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding], urlResponse, error);
-//            }];
-            NSURLRequest *urlrequest = [request preparedURLRequest];
-//            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//            [manager HTTPRequestOperationWithRequest:urlrequest success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//                NSLog(@"RESPONSE: %@", responseObject);
-//            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                NSLog(@"ERROR: %@", error);
-//            }];
-//            NSURLConnection *connection = [NSURLConnection connectionWithRequest:urlrequest delegate:self];
-//            [connection start];
-            
-            [NSURLConnection sendAsynchronousRequest:urlrequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                NSLog(@"response: %@\ndata: %@\nerror: %@", response, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], connectionError);
-            }];
-        }
-    }];
+    ACAccount *weiboAccount = accounts.firstObject;
+    NSLog(@"account: %@", weiboAccount.identifier);
+    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    if (weiboAccount.accountType.accessGranted == NO) {
+        [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
+            if (granted == YES) { //授权成功
+                NSLog(@"授权成功。");
+                if (!uid) {
+                    [Utils genericWeiboRequestWithAccount:weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                        NSError *error = nil;
+                        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&error];
+                        NSString *uid = [NSString stringWithFormat:@"%@", dict[@"uid"]];
+                        [[NSUserDefaults standardUserDefaults] setObject:uid forKey:@"uid"];
+                        [Utils genericWeiboRequestWithAccount:weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                            NSLog(@"response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+                        } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            NSLog(@"error: %@", error);
+                        }];
+                    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        NSLog(@"error: %@", error);
+                    }];
+                }
+                else
+                {
+                    [Utils genericWeiboRequestWithAccount:weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                        NSLog(@"response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+                    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        NSLog(@"error: %@", error);
+                    }];
+                }
+                
+            } else {
+                NSLog(@"授权失败, 错误: %@", error);
+            }
+        }];
+    }
+    else
+    {
+        [Utils genericWeiboRequestWithAccount:weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+        } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"error: %@", error);
+        }];
+    }
+    
+    //    AppDelegate *delegate = [AppDelegate delegate];
+    //    NSLog(@"isLoggedIn: %d\ndelegate.wbCurrentUserID: %@\ndelegate.wbToken: %@", delegate.isLoggedIn, delegate.wbCurrentUserID, delegate.wbToken);
+    //    if (!delegate.isLoggedIn || !delegate.wbCurrentUserID || !delegate.wbToken) {
+    //        [WeiboSDK enableDebugMode:YES];
+    //        [WeiboSDK registerApp:kAppKey];
+    //        WBAuthorizeRequest *request = [WBAuthorizeRequest request];
+    //        request.redirectURI = kRedirectURI;
+    //        request.scope = @"all";
+    //        [WeiboSDK sendRequest:request];
+    //    } else {
+    //        [[[UIAlertView alloc] initWithTitle:@"Logged in" message:@"You are logged in already." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    //    }
+
 }
 
 -(void)logoutBtnPressed
@@ -230,6 +253,13 @@ static NSString *reuseCountsCell = @"countsCell";
 //https://api.weibo.com/2/users/show.json?uid=id_string
 -(void)fetchUserProfile
 {
+    ACAccount *weiboAccount = [Utils systemAccounts].firstObject;
+    [Utils genericWeiboRequestWithAccount:weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": @""} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }];
+    
 //    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 //    if (!delegate.isLoggedIn) {
 //        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];

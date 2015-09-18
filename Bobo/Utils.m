@@ -7,7 +7,6 @@
 //
 
 #import "Utils.h"
-#import <AFNetworking.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -260,6 +259,34 @@
 +(NSString *)accessToken
 {
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"wbtoken"];
+}
+
++(void)genericWeiboRequestWithAccount:(ACAccount *)weiboAccount
+                                  URL:(NSString *)url
+                  SLRequestHTTPMethod:(SLRequestMethod)method
+                           parameters:(NSDictionary *)params
+           completionBlockWithSuccess:(AFHTTPRequestOperationSuccessCompletionHandler)success
+           completionBlockWithFailure:(AFHTTPRequestOperationFailureCompletionHandler)failure
+{
+    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:[@"https://api.weibo.com/2/" stringByAppendingString:url]] parameters:params];
+    [request setAccount:weiboAccount];
+    NSURLRequest *urlrequest = [request preparedURLRequest];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:urlrequest];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success(operation, responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(operation, error);
+    }];
+    [operation start];
+}
+
++(NSArray *)systemAccounts
+{
+    ACAccountStore *store = [[ACAccountStore alloc] init];
+    ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
+    NSArray *accounts = [store accountsWithAccountType:type];
+    return accounts;
 }
 
 @end
