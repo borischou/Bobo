@@ -156,7 +156,7 @@ static NSString *reuseCountsCell = @"countsCell";
             ACAccount *weiboAccout = accounts.firstObject;
             NSLog(@"account: %@", weiboAccout);
             SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:[bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"]] parameters:nil];
-            request.account = weiboAccout;
+            [request setAccount:weiboAccout];
 //            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
 //                NSLog(@"data: %@\nresponse: %@\n error: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding], urlResponse, error);
 //            }];
