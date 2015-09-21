@@ -135,6 +135,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         NSError *error = nil;
         [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"comment"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"detail error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
     }];

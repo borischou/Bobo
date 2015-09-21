@@ -201,6 +201,9 @@
 -(void)fetchUserProfile
 {
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    if (!uid) {
+        return;
+    }
     [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];

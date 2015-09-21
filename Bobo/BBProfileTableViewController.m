@@ -45,11 +45,9 @@ static NSString *reuseCountsCell = @"countsCell";
 
 @interface BBProfileTableViewController () <WBHttpRequestDelegate, UIAlertViewDelegate>
 
-@property (strong, nonatomic) NSMutableArray *statuses;
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) UIAlertView *logoutAlertView;
 @property (strong, nonatomic) ACAccount *weiboAccount;
-@property (copy, nonatomic) NSString *uid;
 
 @end
 
@@ -58,40 +56,28 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    _shouldNavBtnShown = YES;
     _uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
-    [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    if (_shouldNavBtnShown) {
+        [self setNavBarBtn];
+    }
     [super viewDidAppear:animated];
-    [self addSWRevealViewControllerGestureRecognizer];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self removeSWRevealControllerGestureRecognizer];
 }
 
 #pragma mark - Helpers
-
--(void)addSWRevealViewControllerGestureRecognizer
-{
-    [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
-
--(void)removeSWRevealControllerGestureRecognizer
-{
-    [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
 
 -(void)setNavBarBtn
 {
@@ -101,13 +87,6 @@ static NSString *reuseCountsCell = @"countsCell";
     [button1 addTarget:self action:@selector(loginBtnPressed) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *loginBtn = [[UIBarButtonItem alloc] initWithCustomView:button1];
     self.navigationItem.leftBarButtonItem = loginBtn;
-    
-//    UIButton *button2 = [UIButton buttonWithType:UIButtonTypeCustom];
-//    button2.frame = CGRectMake(0, 0, 23, 23);
-//    [button2 setImage:[UIImage imageNamed:@"iconfont-logout"] forState:UIControlStateNormal];
-//    [button2 addTarget:self action:@selector(logoutBtnPressed) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *logoutBtn = [[UIBarButtonItem alloc] initWithCustomView:button2];
-//    self.navigationItem.rightBarButtonItem = logoutBtn;
     
     UIButton *postBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     postBtn.frame = CGRectMake(0, 0, 23, 23);
@@ -259,14 +238,14 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)fetchUserProfile
 {
     if (!_uid) {
-        [self loginBtnPressed];
+        NSLog(@"没有有效的uid。");
         [self.tableView.header endRefreshing];
     } else {
         [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSError *error = nil;
             [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"show"];
         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"error: %@", error);
+            NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         }];
     }
     
@@ -311,11 +290,15 @@ static NSString *reuseCountsCell = @"countsCell";
 //https://api.weibo.com/2/statuses/user_timeline.json?uid=id_string
 -(void)fetchUserLatestStatuses
 {
+    if (!_uid) {
+        return;
+    }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"me"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"error: %@", error);
+        NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [self.tableView.header endRefreshing];
     }];
 //    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 //    if (!delegate.isLoggedIn) {
@@ -338,11 +321,15 @@ static NSString *reuseCountsCell = @"countsCell";
 //https://api.weibo.com/2/statuses/user_timeline.json?count=count_num&max_id=id_string
 -(void)fetchUserHistoryStatuses
 {
-    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"statuses/user_timeline.json?count=5&max_id=%@", _currentLastStatusId] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    if (!_uid) {
+        return;
+    }
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"statuses/user_timeline.json?count=5&max_id=%@", _currentLastStatusId] SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+        NSLog(@"profile error: %@", error);
+        [self.tableView.footer endRefreshing];
     }];
 //    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 //    if (!delegate.isLoggedIn) {

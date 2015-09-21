@@ -215,6 +215,7 @@ static NSString *reuseBarCellId = @"barCell";
         NSError *error = nil;
         [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"refresh"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.header endRefreshing];
     }];
 //    AppDelegate *delegate = [AppDelegate delegate];
@@ -247,6 +248,7 @@ static NSString *reuseBarCellId = @"barCell";
         NSError *error = nil;
         [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"main footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.footer endRefreshing];
     }];
 //    AppDelegate *delegate = [AppDelegate delegate];

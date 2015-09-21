@@ -222,6 +222,7 @@
             [self weiboRequestHandler:nil forTableView:_allTableView withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] error:nil type:@"refresh" flag:3];
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"message error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [tableView.header endRefreshing];
         [tableView.footer endRefreshing];
     }];

@@ -20,6 +20,8 @@
 #import "BBMainStatusTableViewController.h"
 #import "BBFavoritesTableViewController.h"
 #import "BBProfileTableViewController.h"
+#import "BBWaterfallStatusViewController.h"
+#import "BBMessageViewController.h"
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import <AFNetworking.h>
@@ -55,9 +57,12 @@
 #define bMaleColor [UIColor colorWithRed:0.0/255 green:154.0/255 blue:205.0/255 alpha:1.0] //light blue
 #define bFemaleColor [UIColor colorWithRed:255.0/255 green:52.0/255 blue:181.0/255 alpha:1.0] //pink
 
+#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
+#define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
+
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBStatusTableViewCell () <NSURLConnectionDataDelegate>
+@interface BBStatusTableViewCell ()
 
 //status
 @property (strong, nonatomic) STTweetLabel *tweetTextLabel;
@@ -264,6 +269,8 @@
     [self.contentView addSubview:_favoritesImageView];
 }
 
+#pragma mark - Icon action support
+
 -(void)retweetImageViewTapped
 {
     NSLog(@"retweetImageViewTapped");
@@ -389,6 +396,8 @@
         [sdvc.navigationController pushViewController:dtvc animated:YES];
     }
 }
+
+#pragma mark - Cell configure support
 
 //override this method to load views dynamically
 -(void)layoutSubviews
@@ -540,50 +549,76 @@
     [self.window addSubview:browserView];
 }
 
-#pragma mark - STTweetLabelBlockCallbacks
+#pragma mark - STTweetLabelBlockCallbacks support
 
 -(void)didTapHotword:(NSString *)hotword
 {
     NSLog(@"点击%@", hotword);
-    //SLRequest *slRequest = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo
-    //                   requestMethod:SLRequestMethodGET
-    //                             URL:[NSURL URLWithString:@"https://api.weibo.com/2/statuses/user_timeline.json"]
-    //                      parameters:@{@"access_token": [Utils accessToken], @"screen_name": hotword}];
-    //NSLog(@"SLRequest: %@", slRequest.URL.absoluteString);
-    
-    //[slRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-    //    NSLog(@"responseData: %@\nurlResponse: %@\nerror: %@", responseData, urlResponse, error);
-    //    NSString *result = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    //    NSLog(@"RESULT: %@", result);
-    //}];
-    
-//    //ACAccountCredential *credential = [[ACAccountCredential alloc] initWithOAuthToken:[Utils accessToken] tokenSecret:[Utils appKey]];
-//    ACAccountType *type = [[[ACAccountStore alloc] init] accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
-//    ACAccount *account = [[ACAccount alloc] initWithAccountType:type];
-//    //[account setCredential:credential];
-//    SLRequest *slRequest = [[SLRequest alloc] init];
-//    [slRequest setAccount:account];
-//    NSMutableURLRequest *mRequest = [[slRequest preparedURLRequest] mutableCopy];
-//    [mRequest setHTTPMethod:@"GET"];
-//    
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    [manager HTTPRequestOperationWithRequest:mRequest.copy success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"RESPONSE: %@", responseObject);
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        
-//    }];
+    if ([hotword hasPrefix:@"@"]) {
+        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
+        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                          URL:@"statuses/user_timeline.json"
+                          SLRequestHTTPMethod:SLRequestMethodGET
+                                   parameters:params
+                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+        {
+            NSMutableArray *statuses = [self statusesWith:responseObject];
+            Status *status = statuses.firstObject;
+            User *user = status.user;
+            
+            id obj = nil;
+            for (obj = self; obj; obj = [obj nextResponder]) {
+                if ([obj isKindOfClass:[BBStatusDetailViewController class]] || [obj isKindOfClass:[BBMainStatusTableViewController class]] || [obj isKindOfClass:[BBMessageViewController class]] || [obj isKindOfClass:[BBWaterfallStatusViewController class]]) {
+                    UIViewController *uivc = (UIViewController *)obj;
+                    BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                    [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
+                    profiletvc.uid = user.idstr;
+                    profiletvc.statuses = statuses;
+                    profiletvc.user = user;
+                    profiletvc.shouldNavBtnShown = NO;
+                    profiletvc.title = [NSString stringWithFormat:@"%@", user.screen_name];
+                    [uivc.navigationController pushViewController:profiletvc animated:YES];
+                }
+            }
+
+        }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+        {
+            NSLog(@"error %@", error);
+        }];
+    }
 }
 
-#pragma mark - NSURLConnectionDataDelegate
-
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+-(NSMutableArray *)statusesWith:(NSData *)data
 {
-    NSLog(@"didReceiveResponse: %@", response);
+    NSMutableArray *statuses = @[].mutableCopy;
+    NSError *error = nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    if (![[dict objectForKey:@"statuses"] isEqual:[NSNull null]]) {
+        NSArray *status_dicts = [dict objectForKey:@"statuses"];
+        for (NSDictionary *status_dict in status_dicts) {
+            Status *status = [[Status alloc] initWithDictionary:status_dict];
+            [statuses addObject:status];
+        }
+    }
+    return statuses;
 }
 
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+-(void)setupNavigationController:(UINavigationController *)uinvc withUIViewController:(UIViewController *)uivc
 {
-    NSLog(@"didReceiveData: %@", data);
+    uinvc.navigationBar.barTintColor = kBarColor;
+    uinvc.navigationBar.tintColor = [UIColor whiteColor];
+    uinvc.navigationBar.layer.shadowOpacity = 0.2;
+    uinvc.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
+    uinvc.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    
+    uivc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    uivc.view.backgroundColor = bBGColor;
+    
+    if ([uivc isKindOfClass:[UITableViewController class]]) {
+        UITableViewController *uitvc = (UITableViewController *)uivc;
+        uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
 }
 
 @end
