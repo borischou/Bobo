@@ -168,12 +168,6 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
--(void)logoutBtnPressed
-{
-    self.logoutAlertView = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Are you sure you want to log it out?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Logout", nil];
-    [self.logoutAlertView show];
-}
-
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
