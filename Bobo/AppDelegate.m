@@ -211,7 +211,6 @@
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", error);
     }];
-    
 }
 //-(void)fetchUserProfile
 //{

@@ -18,10 +18,8 @@
 #import "WeiboSDK.h"
 #import "BBStatusDetailViewController.h"
 #import "BBMainStatusTableViewController.h"
-#import "BBFavoritesTableViewController.h"
 #import "BBProfileTableViewController.h"
-#import "BBWaterfallStatusViewController.h"
-#import "BBMessageViewController.h"
+#import "BBFavoritesTableViewController.h"
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import <AFNetworking.h>
@@ -568,7 +566,7 @@
             
             id obj = nil;
             for (obj = self; obj; obj = [obj nextResponder]) {
-                if ([obj isKindOfClass:[BBStatusDetailViewController class]] || [obj isKindOfClass:[BBMainStatusTableViewController class]] || [obj isKindOfClass:[BBMessageViewController class]] || [obj isKindOfClass:[BBWaterfallStatusViewController class]]) {
+                if ([obj isKindOfClass:[BBStatusDetailViewController class]]) {
                     UIViewController *uivc = (UIViewController *)obj;
                     BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
                     [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];

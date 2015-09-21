@@ -11,6 +11,9 @@
 #import "Utils.h"
 #import "UIColor+Custom.h"
 #import "NSString+Convert.h"
+#import "AppDelegate.h"
+#import "BBStatusDetailViewController.h"
+#import "BBProfileTableViewController.h"
 
 #define cAvatarHeight 40
 #define cAvatarWidth cAvatarHeight
@@ -23,6 +26,9 @@
 #define bCellBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 #define bMaleColor [UIColor colorWithRed:0.0/255 green:154.0/255 blue:205.0/255 alpha:1.0] //light blue
 #define bFemaleColor [UIColor colorWithRed:255.0/255 green:52.0/255 blue:181.0/255 alpha:1.0] //pink
+
+#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
+#define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 
 @implementation BBCommentTableViewCell
 
@@ -133,11 +139,76 @@
     [_commentTextLabel setFrame:CGRectMake(cBigGap+cSmallGap+cAvatarWidth, cBigGap+cNameHeight+cSmallGap, cTextWidth, textSize.height)];
 }
 
-#pragma mark - STTweetLabelBlockCallbacks
+#pragma mark - STTweetLabelBlockCallbacks support
 
--(void)didTapHotword:(NSString *)string
+-(void)didTapHotword:(NSString *)hotword
 {
-    NSLog(@"点击%@", string);
+    NSLog(@"点击%@", hotword);
+    if ([hotword hasPrefix:@"@"]) {
+        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
+        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                          URL:@"statuses/user_timeline.json"
+                          SLRequestHTTPMethod:SLRequestMethodGET
+                                   parameters:params
+                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             NSMutableArray *statuses = [self statusesWith:responseObject];
+             Status *status = statuses.firstObject;
+             User *user = status.user;
+             
+             id obj = nil;
+             for (obj = self; obj; obj = [obj nextResponder]) {
+                 if ([obj isKindOfClass:[BBStatusDetailViewController class]]) {
+                     UIViewController *uivc = (UIViewController *)obj;
+                     BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                     [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
+                     profiletvc.uid = user.idstr;
+                     profiletvc.statuses = statuses;
+                     profiletvc.user = user;
+                     profiletvc.shouldNavBtnShown = NO;
+                     profiletvc.title = [NSString stringWithFormat:@"%@", user.screen_name];
+                     [uivc.navigationController pushViewController:profiletvc animated:YES];
+                 }
+             }
+             
+         }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             NSLog(@"error %@", error);
+         }];
+    }
+}
+
+-(NSMutableArray *)statusesWith:(NSData *)data
+{
+    NSMutableArray *statuses = @[].mutableCopy;
+    NSError *error = nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    if (![[dict objectForKey:@"statuses"] isEqual:[NSNull null]]) {
+        NSArray *status_dicts = [dict objectForKey:@"statuses"];
+        for (NSDictionary *status_dict in status_dicts) {
+            Status *status = [[Status alloc] initWithDictionary:status_dict];
+            [statuses addObject:status];
+        }
+    }
+    return statuses;
+}
+
+-(void)setupNavigationController:(UINavigationController *)uinvc withUIViewController:(UIViewController *)uivc
+{
+    uinvc.navigationBar.barTintColor = kBarColor;
+    uinvc.navigationBar.tintColor = [UIColor whiteColor];
+    uinvc.navigationBar.layer.shadowOpacity = 0.2;
+    uinvc.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
+    uinvc.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    
+    uivc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    uivc.view.backgroundColor = bBGColor;
+    
+    if ([uivc isKindOfClass:[UITableViewController class]]) {
+        UITableViewController *uitvc = (UITableViewController *)uivc;
+        uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
 }
 
 @end
