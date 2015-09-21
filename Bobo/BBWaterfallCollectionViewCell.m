@@ -198,6 +198,7 @@
                      profiletvc.shouldNavBtnShown = NO;
                      profiletvc.title = @"Profile";
                      [uivc.navigationController pushViewController:profiletvc animated:YES];
+                     return;
                  }
              }
              

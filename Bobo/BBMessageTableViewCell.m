@@ -101,6 +101,8 @@
     
     //profile image
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, bAvatarWidth, bAvatarHeight)];
+    _avatarView.userInteractionEnabled = YES;
+    [_avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapped)]];
     [self.contentView addSubview:_avatarView];
     
     //nickname
@@ -226,6 +228,44 @@
     [_retweetTextLabel setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
     
     [_repostView setFrame:CGRectMake(0, bBigGap+bAvatarHeight+bBigGap+postSize.height+bBigGap, bWidth, repostSize.height+bSmallGap)];
+}
+
+-(void)avatarViewTapped
+{
+    NSLog(@"avatarViewTapped");
+    NSDictionary *params = @{@"uid": _comment.user.idstr};
+    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                      URL:@"statuses/user_timeline.json"
+                      SLRequestHTTPMethod:SLRequestMethodGET
+                               parameters:params
+               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSMutableArray *statuses = [self statusesWith:responseObject];
+         Status *status = statuses.firstObject;
+         User *user = status.user;
+         
+         id obj = nil;
+         for (obj = self; obj; obj = [obj nextResponder]) {
+             if ([obj isKindOfClass:[BBMessageViewController class]])
+             {
+                 UIViewController *uivc = (UIViewController *)obj;
+                 BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                 [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
+                 profiletvc.uid = user.idstr;
+                 profiletvc.statuses = statuses;
+                 profiletvc.user = user;
+                 profiletvc.shouldNavBtnShown = NO;
+                 profiletvc.title = [NSString stringWithFormat:@"%@", user.screen_name];
+                 [uivc.navigationController pushViewController:profiletvc animated:YES];
+                 return;
+             }
+         }
+         
+     }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"error %@", error);
+     }];
 }
 
 #pragma mark - STTweetLabelBlockCallbacks support

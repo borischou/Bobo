@@ -434,7 +434,8 @@
          id obj = nil;
          for (obj = self; obj; obj = [obj nextResponder]) {
              if ([obj isKindOfClass:[BBStatusDetailViewController class]] ||
-                 [obj isKindOfClass:[BBMainStatusTableViewController class]])
+                 [obj isKindOfClass:[BBMainStatusTableViewController class]] ||
+                 [obj isKindOfClass:[BBFavoritesTableViewController class]])
              {
                  UIViewController *uivc = (UIViewController *)obj;
                  BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -627,7 +628,8 @@
             for (obj = self; obj; obj = [obj nextResponder]) {
                 if ([obj isKindOfClass:[BBStatusDetailViewController class]] ||
                     [obj isKindOfClass:[BBMainStatusTableViewController class]] ||
-                    [obj isKindOfClass:[BBProfileTableViewController class]])
+                    [obj isKindOfClass:[BBProfileTableViewController class]] ||
+                    [obj isKindOfClass:[BBFavoritesTableViewController class]])
                 {
                     UIViewController *uivc = (UIViewController *)obj;
                     BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
