@@ -71,11 +71,6 @@ static NSString *reuseCountsCell = @"countsCell";
     [super viewDidAppear:animated];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
 #pragma mark - Helpers
 
 -(void)setNavBarBtn
