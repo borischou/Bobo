@@ -396,9 +396,7 @@ static NSString *reuseCountsCell = @"countsCell";
     if (lastOne.idstr) {
         _currentLastStatusId = lastOne.idstr;
     }
-    
-    NSLog(@"CURRENT LAST STATUS ID: %@", _currentLastStatusId);
-    
+        
     [self.tableView.header endRefreshing];
     [self.tableView.footer endRefreshing];
     [self.tableView reloadData];
