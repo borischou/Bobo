@@ -186,7 +186,9 @@
              
              id obj = nil;
              for (obj = self; obj; obj = [obj nextResponder]) {
-                 if ([obj isKindOfClass:[BBStatusDetailViewController class]] || [obj isKindOfClass:[BBWaterfallStatusViewController class]]) {
+                 if ([obj isKindOfClass:[BBStatusDetailViewController class]] ||
+                     [obj isKindOfClass:[BBWaterfallStatusViewController class]])
+                 {
                      UIViewController *uivc = (UIViewController *)obj;
                      BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
                      [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
@@ -204,6 +206,12 @@
          {
              NSLog(@"error %@", error);
          }];
+    }
+    if ([hotword hasPrefix:@"http"]) {
+        //打开webview
+    }
+    if ([hotword hasPrefix:@"#"]) {
+        //热门话题
     }
 }
 

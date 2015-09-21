@@ -403,11 +403,15 @@
     id tableViewController = [[[self nextResponder] nextResponder] nextResponder];
     id detailTableViewController = [tableViewController nextResponder];
 
-    if ([tableViewController isKindOfClass:[BBMainStatusTableViewController class]] || [tableViewController isKindOfClass:[BBProfileTableViewController class]] || [tableViewController isKindOfClass:[BBFavoritesTableViewController class]]) {
+    if ([tableViewController isKindOfClass:[BBMainStatusTableViewController class]] ||
+        [tableViewController isKindOfClass:[BBProfileTableViewController class]] ||
+        [tableViewController isKindOfClass:[BBFavoritesTableViewController class]])
+    {
         BBMainStatusTableViewController *mstvc = (BBMainStatusTableViewController *)tableViewController;
         [mstvc.navigationController pushViewController:dtvc animated:YES];
     }
-    if ([detailTableViewController isKindOfClass:[BBStatusDetailViewController class]]) {
+    if ([detailTableViewController isKindOfClass:[BBStatusDetailViewController class]])
+    {
         BBStatusDetailViewController *sdvc = (BBStatusDetailViewController *)detailTableViewController;
         [sdvc.navigationController pushViewController:dtvc animated:YES];
     }
@@ -429,7 +433,9 @@
          
          id obj = nil;
          for (obj = self; obj; obj = [obj nextResponder]) {
-             if ([obj isKindOfClass:[BBStatusDetailViewController class]] || [obj isKindOfClass:[BBMainStatusTableViewController class]]) {
+             if ([obj isKindOfClass:[BBStatusDetailViewController class]] ||
+                 [obj isKindOfClass:[BBMainStatusTableViewController class]])
+             {
                  UIViewController *uivc = (UIViewController *)obj;
                  BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
                  [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
@@ -441,7 +447,6 @@
                  [uivc.navigationController pushViewController:profiletvc animated:YES];
              }
          }
-         
      }
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
@@ -620,7 +625,10 @@
             
             id obj = nil;
             for (obj = self; obj; obj = [obj nextResponder]) {
-                if ([obj isKindOfClass:[BBStatusDetailViewController class]] || [obj isKindOfClass:[BBMainStatusTableViewController class]]) {
+                if ([obj isKindOfClass:[BBStatusDetailViewController class]] ||
+                    [obj isKindOfClass:[BBMainStatusTableViewController class]] ||
+                    [obj isKindOfClass:[BBProfileTableViewController class]])
+                {
                     UIViewController *uivc = (UIViewController *)obj;
                     BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
                     [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
@@ -630,14 +638,20 @@
                     profiletvc.shouldNavBtnShown = NO;
                     profiletvc.title = [NSString stringWithFormat:@"%@", user.screen_name];
                     [uivc.navigationController pushViewController:profiletvc animated:YES];
+                    return;
                 }
             }
-
         }
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
         {
             NSLog(@"error %@", error);
         }];
+    }
+    if ([hotword hasPrefix:@"http"]) {
+        //打开webview
+    }
+    if ([hotword hasPrefix:@"#"]) {
+        //热门话题
     }
 }
 
