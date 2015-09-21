@@ -202,15 +202,26 @@
 {
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     if (!uid) {
-        return;
+        [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            //获取本账号uid并保存在本地
+            NSError *error = nil;
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
+            NSString *uid = [NSString stringWithFormat:@"%@", dict[@"uid"]];
+            [[NSUserDefaults standardUserDefaults] setObject:uid forKey:@"uid"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                NSError *error = nil;
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
+                _user = [[User alloc] initWithDictionary:dict];
+            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"error: %@", error);
+            }];
+            
+        } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"error: %@", error);
+        }];
     }
-    [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSError *error = nil;
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
-        _user = [[User alloc] initWithDictionary:dict];
-    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"error: %@", error);
-    }];
 }
 //-(void)fetchUserProfile
 //{

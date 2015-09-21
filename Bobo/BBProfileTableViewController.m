@@ -391,7 +391,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(User *)getUserProfile
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     return delegate.user;
 }
 
