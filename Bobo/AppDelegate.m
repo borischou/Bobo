@@ -8,7 +8,7 @@
 
 #import "Utils.h"
 #import "AppDelegate.h"
-#import "WeiboSDK.h"
+//#import "WeiboSDK.h"
 
 #import "BBProfileTableViewController.h"
 #import "BBMainStatusTableViewController.h"
@@ -33,7 +33,7 @@
 #define uSmallGap 5
 #define uBigGap 10
 
-@interface AppDelegate () <WeiboSDKDelegate, SWRevealViewControllerDelegate>
+@interface AppDelegate () <SWRevealViewControllerDelegate>
 
 @property (strong, nonatomic) ACAccount *weiboAccount;
 
@@ -76,16 +76,16 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
--(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    return [WeiboSDK handleOpenURL:url delegate:self];
-}
-
--(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-    NSLog(@"handleOpenURL: the url is: %@", [NSString stringWithFormat:@"%@", url]);
-    return [WeiboSDK handleOpenURL:url delegate:self];
-}
+//-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+//{
+//    return [WeiboSDK handleOpenURL:url delegate:self];
+//}
+//
+//-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+//{
+//    NSLog(@"handleOpenURL: the url is: %@", [NSString stringWithFormat:@"%@", url]);
+//    return [WeiboSDK handleOpenURL:url delegate:self];
+//}
 
 #pragma mark - Helpers
 
@@ -247,43 +247,43 @@
     });
 }
 
-#pragma mark - WeiboSDKDelegate
-
--(void)didReceiveWeiboRequest:(WBBaseRequest *)request
-{
-    NSLog(@"收到didReceiveWeiboRequest回应: %@", request);
-}
-
--(void)didReceiveWeiboResponse:(WBBaseResponse *)response
-{
-    if ([response isKindOfClass:[WBSendMessageToWeiboResponse class]]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"WeiboSDKDelegate" message:[NSString stringWithFormat:@"didReceiveWeiboResponse:\n%@\n 响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求UserInfo数据: %@", [response class], (int)response.statusCode,[(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        WBSendMessageToWeiboResponse *sendMsgToWBResponse = (WBSendMessageToWeiboResponse *)response;
-        NSString* accessToken = [sendMsgToWBResponse.authResponse accessToken];
-        if (accessToken)
-        {
-            self.wbToken = accessToken;
-            NSLog(@"self.wbToken: %@", self.wbToken);
-        }
-        NSString* userID = [sendMsgToWBResponse.authResponse userID];
-        if (userID) {
-            self.wbCurrentUserID = userID;
-            NSLog(@"self.wbCurrentUserID: %@", self.wbCurrentUserID);
-        }
-        [alertView show];
-    }
-    
-    if ([response isKindOfClass:[WBAuthorizeResponse class]]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"WeiboSDKDelegate" message:[NSString stringWithFormat:@"didReceiveWeiboResponse:\n%@\n 响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求数据: %@", [response class], (int)response.statusCode, [(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        _wbToken = [(WBAuthorizeResponse *)response accessToken];
-        _wbCurrentUserID = [(WBAuthorizeResponse *)response userID];
-        NSLog(@"self.wbToken: %@", _wbToken);
-        NSLog(@"self.wbCurrentUserID: %@", _wbCurrentUserID);
-        
-        [self saveTokenAndUserID];
-        [alertView show];
-    }
-}
+//#pragma mark - WeiboSDKDelegate
+//
+//-(void)didReceiveWeiboRequest:(WBBaseRequest *)request
+//{
+//    NSLog(@"收到didReceiveWeiboRequest回应: %@", request);
+//}
+//
+//-(void)didReceiveWeiboResponse:(WBBaseResponse *)response
+//{
+//    if ([response isKindOfClass:[WBSendMessageToWeiboResponse class]]) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"WeiboSDKDelegate" message:[NSString stringWithFormat:@"didReceiveWeiboResponse:\n%@\n 响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求UserInfo数据: %@", [response class], (int)response.statusCode,[(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        WBSendMessageToWeiboResponse *sendMsgToWBResponse = (WBSendMessageToWeiboResponse *)response;
+//        NSString* accessToken = [sendMsgToWBResponse.authResponse accessToken];
+//        if (accessToken)
+//        {
+//            self.wbToken = accessToken;
+//            NSLog(@"self.wbToken: %@", self.wbToken);
+//        }
+//        NSString* userID = [sendMsgToWBResponse.authResponse userID];
+//        if (userID) {
+//            self.wbCurrentUserID = userID;
+//            NSLog(@"self.wbCurrentUserID: %@", self.wbCurrentUserID);
+//        }
+//        [alertView show];
+//    }
+//    
+//    if ([response isKindOfClass:[WBAuthorizeResponse class]]) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"WeiboSDKDelegate" message:[NSString stringWithFormat:@"didReceiveWeiboResponse:\n%@\n 响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求数据: %@", [response class], (int)response.statusCode, [(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        _wbToken = [(WBAuthorizeResponse *)response accessToken];
+//        _wbCurrentUserID = [(WBAuthorizeResponse *)response userID];
+//        NSLog(@"self.wbToken: %@", _wbToken);
+//        NSLog(@"self.wbCurrentUserID: %@", _wbCurrentUserID);
+//        
+//        [self saveTokenAndUserID];
+//        [alertView show];
+//    }
+//}
 
 #pragma mark - SWRevealViewControllerDelegate
 

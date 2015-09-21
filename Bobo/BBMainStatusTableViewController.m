@@ -9,7 +9,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
-#import "WeiboSDK.h"
+//#import "WeiboSDK.h"
 #import "SWRevealViewController.h"
 #import "Utils.h"
 #import "BBMainStatusTableViewController.h"
@@ -41,7 +41,7 @@
 static NSString *reuseIdentifier = @"reuseCell";
 static NSString *reuseBarCellId = @"barCell";
 
-@interface BBMainStatusTableViewController () <WBHttpRequestDelegate>
+@interface BBMainStatusTableViewController ()
 
 @property (copy, nonatomic) NSString *max_id;
 @property (copy, nonatomic) NSString *since_id;
@@ -115,17 +115,17 @@ static NSString *reuseBarCellId = @"barCell";
     }];
 }
 
-#pragma mark - WBHttpRequestDelegate & Helpers
-
--(void)request:(WBHttpRequest *)request didFinishLoadingWithResult:(NSString *)result
-{
-    [[[UIAlertView alloc] initWithTitle:@"WBHttpRequestDelegate" message:[NSString stringWithFormat:@"didFinishLoadingWithResult: %@", result] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-}
-
--(void)request:(WBHttpRequest *)request didFailWithError:(NSError *)error
-{
-    [[[UIAlertView alloc] initWithTitle:@"WBHttpRequestDelegate" message:[NSString stringWithFormat:@"didFailWithError: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-}
+//#pragma mark - WBHttpRequestDelegate & Helpers
+//
+//-(void)request:(WBHttpRequest *)request didFinishLoadingWithResult:(NSString *)result
+//{
+//    [[[UIAlertView alloc] initWithTitle:@"WBHttpRequestDelegate" message:[NSString stringWithFormat:@"didFinishLoadingWithResult: %@", result] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//}
+//
+//-(void)request:(WBHttpRequest *)request didFailWithError:(NSError *)error
+//{
+//    [[[UIAlertView alloc] initWithTitle:@"WBHttpRequestDelegate" message:[NSString stringWithFormat:@"didFailWithError: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//}
 
 -(void)setMJRefresh
 {
@@ -140,7 +140,7 @@ static NSString *reuseBarCellId = @"barCell";
     self.tableView.footer = footer;
 }
 
--(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+-(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
 {
     if (error) {
         [self.tableView.header endRefreshing];
@@ -184,24 +184,24 @@ static NSString *reuseBarCellId = @"barCell";
     }
 }
 
--(void)fetchApiRateLimitStatus
-{
-    AppDelegate *delegate = [AppDelegate delegate];
-    NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-    if (delegate.wbToken) {
-        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *url;
-        
-        url = [bWeiboDomain stringByAppendingString:@"account/rate_limit_status.json"];
-        
-        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-            NSDictionary *resultDic = result;
-            NSLog(@"访问情况：%@", resultDic.description);
-        }];
-    } else {
-        [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您未登录微博授权，请先登录。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }
-}
+//-(void)fetchApiRateLimitStatus
+//{
+//    AppDelegate *delegate = [AppDelegate delegate];
+//    NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
+//    if (delegate.wbToken) {
+//        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
+//        NSString *url;
+//        
+//        url = [bWeiboDomain stringByAppendingString:@"account/rate_limit_status.json"];
+//        
+//        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//            NSDictionary *resultDic = result;
+//            NSLog(@"访问情况：%@", resultDic.description);
+//        }];
+//    } else {
+//        [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您未登录微博授权，请先登录。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//    }
+//}
 
 -(void)fetchLatestStatuses
 {

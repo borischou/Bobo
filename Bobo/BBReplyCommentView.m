@@ -11,7 +11,7 @@
 #import "AppDelegate.h"
 #import "BBStatusDetailViewController.h"
 #import "SWRevealViewController.h"
-#import "WeiboSDK.h"
+//#import "WeiboSDK.h"
 #import "BBNotificationView.h"
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>

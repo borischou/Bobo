@@ -11,7 +11,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
-#import "WeiboSDK.h"
+//#import "WeiboSDK.h"
 
 #import "BBStatusTableViewCell.h"
 #import "BBCommentTableViewCell.h"
@@ -41,7 +41,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 @property (strong, nonatomic) ACAccount *weiboAccount;
 @property (copy, nonatomic) NSMutableArray *comments;
 @property (strong, nonatomic) BBCommentBarView *barView;
-@property (strong, nonatomic) WBHttpRequest *wbRequest;
+//@property (strong, nonatomic) WBHttpRequest *wbRequest;
 
 @end
 
@@ -96,8 +96,8 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [_wbRequest disconnect];
-    _wbRequest.delegate = nil;
+//    [_wbRequest disconnect];
+//    _wbRequest.delegate = nil;
 }
 
 #pragma mark - Helpers
@@ -156,7 +156,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 //    }
 }
 
--(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+-(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
 {
     if ([type isEqualToString:@"comment"]) {
         if (!_comments) {
@@ -189,53 +189,53 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [self.tableView reloadData];
 }
 
-#pragma mark - WBHttpRequestDelegate
-
--(void)request:(WBHttpRequest *)request didFailWithError:(NSError *)error
-{
-    [self.tableView.header endRefreshing];
-    [self.tableView.footer endRefreshing];
-    [[[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-}
-
--(void)request:(WBHttpRequest *)request didReceiveResponse:(NSURLResponse *)response
-{
-    NSLog(@"RESPONSE: %@", response);
-}
-
--(void)request:(WBHttpRequest *)request didFinishLoadingWithDataResult:(NSData *)result
-{
-    if ([request.tag isEqualToString:@"comment"]) {
-        if (!_comments) {
-            _comments = @[].mutableCopy;
-        }
-        if (_page == 1) {
-            _comments = nil;
-            _comments = @[].mutableCopy;
-        }
-        
-        NSError *error = nil;
-        NSDictionary *resultDict = [NSJSONSerialization JSONObjectWithData:result options:0 error:&error];
-        
-        if (error) {
-            NSLog(@"JSON ERROR: %@", error);
-        }
-        
-        if (![[resultDict objectForKey:@"comments"] isEqual:[NSNull null]]) {
-            NSArray *commentsArray = [resultDict objectForKey:@"comments"];
-            if (commentsArray.count > 0) {
-                for (NSDictionary *dict in commentsArray) {
-                    Comment *comment = [[Comment alloc] initWithDictionary:dict];
-                    [_comments addObject:comment];
-                }
-                _page += 1;
-            }
-        }
-    }
-    [self.tableView.header endRefreshing];
-    [self.tableView.footer endRefreshing];
-    [self.tableView reloadData];
-}
+//#pragma mark - WBHttpRequestDelegate
+//
+//-(void)request:(WBHttpRequest *)request didFailWithError:(NSError *)error
+//{
+//    [self.tableView.header endRefreshing];
+//    [self.tableView.footer endRefreshing];
+//    [[[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//}
+//
+//-(void)request:(WBHttpRequest *)request didReceiveResponse:(NSURLResponse *)response
+//{
+//    NSLog(@"RESPONSE: %@", response);
+//}
+//
+//-(void)request:(WBHttpRequest *)request didFinishLoadingWithDataResult:(NSData *)result
+//{
+//    if ([request.tag isEqualToString:@"comment"]) {
+//        if (!_comments) {
+//            _comments = @[].mutableCopy;
+//        }
+//        if (_page == 1) {
+//            _comments = nil;
+//            _comments = @[].mutableCopy;
+//        }
+//        
+//        NSError *error = nil;
+//        NSDictionary *resultDict = [NSJSONSerialization JSONObjectWithData:result options:0 error:&error];
+//        
+//        if (error) {
+//            NSLog(@"JSON ERROR: %@", error);
+//        }
+//        
+//        if (![[resultDict objectForKey:@"comments"] isEqual:[NSNull null]]) {
+//            NSArray *commentsArray = [resultDict objectForKey:@"comments"];
+//            if (commentsArray.count > 0) {
+//                for (NSDictionary *dict in commentsArray) {
+//                    Comment *comment = [[Comment alloc] initWithDictionary:dict];
+//                    [_comments addObject:comment];
+//                }
+//                _page += 1;
+//            }
+//        }
+//    }
+//    [self.tableView.header endRefreshing];
+//    [self.tableView.footer endRefreshing];
+//    [self.tableView reloadData];
+//}
 
 #pragma mark - Table view data source
 

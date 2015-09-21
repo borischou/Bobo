@@ -11,7 +11,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
-#import "WeiboSDK.h"
+//#import "WeiboSDK.h"
 #import "Utils.h"
 #import "AppDelegate.h"
 #import "Comment.h"
@@ -158,7 +158,7 @@
     tableView.footer = footer;
 }
 
--(void)weiboRequestHandler:(WBHttpRequest *)request forTableView:(BBMessageTableView *)tableView withResult:(id)result error:(NSError *)error type:(NSString *)type flag:(NSInteger)flag
+-(void)weiboRequestHandler:(id *)request forTableView:(BBMessageTableView *)tableView withResult:(id)result error:(NSError *)error type:(NSString *)type flag:(NSInteger)flag
 {
     if (error) {
         [[[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];

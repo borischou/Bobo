@@ -17,7 +17,7 @@
 #import "UIButton+Bobtn.h"
 #import "Utils.h"
 #import "AppDelegate.h"
-#import "WeiboSDK.h"
+//#import "WeiboSDK.h"
 #import "BBUpdateStatusView.h"
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
@@ -156,7 +156,7 @@
 //    }
 }
 
--(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+-(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
 {
     if (error) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];

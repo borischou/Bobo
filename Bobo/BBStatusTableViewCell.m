@@ -126,6 +126,8 @@
     
     //profile image
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, bAvatarWidth, bAvatarHeight)];
+    _avatarView.userInteractionEnabled = YES;
+    [_avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapped)]];
     [self.contentView addSubview:_avatarView];
     
     //nickname
@@ -417,6 +419,42 @@
     }
 }
 
+-(void)avatarViewTapped
+{
+    NSLog(@"avatarViewTapped");
+    NSDictionary *params = @{@"uid": _status.user.idstr};
+    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                      URL:@"statuses/user_timeline.json"
+                      SLRequestHTTPMethod:SLRequestMethodGET
+                               parameters:params
+               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSMutableArray *statuses = [self statusesWith:responseObject];
+         Status *status = statuses.firstObject;
+         User *user = status.user;
+         
+         id obj = nil;
+         for (obj = self; obj; obj = [obj nextResponder]) {
+             if ([obj isKindOfClass:[BBStatusDetailViewController class]] || [obj isKindOfClass:[BBMainStatusTableViewController class]]) {
+                 UIViewController *uivc = (UIViewController *)obj;
+                 BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                 [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
+                 profiletvc.uid = user.idstr;
+                 profiletvc.statuses = statuses;
+                 profiletvc.user = user;
+                 profiletvc.shouldNavBtnShown = NO;
+                 profiletvc.title = [NSString stringWithFormat:@"%@", user.screen_name];
+                 [uivc.navigationController pushViewController:profiletvc animated:YES];
+             }
+         }
+         
+     }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"error %@", error);
+     }];
+}
+
 #pragma mark - Cell configure support
 
 //override this method to load views dynamically
@@ -588,7 +626,7 @@
             
             id obj = nil;
             for (obj = self; obj; obj = [obj nextResponder]) {
-                if ([obj isKindOfClass:[BBStatusDetailViewController class]]) {
+                if ([obj isKindOfClass:[BBStatusDetailViewController class]] || [obj isKindOfClass:[BBMainStatusTableViewController class]]) {
                     UIViewController *uivc = (UIViewController *)obj;
                     BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
                     [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];

@@ -12,7 +12,7 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import "Utils.h"
-#import "WeiboSDK.h"
+//#import "WeiboSDK.h"
 #import "SWRevealViewController.h"
 #import "AppDelegate.h"
 #import "BBWaterfallCollectionView.h"
@@ -27,7 +27,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBWaterfallStatusViewController () <WBHttpRequestDelegate, UICollectionViewDelegate>
+@interface BBWaterfallStatusViewController () <UICollectionViewDelegate>
 
 @property (strong, nonatomic) BBWaterfallCollectionView *waterfallView;
 @property (copy, nonatomic) NSString *max_id;
@@ -136,7 +136,7 @@
     _waterfallView.footer = footer;
 }
 
--(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+-(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
 {
     if (error) {
         [[[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
@@ -180,25 +180,6 @@
         }
         [_waterfallView reloadData];
         NSLog(@"The currentLastStatusId is: %@", _max_id);
-    }
-}
-
--(void)fetchApiRateLimitStatus
-{
-    AppDelegate *delegate = [AppDelegate delegate];
-    NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-    if (delegate.wbToken) {
-        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *url;
-        
-        url = [bWeiboDomain stringByAppendingString:@"account/rate_limit_status.json"];
-        
-        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-            NSDictionary *resultDic = result;
-            NSLog(@"访问情况：%@", resultDic.description);
-        }];
-    } else {
-        [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您未登录微博授权，请先登录。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
 }
 

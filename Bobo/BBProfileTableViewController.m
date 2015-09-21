@@ -14,7 +14,7 @@
 #import "BBStatusDetailViewController.h"
 #import "BBCountTableViewCell.h"
 #import "AppDelegate.h"
-#import "WeiboSDK.h"
+//#import "WeiboSDK.h"
 #import "BBMeHeaderView.h"
 #import "BBStatusTableViewCell.h"
 #import "BBNetworkUtils.h"
@@ -43,7 +43,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <WBHttpRequestDelegate, UIAlertViewDelegate>
+@interface BBProfileTableViewController () <UIAlertViewDelegate>
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) UIAlertView *logoutAlertView;
@@ -219,18 +219,18 @@ static NSString *reuseCountsCell = @"countsCell";
 
 #pragma mark - UIAlertViewDelegate
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if ([alertView isEqual:self.logoutAlertView]) {
-        if (1 == buttonIndex) {
-            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [WeiboSDK logOutWithToken:delegate.wbToken delegate:self withTag:@"user1"];
-            delegate.isLoggedIn = NO;
-            [[NSUserDefaults standardUserDefaults] setValue:@(delegate.isLoggedIn) forKey:@"loginstatus"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if ([alertView isEqual:self.logoutAlertView]) {
+//        if (1 == buttonIndex) {
+//            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//            [WeiboSDK logOutWithToken:delegate.wbToken delegate:self withTag:@"user1"];
+//            delegate.isLoggedIn = NO;
+//            [[NSUserDefaults standardUserDefaults] setValue:@(delegate.isLoggedIn) forKey:@"loginstatus"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+//        }
+//    }
+//}
 
 #pragma mark - Fetch requests
 
@@ -350,7 +350,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 #pragma mark - Helpers
 
--(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+-(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
 {
     if ([type isEqualToString:@"show"]) {
         [self.tableView.header endRefreshing];
