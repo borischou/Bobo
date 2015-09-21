@@ -254,7 +254,7 @@ static CGFloat imageQuality = 0.7;
         case 0: //发微博
             {
                 if (_pickedOnes.count > 0) { //有配图
-                    UIImage *firstImage = [[_pickedOnes firstObject] copy];
+                    UIImage *firstImage = [_pickedOnes firstObject];
                     NSData *imgData = UIImageJPEGRepresentation(firstImage, imageQuality);
                     WBImageObject *imgObject = [WBImageObject object];
                     imgObject.imageData = imgData;
