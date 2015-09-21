@@ -63,7 +63,7 @@
     self.layer.shadowColor = [UIColor blackColor].CGColor;
     self.layer.shadowOpacity = 0.2;
 
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = [AppDelegate delegate];
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
     [_avatarView sd_setImageWithURL:[NSURL URLWithString:delegate.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];

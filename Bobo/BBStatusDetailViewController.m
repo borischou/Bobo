@@ -9,6 +9,8 @@
 #import "BBStatusDetailViewController.h"
 
 #import <MJRefresh/MJRefresh.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
 #import "WeiboSDK.h"
 
 #import "BBStatusTableViewCell.h"
@@ -16,6 +18,7 @@
 #import "BBNetworkUtils.h"
 #import "AppDelegate.h"
 #import "Comment.h"
+#import "Utils.h"
 #import "BBReplyCommentView.h"
 #import "BBCommentBarView.h"
 
@@ -31,10 +34,11 @@
 static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
-@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, WBHttpRequestDelegate> {
+@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate> {
     int _page;
 }
 
+@property (strong, nonatomic) ACAccount *weiboAccount;
 @property (copy, nonatomic) NSMutableArray *comments;
 @property (strong, nonatomic) BBCommentBarView *barView;
 @property (strong, nonatomic) WBHttpRequest *wbRequest;
@@ -63,8 +67,10 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [self.view addSubview:_tableView];
     self.view.backgroundColor = bBGColor;
 
-    _wbRequest = [[WBHttpRequest alloc] init];
-    _wbRequest.delegate = self;
+    //_wbRequest = [[WBHttpRequest alloc] init];
+    //_wbRequest.delegate = self;
+    
+    _weiboAccount = [[AppDelegate delegate] defaultAccount];
 
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
@@ -125,21 +131,61 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)fetchLatestComments
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (!delegate.isLoggedIn) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"comments/show.json?id=%@&page=%d", _status.idstr, _page] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *error = nil;
+        [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"comment"];
+    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
-        [alertView show];
-    }
-    else
-    {
-        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, _page];
-        NSString *url = [bWeiboDomain stringByAppendingFormat:@"comments/show.json?%@", para];
-        NSLog(@"The full url is: %@", url);
+    }];
+//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//    if (!delegate.isLoggedIn) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [self.tableView.header endRefreshing];
+//        [self.tableView.footer endRefreshing];
+//        [alertView show];
+//    }
+//    else
+//    {
+//        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, _page];
+//        NSString *url = [bWeiboDomain stringByAppendingFormat:@"comments/show.json?%@", para];
+//        NSLog(@"The full url is: %@", url);
+//        
+//        [WBHttpRequest requestWithAccessToken:delegate.wbToken url:url httpMethod:@"GET" params:nil delegate:self withTag:@"comment"];
+//    }
+}
+
+-(void)weiboRequestHandler:(WBHttpRequest *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+{
+    if ([type isEqualToString:@"comment"]) {
+        if (!_comments) {
+            _comments = @[].mutableCopy;
+        }
+        if (_page == 1) {
+            _comments = nil;
+            _comments = @[].mutableCopy;
+        }
         
-        [WBHttpRequest requestWithAccessToken:delegate.wbToken url:url httpMethod:@"GET" params:nil delegate:self withTag:@"comment"];
+        NSError *error = nil;
+        
+        if (error) {
+            NSLog(@"JSON ERROR: %@", error);
+        }
+        
+        if (![[result objectForKey:@"comments"] isEqual:[NSNull null]]) {
+            NSArray *commentsArray = [result objectForKey:@"comments"];
+            if (commentsArray.count > 0) {
+                for (NSDictionary *dict in commentsArray) {
+                    Comment *comment = [[Comment alloc] initWithDictionary:dict];
+                    [_comments addObject:comment];
+                }
+                _page += 1;
+            }
+        }
     }
+    [self.tableView.header endRefreshing];
+    [self.tableView.footer endRefreshing];
+    [self.tableView reloadData];
 }
 
 #pragma mark - WBHttpRequestDelegate
@@ -168,7 +214,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         }
         
         NSError *error = nil;
-        NSDictionary *resultDict = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingMutableContainers error:&error];
+        NSDictionary *resultDict = [NSJSONSerialization JSONObjectWithData:result options:0 error:&error];
         
         if (error) {
             NSLog(@"JSON ERROR: %@", error);

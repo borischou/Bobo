@@ -8,7 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <AFNetworking.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
 #import "Status.h"
+
+typedef void (^AFHTTPRequestOperationSuccessCompletionHandler) (AFHTTPRequestOperation *operation, id responseObject);
+typedef void (^AFHTTPRequestOperationFailureCompletionHandler) (AFHTTPRequestOperation *operation, NSError *error);
+typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error);
 
 @interface Utils : NSObject
 
@@ -28,5 +35,9 @@
 
 +(NSString *)appKey;
 +(NSString *)accessToken;
+
++(void)genericWeiboRequestWithAccount:(ACAccount *)weiboAccount URL:(NSString *)url SLRequestHTTPMethod:(SLRequestMethod)method parameters:(NSDictionary *)params completionBlockWithSuccess:(AFHTTPRequestOperationSuccessCompletionHandler)success completionBlockWithFailure:(AFHTTPRequestOperationFailureCompletionHandler)failure;
++(NSArray *)systemAccounts;
++(void)weiboPostRequestWithAccount:(ACAccount *)weiboAccount URL:(NSString *)url parameters:(NSDictionary *)params completionHandler:(SLRequestCompletionHandler)completion;
 
 @end

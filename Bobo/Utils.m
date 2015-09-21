@@ -7,7 +7,6 @@
 //
 
 #import "Utils.h"
-#import <AFNetworking.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -260,6 +259,49 @@
 +(NSString *)accessToken
 {
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"wbtoken"];
+}
+
++(void)genericWeiboRequestWithAccount:(ACAccount *)weiboAccount
+                                  URL:(NSString *)url
+                  SLRequestHTTPMethod:(SLRequestMethod)method
+                           parameters:(NSDictionary *)params
+           completionBlockWithSuccess:(AFHTTPRequestOperationSuccessCompletionHandler)success
+           completionBlockWithFailure:(AFHTTPRequestOperationFailureCompletionHandler)failure
+{
+    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:[@"https://api.weibo.com/2/" stringByAppendingString:url]] parameters:params];
+    [request setAccount:weiboAccount];
+    NSURLRequest *urlrequest = [request preparedURLRequest];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:urlrequest];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success(operation, responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(operation, error);
+    }];
+    [operation start];
+}
+
++(void)weiboPostRequestWithAccount:(ACAccount *)weiboAccount URL:(NSString *)url parameters:(NSDictionary *)params completionHandler:(SLRequestCompletionHandler)completion
+{
+    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodPOST URL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.weibo.com/2/%@", url]] parameters:params];
+    [request setAccount:weiboAccount];
+    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        completion(responseData, urlResponse, error);
+    }];
+}
+
++(NSArray *)systemAccounts
+{
+    static dispatch_once_t onceToken;
+    static ACAccountStore *store;
+    static ACAccountType *type;
+    static NSArray *accounts;
+    dispatch_once(&onceToken, ^{
+        store = [[ACAccountStore alloc] init];
+        type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
+        accounts = [store accountsWithAccountType:type];
+    });
+    return accounts;
 }
 
 @end

@@ -7,9 +7,11 @@
 //
 
 #import <MJRefresh/MJRefresh.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
 #import "WeiboSDK.h"
 #import "SWRevealViewController.h"
-
+#import "Utils.h"
 #import "BBMainStatusTableViewController.h"
 #import "BBStatusDetailViewController.h"
 #import "BBButtonbarTableViewCell.h"
@@ -44,6 +46,7 @@ static NSString *reuseBarCellId = @"barCell";
 @property (copy, nonatomic) NSString *max_id;
 @property (copy, nonatomic) NSString *since_id;
 @property (copy, nonatomic) NSMutableArray *statuses;
+@property (strong, nonatomic) ACAccount *weiboAccount;
 
 @end
 
@@ -51,6 +54,7 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _weiboAccount = [[AppDelegate delegate] defaultAccount];
     [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
@@ -127,7 +131,7 @@ static NSString *reuseBarCellId = @"barCell";
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self fetchLatestStatuses];
-        [self fetchApiRateLimitStatus];
+        //[self fetchApiRateLimitStatus];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatuses)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
@@ -201,46 +205,64 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)fetchLatestStatuses
 {
-    AppDelegate *delegate = [AppDelegate delegate];
-    if (!delegate.isLoggedIn) {
-        [self.tableView.header endRefreshing];
-        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    NSString *url;
+    if (!_since_id) {
+        url = @"statuses/home_timeline.json";
     } else {
-        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-        if (delegate.wbToken) {
-            [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-            NSString *url;
-            if (!_since_id) {
-                url = [bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"];
-            } else {
-                url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json?since_id=%@", _since_id];
-            }
-            NSLog(@"The full url for latest statuses is: %@", url);
-            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"refresh"];
-            }];
-        } else {
-            [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您未登录微博授权，请先登录。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-        }
+        url = [NSString stringWithFormat:@"statuses/home_timeline.json?since_id=%@", _since_id];
     }
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:url SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *error = nil;
+        [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"refresh"];
+    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self.tableView.header endRefreshing];
+    }];
+//    AppDelegate *delegate = [AppDelegate delegate];
+//    if (!delegate.isLoggedIn) {
+//        [self.tableView.header endRefreshing];
+//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//    } else {
+//        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
+//        if (delegate.wbToken) {
+//            [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
+//            NSString *url;
+//            if (!_since_id) {
+//                url = [bWeiboDomain stringByAppendingString:@"statuses/home_timeline.json"];
+//            } else {
+//                url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json?since_id=%@", _since_id];
+//            }
+//            NSLog(@"The full url for latest statuses is: %@", url);
+//            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"refresh"];
+//            }];
+//        } else {
+//            [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您未登录微博授权，请先登录。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//        }
+//    }
 }
 
 -(void)fetchHistoryStatuses
 {
-    AppDelegate *delegate = [AppDelegate delegate];
-    if (!delegate.isLoggedIn) {
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"statuses/home_timeline.json?max_id=%@&count=20", _max_id] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *error = nil;
+        [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"history"];
+    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self.tableView.footer endRefreshing];
-        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    } else {
-        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-        NSString *para = [NSString stringWithFormat:@"max_id=%@&count=20", _max_id];
-        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json?%@", para];
-        NSLog(@"The full url for history statuses is: %@", url);
-        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
-        }];
-    }
+    }];
+//    AppDelegate *delegate = [AppDelegate delegate];
+//    if (!delegate.isLoggedIn) {
+//        [self.tableView.footer endRefreshing];
+//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//    } else {
+//        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
+//        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
+//        NSString *para = [NSString stringWithFormat:@"max_id=%@&count=20", _max_id];
+//        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/home_timeline.json?%@", para];
+//        NSLog(@"The full url for history statuses is: %@", url);
+//        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
+//        }];
+//    }
 }
 
 #pragma mark - UIScrollViewDelegate
