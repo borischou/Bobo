@@ -245,10 +245,6 @@ static CGFloat imageQuality = 0.7;
 
 -(void)sendButtonPressed:(UIButton *)sender
 {
-//    AppDelegate *delegate = [AppDelegate delegate];
-//    if (!delegate.isLoggedIn) {
-//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//    } else {
     ACAccount *weiboAccount = [[AppDelegate delegate] defaultAccount];
     NSDictionary *params = nil;
     switch (_flag) {
@@ -267,7 +263,17 @@ static CGFloat imageQuality = 0.7;
                     //必须指定一个filename的字符串，可以是任意字符串，但必须有，原因未知。
                     [request addMultipartData:imgData withName:@"pic" type:@"multipart/form-data" filename:@"pic"];
                     [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                        NSLog(@"response: %@\n%@\n%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding], urlResponse, error);
+                        NSString *notificationText = nil;
+                        if (!error) {
+                            //NSLog(@"response: %@\n%@\n%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding], urlResponse, error);
+                            notificationText = @"微博发布成功";
+                        } else {
+                            NSLog(@"发布失败：%@", error);
+                            notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                        });
                     }];
                     
                 } else { //无配图
