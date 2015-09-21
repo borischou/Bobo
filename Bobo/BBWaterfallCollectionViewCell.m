@@ -194,7 +194,7 @@
                      profiletvc.statuses = statuses;
                      profiletvc.user = user;
                      profiletvc.shouldNavBtnShown = NO;
-                     profiletvc.title = [NSString stringWithFormat:@"%@", user.screen_name];
+                     profiletvc.title = @"Profile";
                      [uivc.navigationController pushViewController:profiletvc animated:YES];
                  }
              }

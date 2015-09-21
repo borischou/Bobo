@@ -67,6 +67,8 @@
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
     _avatarView.clipsToBounds = YES;
+    _avatarView.userInteractionEnabled = YES;
+    [_avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapped)]];
     [self.contentView addSubview:_avatarView];
     
     _nameLbl = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -137,6 +139,42 @@
     //_textLbl.frame = CGRectMake(cBigGap+cSmallGap+cAvatarWidth, cBigGap+cNameHeight+cSmallGap, cTextWidth, textSize.height);
     CGSize textSize = [_commentTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:cTextWidth];
     [_commentTextLabel setFrame:CGRectMake(cBigGap+cSmallGap+cAvatarWidth, cBigGap+cNameHeight+cSmallGap, cTextWidth, textSize.height)];
+}
+
+-(void)avatarViewTapped
+{
+    NSLog(@"avatarViewTapped");
+    NSDictionary *params = @{@"uid": _comment.user.idstr};
+    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                      URL:@"statuses/user_timeline.json"
+                      SLRequestHTTPMethod:SLRequestMethodGET
+                               parameters:params
+               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSMutableArray *statuses = [self statusesWith:responseObject];
+         Status *status = statuses.firstObject;
+         User *user = status.user;
+         
+         id obj = nil;
+         for (obj = self; obj; obj = [obj nextResponder]) {
+             if ([obj isKindOfClass:[BBStatusDetailViewController class]]) {
+                 UIViewController *uivc = (UIViewController *)obj;
+                 BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                 [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
+                 profiletvc.uid = user.idstr;
+                 profiletvc.statuses = statuses;
+                 profiletvc.user = user;
+                 profiletvc.shouldNavBtnShown = NO;
+                 profiletvc.title = @"Profile";
+                 [uivc.navigationController pushViewController:profiletvc animated:YES];
+             }
+         }
+         
+     }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"error %@", error);
+     }];
 }
 
 #pragma mark - STTweetLabelBlockCallbacks support
