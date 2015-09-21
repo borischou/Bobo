@@ -321,38 +321,60 @@
     {
         if (_status.favorited) {
             [_favoritesImageView setImage:[UIImage imageNamed:@"fav_icon_3"]];
-            NSMutableDictionary *params = @{}.mutableCopy;
-            [params setObject:delegate.wbToken forKey:@"access_token"];
-            [params setObject:_status.idstr forKey:@"id"];
-            NSString *url = [bWeiboDomain stringByAppendingString:@"favorites/destroy.json"];
-            [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+            NSDictionary *params = @{@"id": _status.idstr};
+            [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                 if (!error) {
-                    NSLog(@"收藏已删除。");
+                    NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                     [_status setFavorited:NO];
                 }
-                else
-                {
-                    NSLog(@"收藏删除失败：%@", error);
+                else {
+                    NSLog(@"收藏删除失败: %@", error);
                 }
             }];
+            
+//            NSMutableDictionary *params = @{}.mutableCopy;
+//            [params setObject:delegate.wbToken forKey:@"access_token"];
+//            [params setObject:_status.idstr forKey:@"id"];
+//            NSString *url = [bWeiboDomain stringByAppendingString:@"favorites/destroy.json"];
+//            [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                if (!error) {
+//                    NSLog(@"收藏已删除。");
+//                    [_status setFavorited:NO];
+//                }
+//                else
+//                {
+//                    NSLog(@"收藏删除失败：%@", error);
+//                }
+//            }];
         }
         else
         {
             [_favoritesImageView setImage:[UIImage imageNamed:@"faved_icon"]];
-            NSMutableDictionary *params = @{}.mutableCopy;
-            [params setObject:delegate.wbToken forKey:@"access_token"];
-            [params setObject:_status.idstr forKey:@"id"];
-            NSString *url = [bWeiboDomain stringByAppendingString:@"favorites/create.json"];
-            [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+            NSDictionary *params = @{@"id": _status.idstr};
+            [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                 if (!error) {
-                    NSLog(@"收藏成功。");
+                    NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                     [_status setFavorited:YES];
                 }
-                else
-                {
-                    NSLog(@"收藏失败：%@", error);
+                else {
+                    NSLog(@"收藏失败: %@", error);
                 }
             }];
+            
+//            NSMutableDictionary *params = @{}.mutableCopy;
+//            [params setObject:delegate.wbToken forKey:@"access_token"];
+//            [params setObject:_status.idstr forKey:@"id"];
+//            NSString *url = [bWeiboDomain stringByAppendingString:@"favorites/create.json"];
+//            [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//                if (!error) {
+//                    NSLog(@"收藏成功。");
+//                    [_status setFavorited:YES];
+//                }
+//                else
+//                {
+//                    NSLog(@"收藏失败：%@", error);
+//                }
+//            }];
         }
     }
 }
