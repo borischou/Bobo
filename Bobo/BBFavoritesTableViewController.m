@@ -17,7 +17,6 @@
 #import "UIButton+Bobtn.h"
 #import "Utils.h"
 #import "AppDelegate.h"
-//#import "WeiboSDK.h"
 #import "BBUpdateStatusView.h"
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
@@ -138,22 +137,6 @@
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
     }];
-//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    if (!delegate.isLoggedIn) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [self.tableView.header endRefreshing];
-//        [self.tableView.footer endRefreshing];
-//        [alertView show];
-//    } else {
-//        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-//        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-//        NSString *para = [NSString stringWithFormat:@"count=20&page=%d", _page];
-//        NSString *url = [bWeiboDomain stringByAppendingFormat:@"favorites.json?%@", para];
-//        NSLog(@"The full url is: %@", url);
-//        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"fav"];
-//        }];
-//    }
 }
 
 -(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type

@@ -14,7 +14,6 @@
 #import "UIButton+Bobtn.h"
 #import "BBKeyboardInputAccessoryView.h"
 #import "AppDelegate.h"
-//#import "WeiboSDK.h"
 #import "BBPhotoSelectionCollectionViewController.h"
 #import "BBStatusDetailViewController.h"
 #import "BBNotificationView.h"
@@ -229,18 +228,7 @@ static CGFloat imageQuality = 0.7;
 
 -(void)refreshComments
 {
-//    NSLog(@"SELF!!!!!!!!!: %@", self);
-//    if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
-//        SWRevealViewController *rvc = (SWRevealViewController *)self.window.rootViewController;
-//        UITabBarController *tbc = (UITabBarController *)rvc.frontViewController;
-//        UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
-//        if ([nvc.viewControllers count] >= 2) {
-//            if ([nvc.viewControllers[1] isKindOfClass:[BBStatusDetailViewController class]]) {
-//                BBStatusDetailViewController *sdtvc = (BBStatusDetailViewController *)nvc.viewControllers[1];
-//                [sdtvc.tableView.header beginRefreshing];
-//            }
-//        }
-//    }
+    
 }
 
 -(void)sendButtonPressed:(UIButton *)sender
@@ -253,9 +241,6 @@ static CGFloat imageQuality = 0.7;
                 if (_pickedOnes.count > 0) { //有配图
                     UIImage *firstImage = [_pickedOnes firstObject];
                     NSData *imgData = UIImageJPEGRepresentation(firstImage, imageQuality);
-//                    WBImageObject *imgObject = [WBImageObject object];
-//                    imgObject.imageData = imgData;
-                    
                     params = @{@"status": _statusTextView.text};
                     SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodPOST URL:[NSURL URLWithString:@"https://api.weibo.com/2/statuses/upload.json"] parameters:params];
                     [request setAccount:weiboAccount];

@@ -11,7 +11,6 @@
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
-//#import "WeiboSDK.h"
 #import "Utils.h"
 #import "AppDelegate.h"
 #import "Comment.h"
@@ -226,39 +225,6 @@
         [tableView.header endRefreshing];
         [tableView.footer endRefreshing];
     }];
-//    AppDelegate *delegate = [AppDelegate delegate];
-//    if (!delegate.isLoggedIn) {
-//        [tableView.header endRefreshing];
-//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//    } else {
-//        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-//        if (delegate.wbToken) {
-//            [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-//            NSString *url;
-//            if ([_sinceids[flag] isEqual:[NSNull null]]) {
-//                url = [bWeiboDomain stringByAppendingFormat:@"comments/%@.json", _uri];
-//            } else {
-//                url = [bWeiboDomain stringByAppendingFormat:@"comments/%@.json?since_id=%@", _uri, _sinceids[flag]];
-//            }
-//            NSLog(@"The full url for latest statuses is: %@", url);
-//            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//                if ([_uri isEqualToString:@"to_me"]) {
-//                    [self weiboRequestHandler:httpRequest forTableView:_messageTableView withResult:result error:error type:@"refresh" flag:0];
-//                }
-//                if ([_uri isEqualToString:@"by_me"]) {
-//                    [self weiboRequestHandler:httpRequest forTableView:_byMeTableView withResult:result error:error type:@"refresh" flag:1];
-//                }
-//                if ([_uri isEqualToString:@"mentions"]) {
-//                    [self weiboRequestHandler:httpRequest forTableView:_mentionTableView withResult:result error:error type:@"refresh" flag:2];
-//                }
-//                if ([_uri isEqualToString:@"timeline"]) {
-//                    [self weiboRequestHandler:httpRequest forTableView:_allTableView withResult:result error:error type:@"refresh" flag:3];
-//                }
-//            }];
-//        } else {
-//            [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您未登录微博授权，请先登录。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//        }
-//    }
 }
 
 -(void)fetchHistoryCommentsWithTableView:(BBMessageTableView *)tableView flag:(NSInteger)flag
@@ -281,32 +247,6 @@
         [tableView.header endRefreshing];
         [tableView.footer endRefreshing];
     }];
-    
-//    AppDelegate *delegate = [AppDelegate delegate];
-//    if (!delegate.isLoggedIn) {
-//        [tableView.footer endRefreshing];
-//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//    } else {
-//        NSMutableDictionary *extraParaDict = [NSMutableDictionary dictionary];
-//        [extraParaDict setObject:delegate.wbToken forKey:@"access_token"];
-//        NSString *para = [NSString stringWithFormat:@"max_id=%@&count=20", _maxids[flag]];
-//        NSString *url = [bWeiboDomain stringByAppendingFormat:@"comments/%@.json?%@", _uri, para];
-//        NSLog(@"The full url for history statuses is: %@", url);
-//        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:extraParaDict queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//            if ([_uri isEqualToString:@"to_me"]) {
-//                [self weiboRequestHandler:httpRequest forTableView:_messageTableView withResult:result error:error type:@"history" flag:0];
-//            }
-//            if ([_uri isEqualToString:@"by_me"]) {
-//                [self weiboRequestHandler:httpRequest forTableView:_byMeTableView withResult:result error:error type:@"history" flag:1];
-//            }
-//            if ([_uri isEqualToString:@"mentions"]) {
-//                [self weiboRequestHandler:httpRequest forTableView:_mentionTableView withResult:result error:error type:@"history" flag:2];
-//            }
-//            if ([_uri isEqualToString:@"timeline"]) {
-//                [self weiboRequestHandler:httpRequest forTableView:_allTableView withResult:result error:error type:@"history" flag:3];
-//            }
-//        }];
-//    }
 }
 
 @end

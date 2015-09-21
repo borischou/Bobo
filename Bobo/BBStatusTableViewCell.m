@@ -64,7 +64,6 @@
 
 //status
 @property (strong, nonatomic) STTweetLabel *tweetTextLabel;
-//@property (strong, nonatomic) UILabel *postBodyLbl;
 @property (strong, nonatomic) UILabel *nicknameLbl;
 @property (strong, nonatomic) UILabel *postTimeLbl;
 @property (strong, nonatomic) UILabel *sourceLbl;
@@ -75,7 +74,6 @@
 //repost status
 @property (strong, nonatomic) UIView *repostView;
 @property (strong, nonatomic) STTweetLabel *retweetTextLabel;
-//@property (strong, nonatomic) UILabel *repostLbl;
 @property (strong, nonatomic) NSMutableArray *imgViews;
 
 //barbuttons
@@ -153,10 +151,6 @@
     __weak BBStatusTableViewCell *weakSelf = self;
     CGFloat fontSize = [Utils fontSizeForStatus];
     //text
-//    _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _postBodyLbl.numberOfLines = 0;
-//    _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
-//    [self.contentView addSubview:_postBodyLbl];
     _tweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
     _tweetTextLabel.numberOfLines = 0;
     _tweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -190,10 +184,6 @@
     _repostView.backgroundColor = bRetweetBGColor;
     
     //repost text
-//    _repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _repostLbl.numberOfLines = 0;
-//    _repostLbl.lineBreakMode = NSLineBreakByWordWrapping;
-//    [_repostView addSubview:_repostLbl];
     _retweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
     _retweetTextLabel.numberOfLines = 0;
     _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -327,21 +317,6 @@
                 NSLog(@"收藏删除失败: %@", error);
             }
         }];
-        
-//            NSMutableDictionary *params = @{}.mutableCopy;
-//            [params setObject:delegate.wbToken forKey:@"access_token"];
-//            [params setObject:_status.idstr forKey:@"id"];
-//            NSString *url = [bWeiboDomain stringByAppendingString:@"favorites/destroy.json"];
-//            [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//                if (!error) {
-//                    NSLog(@"收藏已删除。");
-//                    [_status setFavorited:NO];
-//                }
-//                else
-//                {
-//                    NSLog(@"收藏删除失败：%@", error);
-//                }
-//            }];
     }
     else
     {
@@ -356,23 +331,7 @@
                 NSLog(@"收藏失败: %@", error);
             }
         }];
-        
-//            NSMutableDictionary *params = @{}.mutableCopy;
-//            [params setObject:delegate.wbToken forKey:@"access_token"];
-//            [params setObject:_status.idstr forKey:@"id"];
-//            NSString *url = [bWeiboDomain stringByAppendingString:@"favorites/create.json"];
-//            [WBHttpRequest requestWithURL:url httpMethod:@"POST" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//                if (!error) {
-//                    NSLog(@"收藏成功。");
-//                    [_status setFavorited:YES];
-//                }
-//                else
-//                {
-//                    NSLog(@"收藏失败：%@", error);
-//                }
-//            }];
     }
-    
 }
 
 -(void)statusImageTapped:(UITapGestureRecognizer *)tap
@@ -488,7 +447,6 @@
     
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _sourceLbl.text = [NSString trim:_status.source];
-    //_postBodyLbl.attributedText = [NSString markedText:_status.text fontSize:[Utils fontSizeForStatus] fontColor:[UIColor customGray]];
     [_tweetTextLabel setText:_status.text];
     
     if (_status.pic_urls.count > 0) {
@@ -502,7 +460,6 @@
     }
     
     //repost status
-    //_repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] fontSize:[Utils fontSizeForStatus] fontColor:[UIColor customGray]];
     [_retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text]];
     
     if (_status.retweeted_status.pic_urls.count > 0) {
@@ -548,7 +505,6 @@
     [_sourceLbl setFrame:CGRectMake(10+bAvatarWidth+10+timeSize.width+10, 10+5+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
     
     //微博正文
-    //CGSize postSize = [_tweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
     CGSize postSize = [_tweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
     [_tweetTextLabel setFrame:CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height)];
     
@@ -558,7 +514,6 @@
         //转发微博
         _repostView.hidden = NO;
         [self resetImageViews:_statusImgViews];
-        //CGSize repostSize = [_retweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
         CGSize repostSize = [_retweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
         [_retweetTextLabel setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
         [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];

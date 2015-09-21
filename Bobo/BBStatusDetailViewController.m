@@ -11,8 +11,6 @@
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
-//#import "WeiboSDK.h"
-
 #import "BBStatusTableViewCell.h"
 #import "BBCommentTableViewCell.h"
 #import "BBNetworkUtils.h"
@@ -41,7 +39,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
 @property (strong, nonatomic) ACAccount *weiboAccount;
 @property (copy, nonatomic) NSMutableArray *comments;
 @property (strong, nonatomic) BBCommentBarView *barView;
-//@property (strong, nonatomic) WBHttpRequest *wbRequest;
 
 @end
 
@@ -66,12 +63,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     self.view.backgroundColor = bBGColor;
-
-    //_wbRequest = [[WBHttpRequest alloc] init];
-    //_wbRequest.delegate = self;
-    
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
-
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
 }
@@ -91,13 +83,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
         _barView = nil;
         [_barView removeFromSuperview];
     }];
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-//    [_wbRequest disconnect];
-//    _wbRequest.delegate = nil;
 }
 
 #pragma mark - Helpers
@@ -139,21 +124,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
     }];
-//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    if (!delegate.isLoggedIn) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [self.tableView.header endRefreshing];
-//        [self.tableView.footer endRefreshing];
-//        [alertView show];
-//    }
-//    else
-//    {
-//        NSString *para = [NSString stringWithFormat:@"id=%@&page=%d", _status.idstr, _page];
-//        NSString *url = [bWeiboDomain stringByAppendingFormat:@"comments/show.json?%@", para];
-//        NSLog(@"The full url is: %@", url);
-//        
-//        [WBHttpRequest requestWithAccessToken:delegate.wbToken url:url httpMethod:@"GET" params:nil delegate:self withTag:@"comment"];
-//    }
 }
 
 -(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
@@ -188,54 +158,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [self.tableView.footer endRefreshing];
     [self.tableView reloadData];
 }
-
-//#pragma mark - WBHttpRequestDelegate
-//
-//-(void)request:(WBHttpRequest *)request didFailWithError:(NSError *)error
-//{
-//    [self.tableView.header endRefreshing];
-//    [self.tableView.footer endRefreshing];
-//    [[[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//}
-//
-//-(void)request:(WBHttpRequest *)request didReceiveResponse:(NSURLResponse *)response
-//{
-//    NSLog(@"RESPONSE: %@", response);
-//}
-//
-//-(void)request:(WBHttpRequest *)request didFinishLoadingWithDataResult:(NSData *)result
-//{
-//    if ([request.tag isEqualToString:@"comment"]) {
-//        if (!_comments) {
-//            _comments = @[].mutableCopy;
-//        }
-//        if (_page == 1) {
-//            _comments = nil;
-//            _comments = @[].mutableCopy;
-//        }
-//        
-//        NSError *error = nil;
-//        NSDictionary *resultDict = [NSJSONSerialization JSONObjectWithData:result options:0 error:&error];
-//        
-//        if (error) {
-//            NSLog(@"JSON ERROR: %@", error);
-//        }
-//        
-//        if (![[resultDict objectForKey:@"comments"] isEqual:[NSNull null]]) {
-//            NSArray *commentsArray = [resultDict objectForKey:@"comments"];
-//            if (commentsArray.count > 0) {
-//                for (NSDictionary *dict in commentsArray) {
-//                    Comment *comment = [[Comment alloc] initWithDictionary:dict];
-//                    [_comments addObject:comment];
-//                }
-//                _page += 1;
-//            }
-//        }
-//    }
-//    [self.tableView.header endRefreshing];
-//    [self.tableView.footer endRefreshing];
-//    [self.tableView reloadData];
-//}
 
 #pragma mark - Table view data source
 

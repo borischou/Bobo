@@ -43,7 +43,6 @@
 
 //status
 @property (strong, nonatomic) STTweetLabel *tweetTextLabel;
-//@property (strong, nonatomic) UILabel *postBodyLbl;
 @property (strong, nonatomic) UILabel *nicknameLbl;
 @property (strong, nonatomic) UILabel *postTimeLbl;
 @property (strong, nonatomic) UILabel *sourceLbl;
@@ -53,7 +52,6 @@
 //repost status
 @property (strong, nonatomic) UIView *repostView;
 @property (strong, nonatomic) STTweetLabel *retweetTextLabel;
-//@property (strong, nonatomic) UILabel *repostLbl;
 
 @end
 
@@ -128,10 +126,6 @@
     __weak BBMessageTableViewCell *weakSelf = self;
     CGFloat fontSize = [Utils fontSizeForStatus];
     //text
-//    _postBodyLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _postBodyLbl.numberOfLines = 0;
-//    _postBodyLbl.lineBreakMode = NSLineBreakByWordWrapping;
-//    [self.contentView addSubview:_postBodyLbl];
     _tweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
     _tweetTextLabel.numberOfLines = 0;
     _tweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -152,10 +146,6 @@
     [self.contentView addSubview:_repostView];
     
     //repost text
-//    _repostLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _repostLbl.numberOfLines = 0;
-//    _repostLbl.lineBreakMode = NSLineBreakByWordWrapping;
-//    [_repostView addSubview:_repostLbl];
     _retweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
     _retweetTextLabel.numberOfLines = 0;
     _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -188,11 +178,9 @@
     
     _postTimeLbl.text = [Utils formatPostTime:_comment.created_at];
     _sourceLbl.text = [NSString trim:_comment.source];
-    //_postBodyLbl.attributedText = [NSString markedText:_comment.text fontSize:fontSize fontColor:[UIColor customGray]];
     [_tweetTextLabel setText:_comment.text];
     
     //repost status
-    //_repostLbl.attributedText = [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text] fontSize:fontSize fontColor:[UIColor customGray]];
     [_retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text]];
 }
 
@@ -217,13 +205,9 @@
     [_sourceLbl setFrame:CGRectMake(10+bAvatarWidth+10+timeSize.width+10, 10+5+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
     
     //微博正文
-    //CGSize postSize = [_postBodyLbl sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
-    //_postBodyLbl.frame = CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height);
     CGSize postSize = [_tweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
     [_tweetTextLabel setFrame:CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height)];
     
-    //CGSize repostSize = [_repostLbl sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
-    //[_repostLbl setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
     CGSize repostSize = [_retweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
     [_retweetTextLabel setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
     

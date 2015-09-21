@@ -20,7 +20,6 @@
 @property (strong, nonatomic) UIImageView *coverImageView;
 
 //博主微博信息
-//@property (strong, nonatomic) UILabel *textLabel;
 @property (strong, nonatomic) STTweetLabel *tweetTextLabel;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *timeLabel;
@@ -28,7 +27,6 @@
 @property (strong, nonatomic) UILabel *commentNumLabel;
 
 //转发微博信息
-//@property (strong, nonatomic) UILabel *retweetTextLabel;
 @property (strong, nonatomic) STTweetLabel *retweetTextLabel;
 @property (strong, nonatomic) UILabel *retweetNameLabel;
 @property (strong, nonatomic) UIImageView *retweetIcon;

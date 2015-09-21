@@ -63,10 +63,6 @@
     _avatarView.clipsToBounds = YES;
     [self.contentView addSubview:_avatarView];
     
-//    _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _textLabel.numberOfLines = 0;
-//    _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-//    [self.contentView addSubview:_textLabel];
     __weak BBWaterfallCollectionViewCell *weakSelf = self;
     CGFloat fontSize = [Utils fontSizeForWaterfall];
     _tweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
@@ -105,11 +101,6 @@
     _retweetNameLabel.font = [UIFont systemFontOfSize:10.0];
     [self.contentView addSubview:_retweetNameLabel];
     
-//    _retweetTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _retweetTextLabel.textColor = [UIColor lightTextColor];
-//    _retweetTextLabel.numberOfLines = 0;
-//    _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
-//    [self.contentView addSubview:_retweetTextLabel];
     _retweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
     _retweetTextLabel.numberOfLines = 0;
     _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
