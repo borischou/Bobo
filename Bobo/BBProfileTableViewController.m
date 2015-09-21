@@ -14,7 +14,6 @@
 #import "BBStatusDetailViewController.h"
 #import "BBCountTableViewCell.h"
 #import "AppDelegate.h"
-//#import "WeiboSDK.h"
 #import "BBMeHeaderView.h"
 #import "BBStatusTableViewCell.h"
 #import "BBNetworkUtils.h"
@@ -43,7 +42,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <UIAlertViewDelegate>
+@interface BBProfileTableViewController ()
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) UIAlertView *logoutAlertView;
@@ -167,21 +166,6 @@ static NSString *reuseCountsCell = @"countsCell";
             [[[UIAlertView alloc] initWithTitle:@"已登录" message:@"您已授权并登录微博" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         }
     }
-    
-    //新浪SDK
-    //    AppDelegate *delegate = [AppDelegate delegate];
-    //    NSLog(@"isLoggedIn: %d\ndelegate.wbCurrentUserID: %@\ndelegate.wbToken: %@", delegate.isLoggedIn, delegate.wbCurrentUserID, delegate.wbToken);
-    //    if (!delegate.isLoggedIn || !delegate.wbCurrentUserID || !delegate.wbToken) {
-    //        [WeiboSDK enableDebugMode:YES];
-    //        [WeiboSDK registerApp:kAppKey];
-    //        WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-    //        request.redirectURI = kRedirectURI;
-    //        request.scope = @"all";
-    //        [WeiboSDK sendRequest:request];
-    //    } else {
-    //        [[[UIAlertView alloc] initWithTitle:@"Logged in" message:@"You are logged in already." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    //    }
-
 }
 
 -(void)logoutBtnPressed
@@ -217,21 +201,6 @@ static NSString *reuseCountsCell = @"countsCell";
     NSLog(@"Notification Center usage: Profile view controller which registered 'bobo' to be the notification sender's name just observed that the button 'login' registered as 'bobo' in WeiboList view controller was pressed once.");
 }
 
-#pragma mark - UIAlertViewDelegate
-
-//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    if ([alertView isEqual:self.logoutAlertView]) {
-//        if (1 == buttonIndex) {
-//            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//            [WeiboSDK logOutWithToken:delegate.wbToken delegate:self withTag:@"user1"];
-//            delegate.isLoggedIn = NO;
-//            [[NSUserDefaults standardUserDefaults] setValue:@(delegate.isLoggedIn) forKey:@"loginstatus"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//        }
-//    }
-//}
-
 #pragma mark - Fetch requests
 
 //https://api.weibo.com/2/users/show.json?uid=id_string
@@ -248,43 +217,6 @@ static NSString *reuseCountsCell = @"countsCell";
             NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         }];
     }
-    
-//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    if (!delegate.isLoggedIn) {
-//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//    }
-//    else
-//    {
-//        NSMutableDictionary *params = @{}.mutableCopy;
-//        if (delegate.wbToken) {
-//            [params setObject:delegate.wbToken forKey:@"access_token"];
-//            [params setObject:delegate.wbCurrentUserID forKey:@"uid"];
-//            NSString *url = [bWeiboDomain stringByAppendingString:@"users/show.json"];
-//            [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//                [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"show"];
-//            }];
-//        }
-//        else
-//        {
-//            [self.tableView.header endRefreshing];
-//        }
-//    }
-    
-//    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodPOST URL:[NSURL URLWithString:[bWeiboDomain stringByAppendingString:@"statuses/update.json"]] parameters:@{@"status": @"test"}];
-//    request.account = _weiboAccount;
-//    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-//        NSLog(@"data: %@\nresponse: %@\n error: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding], urlResponse, error);
-//    }];
-    
-//    NSMutableURLRequest *mRequest = [[request preparedURLRequest] mutableCopy];
-//    [mRequest setHTTPMethod:@"GET"];
-//
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    [manager HTTPRequestOperationWithRequest:mRequest.copy success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"RESPONSE: %@", responseObject);
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"ERROR: %@", error);
-//    }];
 }
 
 //https://api.weibo.com/2/statuses/user_timeline.json?uid=id_string
@@ -300,22 +232,6 @@ static NSString *reuseCountsCell = @"countsCell";
         NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.header endRefreshing];
     }];
-//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    if (!delegate.isLoggedIn) {
-//        [self.tableView.header endRefreshing];
-//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//    }
-//    else
-//    {
-//        NSMutableDictionary *params = @{}.mutableCopy;
-//        [params setObject:delegate.wbToken forKey:@"access_token"];
-//        [params setObject:delegate.wbCurrentUserID forKey:@"uid"];
-//        NSString *url;
-//        url = [bWeiboDomain stringByAppendingString:@"statuses/user_timeline.json"];
-//        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"me"];
-//        }];
-//    }
 }
 
 //https://api.weibo.com/2/statuses/user_timeline.json?count=count_num&max_id=id_string
@@ -328,24 +244,9 @@ static NSString *reuseCountsCell = @"countsCell";
         NSError *error = nil;
         [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"profile error: %@", error);
+        NSLog(@"profile footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.footer endRefreshing];
     }];
-//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    if (!delegate.isLoggedIn) {
-//        [self.tableView.footer endRefreshing];
-//        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//    }
-//    else
-//    {
-//        NSMutableDictionary *params = @{}.mutableCopy;
-//        [params setObject:delegate.wbToken forKey:@"access_token"];
-//        NSString *para = [NSString stringWithFormat:@"count=5&max_id=%@", _currentLastStatusId];
-//        NSString *url = [bWeiboDomain stringByAppendingFormat:@"statuses/user_timeline.json?%@", para];
-//        [WBHttpRequest requestWithURL:url httpMethod:@"GET" params:params queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//            [self weiboRequestHandler:httpRequest withResult:result AndError:error andType:@"history"];
-//        }];
-//    }
 }
 
 #pragma mark - Helpers
