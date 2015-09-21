@@ -315,25 +315,19 @@
 -(void)favoritesImageViewTapped
 {
     NSLog(@"favoritesImageViewTapped");
-    AppDelegate *delegate = [AppDelegate delegate];
-    if (!delegate.isLoggedIn) {
-        [[[UIAlertView alloc] initWithTitle:@"未登录" message:@"Please log in first." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }
-    else
-    {
-        if (_status.favorited) {
-            [_favoritesImageView setImage:[UIImage imageNamed:@"fav_icon_3"]];
-            NSDictionary *params = @{@"id": _status.idstr};
-            [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                if (!error) {
-                    NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-                    [_status setFavorited:NO];
-                }
-                else {
-                    NSLog(@"收藏删除失败: %@", error);
-                }
-            }];
-            
+    if (_status.favorited) {
+        [_favoritesImageView setImage:[UIImage imageNamed:@"fav_icon_3"]];
+        NSDictionary *params = @{@"id": _status.idstr};
+        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+            if (!error) {
+                NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+                [_status setFavorited:NO];
+            }
+            else {
+                NSLog(@"收藏删除失败: %@", error);
+            }
+        }];
+        
 //            NSMutableDictionary *params = @{}.mutableCopy;
 //            [params setObject:delegate.wbToken forKey:@"access_token"];
 //            [params setObject:_status.idstr forKey:@"id"];
@@ -348,21 +342,21 @@
 //                    NSLog(@"收藏删除失败：%@", error);
 //                }
 //            }];
-        }
-        else
-        {
-            [_favoritesImageView setImage:[UIImage imageNamed:@"faved_icon"]];
-            NSDictionary *params = @{@"id": _status.idstr};
-            [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                if (!error) {
-                    NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-                    [_status setFavorited:YES];
-                }
-                else {
-                    NSLog(@"收藏失败: %@", error);
-                }
-            }];
-            
+    }
+    else
+    {
+        [_favoritesImageView setImage:[UIImage imageNamed:@"faved_icon"]];
+        NSDictionary *params = @{@"id": _status.idstr};
+        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+            if (!error) {
+                NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+                [_status setFavorited:YES];
+            }
+            else {
+                NSLog(@"收藏失败: %@", error);
+            }
+        }];
+        
 //            NSMutableDictionary *params = @{}.mutableCopy;
 //            [params setObject:delegate.wbToken forKey:@"access_token"];
 //            [params setObject:_status.idstr forKey:@"id"];
@@ -377,8 +371,8 @@
 //                    NSLog(@"收藏失败：%@", error);
 //                }
 //            }];
-        }
     }
+    
 }
 
 -(void)statusImageTapped:(UITapGestureRecognizer *)tap
