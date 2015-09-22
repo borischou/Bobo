@@ -106,6 +106,7 @@
     _retweetTextLabel.numberOfLines = 0;
     _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _retweetTextLabel.backgroundColor = [UIColor clearColor];
+    [_retweetTextLabel setTextSelectable:NO];
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor lightTextColor]]];
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];

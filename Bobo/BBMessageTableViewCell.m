@@ -148,9 +148,10 @@
     
     //repost text
     _retweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
-    _retweetTextLabel.numberOfLines = 0;
-    _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _retweetTextLabel.backgroundColor = [UIColor clearColor];
+    [_retweetTextLabel setNumberOfLines:0];
+    [_retweetTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [_retweetTextLabel setBackgroundColor:[UIColor clearColor]];
+    [_retweetTextLabel setTextSelectable:NO];
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
     [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
