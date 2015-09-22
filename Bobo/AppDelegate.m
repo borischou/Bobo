@@ -45,7 +45,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     _weiboAccount = [Utils systemAccounts].firstObject;
-    [self startUserProfileFetch];
+    [self fetchUserProfile];
     [self initControllers];
     [_window makeKeyAndVisible];
     return YES;
@@ -182,6 +182,16 @@
                 NSLog(@"error: %@", error);
             }];
             
+        } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"error: %@", error);
+        }];
+    }
+    else
+    {
+        [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSError *error = nil;
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
+            _user = [[User alloc] initWithDictionary:dict];
         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"error: %@", error);
         }];

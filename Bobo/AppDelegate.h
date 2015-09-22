@@ -17,10 +17,7 @@
 
 @property (strong, nonatomic) SWRevealViewController *revealViewController;
 @property (strong, nonatomic) UIWindow *window;
-@property (copy, nonatomic) NSString *wbToken;
-@property (copy, nonatomic) NSString *wbCurrentUserID;
 @property (strong, nonatomic) User *user;
-@property (nonatomic) BOOL isLoggedIn;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
