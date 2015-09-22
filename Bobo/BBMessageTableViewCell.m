@@ -127,9 +127,10 @@
     CGFloat fontSize = [Utils fontSizeForStatus];
     //text
     _tweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
-    _tweetTextLabel.numberOfLines = 0;
-    _tweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _tweetTextLabel.backgroundColor = [UIColor clearColor];
+    [_tweetTextLabel setNumberOfLines:0];
+    [_tweetTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [_tweetTextLabel setBackgroundColor:[UIColor clearColor]];
+    [_tweetTextLabel setTextSelectable:NO];
     [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
     [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
     [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];

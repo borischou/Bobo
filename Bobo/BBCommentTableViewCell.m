@@ -87,6 +87,7 @@
     [_commentTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
     [_commentTextLabel setNumberOfLines:0];
     [_commentTextLabel setBackgroundColor:[UIColor clearColor]];
+    [_commentTextLabel setTextSelectable:NO];
     [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
     [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
     [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
