@@ -109,7 +109,7 @@ static CGFloat imageQuality = 0.7;
     _statusTextView.backgroundColor = bBGColor;
     _statusTextView.delegate = self;
     _statusTextView.typingAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:[Utils fontSizeForStatus]],
-                                         NSForegroundColorAttributeName: [UIColor honeydew]};
+                                         NSForegroundColorAttributeName: [UIColor customGray]};
     [self addSubview:_statusTextView];
     
     [_cancelBtn setFrame:CGRectMake(uBigGap, uBigGap, uBtnWidth, uBtnHeight)];
