@@ -179,8 +179,7 @@ static NSString *reuseCountsCell = @"countsCell";
 -(UIView *)getAvatarView
 {
     BBMeHeaderView *avatarView = [[BBMeHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight/3.5)];
-    [avatarView.avatarView sd_setImageWithURL:[NSURL URLWithString:_user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
-    avatarView.name.text = _user.screen_name;
+    avatarView.user = _user;
     
     return avatarView;
 }

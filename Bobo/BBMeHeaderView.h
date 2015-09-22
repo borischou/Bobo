@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
 @interface BBMeHeaderView : UIView
 
 @property (strong, nonatomic) UIImageView *avatarView;
+@property (strong, nonatomic) UIImageView *vipView;
 @property (strong, nonatomic) UIImageView *sexView;
 @property (strong, nonatomic) UILabel *name;
+@property (strong, nonatomic) UILabel *introduction;
+
+@property (strong, nonatomic) User *user;
 
 @end
