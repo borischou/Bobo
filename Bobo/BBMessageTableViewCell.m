@@ -224,7 +224,7 @@
                                parameters:params
                completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
      {
-         NSMutableArray *statuses = [self statusesWith:responseObject];
+         NSMutableArray *statuses = [Utils statusesWith:responseObject];
          Status *status = statuses.firstObject;
          User *user = status.user;
          
@@ -234,7 +234,7 @@
              {
                  UIViewController *uivc = (UIViewController *)obj;
                  BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                 [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
+                 [Utils setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
                  profiletvc.uid = user.idstr;
                  profiletvc.statuses = statuses;
                  profiletvc.user = user;
@@ -266,7 +266,7 @@
                                    parameters:params
                    completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
          {
-             NSMutableArray *statuses = [self statusesWith:responseObject];
+             NSMutableArray *statuses = [Utils statusesWith:responseObject];
              Status *status = statuses.firstObject;
              User *user = status.user;
              
@@ -276,7 +276,7 @@
                  {
                      UIViewController *uivc = (UIViewController *)obj;
                      BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                     [self setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
+                     [Utils setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
                      profiletvc.uid = user.idstr;
                      profiletvc.statuses = statuses;
                      profiletvc.user = user;
@@ -298,38 +298,6 @@
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题
-    }
-}
-
--(NSMutableArray *)statusesWith:(NSData *)data
-{
-    NSMutableArray *statuses = @[].mutableCopy;
-    NSError *error = nil;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    if (![[dict objectForKey:@"statuses"] isEqual:[NSNull null]]) {
-        NSArray *status_dicts = [dict objectForKey:@"statuses"];
-        for (NSDictionary *status_dict in status_dicts) {
-            Status *status = [[Status alloc] initWithDictionary:status_dict];
-            [statuses addObject:status];
-        }
-    }
-    return statuses;
-}
-
--(void)setupNavigationController:(UINavigationController *)uinvc withUIViewController:(UIViewController *)uivc
-{
-    uinvc.navigationBar.barTintColor = kBarColor;
-    uinvc.navigationBar.tintColor = [UIColor whiteColor];
-    uinvc.navigationBar.layer.shadowOpacity = 0.2;
-    uinvc.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
-    uinvc.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
-    
-    uivc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    uivc.view.backgroundColor = bBGColor;
-    
-    if ([uivc isKindOfClass:[UITableViewController class]]) {
-        UITableViewController *uitvc = (UITableViewController *)uivc;
-        uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
 }
 

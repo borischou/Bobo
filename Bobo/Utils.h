@@ -40,4 +40,7 @@ typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLRespo
 +(NSArray *)systemAccounts;
 +(void)weiboPostRequestWithAccount:(ACAccount *)weiboAccount URL:(NSString *)url parameters:(NSDictionary *)params completionHandler:(SLRequestCompletionHandler)completion;
 
++(void)setupNavigationController:(UINavigationController *)uinvc withUIViewController:(UIViewController *)uivc;
++(NSMutableArray *)statusesWith:(NSData *)data;
+
 @end

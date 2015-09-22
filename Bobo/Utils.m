@@ -30,6 +30,9 @@
 #define wBottomLabelHeight 15
 #define wTextFontSize 10.f
 
+#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
+#define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
+
 @implementation Utils
 
 +(CGFloat)heightForImgsWithCount:(NSInteger)count
@@ -302,6 +305,38 @@
         accounts = [store accountsWithAccountType:type];
     });
     return accounts;
+}
+
++(void)setupNavigationController:(UINavigationController *)uinvc withUIViewController:(UIViewController *)uivc
+{
+    uinvc.navigationBar.barTintColor = kBarColor;
+    uinvc.navigationBar.tintColor = [UIColor whiteColor];
+    uinvc.navigationBar.layer.shadowOpacity = 0.2;
+    uinvc.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
+    uinvc.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    
+    uivc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    uivc.view.backgroundColor = bBGColor;
+    
+    if ([uivc isKindOfClass:[UITableViewController class]]) {
+        UITableViewController *uitvc = (UITableViewController *)uivc;
+        uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
+}
+
++(NSMutableArray *)statusesWith:(NSData *)data
+{
+    NSMutableArray *statuses = @[].mutableCopy;
+    NSError *error = nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    if (![[dict objectForKey:@"statuses"] isEqual:[NSNull null]]) {
+        NSArray *status_dicts = [dict objectForKey:@"statuses"];
+        for (NSDictionary *status_dict in status_dicts) {
+            Status *status = [[Status alloc] initWithDictionary:status_dict];
+            [statuses addObject:status];
+        }
+    }
+    return statuses;
 }
 
 @end

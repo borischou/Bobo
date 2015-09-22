@@ -94,35 +94,35 @@
     weiboListTvc.title = @"Bobo";
     weiboListTvc.tabBarItem.image = [UIImage imageNamed:@"bobo_tab_icon"];
     UINavigationController *weiboListNvc = [[UINavigationController alloc] initWithRootViewController:weiboListTvc];
-    [self setupNavigationController:weiboListNvc withUIViewController:weiboListTvc];
+    [Utils setupNavigationController:weiboListNvc withUIViewController:weiboListTvc];
     
     //Tab:个人中心
     BBProfileTableViewController *profileTvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     profileTvc.title = @"Me";
     profileTvc.tabBarItem.image = [UIImage imageNamed:@"iconfont-gerenshiwu"];
     UINavigationController *profileNvc = [[UINavigationController alloc] initWithRootViewController:profileTvc];
-    [self setupNavigationController:profileNvc withUIViewController:profileTvc];
+    [Utils setupNavigationController:profileNvc withUIViewController:profileTvc];
     
     //Tab:收藏微博
     BBFavoritesTableViewController *collectionTvc = [[BBFavoritesTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     collectionTvc.title = @"Favorites";
     collectionTvc.tabBarItem.image = [UIImage imageNamed:@"bb_collect_icon"];
     UINavigationController *collectionNvc = [[UINavigationController alloc] initWithRootViewController:collectionTvc];
-    [self setupNavigationController:collectionNvc withUIViewController:collectionTvc];
+    [Utils setupNavigationController:collectionNvc withUIViewController:collectionTvc];
 
     //Tab:图片墙
     BBWaterfallStatusViewController *waterfallvc = [[BBWaterfallStatusViewController alloc] init];
     waterfallvc.title = @"Waterfall";
     waterfallvc.tabBarItem.image = [UIImage imageNamed:@"tab_waterfall"];
     UINavigationController *waterfallnvc = [[UINavigationController alloc] initWithRootViewController:waterfallvc];
-    [self setupNavigationController:waterfallnvc withUIViewController:waterfallvc];
+    [Utils setupNavigationController:waterfallnvc withUIViewController:waterfallvc];
     
     //Tab:消息
     BBMessageViewController *messagevc = [[BBMessageViewController alloc] init];
     messagevc.title = @"Message";
     messagevc.tabBarItem.image = [UIImage imageNamed:@"tab_icon_message"];
     UINavigationController *messagenvc = [[UINavigationController alloc] initWithRootViewController:messagevc];
-    [self setupNavigationController:messagenvc withUIViewController:messagevc];
+    [Utils setupNavigationController:messagenvc withUIViewController:messagevc];
 
     //Tabbar
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
@@ -140,23 +140,6 @@
     _revealViewController.delegate = self;
     
     self.window.rootViewController = _revealViewController;
-}
-
--(void)setupNavigationController:(UINavigationController *)uinvc withUIViewController:(UIViewController *)uivc
-{
-    uinvc.navigationBar.barTintColor = kBarColor;
-    uinvc.navigationBar.tintColor = [UIColor whiteColor];
-    uinvc.navigationBar.layer.shadowOpacity = 0.2;
-    uinvc.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
-    uinvc.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
-    
-    uivc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    uivc.view.backgroundColor = bBGColor;
-    
-    if ([uivc isKindOfClass:[UITableViewController class]]) {
-        UITableViewController *uitvc = (UITableViewController *)uivc;
-        uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    }
 }
 
 #pragma mark - WeiboSDK Helpers
