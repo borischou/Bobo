@@ -22,7 +22,7 @@
 #define uSmallGap 5
 #define uBigGap 10
 #define uBtnHeight 20
-#define uBtnWidth 50
+#define uBtnWidth 55
 #define uImgHeight 60
 #define uImgWidth uImgHeight
 
