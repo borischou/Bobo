@@ -118,7 +118,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 {
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"comments/show.json?id=%@&page=%d", _status.idstr, _page] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"comment"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error]];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"detail error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.header endRefreshing];
@@ -126,32 +126,30 @@ static NSString *reuseCMCell = @"reuseCMCell";
     }];
 }
 
--(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+-(void)handleWeiboResult:(id)result
 {
-    if ([type isEqualToString:@"comment"]) {
-        if (!_comments) {
-            _comments = @[].mutableCopy;
-        }
-        if (_page == 1) {
-            _comments = nil;
-            _comments = @[].mutableCopy;
-        }
-        
-        NSError *error = nil;
-        
-        if (error) {
-            NSLog(@"JSON ERROR: %@", error);
-        }
-        
-        if (![[result objectForKey:@"comments"] isEqual:[NSNull null]]) {
-            NSArray *commentsArray = [result objectForKey:@"comments"];
-            if (commentsArray.count > 0) {
-                for (NSDictionary *dict in commentsArray) {
-                    Comment *comment = [[Comment alloc] initWithDictionary:dict];
-                    [_comments addObject:comment];
-                }
-                _page += 1;
+    if (!_comments) {
+        _comments = @[].mutableCopy;
+    }
+    if (_page == 1) {
+        _comments = nil;
+        _comments = @[].mutableCopy;
+    }
+    
+    NSError *error = nil;
+    
+    if (error) {
+        NSLog(@"JSON ERROR: %@", error);
+    }
+    
+    if (![[result objectForKey:@"comments"] isEqual:[NSNull null]]) {
+        NSArray *commentsArray = [result objectForKey:@"comments"];
+        if (commentsArray.count > 0) {
+            for (NSDictionary *dict in commentsArray) {
+                Comment *comment = [[Comment alloc] initWithDictionary:dict];
+                [_comments addObject:comment];
             }
+            _page += 1;
         }
     }
     [self.tableView.header endRefreshing];

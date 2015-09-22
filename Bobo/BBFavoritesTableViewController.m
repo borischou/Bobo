@@ -131,7 +131,7 @@
 {
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"favorites.json?count=20&page=%d", _page] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"fav"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error]];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"favoristes error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.header endRefreshing];
@@ -139,40 +139,31 @@
     }];
 }
 
--(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+-(void)handleWeiboResult:(id)result
 {
-    if (error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [self.tableView.header endRefreshing];
-        [self.tableView.footer endRefreshing];
-        [alertView show];
-    } else {
-        if ([type isEqualToString:@"fav"]) {
-            NSDictionary *resultDict = result;
-            if (![[resultDict objectForKey:@"favorites"] isEqual:[NSNull null]]) {
-                NSArray *favArray = [resultDict objectForKey:@"favorites"];
-                if (favArray.count > 0) {
-                    if (!_statuses) {
-                        _statuses = @[].mutableCopy;
-                    }
-                    if (_page == 1) {
-                        _statuses = nil;
-                        _statuses = @[].mutableCopy;
-                    }
-                    for (int i = 0; i < favArray.count; i ++) {
-                        if (![[favArray[i] objectForKey:@"status"] isEqual:[NSNull null]]) {
-                            Status *status = [[Status alloc] initWithDictionary:[favArray[i] objectForKey:@"status"]];
-                            [_statuses addObject:status];
-                        }
-                    }
-                    _page += 1;
+    NSDictionary *resultDict = result;
+    if (![[resultDict objectForKey:@"favorites"] isEqual:[NSNull null]]) {
+        NSArray *favArray = [resultDict objectForKey:@"favorites"];
+        if (favArray.count > 0) {
+            if (!_statuses) {
+                _statuses = @[].mutableCopy;
+            }
+            if (_page == 1) {
+                _statuses = nil;
+                _statuses = @[].mutableCopy;
+            }
+            for (int i = 0; i < favArray.count; i ++) {
+                if (![[favArray[i] objectForKey:@"status"] isEqual:[NSNull null]]) {
+                    Status *status = [[Status alloc] initWithDictionary:[favArray[i] objectForKey:@"status"]];
+                    [_statuses addObject:status];
                 }
             }
+            _page += 1;
         }
-        [self.tableView.header endRefreshing];
-        [self.tableView.footer endRefreshing];
-        [self.tableView reloadData];
     }
+    [self.tableView.header endRefreshing];
+    [self.tableView.footer endRefreshing];
+    [self.tableView reloadData];
 }
 
 #pragma mark - UIScrollViewDelegate

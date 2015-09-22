@@ -127,48 +127,42 @@ static NSString *reuseBarCellId = @"barCell";
     self.tableView.footer = footer;
 }
 
--(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+-(void)handleWeiboResult:(id)result type:(NSString *)type
 {
-    if (error) {
-        [self.tableView.header endRefreshing];
-        [self.tableView.footer endRefreshing];
-        [[[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    } else {
-        if (!_statuses) {
-            _statuses = @[].mutableCopy;
-        }
-        if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
-            NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
-            if (downloadedStatuses.count > 0) {
-                for (int i = 0; i < [downloadedStatuses count]; i ++) {
-                    Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
-                    [_statuses insertObject:tmp_status atIndex:i];
-                    if ([downloadedStatuses count] - 1 == i) {
-                        _max_id = tmp_status.idstr;
-                    }
-                }
-                Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
-                _since_id = status.idstr;
-            }
-            [self.tableView.header endRefreshing];
-        }
-        
-        if ([type isEqualToString:@"history"]) { //上拉刷新历史微博
-            NSArray *historyStatuses = [result objectForKey:@"statuses"];
-            if (historyStatuses.count > 0) {
-                for (int i = 1; i < [historyStatuses count]; i ++) {
-                    Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
-                    [_statuses addObject:tmp_status];
-                    if ([historyStatuses count] - 1 == i) {
-                        _max_id = tmp_status.idstr;
-                    }
-                }
-            }
-            [self.tableView.footer endRefreshing];
-        }
-        NSLog(@"The currentLastStatusId is: %@", _max_id);
-        [self.tableView reloadData];
+    if (!_statuses) {
+        _statuses = @[].mutableCopy;
     }
+    if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
+        NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
+        if (downloadedStatuses.count > 0) {
+            for (int i = 0; i < [downloadedStatuses count]; i ++) {
+                Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
+                [_statuses insertObject:tmp_status atIndex:i];
+                if ([downloadedStatuses count] - 1 == i) {
+                    _max_id = tmp_status.idstr;
+                }
+            }
+            Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
+            _since_id = status.idstr;
+        }
+        [self.tableView.header endRefreshing];
+    }
+    
+    if ([type isEqualToString:@"history"]) { //上拉刷新历史微博
+        NSArray *historyStatuses = [result objectForKey:@"statuses"];
+        if (historyStatuses.count > 0) {
+            for (int i = 1; i < [historyStatuses count]; i ++) {
+                Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
+                [_statuses addObject:tmp_status];
+                if ([historyStatuses count] - 1 == i) {
+                    _max_id = tmp_status.idstr;
+                }
+            }
+        }
+        [self.tableView.footer endRefreshing];
+    }
+    NSLog(@"The currentLastStatusId is: %@", _max_id);
+    [self.tableView reloadData];
 }
 
 -(void)fetchLatestStatuses
@@ -181,7 +175,7 @@ static NSString *reuseBarCellId = @"barCell";
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:url SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"refresh"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"refresh"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.header endRefreshing];
@@ -192,7 +186,7 @@ static NSString *reuseBarCellId = @"barCell";
 {
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"statuses/home_timeline.json?max_id=%@&count=20", _max_id] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"history"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"main footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.footer endRefreshing];

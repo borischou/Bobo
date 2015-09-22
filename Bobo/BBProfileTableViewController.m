@@ -200,7 +200,7 @@ static NSString *reuseCountsCell = @"countsCell";
     } else {
         [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSError *error = nil;
-            [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"show"];
+            [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         }];
@@ -215,7 +215,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"me"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"me"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.header endRefreshing];
@@ -230,7 +230,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"statuses/user_timeline.json?count=5&max_id=%@", _currentLastStatusId] SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self weiboRequestHandler:nil withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] AndError:nil andType:@"history"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"profile footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.footer endRefreshing];
@@ -239,7 +239,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 #pragma mark - Helpers
 
--(void)weiboRequestHandler:(id *)request withResult:(id)result AndError:(NSError *)error andType:(NSString *)type
+-(void)handleWeiboResult:(id)result type:(NSString *)type
 {
     if ([type isEqualToString:@"show"]) {
         [self.tableView.header endRefreshing];

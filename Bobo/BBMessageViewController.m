@@ -157,45 +157,39 @@
     tableView.footer = footer;
 }
 
--(void)weiboRequestHandler:(id *)request forTableView:(BBMessageTableView *)tableView withResult:(id)result error:(NSError *)error type:(NSString *)type flag:(NSInteger)flag
+-(void)handleWeiboResult:(id)result type:(NSString *)type forTableView:(BBMessageTableView *)tableView flag:(NSInteger)flag
 {
-    if (error) {
-        [[[UIAlertView alloc] initWithTitle:@"请求异常" message:[NSString stringWithFormat:@"%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    if ([type isEqualToString:@"refresh"]) { //下拉刷新最新消息
+        NSArray *downloadedComments = [result objectForKey:@"comments"];
+        if (downloadedComments.count > 0) {
+            for (int i = 0; i < [downloadedComments count]; i ++) {
+                Comment *tmp_comment = [[Comment alloc] initWithDictionary:downloadedComments[i]];
+                [tableView.comments insertObject:tmp_comment atIndex:i];
+                if ([downloadedComments count] - 1 == i) {
+                    _maxids[flag] = tmp_comment.idstr;
+                }
+            }
+            Comment *comment = [[Comment alloc] initWithDictionary:[downloadedComments objectAtIndex:0]];
+            _sinceids[flag] = comment.idstr;
+        }
         [tableView.header endRefreshing];
-        [tableView.footer endRefreshing];
-    } else {
-        if ([type isEqualToString:@"refresh"]) { //下拉刷新最新消息
-            NSArray *downloadedComments = [result objectForKey:@"comments"];
-            if (downloadedComments.count > 0) {
-                for (int i = 0; i < [downloadedComments count]; i ++) {
-                    Comment *tmp_comment = [[Comment alloc] initWithDictionary:downloadedComments[i]];
-                    [tableView.comments insertObject:tmp_comment atIndex:i];
-                    if ([downloadedComments count] - 1 == i) {
-                        _maxids[flag] = tmp_comment.idstr;
-                    }
-                }
-                Comment *comment = [[Comment alloc] initWithDictionary:[downloadedComments objectAtIndex:0]];
-                _sinceids[flag] = comment.idstr;
-            }
-            [tableView.header endRefreshing];
-        }
-        
-        if ([type isEqualToString:@"history"]) { //上拉刷新历史消息
-            NSArray *historyMessages = [result objectForKey:@"statuses"];
-            if (historyMessages.count > 0) {
-                for (int i = 1; i < [historyMessages count]; i ++) {
-                    Comment *tmp_comment = [[Comment alloc] initWithDictionary:historyMessages[i]];
-                    [tableView.comments addObject:tmp_comment];
-                    if ([historyMessages count] - 1 == i) {
-                        _maxids[flag] = tmp_comment.idstr;
-                    }
-                }
-            }
-            [tableView.footer endRefreshing];
-        }
-        [tableView reloadData];
-        NSLog(@"The currentLastStatusId is: %@", _maxids[flag]);
     }
+    
+    if ([type isEqualToString:@"history"]) { //上拉刷新历史消息
+        NSArray *historyMessages = [result objectForKey:@"statuses"];
+        if (historyMessages.count > 0) {
+            for (int i = 1; i < [historyMessages count]; i ++) {
+                Comment *tmp_comment = [[Comment alloc] initWithDictionary:historyMessages[i]];
+                [tableView.comments addObject:tmp_comment];
+                if ([historyMessages count] - 1 == i) {
+                    _maxids[flag] = tmp_comment.idstr;
+                }
+            }
+        }
+        [tableView.footer endRefreshing];
+    }
+    [tableView reloadData];
+    NSLog(@"The currentLastStatusId is: %@", _maxids[flag]);
 }
 
 -(void)fetchLatestCommentsWithTableView:(BBMessageTableView *)tableView flag:(NSInteger)flag
@@ -208,22 +202,22 @@
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:url SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
+        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
         if ([_uri isEqualToString:@"to_me"]) {
-            [self weiboRequestHandler:nil forTableView:_messageTableView withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] error:nil type:@"refresh" flag:0];
+            [self handleWeiboResult:result type:@"refresh" forTableView:_messageTableView flag:0];
         }
         if ([_uri isEqualToString:@"by_me"]) {
-            [self weiboRequestHandler:nil forTableView:_byMeTableView withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] error:nil type:@"refresh" flag:1];
+            [self handleWeiboResult:result type:@"refresh" forTableView:_byMeTableView flag:1];
         }
         if ([_uri isEqualToString:@"mentions"]) {
-            [self weiboRequestHandler:nil forTableView:_mentionTableView withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] error:nil type:@"refresh" flag:2];
+            [self handleWeiboResult:result type:@"refresh" forTableView:_mentionTableView flag:2];
         }
         if ([_uri isEqualToString:@"timeline"]) {
-            [self weiboRequestHandler:nil forTableView:_allTableView withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] error:nil type:@"refresh" flag:3];
+            [self handleWeiboResult:result type:@"refresh" forTableView:_allTableView flag:3];
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"message error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [tableView.header endRefreshing];
-        [tableView.footer endRefreshing];
     }];
 }
 
@@ -231,20 +225,20 @@
 {
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"comments/%@.json?max_id=%@&count=20", _uri, _maxids[flag]] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
+        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
         if ([_uri isEqualToString:@"to_me"]) {
-            [self weiboRequestHandler:nil forTableView:_messageTableView withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] error:nil type:@"refresh" flag:0];
+            [self handleWeiboResult:result type:@"history" forTableView:_messageTableView flag:0];
         }
         if ([_uri isEqualToString:@"by_me"]) {
-            [self weiboRequestHandler:nil forTableView:_byMeTableView withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] error:nil type:@"refresh" flag:1];
+            [self handleWeiboResult:result type:@"history" forTableView:_byMeTableView flag:1];
         }
         if ([_uri isEqualToString:@"mentions"]) {
-            [self weiboRequestHandler:nil forTableView:_mentionTableView withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] error:nil type:@"refresh" flag:2];
+            [self handleWeiboResult:result type:@"history" forTableView:_mentionTableView flag:2];
         }
         if ([_uri isEqualToString:@"timeline"]) {
-            [self weiboRequestHandler:nil forTableView:_allTableView withResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] error:nil type:@"refresh" flag:3];
+            [self handleWeiboResult:result type:@"history" forTableView:_allTableView flag:3];
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [tableView.header endRefreshing];
         [tableView.footer endRefreshing];
     }];
 }
