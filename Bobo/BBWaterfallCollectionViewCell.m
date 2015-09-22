@@ -188,6 +188,7 @@
                      profiletvc.user = user;
                      profiletvc.shouldNavBtnShown = NO;
                      profiletvc.title = @"Profile";
+                     profiletvc.hidesBottomBarWhenPushed = YES;
                      [uivc.navigationController pushViewController:profiletvc animated:YES];
                      return;
                  }

@@ -81,10 +81,6 @@
     _timeLbl.font = [UIFont systemFontOfSize:10.f];
     [self.contentView addSubview:_timeLbl];
     
-//    _textLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _textLbl.lineBreakMode = NSLineBreakByWordWrapping;
-//    _textLbl.numberOfLines = 0;
-//    [self.contentView addSubview:_textLbl];
     __weak BBCommentTableViewCell *weakSelf = self;
     CGFloat fontSize = [Utils fontSizeForComment];
     _commentTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
@@ -135,8 +131,6 @@
     CGSize timeSize = [_timeLbl sizeThatFits:CGSizeMake(MAXFLOAT, cNameHeight)];
     _timeLbl.frame = CGRectMake(cBigGap+2*cSmallGap+cAvatarWidth+_nameLbl.frame.size.width, cBigGap, timeSize.width, cNameHeight);
     
-    //CGSize textSize = [_textLbl sizeThatFits:CGSizeMake(cTextWidth, MAXFLOAT)];
-    //_textLbl.frame = CGRectMake(cBigGap+cSmallGap+cAvatarWidth, cBigGap+cNameHeight+cSmallGap, cTextWidth, textSize.height);
     CGSize textSize = [_commentTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:cTextWidth];
     [_commentTextLabel setFrame:CGRectMake(cBigGap+cSmallGap+cAvatarWidth, cBigGap+cNameHeight+cSmallGap, cTextWidth, textSize.height)];
 }
@@ -166,6 +160,7 @@
                  profiletvc.user = user;
                  profiletvc.shouldNavBtnShown = NO;
                  profiletvc.title = @"Profile";
+                 profiletvc.hidesBottomBarWhenPushed = YES;
                  [uivc.navigationController pushViewController:profiletvc animated:YES];
              }
          }
@@ -204,7 +199,8 @@
                      profiletvc.statuses = statuses;
                      profiletvc.user = user;
                      profiletvc.shouldNavBtnShown = NO;
-                     profiletvc.title = [NSString stringWithFormat:@"%@", user.screen_name];
+                     profiletvc.title = @"Profile";
+                     profiletvc.hidesBottomBarWhenPushed = YES;
                      [uivc.navigationController pushViewController:profiletvc animated:YES];
                  }
              }
