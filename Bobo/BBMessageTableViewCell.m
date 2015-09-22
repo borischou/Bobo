@@ -245,9 +245,7 @@
                  return;
              }
          }
-         
-     }
-               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
      }];
@@ -287,8 +285,7 @@
                      return;
                  }
              }
-         }
-                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
          }];

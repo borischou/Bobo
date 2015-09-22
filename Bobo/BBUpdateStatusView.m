@@ -213,7 +213,6 @@ static CGFloat imageQuality = 0.7;
         [_pickedOnes removeAllObjects];
     }
     BBNotificationView *notificationView = [[BBNotificationView alloc] initWithNotification:text];
-    //notificationView.notificationLabel.text = text;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:notificationView];
     [delegate.window bringSubviewToFront:notificationView];
@@ -230,7 +229,7 @@ static CGFloat imageQuality = 0.7;
 
 -(void)refreshComments
 {
-    
+    //Post成功后刷新评论区以显示发表的评论
 }
 
 -(void)sendButtonPressed:(UIButton *)sender
@@ -357,8 +356,6 @@ static CGFloat imageQuality = 0.7;
             [self removeFromSuperview];
         }
     }];
-    
-    
 }
 
 -(void)addPictureButtonPressed:(UIButton *)sender

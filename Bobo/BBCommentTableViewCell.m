@@ -120,7 +120,6 @@
     
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
     [_commentTextLabel setText:_comment.text];
-    //_textLbl.attributedText = [NSString markedText:_comment.text fontSize:[Utils fontSizeForComment] fontColor:[UIColor customGray]];
 }
 
 -(void)loadCommentLayout
@@ -164,9 +163,7 @@
                  [uivc.navigationController pushViewController:profiletvc animated:YES];
              }
          }
-         
-     }
-               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
      }];
