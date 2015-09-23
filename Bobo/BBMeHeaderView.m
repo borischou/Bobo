@@ -17,7 +17,9 @@
 #define bMaleColor [UIColor colorWithRed:0.0/255 green:154.0/255 blue:205.0/255 alpha:1.0] //light blue
 #define bFemaleColor [UIColor colorWithRed:255.0/255 green:52.0/255 blue:181.0/255 alpha:1.0] //pink
 
-@interface BBMeHeaderView () <UIScrollViewDelegate>
+@interface BBMeHeaderView () <UIScrollViewDelegate> {
+    int _count;
+}
 
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIPageControl *pageControl;
@@ -30,6 +32,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _count = 2;
         [self setupScrollViewWithFrame:frame];
         [self loadPageControlWithFrame:frame];
         [self setHeaderLayoutWithFrame:frame];
@@ -41,7 +44,7 @@
 {
     _scrollView = [[UIScrollView alloc] initWithFrame:frame];
     [_scrollView setPagingEnabled:YES];
-    [_scrollView setContentSize:CGSizeMake(bWidth*2, frame.size.height)];
+    [_scrollView setContentSize:CGSizeMake(bWidth*_count, frame.size.height)];
     [_scrollView setDelegate:self];
     [_scrollView setShowsHorizontalScrollIndicator:NO];
     [_scrollView setAlwaysBounceHorizontal:YES];
@@ -103,11 +106,11 @@
     _pageControl = [[UIPageControl alloc] init];
     _pageControl.bounds = CGRectMake(0, 0, bWidth/2, 20);
     _pageControl.center = CGPointMake(bWidth/2, frame.size.height-10);
-    _pageControl.numberOfPages = 2;
+    _pageControl.numberOfPages = _count;
     _pageControl.userInteractionEnabled = NO;
     _pageControl.pageIndicatorTintColor = [UIColor darkGrayColor];
     _pageControl.currentPageIndicatorTintColor = [UIColor lightTextColor];
-    _pageControl.currentPage = _scrollView.contentOffset.x/bWidth-1;
+    _pageControl.currentPage = 0;
     [self addSubview:_pageControl];
 }
 
@@ -115,13 +118,8 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.x == 0) {
-        scrollView.contentOffset = CGPointMake(0, 0);
-        _pageControl.currentPage = 0;
-    } else if (scrollView.contentOffset.x == bWidth) {
-        _pageControl.currentPage = 1;
-        [scrollView setContentOffset:CGPointMake(bWidth, 0) animated:YES];
-    }
+    [_pageControl setCurrentPage:scrollView.contentOffset.x/bWidth];
+    NSLog(@"current page: %f", scrollView.contentOffset.x/bWidth);
 }
 
 @end
