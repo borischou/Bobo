@@ -276,6 +276,9 @@
     NSURLRequest *urlrequest = [request preparedURLRequest];
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:urlrequest];
+//    AFSecurityPolicy *policy = [AFSecurityPolicy defaultPolicy];
+//    policy.allowInvalidCertificates = YES;
+//    operation.securityPolicy = policy;
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         success(operation, responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
