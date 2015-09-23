@@ -119,7 +119,6 @@
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [_pageControl setCurrentPage:scrollView.contentOffset.x/bWidth];
-    NSLog(@"current page: %f", scrollView.contentOffset.x/bWidth);
 }
 
 @end
