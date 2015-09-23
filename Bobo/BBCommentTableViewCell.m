@@ -164,8 +164,7 @@
                  [uivc.navigationController pushViewController:profiletvc animated:YES];
              }
          }
-     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
+     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"error %@", error);
      }];
 }
@@ -202,10 +201,7 @@
                      [uivc.navigationController pushViewController:profiletvc animated:YES];
                  }
              }
-             
-         }
-                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
+         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"error %@", error);
          }];
     }
