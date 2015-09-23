@@ -24,6 +24,11 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIPageControl *pageControl;
 
+@property (strong, nonatomic) UILabel *descLabel;
+@property (strong, nonatomic) UILabel *location;
+@property (strong, nonatomic) UILabel *urlLabel;
+@property (strong, nonatomic) UILabel *vipDesc;
+
 @end
 
 @implementation BBMeHeaderView
@@ -54,6 +59,12 @@
 
 -(void)setHeaderLayoutWithFrame:(CGRect)frame
 {
+    [self setupAvatarPageWithFrame:frame];
+    [self setupMorePage];
+}
+
+-(void)setupAvatarPageWithFrame:(CGRect)frame
+{
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width/2-bWidth/10, 15, bWidth/5, bWidth/5)];
     _avatarView.layer.masksToBounds = YES;
     _avatarView.layer.cornerRadius = _avatarView.bounds.size.width*0.5;
@@ -73,9 +84,46 @@
     [_scrollView addSubview:_introduction];
 }
 
--(void)layoutSubviews
+-(void)setupMorePage
 {
-    [super layoutSubviews];
+    _descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_descLabel setNumberOfLines:0];
+    [_descLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [_scrollView addSubview:_descLabel];
+    
+    _location = [[UILabel alloc] initWithFrame:CGRectMake(bWidth+10, 10, bWidth-20, 20)];
+    [_scrollView addSubview:_location];
+    
+    _urlLabel = [[UILabel alloc] initWithFrame:CGRectMake(bWidth+10, 10+20+5, bWidth-20, 20)];
+    [_scrollView addSubview:_urlLabel];
+    
+    _vipDesc = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_scrollView addSubview:_vipDesc];
+}
+
+-(void)layoutMorePage
+{
+    _vipDesc.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Verified: %@", _user.verified_reason] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    _descLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Intro: %@", _user.user_description] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    _location.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Location: %@", _user.location] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    
+    NSString *urlDesc = nil;
+    if ([_user.gender isEqualToString:@"m"]) {
+        urlDesc = @"His site: ";
+    } else if ([_user.gender isEqualToString:@"f"]) {
+        urlDesc = @"Her site: ";
+    }
+    _urlLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", urlDesc, _user.url] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    
+    CGSize vipSize = [_vipDesc sizeThatFits:CGSizeMake(bWidth-20, MAXFLOAT)];
+    [_vipDesc setFrame:CGRectMake(bWidth+10, 10+20+5+20+5, bWidth-20, vipSize.height)];
+    
+    CGSize descSize = [_descLabel sizeThatFits:CGSizeMake(bWidth-20, MAXFLOAT)];
+    [_descLabel setFrame:CGRectMake(bWidth+10, 10+20+5+20+5+vipSize.height+5, bWidth-20, descSize.height)];
+}
+
+-(void)layoutAvatarPage
+{
     [_avatarView sd_setImageWithURL:[NSURL URLWithString:_user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
     if ([_user.gender isEqualToString:@"m"])
     {
@@ -99,6 +147,13 @@
         [_vipView setFrame:CGRectZero];
         _introduction.attributedText = [[NSAttributedString alloc] initWithString:_user.user_description attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:[Utils fontSizeForStatus]], NSForegroundColorAttributeName: [UIColor customGray]}];
     }
+}
+
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    [self layoutAvatarPage];
+    [self layoutMorePage];
 }
 
 -(void)loadPageControlWithFrame:(CGRect)frame
