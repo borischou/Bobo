@@ -48,15 +48,17 @@
 {
     NSString *text = nil;
     
-    NSScanner *scanner = [NSScanner scannerWithString:source];
-    while (scanner.isAtEnd == NO) {
-        [scanner scanUpToString:@"<" intoString:NULL];
-        [scanner scanUpToString:@">" intoString:&text];
-        source = [source stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>", text] withString:@""];
+    if (source != nil) {
+        NSScanner *scanner = [NSScanner scannerWithString:source];
+        while (scanner.isAtEnd == NO) {
+            [scanner scanUpToString:@"<" intoString:NULL];
+            [scanner scanUpToString:@">" intoString:&text];
+            source = [source stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>", text] withString:@""];
+        }
+        
+        NSString *regEx = @"<([^>]*)>";
+        source = [source stringByReplacingOccurrencesOfString:regEx withString:@""];
     }
-    
-    NSString *regEx = @"<([^>]*)>";
-    source = [source stringByReplacingOccurrencesOfString:regEx withString:@""];
     
     return source;
 }
