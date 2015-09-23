@@ -475,9 +475,9 @@
     }
     
     //barbuttons
-    _retweetCountLabel.text = [NSString getNumStrFrom:_status.reposts_count];
-    _commentCountLabel.text = [NSString getNumStrFrom:_status.comments_count];
-    _likeCountLabel.text = [NSString getNumStrFrom:_status.attitudes_count];
+    _retweetCountLabel.text = [NSString formatNum:_status.reposts_count];
+    _commentCountLabel.text = [NSString formatNum:_status.comments_count];
+    _likeCountLabel.text = [NSString formatNum:_status.attitudes_count];
     
     if (_status.favorited) {
         _favoritesImageView.image = [UIImage imageNamed:@"faved_icon"];

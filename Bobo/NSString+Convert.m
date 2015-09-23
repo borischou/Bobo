@@ -26,14 +26,14 @@
     return [url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
 }
 
-+(NSString *)getNumStrFrom:(NSInteger)num
++(NSString *)formatNum:(NSInteger)num
 {
     NSString *numStr;
     if (num > 0 && num < 1000) {
         numStr = [NSString stringWithFormat:@"%ld", num];
     }
     if (num > 999 && num < 10000) {
-        numStr = [NSString stringWithFormat:@"%dk", (int)num/1000];
+        numStr = [NSString stringWithFormat:@"%dK", (int)num/1000];
     }
     if (num > 9999 && num < 10000 * 100) {
         numStr = [NSString stringWithFormat:@"%.1fw", (float)num/10000];
