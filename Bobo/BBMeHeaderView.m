@@ -105,9 +105,13 @@
 
 -(void)layoutMorePage
 {
-    _vipDesc.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Verified: %@", _user.verified_reason] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
-    _descLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Intro: %@", _user.user_description] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
-    _location.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Location: %@", _user.location] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    NSMutableAttributedString *vip = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Verified: %@", _user.verified_reason] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Intro: %@", _user.user_description] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    NSMutableAttributedString *loc = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Location: %@", _user.location] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    
+    _vipDesc.attributedText = vip;
+    _descLabel.attributedText = desc;
+    _location.attributedText = loc;
     
     NSString *urlDesc = nil;
     if ([_user.gender isEqualToString:@"m"]) {
@@ -115,7 +119,9 @@
     } else if ([_user.gender isEqualToString:@"f"]) {
         urlDesc = @"Her site: ";
     }
-    _urlLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", urlDesc, _user.url] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    NSMutableAttributedString *url = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", urlDesc, _user.url] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    
+    _urlLabel.attributedText = url;
     
     CGSize vipSize = [_vipDesc sizeThatFits:CGSizeMake(bWidth-20, MAXFLOAT)];
     [_vipDesc setFrame:CGRectMake(bWidth+10, 10+20+5+20+5, bWidth-20, vipSize.height)];
