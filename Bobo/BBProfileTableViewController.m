@@ -75,12 +75,12 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(void)setNavBarBtn
 {
-    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    button1.frame = CGRectMake(0, 0, 23, 23);
-    [button1 setImage:[UIImage imageNamed:@"iconfont-denglu"] forState:UIControlStateNormal];
-    [button1 addTarget:self action:@selector(loginBtnPressed) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *loginBtn = [[UIBarButtonItem alloc] initWithCustomView:button1];
-    self.navigationItem.leftBarButtonItem = loginBtn;
+    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    loginBtn.frame = CGRectMake(0, 0, 23, 23);
+    [loginBtn setImage:[UIImage imageNamed:@"iconfont-denglu"] forState:UIControlStateNormal];
+    [loginBtn addTarget:self action:@selector(loginBtnPressed) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *loginbarbtn = [[UIBarButtonItem alloc] initWithCustomView:loginBtn];
+    self.navigationItem.leftBarButtonItem = loginbarbtn;
     
     UIButton *postBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     postBtn.frame = CGRectMake(0, 0, 23, 23);

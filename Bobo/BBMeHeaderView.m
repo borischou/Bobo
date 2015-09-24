@@ -99,15 +99,26 @@
     _location = [[UILabel alloc] initWithFrame:CGRectMake(bWidth+10, 10, bWidth-20, 20)];
     [_scrollView addSubview:_location];
     
-    _urlLabel = [[UILabel alloc] initWithFrame:CGRectMake(bWidth+10, 10+20+5, bWidth-20, 20)];
+    _urlLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [_scrollView addSubview:_urlLabel];
 }
 
 -(void)layoutMorePage
 {
-    NSMutableAttributedString *vip = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Verified: %@", _user.verified_reason] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
-    NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Intro: %@", _user.user_description] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
-    NSMutableAttributedString *loc = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Location: %@", _user.location] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    CGFloat fontSize = [Utils fontSizeForComment];
+    
+    NSMutableAttributedString *vip = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Verified: %@", _user.verified_reason] attributes:@{NSForegroundColorAttributeName: [UIColor customGray], NSFontAttributeName: [UIFont systemFontOfSize:fontSize]}];
+    NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Intro: %@", _user.user_description] attributes:@{NSForegroundColorAttributeName: [UIColor customGray], NSFontAttributeName: [UIFont systemFontOfSize:fontSize]}];
+    NSMutableAttributedString *loc = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Location: %@", _user.location] attributes:@{NSForegroundColorAttributeName: [UIColor customGray], NSFontAttributeName: [UIFont systemFontOfSize:fontSize]}];
+    
+    [vip addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13.0] range:NSMakeRange(0, @"verified:".length)];
+    [vip addAttribute:NSForegroundColorAttributeName value:[UIColor dodgerBlue] range:NSMakeRange(0, @"verified:".length)];
+    
+    [desc addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13.0] range:NSMakeRange(0, @"intro:".length)];
+    [desc addAttribute:NSForegroundColorAttributeName value:[UIColor dodgerBlue] range:NSMakeRange(0, @"intro:".length)];
+    
+    [loc addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13.0] range:NSMakeRange(0, @"location:".length)];
+    [loc addAttribute:NSForegroundColorAttributeName value:[UIColor dodgerBlue] range:NSMakeRange(0, @"location:".length)];
     
     _vipDesc.attributedText = vip;
     _descLabel.attributedText = desc;
@@ -119,15 +130,20 @@
     } else if ([_user.gender isEqualToString:@"f"]) {
         urlDesc = @"Her site: ";
     }
-    NSMutableAttributedString *url = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", urlDesc, _user.url] attributes:@{NSForegroundColorAttributeName: [UIColor customGray]}];
+    NSMutableAttributedString *url = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", urlDesc, _user.url] attributes:@{NSForegroundColorAttributeName: [UIColor customGray], NSFontAttributeName: [UIFont systemFontOfSize:fontSize]}];
+    
+    [url addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13.0] range:NSMakeRange(0, @"his site:".length)];
+    [url addAttribute:NSForegroundColorAttributeName value:[UIColor dodgerBlue] range:NSMakeRange(0, @"his site:".length)];
     
     _urlLabel.attributedText = url;
     
     CGSize vipSize = [_vipDesc sizeThatFits:CGSizeMake(bWidth-20, MAXFLOAT)];
-    [_vipDesc setFrame:CGRectMake(bWidth+10, 10+20+5+20+5, bWidth-20, vipSize.height)];
+    [_vipDesc setFrame:CGRectMake(bWidth+10, 10+20+5, bWidth-20, vipSize.height)];
     
     CGSize descSize = [_descLabel sizeThatFits:CGSizeMake(bWidth-20, MAXFLOAT)];
-    [_descLabel setFrame:CGRectMake(bWidth+10, 10+20+5+20+5+vipSize.height+5, bWidth-20, descSize.height)];
+    [_descLabel setFrame:CGRectMake(bWidth+10, 10+20+5+vipSize.height+5, bWidth-20, descSize.height)];
+    
+    [_urlLabel setFrame:CGRectMake(bWidth+10, 10+20+5+vipSize.height+5+descSize.height+5, bWidth-20, 20)];
 }
 
 -(void)layoutAvatarPage
