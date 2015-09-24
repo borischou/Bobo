@@ -79,6 +79,7 @@
 		4592324E1B969A3B0006A123 /* BBMessageTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4592324D1B969A3B0006A123 /* BBMessageTableView.m */; };
 		459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459232501B969A490006A123 /* BBMessageTableViewCell.m */; };
 		459232531B96BE530006A123 /* tab_icon_message@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459232521B96BE530006A123 /* tab_icon_message@3x.png */; };
+		459AA48E1BB39CE4007CFB2F /* closeicon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459AA48D1BB39CE4007CFB2F /* closeicon@3x.png */; settings = {ASSET_TAGS = (); }; };
 		45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountTableViewCell.m */; };
 		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
 		45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */; };
@@ -86,6 +87,8 @@
 		45C57B451B9FE97000FE040E /* barbutton_icon_post@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */; };
 		45C57B471B9FEC6D00FE040E /* tab_waterfall@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B461B9FEC6D00FE040E /* tab_waterfall@3x.png */; };
 		45C57B4D1B9FFDC700FE040E /* bobo_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B4C1B9FFDC700FE040E /* bobo_tab_icon@3x.png */; };
+		45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7D1F41BB3908D0034B659 /* BBLoadingView.m */; settings = {ASSET_TAGS = (); }; };
+		45D7D1F91BB3960F0034B659 /* BBWKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7D1F81BB3960F0034B659 /* BBWKWebViewController.m */; settings = {ASSET_TAGS = (); }; };
 		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
@@ -217,6 +220,7 @@
 		4592324F1B969A490006A123 /* BBMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMessageTableViewCell.h; sourceTree = "<group>"; };
 		459232501B969A490006A123 /* BBMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessageTableViewCell.m; sourceTree = "<group>"; };
 		459232521B96BE530006A123 /* tab_icon_message@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_icon_message@3x.png"; sourceTree = "<group>"; };
+		459AA48D1BB39CE4007CFB2F /* closeicon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "closeicon@3x.png"; path = "../../../../Downloads/closeicon@3x.png"; sourceTree = "<group>"; };
 		45A052141B3A898200A1488D /* BBCountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountTableViewCell.h; sourceTree = "<group>"; };
 		45A052151B3A898200A1488D /* BBCountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountTableViewCell.m; sourceTree = "<group>"; };
 		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -228,6 +232,10 @@
 		45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barbutton_icon_post@3x.png"; sourceTree = "<group>"; };
 		45C57B461B9FEC6D00FE040E /* tab_waterfall@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_waterfall@3x.png"; sourceTree = "<group>"; };
 		45C57B4C1B9FFDC700FE040E /* bobo_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bobo_tab_icon@3x.png"; sourceTree = "<group>"; };
+		45D7D1F31BB3908D0034B659 /* BBLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBLoadingView.h; sourceTree = "<group>"; };
+		45D7D1F41BB3908D0034B659 /* BBLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBLoadingView.m; sourceTree = "<group>"; };
+		45D7D1F71BB3960F0034B659 /* BBWKWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWKWebViewController.h; sourceTree = "<group>"; };
+		45D7D1F81BB3960F0034B659 /* BBWKWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWKWebViewController.m; sourceTree = "<group>"; };
 		45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_placeholder@3x.png"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		68ADFD39DDA092351BC9F4D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -388,6 +396,7 @@
 		45620D3C1B3706BF00B9F9F2 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				459AA48D1BB39CE4007CFB2F /* closeicon@3x.png */,
 				45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */,
 				4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */,
 				007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */,
@@ -439,6 +448,8 @@
 				000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */,
 				006E2F631B949FD2008AB6DF /* BBNotificationView.h */,
 				006E2F641B949FD2008AB6DF /* BBNotificationView.m */,
+				45D7D1F31BB3908D0034B659 /* BBLoadingView.h */,
+				45D7D1F41BB3908D0034B659 /* BBLoadingView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -503,6 +514,7 @@
 				45BEC7561B9E77D000001DAE /* Detail */,
 				45BEC7551B9E77AF00001DAE /* Post */,
 				45BEC7541B9E779E00001DAE /* Favorite */,
+				45D7D1F61BB395F30034B659 /* WebView */,
 				45BEC7531B9E779300001DAE /* Profile */,
 				45BEC7521B9E778300001DAE /* Homeline */,
 				45BEC7511B9E777E00001DAE /* Waterfall */,
@@ -619,6 +631,15 @@
 			name = Sidemenu;
 			sourceTree = "<group>";
 		};
+		45D7D1F61BB395F30034B659 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				45D7D1F71BB3960F0034B659 /* BBWKWebViewController.h */,
+				45D7D1F81BB3960F0034B659 /* BBWKWebViewController.m */,
+			);
+			name = WebView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -724,6 +745,7 @@
 				456254D91B8305220009A332 /* faved_icon@3x.png in Resources */,
 				458B60E01B95A8E8005A1749 /* icon_vip.png in Resources */,
 				456254D51B82E7E00009A332 /* retwt_icon@3x.png in Resources */,
+				459AA48E1BB39CE4007CFB2F /* closeicon@3x.png in Resources */,
 				459232531B96BE530006A123 /* tab_icon_message@3x.png in Resources */,
 				456254DF1B8306910009A332 /* like_icon_2@3x.png in Resources */,
 			);
@@ -777,6 +799,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */,
+				45D7D1F91BB3960F0034B659 /* BBWKWebViewController.m in Sources */,
 				45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
 				45688A0F1B85ABBF0015461E /* CStatus.m in Sources */,
@@ -816,6 +839,7 @@
 				45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */,
 				458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */,
 				004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */,
+				45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */,
 				00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */,
 				006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */,
 			);

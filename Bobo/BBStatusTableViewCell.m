@@ -6,23 +6,27 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBStatusTableViewCell.h"
-#import "BBNetworkUtils.h"
 #import <UIImageView+WebCache.h>
-#import "BBImageBrowserView.h"
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+#import <AFNetworking.h>
+#import <WebKit/WebKit.h>
+
+#import "BBStatusTableViewCell.h"
 #import "NSString+Convert.h"
 #import "UIColor+Custom.h"
+
 #import "Utils.h"
-#import "BBUpdateStatusView.h"
 #import "AppDelegate.h"
-#import "WeiboSDK.h"
+#import "BBUpdateStatusView.h"
+#import "BBImageBrowserView.h"
+
 #import "BBStatusDetailViewController.h"
 #import "BBMainStatusTableViewController.h"
 #import "BBProfileTableViewController.h"
 #import "BBFavoritesTableViewController.h"
-#import <Social/Social.h>
-#import <Accounts/Accounts.h>
-#import <AFNetworking.h>
+#import "BBWKWebViewController.h"
+
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -608,6 +612,21 @@
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
+        BBWKWebViewController *wvc = [[BBWKWebViewController alloc] init];
+        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
+        id obj = nil;
+        for (obj = self; obj; obj = [obj nextResponder]) {
+            if ([obj isKindOfClass:[BBStatusDetailViewController class]]
+                || [obj isKindOfClass:[BBMainStatusTableViewController class]]
+                || [obj isKindOfClass:[BBProfileTableViewController class]]
+                || [obj isKindOfClass:[BBFavoritesTableViewController class]])
+            {
+                UIViewController *uivc = (UIViewController *)obj;
+                wvc.hidesBottomBarWhenPushed = YES;
+                [uivc.navigationController pushViewController:wvc animated:YES];
+                return;
+            }
+        }
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题
