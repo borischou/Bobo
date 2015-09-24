@@ -86,6 +86,11 @@
 
 -(void)setupMorePage
 {
+    _vipDesc = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_vipDesc setNumberOfLines:0];
+    [_vipDesc setLineBreakMode:NSLineBreakByWordWrapping];
+    [_scrollView addSubview:_vipDesc];
+    
     _descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [_descLabel setNumberOfLines:0];
     [_descLabel setLineBreakMode:NSLineBreakByWordWrapping];
@@ -96,9 +101,6 @@
     
     _urlLabel = [[UILabel alloc] initWithFrame:CGRectMake(bWidth+10, 10+20+5, bWidth-20, 20)];
     [_scrollView addSubview:_urlLabel];
-    
-    _vipDesc = [[UILabel alloc] initWithFrame:CGRectZero];
-    [_scrollView addSubview:_vipDesc];
 }
 
 -(void)layoutMorePage
