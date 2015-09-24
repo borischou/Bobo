@@ -11,7 +11,10 @@
 #import "BBWaterfallCollectionViewCell.h"
 #import "BBStatusDetailViewController.h"
 #import "BBWaterfallStatusViewController.h"
+#import "BBProfileTableViewController.h"
+#import "BBImageBrowserView.h"
 #import "Utils.h"
+#import "AppDelegate.h"
 #import <UIImageView+WebCache.h>
 #import "NSString+Convert.h"
 #import "UIColor+Custom.h"
@@ -28,7 +31,7 @@
 
 static NSString *reuseCellId = @"reuseCell";
 
-@interface BBWaterfallCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout>
+@interface BBWaterfallCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout, BBWaterfallCollectionViewCellDelegate>
 
 @end
 
@@ -75,6 +78,7 @@ static NSString *reuseCellId = @"reuseCell";
     if (_statuses.count > 0) {
         Status *status = [_statuses objectAtIndex:indexPath.item];
         cell.status = status;
+        cell.delegate = self;
         [self loadDataWithStatus:status cell:cell];
         if (cell.frame.size.height != status.heightForWaterfall) {
             [self loadLayoutWithStatus:status cell:cell];
@@ -211,6 +215,69 @@ static NSString *reuseCellId = @"reuseCell";
     
     CGSize timeSize = [cell.timeLabel sizeThatFits:CGSizeMake(MAXFLOAT, wBottomItemHeight)];
     [cell.timeLabel setFrame:CGRectMake(wSmallGap+wBottomItemWidth*2/3+wSmallGap+rSize.width+wSmallGap+wBottomItemWidth*2/3+wSmallGap+cSize.width+wSmallGap, top+wSmallGap, timeSize.width, wBottomItemHeight)];
+}
+
+#pragma mark - BBWaterfallCollectionViewCellDelegate & support
+
+-(void)collectionViewCell:(BBWaterfallCollectionViewCell *)cell didTapCoverpicture:(UIImageView *)coverpicture
+{
+    NSMutableArray *originUrls = nil;
+    NSMutableArray *largeUrls = @[].mutableCopy;
+    if (cell.status.pic_urls.count > 0) {
+        originUrls = cell.status.pic_urls;
+    }
+    if (cell.status.retweeted_status.pic_urls.count > 0) {
+        originUrls = cell.status.retweeted_status.pic_urls;
+    }
+    for (NSString *str in originUrls) {
+        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
+    }
+    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:0];
+}
+
+-(void)collectionViewCell:(BBWaterfallCollectionViewCell *)cell didTapHotword:(NSString *)hotword
+{
+    NSLog(@"点击%@", hotword);
+    if ([hotword hasPrefix:@"@"]) {
+        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
+        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                          URL:@"statuses/user_timeline.json"
+                          SLRequestHTTPMethod:SLRequestMethodGET
+                                   parameters:params
+                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             NSMutableArray *statuses = [Utils statusesWith:responseObject];
+             Status *status = statuses.firstObject;
+             User *user = status.user;
+             
+             BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+             BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)self.nextResponder;
+             [Utils setupNavigationController:wsvc.navigationController withUIViewController:profiletvc];
+             profiletvc.uid = user.idstr;
+             profiletvc.statuses = statuses;
+             profiletvc.user = user;
+             profiletvc.shouldNavBtnShown = NO;
+             profiletvc.title = @"Profile";
+             profiletvc.hidesBottomBarWhenPushed = YES;
+             [wsvc.navigationController pushViewController:profiletvc animated:YES];
+         }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             NSLog(@"error %@", error);
+         }];
+    }
+    if ([hotword hasPrefix:@"http"]) {
+        //打开webview
+    }
+    if ([hotword hasPrefix:@"#"]) {
+        //热门话题
+    }
+}
+
+-(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
+{
+    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
+    [self.window addSubview:browserView];
 }
 
 @end

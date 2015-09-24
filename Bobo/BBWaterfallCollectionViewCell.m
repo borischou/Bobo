@@ -125,24 +125,7 @@
 
 -(void)coverImageViewTapped
 {
-    NSMutableArray *originUrls = nil;
-    NSMutableArray *largeUrls = @[].mutableCopy;
-    if (_status.pic_urls.count > 0) {
-        originUrls = _status.pic_urls;
-    }
-    if (_status.retweeted_status.pic_urls.count > 0) {
-        originUrls = _status.retweeted_status.pic_urls;
-    }
-    for (NSString *str in originUrls) {
-        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
-    }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:0];
-}
-
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    [self.window addSubview:browserView];
+    [self.delegate collectionViewCell:self didTapCoverpicture:_coverImageView];
 }
 
 -(void)prepareForReuse
@@ -158,54 +141,11 @@
     [_mask removeFromSuperview];
 }
 
-#pragma mark - STTweetLabelBlockCallbacks
-
 #pragma mark - STTweetLabelBlockCallbacks support
 
 -(void)didTapHotword:(NSString *)hotword
 {
-    NSLog(@"点击%@", hotword);
-    if ([hotword hasPrefix:@"@"]) {
-        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
-        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-                                          URL:@"statuses/user_timeline.json"
-                          SLRequestHTTPMethod:SLRequestMethodGET
-                                   parameters:params
-                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             NSMutableArray *statuses = [Utils statusesWith:responseObject];
-             Status *status = statuses.firstObject;
-             User *user = status.user;
-             
-             id obj = nil;
-             for (obj = self; obj; obj = [obj nextResponder]) {
-                 if ([obj isKindOfClass:[BBStatusDetailViewController class]]
-                     || [obj isKindOfClass:[BBWaterfallStatusViewController class]])
-                 {
-                     UIViewController *uivc = (UIViewController *)obj;
-                     BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                     [Utils setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
-                     profiletvc.uid = user.idstr;
-                     profiletvc.statuses = statuses;
-                     profiletvc.user = user;
-                     profiletvc.shouldNavBtnShown = NO;
-                     profiletvc.title = @"Profile";
-                     profiletvc.hidesBottomBarWhenPushed = YES;
-                     [uivc.navigationController pushViewController:profiletvc animated:YES];
-                     return;
-                 }
-             }
-         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
-             NSLog(@"error %@", error);
-         }];
-    }
-    if ([hotword hasPrefix:@"http"]) {
-        //打开webview
-    }
-    if ([hotword hasPrefix:@"#"]) {
-        //热门话题
-    }
+    [self.delegate collectionViewCell:self didTapHotword:hotword];
 }
 
 @end

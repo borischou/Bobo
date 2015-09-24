@@ -10,7 +10,17 @@
 #import "Status.h"
 #import "STTweetLabel.h"
 
+@class BBWaterfallCollectionViewCell;
+@protocol BBWaterfallCollectionViewCellDelegate <NSObject>
+
+-(void)collectionViewCell:(BBWaterfallCollectionViewCell *)cell didTapCoverpicture:(UIImageView *)coverpicture;
+-(void)collectionViewCell:(BBWaterfallCollectionViewCell *)cell didTapHotword:(NSString *)hotword;
+
+@end
+
 @interface BBWaterfallCollectionViewCell : UICollectionViewCell
+
+@property (weak, nonatomic) id <BBWaterfallCollectionViewCellDelegate> delegate;
 
 @property (strong, nonatomic) Status *status;
 
