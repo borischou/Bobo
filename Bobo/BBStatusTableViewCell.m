@@ -269,38 +269,12 @@
 
 -(void)retweetImageViewTapped
 {
-    NSLog(@"retweetImageViewTapped");
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
-    updateStatusView.idStr = _status.idstr;
-    updateStatusView.nameLabel.text = @"转发";
-    AppDelegate *delegate = [AppDelegate delegate];
-    [delegate.window addSubview:updateStatusView];
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
-        [updateStatusView.statusTextView becomeFirstResponder];
-    } completion:^(BOOL finished) {
-        if (finished) {
-            //what are you gonna do
-        }
-    }];
+    [self.delegate tableViewCell:self didTapRetweetView:_retweetImageView];
 }
 
 -(void)commentImageViewTapped
 {
-    NSLog(@"commentImageViewTapped");
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
-    updateStatusView.idStr = _status.idstr;
-    updateStatusView.nameLabel.text = _status.user.screen_name;
-    AppDelegate *delegate = [AppDelegate delegate];
-    [delegate.window addSubview:updateStatusView];
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
-        [updateStatusView.statusTextView becomeFirstResponder];
-    } completion:^(BOOL finished) {
-        if (finished) {
-            //what are you gonna do
-        }
-    }];
+    [self.delegate tableViewCell:self didTapCommentIcon:_commentImageView];
 }
 
 -(void)likeImageViewTapped
@@ -310,114 +284,27 @@
 
 -(void)favoritesImageViewTapped
 {
-    NSLog(@"favoritesImageViewTapped");
-    if (_status.favorited) {
-        [_favoritesImageView setImage:[UIImage imageNamed:@"fav_icon_3"]];
-        NSDictionary *params = @{@"id": _status.idstr};
-        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-            if (!error) {
-                NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-                [_status setFavorited:NO];
-            }
-            else {
-                NSLog(@"收藏删除失败: %@", error);
-            }
-        }];
-    }
-    else
-    {
-        [_favoritesImageView setImage:[UIImage imageNamed:@"faved_icon"]];
-        NSDictionary *params = @{@"id": _status.idstr};
-        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-            if (!error) {
-                NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-                [_status setFavorited:YES];
-            }
-            else {
-                NSLog(@"收藏失败: %@", error);
-            }
-        }];
-    }
+    [self.delegate tableViewCell:self didTapFavoriteIcon:_favoritesImageView];
 }
 
 -(void)statusImageTapped:(UITapGestureRecognizer *)tap
 {
-    NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in _status.pic_urls) {
-        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
-    }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self.delegate tableViewCell:self statusPictureTapped:tap];
 }
 
 -(void)repostImageTapped:(UITapGestureRecognizer *)tap
 {
-    NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in _status.retweeted_status.pic_urls) {
-        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
-    }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self.delegate tableViewCell:self retweetPictureTapped:tap];
 }
 
 -(void)repostViewTapped:(UITapGestureRecognizer *)tap
 {
-    BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
-    dtvc.title = @"Detail";
-    dtvc.hidesBottomBarWhenPushed = YES;
-    dtvc.status = _status.retweeted_status;
-    
-    id tableViewController = [[[self nextResponder] nextResponder] nextResponder];
-    id detailTableViewController = [tableViewController nextResponder];
-
-    if ([tableViewController isKindOfClass:[BBMainStatusTableViewController class]] ||
-        [tableViewController isKindOfClass:[BBProfileTableViewController class]] ||
-        [tableViewController isKindOfClass:[BBFavoritesTableViewController class]])
-    {
-        BBMainStatusTableViewController *mstvc = (BBMainStatusTableViewController *)tableViewController;
-        [mstvc.navigationController pushViewController:dtvc animated:YES];
-    }
-    if ([detailTableViewController isKindOfClass:[BBStatusDetailViewController class]])
-    {
-        BBStatusDetailViewController *sdvc = (BBStatusDetailViewController *)detailTableViewController;
-        [sdvc.navigationController pushViewController:dtvc animated:YES];
-    }
+    [self.delegate tableViewCell:self didTapRetweetView:_repostView];
 }
 
 -(void)avatarViewTapped
 {
-    NSLog(@"avatarViewTapped");
-    NSDictionary *params = @{@"uid": _status.user.idstr};
-    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-                                      URL:@"statuses/user_timeline.json"
-                      SLRequestHTTPMethod:SLRequestMethodGET
-                               parameters:params
-               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-     {
-         NSMutableArray *statuses = [Utils statusesWith:responseObject];
-         Status *status = statuses.firstObject;
-         User *user = status.user;
-         
-         id obj = nil;
-         for (obj = self; obj; obj = [obj nextResponder]) {
-             if ([obj isKindOfClass:[BBStatusDetailViewController class]]
-                 || [obj isKindOfClass:[BBMainStatusTableViewController class]]
-                 || [obj isKindOfClass:[BBFavoritesTableViewController class]])
-             {
-                 UIViewController *uivc = (UIViewController *)obj;
-                 BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                 [Utils setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
-                 profiletvc.uid = user.idstr;
-                 profiletvc.statuses = statuses;
-                 profiletvc.user = user;
-                 profiletvc.shouldNavBtnShown = NO;
-                 profiletvc.title = @"Profile";
-                 profiletvc.hidesBottomBarWhenPushed = YES;
-                 [uivc.navigationController pushViewController:profiletvc animated:YES];
-             }
-         }
-     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         NSLog(@"error %@", error);
-     }];
+    [self.delegate tableViewCell:self didTapAvatar:_avatarView];
 }
 
 #pragma mark - Cell configure support
@@ -562,75 +449,11 @@
     }
 }
 
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    [self.window addSubview:browserView];
-}
-
 #pragma mark - STTweetLabelBlockCallbacks support
 
 -(void)didTapHotword:(NSString *)hotword
 {
-    NSLog(@"点击%@", hotword);
-    if ([hotword hasPrefix:@"@"]) {
-        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
-        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-                                          URL:@"statuses/user_timeline.json"
-                          SLRequestHTTPMethod:SLRequestMethodGET
-                                   parameters:params
-                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-        {
-            NSMutableArray *statuses = [Utils statusesWith:responseObject];
-            Status *status = statuses.firstObject;
-            User *user = status.user;
-            
-            id obj = nil;
-            for (obj = self; obj; obj = [obj nextResponder]) {
-                if ([obj isKindOfClass:[BBStatusDetailViewController class]]
-                    || [obj isKindOfClass:[BBMainStatusTableViewController class]]
-                    || [obj isKindOfClass:[BBProfileTableViewController class]]
-                    || [obj isKindOfClass:[BBFavoritesTableViewController class]])
-                {
-                    UIViewController *uivc = (UIViewController *)obj;
-                    BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                    [Utils setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
-                    profiletvc.uid = user.idstr;
-                    profiletvc.statuses = statuses;
-                    profiletvc.user = user;
-                    profiletvc.shouldNavBtnShown = NO;
-                    profiletvc.title = @"Profile";
-                    profiletvc.hidesBottomBarWhenPushed = YES;
-                    [uivc.navigationController pushViewController:profiletvc animated:YES];
-                    return;
-                }
-            }
-        } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-        {
-            NSLog(@"error %@", error);
-        }];
-    }
-    if ([hotword hasPrefix:@"http"]) {
-        //打开webview
-        BBWKWebViewController *wvc = [[BBWKWebViewController alloc] init];
-        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
-        id obj = nil;
-        for (obj = self; obj; obj = [obj nextResponder]) {
-            if ([obj isKindOfClass:[BBStatusDetailViewController class]]
-                || [obj isKindOfClass:[BBMainStatusTableViewController class]]
-                || [obj isKindOfClass:[BBProfileTableViewController class]]
-                || [obj isKindOfClass:[BBFavoritesTableViewController class]])
-            {
-                UIViewController *uivc = (UIViewController *)obj;
-                wvc.hidesBottomBarWhenPushed = YES;
-                [uivc.navigationController pushViewController:wvc animated:YES];
-                return;
-            }
-        }
-    }
-    if ([hotword hasPrefix:@"#"]) {
-        //热门话题
-    }
+    [self.delegate tableViewCell:self didTapHotword:hotword];
 }
 
 @end

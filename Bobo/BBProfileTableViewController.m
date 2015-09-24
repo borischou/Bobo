@@ -102,11 +102,7 @@ static NSString *reuseCountsCell = @"countsCell";
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
         [updateStatusView.statusTextView becomeFirstResponder];
-    } completion:^(BOOL finished) {
-        if (finished) {
-            //what are you gonna do
-        }
-    }];
+    } completion:^(BOOL finished) {}];
 }
 
 -(void)loginBtnPressed
