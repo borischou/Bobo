@@ -325,7 +325,6 @@
 				456889B31B8573620015461E /* Coredata */,
 				45620D3C1B3706BF00B9F9F2 /* Image */,
 				456C77E91B2AE3E30055FBE8 /* Model */,
-				456C77E51B2AC59B0055FBE8 /* View */,
 				451441D01B295CA9000532DD /* Supporting Files */,
 			);
 			path = Bobo;
@@ -512,6 +511,7 @@
 				45BEC7521B9E778300001DAE /* Homeline */,
 				45BEC7511B9E777E00001DAE /* Waterfall */,
 				45BEC7501B9E774B00001DAE /* Message */,
+				456C77E51B2AC59B0055FBE8 /* View */,
 			);
 			name = Module;
 			sourceTree = "<group>";
