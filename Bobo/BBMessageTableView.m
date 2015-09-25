@@ -97,13 +97,13 @@ static NSString *messageCell = @"messageCell";
          BBMessageViewController *mvc = (BBMessageViewController *)self.nextResponder.nextResponder.nextResponder;
          
          BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-         [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
          profiletvc.uid = user.idstr;
          profiletvc.statuses = statuses;
          profiletvc.user = user;
          profiletvc.shouldNavBtnShown = NO;
          profiletvc.title = @"Profile";
          profiletvc.hidesBottomBarWhenPushed = YES;
+         [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
          [mvc.navigationController pushViewController:profiletvc animated:YES];
      }
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)

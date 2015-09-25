@@ -375,13 +375,13 @@ static NSString *reuseCMCell = @"reuseCMCell";
              User *user = status.user;
              
              BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-             [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
              profiletvc.uid = user.idstr;
              profiletvc.statuses = statuses;
              profiletvc.user = user;
              profiletvc.shouldNavBtnShown = NO;
              profiletvc.title = @"Profile";
              profiletvc.hidesBottomBarWhenPushed = YES;
+             [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
              [self.navigationController pushViewController:profiletvc animated:YES];
          }
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)

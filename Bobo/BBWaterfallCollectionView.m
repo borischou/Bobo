@@ -253,13 +253,13 @@ static NSString *reuseCellId = @"reuseCell";
              
              BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
              BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)self.nextResponder;
-             [Utils setupNavigationController:wsvc.navigationController withUIViewController:profiletvc];
              profiletvc.uid = user.idstr;
              profiletvc.statuses = statuses;
              profiletvc.user = user;
              profiletvc.shouldNavBtnShown = NO;
              profiletvc.title = @"Profile";
              profiletvc.hidesBottomBarWhenPushed = YES;
+             [Utils setupNavigationController:wsvc.navigationController withUIViewController:profiletvc];
              [wsvc.navigationController pushViewController:profiletvc animated:YES];
          }
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
