@@ -46,7 +46,6 @@ static NSString *reuseCountsCell = @"countsCell";
 @interface BBProfileTableViewController () <BBStatusTableViewCellDelegate>
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
-@property (strong, nonatomic) UIAlertView *logoutAlertView;
 @property (strong, nonatomic) ACAccount *weiboAccount;
 
 @end
@@ -155,7 +154,12 @@ static NSString *reuseCountsCell = @"countsCell";
                 NSLog(@"error: %@", error);
             }];
         } else {
-            [[[UIAlertView alloc] initWithTitle:@"已登录" message:@"您已授权并登录微博" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"已登录" message:@"您已授权并登录微博" preferredStyle:UIAlertControllerStyleActionSheet];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSLog(@"OK action triggered.");
+            }];
+            [alertcontroller addAction:action];
+            [self presentViewController:alertcontroller animated:YES completion:^{}];
         }
     }
 }
