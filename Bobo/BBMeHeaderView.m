@@ -100,6 +100,8 @@
     [_scrollView addSubview:_location];
     
     _urlLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_urlLabel setNumberOfLines:0];
+    [_urlLabel setLineBreakMode:NSLineBreakByWordWrapping];
     [_scrollView addSubview:_urlLabel];
 }
 
@@ -143,7 +145,8 @@
     CGSize descSize = [_descLabel sizeThatFits:CGSizeMake(bWidth-20, MAXFLOAT)];
     [_descLabel setFrame:CGRectMake(bWidth+10, 10+20+5+vipSize.height+5, bWidth-20, descSize.height)];
     
-    [_urlLabel setFrame:CGRectMake(bWidth+10, 10+20+5+vipSize.height+5+descSize.height+5, bWidth-20, 20)];
+    CGSize urlSize = [_urlLabel sizeThatFits:CGSizeMake(bWidth-20, MAXFLOAT)];
+    [_urlLabel setFrame:CGRectMake(bWidth+10, 10+20+5+vipSize.height+5+descSize.height+5, bWidth-20, urlSize.height)];
 }
 
 -(void)layoutAvatarPage
