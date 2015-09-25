@@ -110,7 +110,9 @@
                         NSString *uid = [NSString stringWithFormat:@"%@", dict[@"uid"]];
                         [[NSUserDefaults standardUserDefaults] setObject:uid forKey:@"uid"];
                         [[NSUserDefaults standardUserDefaults] synchronize];
-                    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    }
+                               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+                    {
                         NSLog(@"error: %@", error);
                     }];
                 }
@@ -130,7 +132,9 @@
                 NSString *uid = [NSString stringWithFormat:@"%@", dict[@"uid"]];
                 [[NSUserDefaults standardUserDefaults] setObject:uid forKey:@"uid"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
-            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            }
+                       completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+            {
                 NSLog(@"error: %@", error);
             }];
         }
@@ -218,8 +222,9 @@
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"error: %@", error);
             }];
-            
-        } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+        {
             NSLog(@"error: %@", error);
         }];
     }
@@ -229,7 +234,9 @@
             NSError *error = nil;
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
             _user = [[User alloc] initWithDictionary:dict];
-        } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+        {
             NSLog(@"error: %@", error);
         }];
     }
