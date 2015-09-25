@@ -40,6 +40,9 @@ static CGFloat lineHeight = 3;
 -(void)initLayout
 {
     self.backgroundColor = mBGColor;
+    self.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.layer.shadowOpacity = .2;
+    self.layer.shadowOffset = CGSizeMake(0, 2);
     
     _bgImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, height-lineHeight, mButtonWidth, lineHeight)];
     _bgImgView.backgroundColor = [UIColor redColor];

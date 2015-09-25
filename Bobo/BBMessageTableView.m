@@ -135,7 +135,8 @@ static NSString *messageCell = @"messageCell";
              profiletvc.title = @"Profile";
              profiletvc.hidesBottomBarWhenPushed = YES;
              [mvc.navigationController pushViewController:profiletvc animated:YES];
-         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+         }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
          }];
