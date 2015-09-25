@@ -74,8 +74,7 @@
         if (!error) {
             [self setSizeForImage:image withImageView:_imageView andOriginX:originX];
         } else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alertView show];
+            //下载图片失败后动作
         }
     }];
 }
