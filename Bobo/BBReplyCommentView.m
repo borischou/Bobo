@@ -56,35 +56,35 @@
     _replyBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [_replyBtn setTitle:@"回复评论" forState:UIControlStateNormal];
     [_replyBtn setBackgroundColor:[UIColor darkGrayColor]];
-    [_replyBtn addTarget:self action:@selector(replyButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [_replyBtn addTarget:self action:@selector(replyButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_replyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_replyBtn];
     
     _repostBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [_repostBtn setTitle:@"转发评论" forState:UIControlStateNormal];
     [_repostBtn setBackgroundColor:[UIColor darkGrayColor]];
-    [_repostBtn addTarget:self action:@selector(repostButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [_repostBtn addTarget:self action:@selector(repostButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_repostBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_repostBtn];
     
     _cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
     [_cancelBtn setBackgroundColor:[UIColor darkGrayColor]];
-    [_cancelBtn addTarget:self action:@selector(cancelButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [_cancelBtn addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_cancelBtn];
     
     _viewStatusBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [_viewStatusBtn setTitle:@"查看微博" forState:UIControlStateNormal];
     [_viewStatusBtn setBackgroundColor:[UIColor darkGrayColor]];
-    [_viewStatusBtn addTarget:self action:@selector(viewStatusButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [_viewStatusBtn addTarget:self action:@selector(viewStatusButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_viewStatusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_viewStatusBtn];
     
     _deleteBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [_deleteBtn setTitle:@"删除评论" forState:UIControlStateNormal];
     [_deleteBtn setBackgroundColor:[UIColor darkGrayColor]];
-    [_deleteBtn addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [_deleteBtn addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_deleteBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_deleteBtn];
     
@@ -92,7 +92,7 @@
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
         _mask.alpha = 0.0;
-        [_mask addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonPressed)]];
+        [_mask addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonPressed:)]];
 
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [delegate.window addSubview:_mask];
@@ -100,9 +100,7 @@
         
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _mask.alpha = 0.5;
-        } completion:^(BOOL finished) {
-            
-        }];
+        } completion:^(BOOL finished) {}];
     }
 }
 
@@ -144,7 +142,9 @@
     }
 }
 
--(void)viewStatusButtonPressed
+#pragma mark - Button Actions
+
+-(void)viewStatusButtonPressed:(UIButton *)sender
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _mask.alpha = 0;
@@ -168,7 +168,7 @@
     }];
 }
 
--(void)deleteButtonPressed
+-(void)deleteButtonPressed:(UIButton *)sender
 {
     //调用删除接口
     NSDictionary *params = @{@"cid": _comment.idstr};
@@ -199,7 +199,7 @@
     }];
 }
 
--(void)replyButtonPressed
+-(void)replyButtonPressed:(UIButton *)sender
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3]; //回复评论
     updateStatusView.idStr = _comment.status.idstr;
@@ -220,7 +220,7 @@
     }];
 }
 
--(void)repostButtonPressed
+-(void)repostButtonPressed:(UIButton *)sender
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发评论
     updateStatusView.idStr = _comment.status.idstr;
@@ -240,7 +240,7 @@
     }];
 }
 
--(void)cancelButtonPressed
+-(void)cancelButtonPressed:(UIButton *)sender
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
