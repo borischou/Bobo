@@ -16,7 +16,6 @@
 #import "AppDelegate.h"
 #import "BBMeHeaderView.h"
 #import "BBStatusTableViewCell.h"
-#import "BBWebViewController.h"
 #import "BBImageBrowserView.h"
 #import "BBButtonbarTableViewCell.h"
 #import "NSString+Convert.h"
@@ -26,6 +25,7 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import <AFNetworking.h>
+#import <SafariServices/SafariServices.h>
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -508,9 +508,8 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        BBWebViewController *wvc = [[BBWebViewController alloc] init];
-        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
-        [self.navigationController pushViewController:wvc animated:YES];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        [self.navigationController pushViewController:sfvc animated:YES];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题

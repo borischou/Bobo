@@ -10,7 +10,6 @@
 #import "BBStatusDetailViewController.h"
 #import "BBProfileTableViewController.h"
 #import "SWRevealViewController.h"
-#import "BBWebViewController.h"
 #import "BBStatusTableViewCell.h"
 #import "BBButtonbarTableViewCell.h"
 #import "BBImageBrowserView.h"
@@ -24,6 +23,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+#import <SafariServices/SafariServices.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -391,9 +391,9 @@
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        BBWebViewController *wvc = [[BBWebViewController alloc] init];
-        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
-        [self.navigationController pushViewController:wvc animated:YES];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        sfvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:sfvc animated:YES];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题

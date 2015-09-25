@@ -11,8 +11,8 @@
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+#import <SafariServices/SafariServices.h>
 #import "BBProfileTableViewController.h"
-#import "BBWebViewController.h"
 #import "BBUpdateStatusView.h"
 #import "BBStatusTableViewCell.h"
 #import "BBCommentTableViewCell.h"
@@ -391,9 +391,9 @@ static NSString *reuseCMCell = @"reuseCMCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        BBWebViewController *wvc = [[BBWebViewController alloc] init];
-        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
-        [self.navigationController pushViewController:wvc animated:YES];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        sfvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:sfvc animated:YES];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题
@@ -436,6 +436,15 @@ static NSString *reuseCMCell = @"reuseCMCell";
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"error %@", error);
          }];
+    }
+    if ([hotword hasPrefix:@"http"]) {
+        //打开webview
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        sfvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:sfvc animated:YES];
+    }
+    if ([hotword hasPrefix:@"#"]) {
+        //热门话题
     }
 }
 

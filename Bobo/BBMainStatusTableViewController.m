@@ -9,12 +9,12 @@
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+#import <SafariServices/SafariServices.h>
 #import "SWRevealViewController.h"
 #import "Utils.h"
 #import "BBMainStatusTableViewController.h"
 #import "BBProfileTableViewController.h"
 #import "BBStatusDetailViewController.h"
-#import "BBWebViewController.h"
 #import "BBButtonbarTableViewCell.h"
 #import "BBStatusTableViewCell.h"
 #import "BBUpdateStatusView.h"
@@ -413,9 +413,9 @@ static NSString *reuseBarCellId = @"barCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        BBWebViewController *wvc = [[BBWebViewController alloc] init];
-        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
-        [self.navigationController pushViewController:wvc animated:YES];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        sfvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:sfvc animated:YES];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题

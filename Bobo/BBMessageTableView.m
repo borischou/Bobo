@@ -7,11 +7,11 @@
 //
 
 #import "BBMessageTableView.h"
+#import <SafariServices/SafariServices.h>
 #import "BBMessageTableViewCell.h"
 #import "BBStatusDetailViewController.h"
 #import "BBProfileTableViewController.h"
 #import "BBMessageViewController.h"
-#import "BBWebViewController.h"
 #import "BBReplyCommentView.h"
 #import "AppDelegate.h"
 #import "Utils.h"
@@ -142,9 +142,9 @@ static NSString *messageCell = @"messageCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        BBWebViewController *wvc = [[BBWebViewController alloc] init];
-        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
-        [mvc.navigationController pushViewController:wvc animated:YES];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        sfvc.hidesBottomBarWhenPushed = YES;
+        [mvc.navigationController pushViewController:sfvc animated:YES];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题

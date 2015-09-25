@@ -87,7 +87,6 @@
 		45C57B471B9FEC6D00FE040E /* tab_waterfall@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B461B9FEC6D00FE040E /* tab_waterfall@3x.png */; };
 		45C57B4D1B9FFDC700FE040E /* bobo_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B4C1B9FFDC700FE040E /* bobo_tab_icon@3x.png */; };
 		45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7D1F41BB3908D0034B659 /* BBLoadingView.m */; settings = {ASSET_TAGS = (); }; };
-		45D7D1F91BB3960F0034B659 /* BBWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7D1F81BB3960F0034B659 /* BBWebViewController.m */; settings = {ASSET_TAGS = (); }; };
 		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
@@ -232,8 +231,6 @@
 		45C57B4C1B9FFDC700FE040E /* bobo_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bobo_tab_icon@3x.png"; sourceTree = "<group>"; };
 		45D7D1F31BB3908D0034B659 /* BBLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBLoadingView.h; sourceTree = "<group>"; };
 		45D7D1F41BB3908D0034B659 /* BBLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBLoadingView.m; sourceTree = "<group>"; };
-		45D7D1F71BB3960F0034B659 /* BBWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWebViewController.h; sourceTree = "<group>"; };
-		45D7D1F81BB3960F0034B659 /* BBWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWebViewController.m; sourceTree = "<group>"; };
 		45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_placeholder@3x.png"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		68ADFD39DDA092351BC9F4D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -511,7 +508,6 @@
 				45BEC7561B9E77D000001DAE /* Detail */,
 				45BEC7551B9E77AF00001DAE /* Post */,
 				45BEC7541B9E779E00001DAE /* Favorite */,
-				45D7D1F61BB395F30034B659 /* WebView */,
 				45BEC7531B9E779300001DAE /* Profile */,
 				45BEC7521B9E778300001DAE /* Homeline */,
 				45BEC7511B9E777E00001DAE /* Waterfall */,
@@ -626,15 +622,6 @@
 				456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */,
 			);
 			name = Sidemenu;
-			sourceTree = "<group>";
-		};
-		45D7D1F61BB395F30034B659 /* WebView */ = {
-			isa = PBXGroup;
-			children = (
-				45D7D1F71BB3960F0034B659 /* BBWebViewController.h */,
-				45D7D1F81BB3960F0034B659 /* BBWebViewController.m */,
-			);
-			name = WebView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -795,7 +782,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */,
-				45D7D1F91BB3960F0034B659 /* BBWebViewController.m in Sources */,
 				45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
 				45688A0F1B85ABBF0015461E /* CStatus.m in Sources */,
@@ -970,7 +956,7 @@
 					"$(PROJECT_DIR)/Bobo",
 				);
 				INFOPLIST_FILE = Bobo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1001,7 +987,7 @@
 					"$(PROJECT_DIR)/Bobo",
 				);
 				INFOPLIST_FILE = Bobo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

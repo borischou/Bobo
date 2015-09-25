@@ -12,11 +12,11 @@
 #import "BBStatusDetailViewController.h"
 #import "BBWaterfallStatusViewController.h"
 #import "BBProfileTableViewController.h"
-#import "BBWebViewController.h"
 #import "BBImageBrowserView.h"
 #import "Utils.h"
 #import "AppDelegate.h"
 #import <UIImageView+WebCache.h>
+#import <SafariServices/SafariServices.h>
 #import "NSString+Convert.h"
 #import "UIColor+Custom.h"
 #import <MJRefresh/MJRefresh.h>
@@ -269,10 +269,10 @@ static NSString *reuseCellId = @"reuseCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        BBWebViewController *wvc = [[BBWebViewController alloc] init];
-        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
         BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)self.nextResponder;
-        [wsvc.navigationController pushViewController:wvc animated:YES];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        sfvc.hidesBottomBarWhenPushed = YES;
+        [wsvc.navigationController pushViewController:sfvc animated:YES];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题
