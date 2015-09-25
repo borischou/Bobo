@@ -8,6 +8,11 @@
 
 #import <MJRefresh/MJRefresh.h>
 #import <UIImageView+WebCache.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+#import <AFNetworking.h>
+#import <SafariServices/SafariServices.h>
+
 #import "SWRevealViewController.h"
 #import "BBUpdateStatusView.h"
 #import "BBProfileTableViewController.h"
@@ -21,11 +26,6 @@
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
 #import "Utils.h"
-
-#import <Social/Social.h>
-#import <Accounts/Accounts.h>
-#import <AFNetworking.h>
-#import <SafariServices/SafariServices.h>
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -55,20 +55,18 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    _shouldNavBtnShown = YES;
-    _uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
-    [self setMJRefresh];
-    [self.tableView.header beginRefreshing];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
     if (_shouldNavBtnShown) {
         [self setNavBarBtn];
     }
-    [super viewDidAppear:animated];
+    if (_user) {
+        self.tableView.tableHeaderView = [self getAvatarView];
+    }
+    [self setMJRefresh];
+    if (!_statuses || _statuses.count <= 0) {
+        [self.tableView.header beginRefreshing];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
 }
 
 #pragma mark - Helpers
@@ -196,8 +194,18 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)fetchUserProfile
 {
     if (!_uid) {
-        NSLog(@"没有有效的uid。");
-        [self.tableView.header endRefreshing];
+        AppDelegate *delegate = [AppDelegate delegate];
+        if (delegate.uid || delegate.user.idstr) {
+            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                NSError *error = nil;
+                [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
+            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+            }];
+        } else {
+            [self.tableView.header endRefreshing];
+            NSLog(@"没有有效的uid。");
+        }
     } else {
         [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSError *error = nil;

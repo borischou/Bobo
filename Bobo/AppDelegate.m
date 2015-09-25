@@ -45,6 +45,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     _weiboAccount = [Utils systemAccounts].firstObject;
+    [self accessWeiboSystemAccount];
     [self fetchUserProfile];
     [self initControllers];
     [_window makeKeyAndVisible];
@@ -85,6 +86,57 @@
     return _weiboAccount;
 }
 
+//每次启动app检查是否通过用户的系统级授权以及账号uid
+-(void)accessWeiboSystemAccount
+{
+    //获取系统账号数据库中的新浪微博账号数据
+    _weiboAccount = [Utils systemAccounts].firstObject;
+    _uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    
+    //若未授权则向用户申请授权
+    if (_weiboAccount.accountType.accessGranted == NO) {
+        ACAccountStore *store = [[ACAccountStore alloc] init];
+        ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
+        [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
+            if (granted == YES) { //授权成功
+                NSLog(@"授权成功。");
+                
+                //本地尚未保存授权账号uid
+                if (!_uid) {
+                    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                        //获取本账号uid并保存在本地
+                        NSError *error = nil;
+                        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
+                        NSString *uid = [NSString stringWithFormat:@"%@", dict[@"uid"]];
+                        [[NSUserDefaults standardUserDefaults] setObject:uid forKey:@"uid"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        NSLog(@"error: %@", error);
+                    }];
+                }
+            } else {
+                NSLog(@"授权失败, 错误: %@", error);
+            }
+        }];
+    }
+    //用户已授权
+    else
+    {
+        if (!_uid) {
+            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                //获取本账号uid并保存在本地
+                NSError *error = nil;
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
+                NSString *uid = [NSString stringWithFormat:@"%@", dict[@"uid"]];
+                [[NSUserDefaults standardUserDefaults] setObject:uid forKey:@"uid"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"error: %@", error);
+            }];
+        }
+    }
+}
+
 -(void)initControllers
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -99,6 +151,8 @@
     //Tab:个人中心
     BBProfileTableViewController *profileTvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     profileTvc.title = @"Me";
+    profileTvc.shouldNavBtnShown = YES;
+    profileTvc.uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     profileTvc.tabBarItem.image = [UIImage imageNamed:@"iconfont-gerenshiwu"];
     UINavigationController *profileNvc = [[UINavigationController alloc] initWithRootViewController:profileTvc];
     [Utils setupNavigationController:profileNvc withUIViewController:profileTvc];
@@ -142,7 +196,7 @@
     self.window.rootViewController = _revealViewController;
 }
 
-#pragma mark - WeiboSDK Helpers
+#pragma mark - Weibo support
 
 //https://api.weibo.com/2/users/show.json?uid=id_string
 -(void)fetchUserProfile
@@ -179,13 +233,6 @@
             NSLog(@"error: %@", error);
         }];
     }
-}
-
--(void)startUserProfileFetch
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [self fetchUserProfile];
-    });
 }
 
 #pragma mark - SWRevealViewControllerDelegate
