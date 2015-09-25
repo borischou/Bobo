@@ -10,13 +10,22 @@
 #import "Comment.h"
 #import "STTweetLabel.h"
 
+@class BBCommentTableViewCell;
+@protocol BBCommentTableViewCellDelegate <NSObject>
+
+-(void)commentTableViewCell:(BBCommentTableViewCell *)cell didTapAvatarView:(UIImageView *)avatarView;
+-(void)commentTableViewCell:(BBCommentTableViewCell *)cell didTapHotword:(NSString *)hotword;
+
+@end
+
 @interface BBCommentTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) id <BBCommentTableViewCellDelegate> delegate;
 
 @property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UILabel *nameLbl;
 @property (strong, nonatomic) UILabel *timeLbl;
 @property (strong, nonatomic) STTweetLabel *commentTextLabel;
-//@property (strong, nonatomic) UILabel *textLbl;
 @property (strong, nonatomic) Comment *comment;
 
 @end

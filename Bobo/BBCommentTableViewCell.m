@@ -137,74 +137,14 @@
 
 -(void)avatarViewTapped
 {
-    NSLog(@"avatarViewTapped");
-    NSDictionary *params = @{@"uid": _comment.user.idstr};
-    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-                                      URL:@"statuses/user_timeline.json"
-                      SLRequestHTTPMethod:SLRequestMethodGET
-                               parameters:params
-               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-     {
-         NSMutableArray *statuses = [Utils statusesWith:responseObject];
-         Status *status = statuses.firstObject;
-         User *user = status.user;
-         
-         id obj = nil;
-         for (obj = self; obj; obj = [obj nextResponder]) {
-             if ([obj isKindOfClass:[BBStatusDetailViewController class]]) {
-                 UIViewController *uivc = (UIViewController *)obj;
-                 BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                 [Utils setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
-                 profiletvc.uid = user.idstr;
-                 profiletvc.statuses = statuses;
-                 profiletvc.user = user;
-                 profiletvc.shouldNavBtnShown = NO;
-                 profiletvc.title = @"Profile";
-                 profiletvc.hidesBottomBarWhenPushed = YES;
-                 [uivc.navigationController pushViewController:profiletvc animated:YES];
-             }
-         }
-     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         NSLog(@"error %@", error);
-     }];
+    [self.delegate commentTableViewCell:self didTapAvatarView:_avatarView];
 }
 
 #pragma mark - STTweetLabelBlockCallbacks support
 
 -(void)didTapHotword:(NSString *)hotword
 {
-    NSLog(@"点击%@", hotword);
-    if ([hotword hasPrefix:@"@"]) {
-        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
-        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-                                          URL:@"statuses/user_timeline.json"
-                          SLRequestHTTPMethod:SLRequestMethodGET
-                                   parameters:params
-                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             NSMutableArray *statuses = [Utils statusesWith:responseObject];
-             Status *status = statuses.firstObject;
-             User *user = status.user;
-             
-             id obj = nil;
-             for (obj = self; obj; obj = [obj nextResponder]) {
-                 if ([obj isKindOfClass:[BBStatusDetailViewController class]]) {
-                     UIViewController *uivc = (UIViewController *)obj;
-                     BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                     [Utils setupNavigationController:uivc.navigationController withUIViewController:profiletvc];
-                     profiletvc.uid = user.idstr;
-                     profiletvc.statuses = statuses;
-                     profiletvc.user = user;
-                     profiletvc.shouldNavBtnShown = NO;
-                     profiletvc.title = @"Profile";
-                     profiletvc.hidesBottomBarWhenPushed = YES;
-                     [uivc.navigationController pushViewController:profiletvc animated:YES];
-                 }
-             }
-         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             NSLog(@"error %@", error);
-         }];
-    }
+    [self.delegate commentTableViewCell:self didTapHotword:hotword];
 }
 
 @end

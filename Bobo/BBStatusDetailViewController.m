@@ -11,9 +11,13 @@
 #import <MJRefresh/MJRefresh.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+#import "BBProfileTableViewController.h"
+#import "BBWebViewController.h"
+#import "BBUpdateStatusView.h"
 #import "BBStatusTableViewCell.h"
 #import "BBCommentTableViewCell.h"
-#import "BBNetworkUtils.h"
+#import "BBImageBrowserView.h"
+#import "NSString+Convert.h"
 #import "AppDelegate.h"
 #import "Comment.h"
 #import "Utils.h"
@@ -27,12 +31,16 @@
 
 #define dComntBarViewHeight 60
 
+#define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
+#define uSmallGap 5
+
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
-@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate> {
+@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBStatusTableViewCellDelegate, BBCommentTableViewCellDelegate>
+{
     int _page;
 }
 
@@ -195,6 +203,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseWBCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.status = _status;
+        cell.delegate = self;
         return cell;
     }
     else
@@ -204,6 +213,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         cell.comment = comment;
+        cell.delegate = self;
         return cell;
     }
 }
@@ -230,6 +240,231 @@ static NSString *reuseCMCell = @"reuseCMCell";
             [replyCommentView setFrame:CGRectMake(0, bHeight-(3*50+param*50), bWidth, 3*50+param*50)];
         } completion:^(BOOL finished) {}];
     }
+}
+
+#pragma mark - BBStatusTableViewCellDelegate & support
+
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapAvatar:(UIImageView *)avatar
+{
+    NSLog(@"didTapAvatar");
+    NSDictionary *params = @{@"uid": cell.status.user.idstr};
+    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                      URL:@"statuses/user_timeline.json"
+                      SLRequestHTTPMethod:SLRequestMethodGET
+                               parameters:params
+               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSMutableArray *statuses = [Utils statusesWith:responseObject];
+         Status *status = statuses.firstObject;
+         User *user = status.user;
+         
+         BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+         profiletvc.uid = user.idstr;
+         profiletvc.statuses = statuses;
+         profiletvc.user = user;
+         profiletvc.shouldNavBtnShown = NO;
+         profiletvc.title = @"Profile";
+         profiletvc.hidesBottomBarWhenPushed = YES;
+         [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
+         [self.navigationController pushViewController:profiletvc animated:YES];
+     }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"error %@", error);
+     }];
+}
+
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
+{
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
+    updateStatusView.idStr = cell.status.idstr;
+    updateStatusView.nameLabel.text = cell.status.user.screen_name;
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:updateStatusView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
+        [updateStatusView.statusTextView becomeFirstResponder];
+    } completion:^(BOOL finished) {}];
+}
+
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapFavoriteIcon:(UIImageView *)favoriteIcon
+{
+    if (cell.status.favorited) {
+        [favoriteIcon setImage:[UIImage imageNamed:@"fav_icon_3"]];
+        NSDictionary *params = @{@"id": cell.status.idstr};
+        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+            if (!error) {
+                NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+                [cell.status setFavorited:NO];
+            }
+            else {
+                NSLog(@"收藏删除失败: %@", error);
+            }
+        }];
+    }
+    else
+    {
+        [favoriteIcon setImage:[UIImage imageNamed:@"faved_icon"]];
+        NSDictionary *params = @{@"id": cell.status.idstr};
+        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+            if (!error) {
+                NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+                [cell.status setFavorited:YES];
+            }
+            else {
+                NSLog(@"收藏失败: %@", error);
+            }
+        }];
+    }
+}
+
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetIcon:(UIImageView *)retweetIcon
+{
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
+    updateStatusView.idStr = cell.status.idstr;
+    updateStatusView.nameLabel.text = @"转发";
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:updateStatusView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
+        [updateStatusView.statusTextView becomeFirstResponder];
+    } completion:^(BOOL finished) {}];
+}
+
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetView:(UIView *)retweetView
+{
+    BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
+    dtvc.title = @"Detail";
+    dtvc.hidesBottomBarWhenPushed = YES;
+    dtvc.status = cell.status.retweeted_status;
+    
+    [self.navigationController pushViewController:dtvc animated:YES];
+}
+
+-(void)tableViewCell:(BBStatusTableViewCell *)cell statusPictureTapped:(UITapGestureRecognizer *)tap
+{
+    NSMutableArray *largeUrls = @[].mutableCopy;
+    for (NSString *str in cell.status.pic_urls) {
+        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
+    }
+    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+}
+
+-(void)tableViewCell:(BBStatusTableViewCell *)cell retweetPictureTapped:(UITapGestureRecognizer *)tap
+{
+    NSMutableArray *largeUrls = @[].mutableCopy;
+    for (NSString *str in cell.status.retweeted_status.pic_urls) {
+        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
+    }
+    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+}
+
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapHotword:(NSString *)hotword
+{
+    NSLog(@"点击%@", hotword);
+    if ([hotword hasPrefix:@"@"]) {
+        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
+        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                          URL:@"statuses/user_timeline.json"
+                          SLRequestHTTPMethod:SLRequestMethodGET
+                                   parameters:params
+                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             NSMutableArray *statuses = [Utils statusesWith:responseObject];
+             Status *status = statuses.firstObject;
+             User *user = status.user;
+             
+             BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+             [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
+             profiletvc.uid = user.idstr;
+             profiletvc.statuses = statuses;
+             profiletvc.user = user;
+             profiletvc.shouldNavBtnShown = NO;
+             profiletvc.title = @"Profile";
+             profiletvc.hidesBottomBarWhenPushed = YES;
+             [self.navigationController pushViewController:profiletvc animated:YES];
+         }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             NSLog(@"error %@", error);
+         }];
+    }
+    if ([hotword hasPrefix:@"http"]) {
+        //打开webview
+        BBWebViewController *wvc = [[BBWebViewController alloc] init];
+        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
+        [self.navigationController pushViewController:wvc animated:YES];
+    }
+    if ([hotword hasPrefix:@"#"]) {
+        //热门话题
+    }
+}
+
+-(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
+{
+    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:browserView];
+}
+
+#pragma mark - BBCommentTableViewCellDelegate
+
+-(void)commentTableViewCell:(BBCommentTableViewCell *)cell didTapHotword:(NSString *)hotword
+{
+    if ([hotword hasPrefix:@"@"]) {
+        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
+        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                          URL:@"statuses/user_timeline.json"
+                          SLRequestHTTPMethod:SLRequestMethodGET
+                                   parameters:params
+                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             NSMutableArray *statuses = [Utils statusesWith:responseObject];
+             Status *status = statuses.firstObject;
+             User *user = status.user;
+             
+             BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+             [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
+             profiletvc.uid = user.idstr;
+             profiletvc.statuses = statuses;
+             profiletvc.user = user;
+             profiletvc.shouldNavBtnShown = NO;
+             profiletvc.title = @"Profile";
+             profiletvc.hidesBottomBarWhenPushed = YES;
+             [self.navigationController pushViewController:profiletvc animated:YES];
+         }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"error %@", error);
+         }];
+    }
+}
+
+-(void)commentTableViewCell:(BBCommentTableViewCell *)cell didTapAvatarView:(UIImageView *)avatarView
+{
+    NSDictionary *params = @{@"uid": cell.comment.user.idstr};
+    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                      URL:@"statuses/user_timeline.json"
+                      SLRequestHTTPMethod:SLRequestMethodGET
+                               parameters:params
+               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSMutableArray *statuses = [Utils statusesWith:responseObject];
+         Status *status = statuses.firstObject;
+         User *user = status.user;
+         
+         BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+         [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
+         profiletvc.uid = user.idstr;
+         profiletvc.statuses = statuses;
+         profiletvc.user = user;
+         profiletvc.shouldNavBtnShown = NO;
+         profiletvc.title = @"Profile";
+         profiletvc.hidesBottomBarWhenPushed = YES;
+         [self.navigationController pushViewController:profiletvc animated:YES];
+     }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         NSLog(@"error %@", error);
+     }];
 }
 
 @end

@@ -12,6 +12,7 @@
 #import "BBStatusDetailViewController.h"
 #import "BBWaterfallStatusViewController.h"
 #import "BBProfileTableViewController.h"
+#import "BBWebViewController.h"
 #import "BBImageBrowserView.h"
 #import "Utils.h"
 #import "AppDelegate.h"
@@ -268,6 +269,10 @@ static NSString *reuseCellId = @"reuseCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
+        BBWebViewController *wvc = [[BBWebViewController alloc] init];
+        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
+        BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)self.nextResponder;
+        [wsvc.navigationController pushViewController:wvc animated:YES];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题

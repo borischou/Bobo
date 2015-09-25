@@ -6,17 +6,17 @@
 //  Copyright © 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBWKWebViewController.h"
+#import "BBWebViewController.h"
 #import <WebKit/WebKit.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-@interface BBWKWebViewController ()
+@interface BBWebViewController ()
 
 @end
 
-@implementation BBWKWebViewController
+@implementation BBWebViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

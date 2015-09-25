@@ -14,7 +14,7 @@
 #import "BBMainStatusTableViewController.h"
 #import "BBProfileTableViewController.h"
 #import "BBStatusDetailViewController.h"
-#import "BBWKWebViewController.h"
+#import "BBWebViewController.h"
 #import "BBButtonbarTableViewCell.h"
 #import "BBStatusTableViewCell.h"
 #import "BBUpdateStatusView.h"
@@ -413,7 +413,7 @@ static NSString *reuseBarCellId = @"barCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        BBWKWebViewController *wvc = [[BBWKWebViewController alloc] init];
+        BBWebViewController *wvc = [[BBWebViewController alloc] init];
         wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
         [self.navigationController pushViewController:wvc animated:YES];
     }

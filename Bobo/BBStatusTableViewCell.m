@@ -25,8 +25,6 @@
 #import "BBMainStatusTableViewController.h"
 #import "BBProfileTableViewController.h"
 #import "BBFavoritesTableViewController.h"
-#import "BBWKWebViewController.h"
-
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height

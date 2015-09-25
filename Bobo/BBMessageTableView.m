@@ -9,9 +9,12 @@
 #import "BBMessageTableView.h"
 #import "BBMessageTableViewCell.h"
 #import "BBStatusDetailViewController.h"
+#import "BBProfileTableViewController.h"
 #import "BBMessageViewController.h"
+#import "BBWebViewController.h"
 #import "BBReplyCommentView.h"
 #import "AppDelegate.h"
+#import "Utils.h"
 
 #define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 
@@ -20,7 +23,7 @@
 
 static NSString *messageCell = @"messageCell";
 
-@interface BBMessageTableView () <UITableViewDataSource, UITableViewDelegate>
+@interface BBMessageTableView () <UITableViewDataSource, UITableViewDelegate, BBMessageTableViewCellDelegate>
 
 @end
 
@@ -58,6 +61,7 @@ static NSString *messageCell = @"messageCell";
     if (_comments.count > 0) {
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         cell.comment = comment;
+        cell.delegate = self;
     }
     return cell;
 }
@@ -74,6 +78,77 @@ static NSString *messageCell = @"messageCell";
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [replyView setFrame:CGRectMake(0, bHeight-50*5, bWidth, 50*5)];
     } completion:^(BOOL finished) {}];
+}
+
+#pragma mark - BBMessageTableViewCellDelegate
+
+-(void)tableViewCell:(BBMessageTableViewCell *)cell didTapAvatarView:(UIImageView *)avatarView
+{
+    NSDictionary *params = @{@"uid": cell.comment.user.idstr};
+    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                      URL:@"statuses/user_timeline.json"
+                      SLRequestHTTPMethod:SLRequestMethodGET
+                               parameters:params
+               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSMutableArray *statuses = [Utils statusesWith:responseObject];
+         Status *status = statuses.firstObject;
+         User *user = status.user;
+         BBMessageViewController *mvc = (BBMessageViewController *)self.nextResponder.nextResponder.nextResponder;
+         
+         BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+         [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
+         profiletvc.uid = user.idstr;
+         profiletvc.statuses = statuses;
+         profiletvc.user = user;
+         profiletvc.shouldNavBtnShown = NO;
+         profiletvc.title = @"Profile";
+         profiletvc.hidesBottomBarWhenPushed = YES;
+         [mvc.navigationController pushViewController:profiletvc animated:YES];
+     }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"error %@", error);
+     }];
+}
+
+-(void)tableViewCell:(BBMessageTableViewCell *)cell didTapHotword:(NSString *)hotword
+{
+    BBMessageViewController *mvc = (BBMessageViewController *)self.nextResponder.nextResponder.nextResponder;
+    if ([hotword hasPrefix:@"@"]) {
+        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
+        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                          URL:@"statuses/user_timeline.json"
+                          SLRequestHTTPMethod:SLRequestMethodGET
+                                   parameters:params
+                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             NSMutableArray *statuses = [Utils statusesWith:responseObject];
+             Status *status = statuses.firstObject;
+             User *user = status.user;
+             BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+             [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
+             profiletvc.uid = user.idstr;
+             profiletvc.statuses = statuses;
+             profiletvc.user = user;
+             profiletvc.shouldNavBtnShown = NO;
+             profiletvc.title = @"Profile";
+             profiletvc.hidesBottomBarWhenPushed = YES;
+             [mvc.navigationController pushViewController:profiletvc animated:YES];
+         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             NSLog(@"error %@", error);
+         }];
+    }
+    if ([hotword hasPrefix:@"http"]) {
+        //打开webview
+        BBWebViewController *wvc = [[BBWebViewController alloc] init];
+        wvc.request = [NSURLRequest requestWithURL:[NSURL URLWithString:hotword]];
+        [mvc.navigationController pushViewController:wvc animated:YES];
+    }
+    if ([hotword hasPrefix:@"#"]) {
+        //热门话题
+    }
 }
 
 @end

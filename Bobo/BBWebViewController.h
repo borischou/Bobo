@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BBWKWebViewController : UIViewController
+@interface BBWebViewController : UIViewController
 
 @property (strong, nonatomic) NSURLRequest *request;
 
