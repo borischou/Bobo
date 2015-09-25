@@ -414,8 +414,7 @@ static NSString *reuseBarCellId = @"barCell";
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
-        sfvc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:sfvc animated:YES];
+        [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题

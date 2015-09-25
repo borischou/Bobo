@@ -509,7 +509,7 @@ static NSString *reuseCountsCell = @"countsCell";
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
-        [self.navigationController pushViewController:sfvc animated:YES];
+        [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题

@@ -143,8 +143,7 @@ static NSString *messageCell = @"messageCell";
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
-        sfvc.hidesBottomBarWhenPushed = YES;
-        [mvc.navigationController pushViewController:sfvc animated:YES];
+        [mvc.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题

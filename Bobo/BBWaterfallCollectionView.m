@@ -271,8 +271,7 @@ static NSString *reuseCellId = @"reuseCell";
         //打开webview
         BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)self.nextResponder;
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
-        sfvc.hidesBottomBarWhenPushed = YES;
-        [wsvc.navigationController pushViewController:sfvc animated:YES];
+        [wsvc.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题
