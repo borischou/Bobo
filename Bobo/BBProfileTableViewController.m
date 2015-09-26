@@ -17,9 +17,10 @@
 #import "BBUpdateStatusView.h"
 #import "BBProfileTableViewController.h"
 #import "BBStatusDetailViewController.h"
+#import "BBPhotoSelectionCollectionViewController.h"
 #import "BBCountTableViewCell.h"
 #import "AppDelegate.h"
-#import "BBMeHeaderView.h"
+#import "BBProfileHeaderView.h"
 #import "BBStatusTableViewCell.h"
 #import "BBImageBrowserView.h"
 #import "BBButtonbarTableViewCell.h"
@@ -43,10 +44,11 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate>
+@interface BBProfileTableViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, BBStatusTableViewCellDelegate, BBUpdateStatusViewDelegate, BBPhotoSelectionCollectionViewControllerDelegate>
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) ACAccount *weiboAccount;
+@property (strong, nonatomic) UIImagePickerController *picker;
 
 @end
 
@@ -177,7 +179,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(UIView *)getAvatarView
 {
-    BBMeHeaderView *avatarView = [[BBMeHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight/3.5)];
+    BBProfileHeaderView *avatarView = [[BBProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight/3.5)];
     avatarView.user = _user;
     
     return avatarView;
@@ -534,5 +536,55 @@ static NSString *reuseCountsCell = @"countsCell";
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:browserView];
 }
+
+#pragma mark - BBUpdateStatusViewDelegate support
+
+-(void)updateView:(BBUpdateStatusView *)updateView didPressTriggerCameraButton:(UIButton *)sender
+{
+    [updateView resignFirstResponder];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        _picker = [[UIImagePickerController alloc] init];
+        _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        _picker.delegate = self;
+        _picker.allowsEditing = NO;
+        [self presentViewController:_picker animated:YES completion:^{}];
+    }
+}
+
+-(void)updateView:(BBUpdateStatusView *)updateView didPressSelectPictureButton:(UIButton *)sender
+{
+    [updateView resignFirstResponder];
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake((bWidth-3)/4, (bWidth-3)/4);
+    layout.minimumInteritemSpacing = 1.0;
+    layout.minimumLineSpacing = 1.0;
+    BBPhotoSelectionCollectionViewController *pscvc = [[BBPhotoSelectionCollectionViewController alloc] initWithCollectionViewLayout:layout];
+    pscvc.delegate = self;
+    UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:pscvc];
+    [self presentViewController:uinvc animated:YES completion:^{}];
+}
+
+-(void)updateView:(BBUpdateStatusView *)updateView didPressSendButton:(UIButton *)sender
+{}
+
+-(void)updateView:(BBUpdateStatusView *)updateView mask:(UIView *)mask didPressCancelButton:(UIButton *)sender
+{
+
+}
+
+#pragma mark - BBPhotoSelectionCollectionViewControllerDelegate
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
 
 @end

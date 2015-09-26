@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 
-@interface BBMeHeaderView : UIView
+@interface BBProfileHeaderView : UIView
 
 @property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UIImageView *vipView;

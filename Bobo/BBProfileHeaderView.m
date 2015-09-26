@@ -7,7 +7,7 @@
 //
 
 #import <UIImageView+WebCache.h>
-#import "BBMeHeaderView.h"
+#import "BBProfileHeaderView.h"
 #import "UIColor+Custom.h"
 #import "Utils.h"
 
@@ -17,7 +17,7 @@
 #define bMaleColor [UIColor colorWithRed:0.0/255 green:154.0/255 blue:205.0/255 alpha:1.0] //light blue
 #define bFemaleColor [UIColor colorWithRed:255.0/255 green:52.0/255 blue:181.0/255 alpha:1.0] //pink
 
-@interface BBMeHeaderView () <UIScrollViewDelegate> {
+@interface BBProfileHeaderView () <UIScrollViewDelegate> {
     int _count;
 }
 
@@ -31,7 +31,7 @@
 
 @end
 
-@implementation BBMeHeaderView
+@implementation BBProfileHeaderView
 
 -(id)initWithFrame:(CGRect)frame
 {

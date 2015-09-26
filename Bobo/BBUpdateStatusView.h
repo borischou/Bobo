@@ -8,7 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class BBUpdateStatusView;
+@protocol BBUpdateStatusViewDelegate <NSObject>
+
+-(void)updateView:(BBUpdateStatusView *)updateView didTapTodoLabel:(UILabel *)todoLabel;
+-(void)updateView:(BBUpdateStatusView *)updateView mask:(UIView *)mask didPressCancelButton:(UIButton *)sender;
+-(void)updateView:(BBUpdateStatusView *)updateView didPressSendButton:(UIButton *)sender;
+-(void)updateView:(BBUpdateStatusView *)updateView didPressSelectPictureButton:(UIButton *)sender;
+-(void)updateView:(BBUpdateStatusView *)updateView didPressTriggerCameraButton:(UIButton *)sender;
+
+@end
+
 @interface BBUpdateStatusView : UIView
+
+@property (weak, nonatomic) id <BBUpdateStatusViewDelegate> delegate;
 
 @property (strong, nonatomic) UILabel *todoLabel;
 @property (strong, nonatomic) UILabel *nameLabel;
