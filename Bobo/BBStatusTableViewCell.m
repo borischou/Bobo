@@ -267,7 +267,7 @@
 
 -(void)retweetImageViewTapped
 {
-    [self.delegate tableViewCell:self didTapRetweetView:_retweetImageView];
+    [self.delegate tableViewCell:self didTapRetweetIcon:_retweetImageView];
 }
 
 -(void)commentImageViewTapped
