@@ -19,7 +19,7 @@
 #import "BBStatusDetailViewController.h"
 #import "BBCountTableViewCell.h"
 #import "AppDelegate.h"
-#import "BBMeHeaderView.h"
+#import "BBProfileHeaderView.h"
 #import "BBStatusTableViewCell.h"
 #import "BBImageBrowserView.h"
 #import "BBButtonbarTableViewCell.h"
@@ -177,7 +177,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(UIView *)getAvatarView
 {
-    BBMeHeaderView *avatarView = [[BBMeHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight/3.5)];
+    BBProfileHeaderView *avatarView = [[BBProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight/3.5)];
     avatarView.user = _user;
     
     return avatarView;
