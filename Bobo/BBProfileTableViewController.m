@@ -49,6 +49,9 @@ static NSString *reuseCountsCell = @"countsCell";
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) ACAccount *weiboAccount;
 @property (strong, nonatomic) UIImagePickerController *picker;
+@property (copy, nonatomic) NSMutableArray *pickedOnes;
+@property (strong, nonatomic) BBUpdateStatusView *updateView;
+
 
 @end
 
@@ -95,13 +98,15 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)postBarbuttonPressed
 {
     AppDelegate *delegate = [AppDelegate delegate];
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
-    updateStatusView.nameLabel.text = delegate.user.screen_name;
-    [delegate.window addSubview:updateStatusView];
+    if (!_updateView) {
+        _updateView = [[BBUpdateStatusView alloc] initWithFlag:0]; //0: 发微博
+    }
+    _updateView.nameLabel.text = delegate.user.screen_name;
+    [delegate.window addSubview:_updateView];
     
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
-        [updateStatusView.statusTextView becomeFirstResponder];
+        _updateView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
+        [_updateView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {}];
 }
 
@@ -574,17 +579,39 @@ static NSString *reuseCountsCell = @"countsCell";
 
 #pragma mark - BBPhotoSelectionCollectionViewControllerDelegate
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+-(void)photoCollectionViewController:(BBPhotoSelectionCollectionViewController *)photocvc didFetchPickedPhotos:(NSMutableArray *)photos
 {
-
+    _pickedOnes = photos;
+    [_updateView setNeedsLayout];
+    [_updateView becomeFirstResponder];
 }
 
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+-(void)photoCollectionViewController:(BBPhotoSelectionCollectionViewController *)photocvc didPressCancelButton:(UIBarButtonItem *)sender
 {
-
+    if (_pickedOnes.count > 0) {
+        [_pickedOnes removeAllObjects];
+    }
+    [_updateView becomeFirstResponder];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
 
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    UIImage *takenImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    if (!_pickedOnes) {
+        _pickedOnes = @[].mutableCopy;
+    }
+    [_pickedOnes addObject:takenImage];
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+    [_updateView setNeedsLayout];
+    [_updateView becomeFirstResponder];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+    [_updateView becomeFirstResponder];
+}
 
 @end

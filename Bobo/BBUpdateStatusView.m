@@ -403,7 +403,7 @@ static CGFloat imageQuality = 0.7;
 
 #pragma mark - BBPhotoSelectionCollectionViewControllerDelegate
 
--(void)didFetchedPickedPhotos:(NSMutableArray *)photos
+-(void)photoCollectionViewController:(BBPhotoSelectionCollectionViewController *)photocvc didFetchPickedPhotos:(NSMutableArray *)photos
 {
     _pickedOnes = photos;
     [self shouldHideMaskAndView:NO];
@@ -411,7 +411,7 @@ static CGFloat imageQuality = 0.7;
     [_statusTextView becomeFirstResponder];
 }
 
--(void)didCancelPhotoSelection
+-(void)photoCollectionViewController:(BBPhotoSelectionCollectionViewController *)photocvc didPressCancelButton:(UIBarButtonItem *)sender
 {
     if (_pickedOnes.count > 0) {
         [_pickedOnes removeAllObjects];

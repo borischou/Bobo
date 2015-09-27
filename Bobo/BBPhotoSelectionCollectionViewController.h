@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "BBUpdateStatusView.h"
 
+@class BBPhotoSelectionCollectionViewController;
 @protocol BBPhotoSelectionCollectionViewControllerDelegate <NSObject>
 
--(void)didFetchedPickedPhotos:(NSMutableArray *)photos;
--(void)didCancelPhotoSelection;
+-(void)photoCollectionViewController:(BBPhotoSelectionCollectionViewController *)photocvc didFetchPickedPhotos:(NSMutableArray *)photos;
+-(void)photoCollectionViewController:(BBPhotoSelectionCollectionViewController *)photocvc didPressCancelButton:(UIBarButtonItem *)sender;
 
 @end
 

@@ -45,7 +45,7 @@
 
 -(void)cancelButtonItemPressed:(UIBarButtonItem *)sender
 {
-    [self.delegate didCancelPhotoSelection];
+    [self.delegate photoCollectionViewController:self didPressCancelButton:sender];
     [self.navigationController dismissViewControllerAnimated:YES completion:^{}];
 }
 
@@ -62,7 +62,7 @@
         [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
             [images addObject:result];
             if (i == pickedNum-1) {
-                [self.delegate didFetchedPickedPhotos:images];
+                [self.delegate photoCollectionViewController:self didFetchPickedPhotos:images];
             }
         }];
     }
