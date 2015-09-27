@@ -27,6 +27,7 @@
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
 #import "Utils.h"
+#import "BBNotificationView.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -570,11 +571,49 @@ static NSString *reuseCountsCell = @"countsCell";
 }
 
 -(void)updateView:(BBUpdateStatusView *)updateView didPressSendButton:(UIButton *)sender
-{}
+{
+    
+}
 
 -(void)updateView:(BBUpdateStatusView *)updateView mask:(UIView *)mask didPressCancelButton:(UIButton *)sender
 {
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [updateView setFrame:CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2)];
+        if (mask) {
+            mask.alpha = 0;
+        }
+    } completion:^(BOOL finished) {
+        if (finished) {
+            if (mask) {
+                [mask removeFromSuperview];
+            }
+            if (_pickedOnes.count > 0) {
+                [_pickedOnes removeAllObjects];
+            }
+            _pickedOnes = nil;
+            [updateView removeFromSuperview];
+        }
+    }];
+}
 
+-(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
+{
+    if (_pickedOnes.count > 0) {
+        [_pickedOnes removeAllObjects];
+    }
+    BBNotificationView *notificationView = [[BBNotificationView alloc] initWithNotification:text];
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:notificationView];
+    [delegate.window bringSubviewToFront:notificationView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [notificationView setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 delay:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [notificationView setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
+        } completion:^(BOOL finished) {
+            [notificationView removeFromSuperview];
+        }];
+    }];
 }
 
 #pragma mark - BBPhotoSelectionCollectionViewControllerDelegate
@@ -583,7 +622,7 @@ static NSString *reuseCountsCell = @"countsCell";
 {
     _pickedOnes = photos;
     [_updateView setNeedsLayout];
-    [_updateView becomeFirstResponder];
+    [_updateView.statusTextView becomeFirstResponder];
 }
 
 -(void)photoCollectionViewController:(BBPhotoSelectionCollectionViewController *)photocvc didPressCancelButton:(UIBarButtonItem *)sender
@@ -591,7 +630,7 @@ static NSString *reuseCountsCell = @"countsCell";
     if (_pickedOnes.count > 0) {
         [_pickedOnes removeAllObjects];
     }
-    [_updateView becomeFirstResponder];
+    [_updateView.statusTextView becomeFirstResponder];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -605,13 +644,13 @@ static NSString *reuseCountsCell = @"countsCell";
     [_pickedOnes addObject:takenImage];
     [picker dismissViewControllerAnimated:YES completion:^{}];
     [_updateView setNeedsLayout];
-    [_updateView becomeFirstResponder];
+    [_updateView.statusTextView becomeFirstResponder];
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [picker dismissViewControllerAnimated:YES completion:^{}];
-    [_updateView becomeFirstResponder];
+    [_updateView.statusTextView becomeFirstResponder];
 }
 
 @end

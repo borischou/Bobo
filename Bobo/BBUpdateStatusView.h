@@ -11,6 +11,7 @@
 @class BBUpdateStatusView;
 @protocol BBUpdateStatusViewDelegate <NSObject>
 
+@optional
 -(void)updateView:(BBUpdateStatusView *)updateView didTapTodoLabel:(UILabel *)todoLabel;
 -(void)updateView:(BBUpdateStatusView *)updateView mask:(UIView *)mask didPressCancelButton:(UIButton *)sender;
 -(void)updateView:(BBUpdateStatusView *)updateView didPressSendButton:(UIButton *)sender;
