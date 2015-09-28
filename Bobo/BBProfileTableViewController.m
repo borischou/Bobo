@@ -62,6 +62,7 @@ static NSString *reuseCountsCell = @"countsCell";
     if (_user) {
         self.tableView.tableHeaderView = [self getAvatarView];
     }
+    _currentLastStatusId = [self lastIdFromStatuses:_statuses];
     [self setMJRefresh];
     if (!_statuses || _statuses.count <= 0) {
         [self.tableView.header beginRefreshing];
@@ -224,7 +225,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"me"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"latest"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.header endRefreshing];
@@ -260,7 +261,7 @@ static NSString *reuseCountsCell = @"countsCell";
     if (!_statuses) {
         _statuses = @[].mutableCopy;
     }
-    if ([type isEqualToString:@"me"]) {
+    if ([type isEqualToString:@"latest"]) {
         if (downloadedStatuses.count > 0) {
             _statuses = nil;
             _statuses = @[].mutableCopy;
@@ -277,10 +278,7 @@ static NSString *reuseCountsCell = @"countsCell";
         }
     }
     
-    Status *lastOne = _statuses.lastObject;
-    if (lastOne.idstr) {
-        _currentLastStatusId = lastOne.idstr;
-    }
+    _currentLastStatusId = [self lastIdFromStatuses:_statuses];
         
     [self.tableView.header endRefreshing];
     [self.tableView.footer endRefreshing];
@@ -291,6 +289,12 @@ static NSString *reuseCountsCell = @"countsCell";
 {
     AppDelegate *delegate = [AppDelegate delegate];
     return delegate.user;
+}
+
+-(NSString *)lastIdFromStatuses:(NSMutableArray *)statuses
+{
+    Status *lastOne = statuses.lastObject;
+    return lastOne.idstr;
 }
 
 #pragma mark - UITableView delegate & data source & Helpers
