@@ -578,6 +578,7 @@ static NSString *reuseCountsCell = @"countsCell";
                     NSLog(@"success");
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [_user setFollowing:NO];
+                        [Utils presentNotificationWithText:@"成功取关"];
                         [cell setNeedsLayout];
                     });
                 } else {
@@ -601,6 +602,7 @@ static NSString *reuseCountsCell = @"countsCell";
                 NSLog(@"success");
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [_user setFollowing:YES];
+                    [Utils presentNotificationWithText:@"关注成功"];
                     [cell setNeedsLayout];
                 });
             } else {
