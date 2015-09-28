@@ -217,6 +217,7 @@
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"message error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新失败"];
         [tableView.header endRefreshing];
     }];
 }
@@ -239,6 +240,7 @@
             [self handleWeiboResult:result type:@"history" forTableView:_allTableView flag:3];
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [Utils presentNotificationWithText:@"更新失败"];
         [tableView.footer endRefreshing];
     }];
 }

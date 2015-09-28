@@ -181,6 +181,7 @@ static NSString *reuseBarCellId = @"barCell";
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"refresh"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新失败"];
         [self.tableView.header endRefreshing];
     }];
 }
@@ -192,6 +193,7 @@ static NSString *reuseBarCellId = @"barCell";
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"main footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新失败"];
         [self.tableView.footer endRefreshing];
     }];
 }

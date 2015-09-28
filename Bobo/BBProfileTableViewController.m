@@ -151,6 +151,7 @@ static NSString *reuseCountsCell = @"countsCell";
                 [[NSUserDefaults standardUserDefaults] synchronize];
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"error: %@", error);
+                [Utils presentNotificationWithText:@"更新失败"];
             }];
         } else {
             UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"已登录" message:@"您已授权并登录微博" preferredStyle:UIAlertControllerStyleActionSheet];
@@ -202,6 +203,8 @@ static NSString *reuseCountsCell = @"countsCell";
                 [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+                [Utils presentNotificationWithText:@"更新失败"];
+                [self.tableView.header endRefreshing];
             }];
         } else {
             [self.tableView.header endRefreshing];
@@ -213,6 +216,8 @@ static NSString *reuseCountsCell = @"countsCell";
             [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+            [Utils presentNotificationWithText:@"更新失败"];
+            [self.tableView.header endRefreshing];
         }];
     }
 }
@@ -228,6 +233,7 @@ static NSString *reuseCountsCell = @"countsCell";
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"latest"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新失败"];
         [self.tableView.header endRefreshing];
     }];
 }
@@ -243,6 +249,7 @@ static NSString *reuseCountsCell = @"countsCell";
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"profile footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新失败"];
         [self.tableView.footer endRefreshing];
     }];
 }
