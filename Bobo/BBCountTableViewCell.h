@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "Counts.h"
+#import "User.h"
 
 @interface BBCountTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) NSMutableArray *views;
 @property (strong, nonatomic) UILabel *wbcounts;
 @property (strong, nonatomic) UILabel *friendcounts;
 @property (strong, nonatomic) UILabel *followercounts;
+@property (strong, nonatomic) UIImageView *todoImgView;
+@property (strong, nonatomic) User *user;
 
 @end

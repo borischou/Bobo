@@ -80,6 +80,10 @@
 		459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459232501B969A490006A123 /* BBMessageTableViewCell.m */; };
 		459232531B96BE530006A123 /* tab_icon_message@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459232521B96BE530006A123 /* tab_icon_message@3x.png */; };
 		45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountTableViewCell.m */; };
+		45A183E01BB9301B00FE9890 /* settings_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183DF1BB9301B00FE9890 /* settings_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		45A183E41BB9319B00FE9890 /* following_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E31BB9319B00FE9890 /* following_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E51BB931A800FE9890 /* follow_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		45A183E81BB931BF00FE9890 /* friend_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E71BB931BF00FE9890 /* friend_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
 		45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */; };
 		45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */; };
@@ -220,6 +224,10 @@
 		459232521B96BE530006A123 /* tab_icon_message@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_icon_message@3x.png"; sourceTree = "<group>"; };
 		45A052141B3A898200A1488D /* BBCountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountTableViewCell.h; sourceTree = "<group>"; };
 		45A052151B3A898200A1488D /* BBCountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountTableViewCell.m; sourceTree = "<group>"; };
+		45A183DF1BB9301B00FE9890 /* settings_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_icon@3x.png"; sourceTree = "<group>"; };
+		45A183E31BB9319B00FE9890 /* following_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "following_icon@3x.png"; sourceTree = "<group>"; };
+		45A183E51BB931A800FE9890 /* follow_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "follow_icon@3x.png"; sourceTree = "<group>"; };
+		45A183E71BB931BF00FE9890 /* friend_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "friend_icon@3x.png"; sourceTree = "<group>"; };
 		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		45A979021B6E512000A8D472 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		45BBDA581B902FA200BABEDD /* BBPhotoPickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBPhotoPickerCollectionView.h; sourceTree = "<group>"; };
@@ -390,7 +398,11 @@
 		45620D3C1B3706BF00B9F9F2 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				45A183E31BB9319B00FE9890 /* following_icon@3x.png */,
+				45A183E71BB931BF00FE9890 /* friend_icon@3x.png */,
 				45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */,
+				45A183E51BB931A800FE9890 /* follow_icon@3x.png */,
+				45A183DF1BB9301B00FE9890 /* settings_icon@3x.png */,
 				4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */,
 				007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */,
 				4567C2D51B9C2A6900C8660B /* icon_album@3x.png */,
@@ -711,10 +723,12 @@
 				451441E11B295CA9000532DD /* LaunchScreen.xib in Resources */,
 				45C57B4D1B9FFDC700FE040E /* bobo_tab_icon@3x.png in Resources */,
 				4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */,
+				45A183E81BB931BF00FE9890 /* friend_icon@3x.png in Resources */,
 				456254DD1B8306200009A332 /* fav_icon_3@3x.png in Resources */,
 				4567C2DC1B9C2BA300C8660B /* icon_album_selected@3x.png in Resources */,
 				451441DE1B295CA9000532DD /* Images.xcassets in Resources */,
 				4567C2DA1B9C2B5E00C8660B /* icon_camera_selected@3x.png in Resources */,
+				45A183E41BB9319B00FE9890 /* following_icon@3x.png in Resources */,
 				45C57B471B9FEC6D00FE040E /* tab_waterfall@3x.png in Resources */,
 				45C57B451B9FE97000FE040E /* barbutton_icon_post@3x.png in Resources */,
 				4567C2D61B9C2A6900C8660B /* icon_album@3x.png in Resources */,
@@ -722,6 +736,8 @@
 				4567C2D81B9C2AF700C8660B /* icon_camera@3x.png in Resources */,
 				0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */,
 				456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */,
+				45A183E01BB9301B00FE9890 /* settings_icon@3x.png in Resources */,
+				45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */,
 				458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */,
 				45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */,
 				457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */,

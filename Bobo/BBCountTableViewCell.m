@@ -7,12 +7,14 @@
 //
 
 #import "BBCountTableViewCell.h"
+#import "AppDelegate.h"
+#import "NSString+Convert.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
 #define bCountCellHeight bHeight/10
-#define bCountSmallCellWidth (bWidth-2)/3
+#define bCountSmallCellWidth bWidth/4
 #define bNumPartHeight bCountCellHeight*0.618 //golden ratio
 #define bTextPartHeight bCountCellHeight*0.382
 
@@ -37,14 +39,6 @@
 
 @implementation BBCountTableViewCell
 
--(NSMutableArray *)views
-{
-    if (!_views) {
-        _views = @[].mutableCopy;
-    }
-    return _views;
-}
-
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -59,8 +53,8 @@
 {
     //number part
     self.wbcounts = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, bCountSmallCellWidth, bNumPartHeight)];
-    self.friendcounts = [[UILabel alloc] initWithFrame:CGRectMake(bCountSmallCellWidth+1, 0, bCountSmallCellWidth, bNumPartHeight)];
-    self.followercounts = [[UILabel alloc] initWithFrame:CGRectMake(bCountSmallCellWidth*2+2, 0, bCountSmallCellWidth, bNumPartHeight)];
+    self.friendcounts = [[UILabel alloc] initWithFrame:CGRectMake(bCountSmallCellWidth, 0, bCountSmallCellWidth, bNumPartHeight)];
+    self.followercounts = [[UILabel alloc] initWithFrame:CGRectMake(bCountSmallCellWidth*2, 0, bCountSmallCellWidth, bNumPartHeight)];
     [self initCellLabel:self.wbcounts];
     [self initCellLabel:self.friendcounts];
     [self initCellLabel:self.followercounts];
@@ -69,10 +63,15 @@
     UILabel *wbTextLbl = nil;
     [self initCellLabel:wbTextLbl withFrame:CGRectMake(0, bNumPartHeight, bCountSmallCellWidth, bTextPartHeight) andTitle:@"Bobo" withFontSize:13.f];
     UILabel *followTextLbl = nil;
-    [self initCellLabel:followTextLbl withFrame:CGRectMake(bCountSmallCellWidth+1, bNumPartHeight, bCountSmallCellWidth, bTextPartHeight) andTitle:@"Follows" withFontSize:13.f];
+    [self initCellLabel:followTextLbl withFrame:CGRectMake(bCountSmallCellWidth, bNumPartHeight, bCountSmallCellWidth, bTextPartHeight) andTitle:@"Follows" withFontSize:13.f];
     
     UILabel *followerTextLbl = nil;
-    [self initCellLabel:followerTextLbl withFrame:CGRectMake(bCountSmallCellWidth*2+2, bNumPartHeight, bCountSmallCellWidth, bTextPartHeight) andTitle:@"Followers" withFontSize:13.f];
+    [self initCellLabel:followerTextLbl withFrame:CGRectMake(bCountSmallCellWidth*2, bNumPartHeight, bCountSmallCellWidth, bTextPartHeight) andTitle:@"Followers" withFontSize:13.f];
+    
+    _todoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(bCountSmallCellWidth*3+(bCountSmallCellWidth-bCountCellHeight*0.4)*.5, bCountCellHeight*0.3, bCountCellHeight*0.4, bCountCellHeight*0.4)];
+    _todoImgView.userInteractionEnabled = YES;
+    [_todoImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(todoImgViewTapped:)]];
+    [self.contentView addSubview:_todoImgView];
 }
 
 -(void)initCellLabel:(UILabel *)label
@@ -92,6 +91,35 @@
     label.textColor = [UIColor lightGrayColor];
     label.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:label];
+}
+
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    _wbcounts.text = [NSString formatNum:_user.statuses_count];
+    _followercounts.text = [NSString formatNum:_user.followers_count];
+    _friendcounts.text = [NSString formatNum:_user.friends_count];
+    AppDelegate *delegate = [AppDelegate delegate];
+    if ([_user.idstr isEqualToString:delegate.user.idstr]) {
+        [_todoImgView setImage:[UIImage imageNamed:@"settings_icon"]];
+    }
+    else
+    {
+        if (_user.following && !_user.follow_me) {
+            [_todoImgView setImage:[UIImage imageNamed:@"following_icon"]];
+        }
+        if (_user.following && _user.follow_me) {
+            [_todoImgView setImage:[UIImage imageNamed:@"friend_icon"]];
+        }
+        if (!_user.following) {
+            [_todoImgView setImage:[UIImage imageNamed:@"follow_icon"]];
+        }
+    }
+}
+
+-(void)todoImgViewTapped:(UITapGestureRecognizer *)tap
+{
+    
 }
 
 @end

@@ -43,6 +43,7 @@
         _avatar_hd = [dictionary objectForKey:@"avatar_hd"];
         _verified_reason = [dictionary objectForKey:@"verified_reason"];
         _follow_me = [[dictionary objectForKey:@"follow_me"] boolValue];
+        _following = [[dictionary objectForKey:@"following"] boolValue];
         _online_status = [[dictionary objectForKey:@"online_status"] integerValue];
         _bi_followers_count = [[dictionary objectForKey:@"bi_followers_count"] integerValue];
         _lang = [dictionary objectForKey:@"lang"];

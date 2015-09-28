@@ -41,6 +41,7 @@
 @property (copy, nonatomic) NSString *avatar_hd;
 @property (copy, nonatomic) NSString *verified_reason;
 @property (nonatomic) BOOL follow_me;
+@property (nonatomic) BOOL following;
 @property (nonatomic) NSInteger online_status;
 @property (nonatomic) NSInteger bi_followers_count;
 @property (copy, nonatomic) NSString *lang;
