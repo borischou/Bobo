@@ -29,7 +29,6 @@
 
 @property (strong, nonatomic) UIView *mask;
 @property (nonatomic) CGFloat rBtnHeight;
-@property (nonatomic) CGFloat viewHeight;
 
 @end
 

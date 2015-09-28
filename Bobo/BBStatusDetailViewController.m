@@ -23,6 +23,7 @@
 #import "Utils.h"
 #import "BBReplyCommentView.h"
 #import "BBCommentBarView.h"
+#import "BBNotificationView.h"
 
 #define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 
@@ -475,21 +476,71 @@ static NSString *reuseCMCell = @"reuseCMCell";
      }];
 }
 
-#pragma mark - BBReplyCommentViewDelegate
+#pragma mark - BBReplyCommentViewDelegate & support
 
 -(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didPressDeleteButton:(UIButton *)sender
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除评论" message:@"是否删除此评论？" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+        //调用删除接口
+        NSDictionary *params = @{@"cid": replyView.comment.idstr};
+        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"comments/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+            NSString *notificationText = nil;
+            if (!error) {
+                NSLog(@"评论删除成功。");
+                notificationText = @"评论删除成功";
+            }
+            else
+            {
+                NSLog(@"评论删除失败：%@", error);
+                notificationText = [NSString stringWithFormat:@"评论删除失败: %@", error];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    mask.alpha = 0;
+                    [replyView setFrame:CGRectMake(0, bHeight, bWidth, replyView.viewHeight)];
+                } completion:^(BOOL finished) {
+                    if (finished) {
+                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                        [mask removeFromSuperview];
+                        [replyView removeFromSuperview];
+                    }
+                }];
+            });
+        }];
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+        [mask removeFromSuperview];
+        [replyView removeFromSuperview];
     }];
     [alertController addAction:deleteAction];
     [alertController addAction:cancelAction];
+    
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [replyView setAlpha:0];
+        [mask setAlpha:0];
+    } completion:^(BOOL finished) {}];
+    
     [self presentViewController:alertController animated:YES completion:^{
         
+        
+    }];
+}
+
+-(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
+{
+    BBNotificationView *notificationView = [[BBNotificationView alloc] initWithNotification:text];
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:notificationView];
+    [delegate.window bringSubviewToFront:notificationView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [notificationView setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 delay:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [notificationView setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
+        } completion:^(BOOL finished) {
+            [notificationView removeFromSuperview];
+        }];
     }];
 }
 

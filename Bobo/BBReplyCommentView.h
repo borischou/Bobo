@@ -26,6 +26,7 @@
 @property (strong, nonatomic) UIButton *viewStatusBtn;
 @property (strong, nonatomic) UIButton *deleteBtn;
 
+@property (nonatomic) CGFloat viewHeight;
 @property (nonatomic) BOOL shouldShowViewStatusOption;
 @property (nonatomic) BOOL shouldShowDeleteOption;
 
