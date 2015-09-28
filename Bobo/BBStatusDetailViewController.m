@@ -103,8 +103,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [self.view addSubview:_barView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_barView setFrame:CGRectMake(0, bHeight-dComntBarViewHeight, bWidth, dComntBarViewHeight)];
-        } completion:^(BOOL finished) {
-        }];
+        } completion:^(BOOL finished) {}];
     }
 }
 
@@ -130,6 +129,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error]];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"detail error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新失败"];
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
     }];
@@ -275,6 +275,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
+         [Utils presentNotificationWithText:@"访问失败"];
      }];
 }
 
@@ -300,9 +301,11 @@ static NSString *reuseCMCell = @"reuseCMCell";
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
+                [Utils presentNotificationWithText:@"删除成功"];
             }
             else {
                 NSLog(@"收藏删除失败: %@", error);
+                [Utils presentNotificationWithText:@"删除失败"];
             }
         }];
     }
@@ -314,9 +317,11 @@ static NSString *reuseCMCell = @"reuseCMCell";
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:YES];
+                [Utils presentNotificationWithText:@"收藏成功"];
             }
             else {
                 NSLog(@"收藏失败: %@", error);
+                [Utils presentNotificationWithText:@"收藏失败"];
             }
         }];
     }
@@ -391,6 +396,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
+             [Utils presentNotificationWithText:@"访问失败"];
          }];
     }
     if ([hotword hasPrefix:@"http"]) {
@@ -436,8 +442,10 @@ static NSString *reuseCMCell = @"reuseCMCell";
              profiletvc.hidesBottomBarWhenPushed = YES;
              [self.navigationController pushViewController:profiletvc animated:YES];
          }
-                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
              NSLog(@"error %@", error);
+             [Utils presentNotificationWithText:@"访问失败"];
          }];
     }
     if ([hotword hasPrefix:@"http"]) {
@@ -473,8 +481,10 @@ static NSString *reuseCMCell = @"reuseCMCell";
          profiletvc.hidesBottomBarWhenPushed = YES;
          [self.navigationController pushViewController:profiletvc animated:YES];
      }
-               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
          NSLog(@"error %@", error);
+         [Utils presentNotificationWithText:@"访问失败"];
      }];
 }
 

@@ -135,6 +135,7 @@ static NSString *reuseCountsCell = @"countsCell";
                 }
             } else {
                 NSLog(@"授权失败, 错误: %@", error);
+                [Utils presentNotificationWithText:@"授权失败"];
             }
         }];
     }
@@ -151,6 +152,7 @@ static NSString *reuseCountsCell = @"countsCell";
                 [[NSUserDefaults standardUserDefaults] synchronize];
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"error: %@", error);
+                [Utils presentNotificationWithText:@"更新失败"];
             }];
         } else {
             UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"已登录" message:@"您已授权并登录微博" preferredStyle:UIAlertControllerStyleActionSheet];
@@ -202,6 +204,8 @@ static NSString *reuseCountsCell = @"countsCell";
                 [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+                [Utils presentNotificationWithText:@"更新失败"];
+                [self.tableView.header endRefreshing];
             }];
         } else {
             [self.tableView.header endRefreshing];
@@ -213,6 +217,8 @@ static NSString *reuseCountsCell = @"countsCell";
             [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+            [Utils presentNotificationWithText:@"更新失败"];
+            [self.tableView.header endRefreshing];
         }];
     }
 }
@@ -228,6 +234,7 @@ static NSString *reuseCountsCell = @"countsCell";
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"latest"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新失败"];
         [self.tableView.header endRefreshing];
     }];
 }
@@ -243,6 +250,7 @@ static NSString *reuseCountsCell = @"countsCell";
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"profile footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新失败"];
         [self.tableView.footer endRefreshing];
     }];
 }
@@ -403,6 +411,7 @@ static NSString *reuseCountsCell = @"countsCell";
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
+         [Utils presentNotificationWithText:@"访问失败"];
      }];
 }
 
@@ -428,9 +437,11 @@ static NSString *reuseCountsCell = @"countsCell";
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
+                [Utils presentNotificationWithText:@"删除成功"];
             }
             else {
                 NSLog(@"收藏删除失败: %@", error);
+                [Utils presentNotificationWithText:@"删除失败"];
             }
         }];
     }
@@ -442,9 +453,11 @@ static NSString *reuseCountsCell = @"countsCell";
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:YES];
+                [Utils presentNotificationWithText:@"收藏成功"];
             }
             else {
                 NSLog(@"收藏失败: %@", error);
+                [Utils presentNotificationWithText:@"收藏失败"];
             }
         }];
     }
@@ -519,6 +532,7 @@ static NSString *reuseCountsCell = @"countsCell";
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
+             [Utils presentNotificationWithText:@"访问失败"];
          }];
     }
     if ([hotword hasPrefix:@"http"]) {
@@ -564,10 +578,12 @@ static NSString *reuseCountsCell = @"countsCell";
                     NSLog(@"success");
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [_user setFollowing:NO];
+                        [Utils presentNotificationWithText:@"成功取关"];
                         [cell setNeedsLayout];
                     });
                 } else {
                     NSLog(@"error: %@", error);
+                    [Utils presentNotificationWithText:@"取关失败"];
                 }
             }];
         }];
@@ -586,10 +602,12 @@ static NSString *reuseCountsCell = @"countsCell";
                 NSLog(@"success");
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [_user setFollowing:YES];
+                    [Utils presentNotificationWithText:@"关注成功"];
                     [cell setNeedsLayout];
                 });
             } else {
                 NSLog(@"error: %@", error);
+                [Utils presentNotificationWithText:@"关注失败"];
             }
         }];
     }
