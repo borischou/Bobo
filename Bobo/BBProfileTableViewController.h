@@ -13,7 +13,7 @@
 
 @property (strong, nonatomic) User *user;
 @property (copy, nonatomic) NSString *uid;
-@property (copy, nonatomic) NSMutableArray *statuses;
+@property (strong, nonatomic) NSMutableArray *statuses;
 @property (nonatomic) BOOL shouldNavBtnShown;
 
 @end
