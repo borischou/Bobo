@@ -65,7 +65,7 @@
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
 		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
 		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
-		457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */; };
+		457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */; };
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
 		457CE3191BA7E73D00D3926B /* STTweetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CE3181BA7E73D00D3926B /* STTweetLabel.m */; };
@@ -80,6 +80,10 @@
 		459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459232501B969A490006A123 /* BBMessageTableViewCell.m */; };
 		459232531B96BE530006A123 /* tab_icon_message@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459232521B96BE530006A123 /* tab_icon_message@3x.png */; };
 		45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountTableViewCell.m */; };
+		45A183E01BB9301B00FE9890 /* settings_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183DF1BB9301B00FE9890 /* settings_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		45A183E41BB9319B00FE9890 /* following_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E31BB9319B00FE9890 /* following_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E51BB931A800FE9890 /* follow_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		45A183E81BB931BF00FE9890 /* friend_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E71BB931BF00FE9890 /* friend_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
 		45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */; };
 		45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */; };
@@ -196,8 +200,8 @@
 		457278831B53900D00AC0C9C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4572E1C11B3C59F900348866 /* BBImageBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBImageBrowserView.h; sourceTree = "<group>"; };
 		4572E1C21B3C59F900348866 /* BBImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBImageBrowserView.m; sourceTree = "<group>"; };
-		457C60E91B7301F500B10D53 /* BBMeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMeHeaderView.h; sourceTree = "<group>"; };
-		457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMeHeaderView.m; sourceTree = "<group>"; };
+		457C60E91B7301F500B10D53 /* BBProfileHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileHeaderView.h; sourceTree = "<group>"; };
+		457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileHeaderView.m; sourceTree = "<group>"; };
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_holder_profile_image@3x.png"; sourceTree = "<group>"; };
 		457C9E3A1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
 		457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
@@ -220,6 +224,10 @@
 		459232521B96BE530006A123 /* tab_icon_message@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_icon_message@3x.png"; sourceTree = "<group>"; };
 		45A052141B3A898200A1488D /* BBCountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCountTableViewCell.h; sourceTree = "<group>"; };
 		45A052151B3A898200A1488D /* BBCountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCountTableViewCell.m; sourceTree = "<group>"; };
+		45A183DF1BB9301B00FE9890 /* settings_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_icon@3x.png"; sourceTree = "<group>"; };
+		45A183E31BB9319B00FE9890 /* following_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "following_icon@3x.png"; sourceTree = "<group>"; };
+		45A183E51BB931A800FE9890 /* follow_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "follow_icon@3x.png"; sourceTree = "<group>"; };
+		45A183E71BB931BF00FE9890 /* friend_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "friend_icon@3x.png"; sourceTree = "<group>"; };
 		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		45A979021B6E512000A8D472 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		45BBDA581B902FA200BABEDD /* BBPhotoPickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBPhotoPickerCollectionView.h; sourceTree = "<group>"; };
@@ -390,7 +398,11 @@
 		45620D3C1B3706BF00B9F9F2 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				45A183E31BB9319B00FE9890 /* following_icon@3x.png */,
+				45A183E71BB931BF00FE9890 /* friend_icon@3x.png */,
 				45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */,
+				45A183E51BB931A800FE9890 /* follow_icon@3x.png */,
+				45A183DF1BB9301B00FE9890 /* settings_icon@3x.png */,
 				4566BC5C1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png */,
 				007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */,
 				4567C2D51B9C2A6900C8660B /* icon_album@3x.png */,
@@ -560,8 +572,8 @@
 			children = (
 				45A052141B3A898200A1488D /* BBCountTableViewCell.h */,
 				45A052151B3A898200A1488D /* BBCountTableViewCell.m */,
-				457C60E91B7301F500B10D53 /* BBMeHeaderView.h */,
-				457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */,
+				457C60E91B7301F500B10D53 /* BBProfileHeaderView.h */,
+				457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */,
 				4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */,
 				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
 			);
@@ -711,10 +723,12 @@
 				451441E11B295CA9000532DD /* LaunchScreen.xib in Resources */,
 				45C57B4D1B9FFDC700FE040E /* bobo_tab_icon@3x.png in Resources */,
 				4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */,
+				45A183E81BB931BF00FE9890 /* friend_icon@3x.png in Resources */,
 				456254DD1B8306200009A332 /* fav_icon_3@3x.png in Resources */,
 				4567C2DC1B9C2BA300C8660B /* icon_album_selected@3x.png in Resources */,
 				451441DE1B295CA9000532DD /* Images.xcassets in Resources */,
 				4567C2DA1B9C2B5E00C8660B /* icon_camera_selected@3x.png in Resources */,
+				45A183E41BB9319B00FE9890 /* following_icon@3x.png in Resources */,
 				45C57B471B9FEC6D00FE040E /* tab_waterfall@3x.png in Resources */,
 				45C57B451B9FE97000FE040E /* barbutton_icon_post@3x.png in Resources */,
 				4567C2D61B9C2A6900C8660B /* icon_album@3x.png in Resources */,
@@ -722,6 +736,8 @@
 				4567C2D81B9C2AF700C8660B /* icon_camera@3x.png in Resources */,
 				0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */,
 				456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */,
+				45A183E01BB9301B00FE9890 /* settings_icon@3x.png in Resources */,
+				45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */,
 				458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */,
 				45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */,
 				457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */,
@@ -813,7 +829,7 @@
 				456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */,
 				4592324B1B969A170006A123 /* BBMessageViewController.m in Sources */,
 				451442061B295E8B000532DD /* BBMainStatusTableViewController.m in Sources */,
-				457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */,
+				457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */,
 				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
 				0060CCC41BA5C660005F3E20 /* UIColor+Custom.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,

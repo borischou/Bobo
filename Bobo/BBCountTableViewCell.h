@@ -8,12 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "Counts.h"
+#import "User.h"
+
+@class BBCountTableViewCell;
+@protocol BBCountTableViewCellDelegate <NSObject>
+
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapTodoImageViewWithTapGesture:(UITapGestureRecognizer *)tap;
+
+@end
 
 @interface BBCountTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) NSMutableArray *views;
-@property (strong, nonatomic) UILabel *wbcounts;
-@property (strong, nonatomic) UILabel *friendcounts;
-@property (strong, nonatomic) UILabel *followercounts;
+@property (weak, nonatomic) id <BBCountTableViewCellDelegate> delegate;
+
+@property (strong, nonatomic) User *user;
 
 @end

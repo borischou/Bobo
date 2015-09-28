@@ -19,7 +19,7 @@
 #import "BBStatusDetailViewController.h"
 #import "BBCountTableViewCell.h"
 #import "AppDelegate.h"
-#import "BBMeHeaderView.h"
+#import "BBProfileHeaderView.h"
 #import "BBStatusTableViewCell.h"
 #import "BBImageBrowserView.h"
 #import "BBButtonbarTableViewCell.h"
@@ -43,7 +43,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate>
+@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate>
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) ACAccount *weiboAccount;
@@ -62,6 +62,7 @@ static NSString *reuseCountsCell = @"countsCell";
     if (_user) {
         self.tableView.tableHeaderView = [self getAvatarView];
     }
+    _currentLastStatusId = [self lastIdFromStatuses:_statuses];
     [self setMJRefresh];
     if (!_statuses || _statuses.count <= 0) {
         [self.tableView.header beginRefreshing];
@@ -177,7 +178,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(UIView *)getAvatarView
 {
-    BBMeHeaderView *avatarView = [[BBMeHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight/3.5)];
+    BBProfileHeaderView *avatarView = [[BBProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight/3.5)];
     avatarView.user = _user;
     
     return avatarView;
@@ -224,7 +225,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"me"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"latest"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [self.tableView.header endRefreshing];
@@ -260,7 +261,7 @@ static NSString *reuseCountsCell = @"countsCell";
     if (!_statuses) {
         _statuses = @[].mutableCopy;
     }
-    if ([type isEqualToString:@"me"]) {
+    if ([type isEqualToString:@"latest"]) {
         if (downloadedStatuses.count > 0) {
             _statuses = nil;
             _statuses = @[].mutableCopy;
@@ -277,10 +278,7 @@ static NSString *reuseCountsCell = @"countsCell";
         }
     }
     
-    Status *lastOne = _statuses.lastObject;
-    if (lastOne.idstr) {
-        _currentLastStatusId = lastOne.idstr;
-    }
+    _currentLastStatusId = [self lastIdFromStatuses:_statuses];
         
     [self.tableView.header endRefreshing];
     [self.tableView.footer endRefreshing];
@@ -293,6 +291,12 @@ static NSString *reuseCountsCell = @"countsCell";
     return delegate.user;
 }
 
+-(NSString *)lastIdFromStatuses:(NSMutableArray *)statuses
+{
+    Status *lastOne = statuses.lastObject;
+    return lastOne.idstr;
+}
+
 #pragma mark - UITableView delegate & data source & Helpers
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -301,9 +305,8 @@ static NSString *reuseCountsCell = @"countsCell";
         [tableView registerClass:[BBCountTableViewCell class] forCellReuseIdentifier:reuseCountsCell];
         BBCountTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCountsCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.wbcounts.text = [NSString formatNum:_user.statuses_count];
-        cell.followercounts.text = [NSString formatNum:_user.followers_count];
-        cell.friendcounts.text = [NSString formatNum:_user.friends_count];
+        cell.user = _user;
+        cell.delegate = self;
         return cell;
     }
     else
@@ -533,6 +536,63 @@ static NSString *reuseCountsCell = @"countsCell";
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:browserView];
+}
+
+#pragma mark - BBCountTableViewCellDelegate
+
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapTodoImageViewWithTapGesture:(UITapGestureRecognizer *)tap
+{
+    UIImageView *imageView = (UIImageView *)tap.view;
+    AppDelegate *delegate = [AppDelegate delegate];
+    ACAccount *account = [delegate defaultAccount];
+    
+    if ([imageView.image isEqual:[UIImage imageNamed:@"settings_icon"]])
+    {
+        NSLog(@"settings");
+        //个人设置
+    }
+    if ([imageView.image isEqual:[UIImage imageNamed:@"following_icon"]]
+        || [imageView.image isEqual:[UIImage imageNamed:@"friend_icon"]])
+    {
+        NSLog(@"following");
+        //取关
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"取消关注" message:@"您是否确定取消关注此用户？" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消关注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSDictionary *params = @{@"uid": _user.idstr};
+            [Utils weiboPostRequestWithAccount:account URL:@"friendships/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                if (!error) {
+                    NSLog(@"success");
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_user setFollowing:NO];
+                        [cell setNeedsLayout];
+                    });
+                } else {
+                    NSLog(@"error: %@", error);
+                }
+            }];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"继续关注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+        [alertController addAction:action];
+        [alertController addAction:cancelAction];
+        [self presentViewController:alertController animated:YES completion:^{}];
+    }
+    if ([imageView.image isEqual:[UIImage imageNamed:@"follow_icon"]])
+    {
+        NSLog(@"follow");
+        //关注
+        NSDictionary *params = @{@"uid": _user.idstr};
+        [Utils weiboPostRequestWithAccount:account URL:@"friendships/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+            if (!error) {
+                NSLog(@"success");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_user setFollowing:YES];
+                    [cell setNeedsLayout];
+                });
+            } else {
+                NSLog(@"error: %@", error);
+            }
+        }];
+    }
 }
 
 @end

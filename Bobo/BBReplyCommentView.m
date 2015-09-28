@@ -29,7 +29,6 @@
 
 @property (strong, nonatomic) UIView *mask;
 @property (nonatomic) CGFloat rBtnHeight;
-@property (nonatomic) CGFloat viewHeight;
 
 @end
 
@@ -170,33 +169,7 @@
 
 -(void)deleteButtonPressed:(UIButton *)sender
 {
-    //调用删除接口
-    NSDictionary *params = @{@"cid": _comment.idstr};
-    [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"comments/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-        NSString *notificationText = nil;
-        if (!error) {
-            NSLog(@"评论删除成功。");
-            notificationText = @"评论删除成功";
-        }
-        else
-        {
-            NSLog(@"评论删除失败：%@", error);
-            notificationText = [NSString stringWithFormat:@"评论删除失败: %@", error];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                _mask.alpha = 0;
-                [self setFrame:CGRectMake(0, bHeight, bWidth, _viewHeight)];
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [self callbackForUpdateCompletionWithNotificationText:notificationText];
-                    [_mask removeFromSuperview];
-                    _mask = nil;
-                    [self removeFromSuperview];
-                }
-            }];
-        });
-    }];
+    [self.delegate replyView:self mask:_mask didPressDeleteButton:sender];
 }
 
 -(void)replyButtonPressed:(UIButton *)sender

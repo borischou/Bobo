@@ -71,12 +71,19 @@ static NSString *messageCell = @"messageCell";
     Comment *comment = [_comments objectAtIndex:indexPath.row];
     BBReplyCommentView *replyView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 50*5)];
     replyView.comment = comment;
-    replyView.shouldShowDeleteOption = YES;
-    replyView.shouldShowViewStatusOption = YES;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:replyView];
+    replyView.shouldShowViewStatusOption = YES;
+    CGRect replyRect;
+    if ([comment.status.user.idstr isEqualToString:delegate.user.idstr]) {
+        replyView.shouldShowDeleteOption = YES;
+        replyRect = CGRectMake(0, bHeight-50*5, bWidth, 50*5);
+    } else {
+        replyView.shouldShowDeleteOption = NO;
+        replyRect = CGRectMake(0, bHeight-50*4, bWidth, 50*4);
+    }
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [replyView setFrame:CGRectMake(0, bHeight-50*5, bWidth, 50*5)];
+        [replyView setFrame:replyRect];
     } completion:^(BOOL finished) {}];
 }
 
