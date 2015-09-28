@@ -230,7 +230,9 @@ static NSString *reuseCMCell = @"reuseCMCell";
         replyCommentView.delegate = self;
         replyCommentView.shouldShowViewStatusOption = NO;
         int param = 0;
-        if ([comment.user.idstr isEqualToString:delegate.user.idstr]) {
+        if ([comment.user.idstr isEqualToString:delegate.user.idstr]
+            || [comment.status.user.idstr isEqualToString:delegate.user.idstr])
+        {
             replyCommentView.shouldShowDeleteOption = YES;
             param = 1;
         } else {
