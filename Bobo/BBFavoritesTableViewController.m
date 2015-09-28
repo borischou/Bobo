@@ -121,11 +121,7 @@
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
         [updateStatusView.statusTextView becomeFirstResponder];
-    } completion:^(BOOL finished) {
-        if (finished) {
-            //what are you gonna do
-        }
-    }];
+    } completion:^(BOOL finished) {}];
 }
 
 #pragma mark - Weibo support
@@ -138,6 +134,7 @@
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error]];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"favoristes error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新失败"];
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
     }];
@@ -271,6 +268,7 @@
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
+         [Utils presentNotificationWithText:@"访问失败"];
      }];
 }
 
@@ -299,6 +297,7 @@
             }
             else {
                 NSLog(@"收藏删除失败: %@", error);
+                [Utils presentNotificationWithText:@"删除失败"];
             }
         }];
     }
@@ -313,6 +312,7 @@
             }
             else {
                 NSLog(@"收藏失败: %@", error);
+                [Utils presentNotificationWithText:@"删除失败"];
             }
         }];
     }
@@ -387,6 +387,7 @@
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
+             [Utils presentNotificationWithText:@"访问失败"];
          }];
     }
     if ([hotword hasPrefix:@"http"]) {

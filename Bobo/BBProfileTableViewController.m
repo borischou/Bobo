@@ -135,6 +135,7 @@ static NSString *reuseCountsCell = @"countsCell";
                 }
             } else {
                 NSLog(@"授权失败, 错误: %@", error);
+                [Utils presentNotificationWithText:@"授权失败"];
             }
         }];
     }
@@ -410,6 +411,7 @@ static NSString *reuseCountsCell = @"countsCell";
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
+         [Utils presentNotificationWithText:@"访问失败"];
      }];
 }
 
@@ -435,9 +437,11 @@ static NSString *reuseCountsCell = @"countsCell";
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
+                [Utils presentNotificationWithText:@"删除成功"];
             }
             else {
                 NSLog(@"收藏删除失败: %@", error);
+                [Utils presentNotificationWithText:@"删除失败"];
             }
         }];
     }
@@ -449,9 +453,11 @@ static NSString *reuseCountsCell = @"countsCell";
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:YES];
+                [Utils presentNotificationWithText:@"收藏成功"];
             }
             else {
                 NSLog(@"收藏失败: %@", error);
+                [Utils presentNotificationWithText:@"收藏失败"];
             }
         }];
     }
@@ -526,6 +532,7 @@ static NSString *reuseCountsCell = @"countsCell";
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
+             [Utils presentNotificationWithText:@"访问失败"];
          }];
     }
     if ([hotword hasPrefix:@"http"]) {
@@ -569,12 +576,11 @@ static NSString *reuseCountsCell = @"countsCell";
             [Utils weiboPostRequestWithAccount:account URL:@"friendships/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                 if (!error) {
                     NSLog(@"success");
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [_user setFollowing:NO];
-                        [cell setNeedsLayout];
-                    });
+                    [_user setFollowing:NO];
+                    [cell setNeedsLayout];
                 } else {
                     NSLog(@"error: %@", error);
+                    [Utils presentNotificationWithText:@"取关失败"];
                 }
             }];
         }];
@@ -591,12 +597,11 @@ static NSString *reuseCountsCell = @"countsCell";
         [Utils weiboPostRequestWithAccount:account URL:@"friendships/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
             if (!error) {
                 NSLog(@"success");
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [_user setFollowing:YES];
-                    [cell setNeedsLayout];
-                });
+                [_user setFollowing:YES];
+                [cell setNeedsLayout];
             } else {
                 NSLog(@"error: %@", error);
+                [Utils presentNotificationWithText:@"关注失败"];
             }
         }];
     }
