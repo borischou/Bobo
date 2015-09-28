@@ -39,7 +39,7 @@
 static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
-@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBStatusTableViewCellDelegate, BBCommentTableViewCellDelegate>
+@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBStatusTableViewCellDelegate, BBCommentTableViewCellDelegate, BBReplyCommentViewDelegate>
 {
     int _page;
 }
@@ -226,6 +226,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 150)];
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         replyCommentView.comment = comment;
+        replyCommentView.delegate = self;
         replyCommentView.shouldShowViewStatusOption = NO;
         int param = 0;
         if ([comment.user.idstr isEqualToString:delegate.user.idstr]) {
@@ -472,6 +473,13 @@ static NSString *reuseCMCell = @"reuseCMCell";
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"error %@", error);
      }];
+}
+
+#pragma mark - BBReplyCommentViewDelegate
+
+-(void)replyView:(BBReplyCommentView *)replyView didPressDeleteButton:(UIButton *)sender
+{
+    
 }
 
 @end

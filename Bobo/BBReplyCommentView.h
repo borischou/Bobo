@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "Comment.h"
 
+@class BBReplyCommentView;
+@protocol BBReplyCommentViewDelegate <NSObject>
+
+-(void)replyView:(BBReplyCommentView *)replyView didPressDeleteButton:(UIButton *)sender;
+
+@end
+
 @interface BBReplyCommentView : UIView
+
+@property (weak, nonatomic) id <BBReplyCommentViewDelegate> delegate;
 
 @property (strong, nonatomic) UIButton *replyBtn;
 @property (strong, nonatomic) UIButton *repostBtn;
