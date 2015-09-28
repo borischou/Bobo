@@ -65,7 +65,7 @@
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
 		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
 		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
-		457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */; };
+		457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */; };
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
 		457CE3191BA7E73D00D3926B /* STTweetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CE3181BA7E73D00D3926B /* STTweetLabel.m */; };
@@ -196,8 +196,8 @@
 		457278831B53900D00AC0C9C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4572E1C11B3C59F900348866 /* BBImageBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBImageBrowserView.h; sourceTree = "<group>"; };
 		4572E1C21B3C59F900348866 /* BBImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBImageBrowserView.m; sourceTree = "<group>"; };
-		457C60E91B7301F500B10D53 /* BBMeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMeHeaderView.h; sourceTree = "<group>"; };
-		457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMeHeaderView.m; sourceTree = "<group>"; };
+		457C60E91B7301F500B10D53 /* BBProfileHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileHeaderView.h; sourceTree = "<group>"; };
+		457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileHeaderView.m; sourceTree = "<group>"; };
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_holder_profile_image@3x.png"; sourceTree = "<group>"; };
 		457C9E3A1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
 		457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
@@ -560,8 +560,8 @@
 			children = (
 				45A052141B3A898200A1488D /* BBCountTableViewCell.h */,
 				45A052151B3A898200A1488D /* BBCountTableViewCell.m */,
-				457C60E91B7301F500B10D53 /* BBMeHeaderView.h */,
-				457C60EA1B7301F500B10D53 /* BBMeHeaderView.m */,
+				457C60E91B7301F500B10D53 /* BBProfileHeaderView.h */,
+				457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */,
 				4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */,
 				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
 			);
@@ -813,7 +813,7 @@
 				456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */,
 				4592324B1B969A170006A123 /* BBMessageViewController.m in Sources */,
 				451442061B295E8B000532DD /* BBMainStatusTableViewController.m in Sources */,
-				457C60EB1B7301F500B10D53 /* BBMeHeaderView.m in Sources */,
+				457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */,
 				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
 				0060CCC41BA5C660005F3E20 /* UIColor+Custom.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,
