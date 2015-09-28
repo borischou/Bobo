@@ -28,14 +28,23 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 2;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    
+    switch (indexPath.row) {
+        case 0:
+            [cell.textLabel setText:@"朋友圈"];
+            break;
+        case 1:
+            [cell.textLabel setText:@"所有"];
+            break;
+        default:
+            break;
+    }
     return cell;
 }
 
