@@ -503,7 +503,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
                     [replyView setFrame:CGRectMake(0, bHeight, bWidth, replyView.viewHeight)];
                 } completion:^(BOOL finished) {
                     if (finished) {
-                        [self presentNotificationWithText:notificationText];
+                        [Utils presentNotificationWithText:notificationText];
                         [mask removeFromSuperview];
                         [replyView removeFromSuperview];
                     }
@@ -524,23 +524,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
     } completion:^(BOOL finished) {}];
     
     [self presentViewController:alertController animated:YES completion:^{}];
-}
-
--(void)presentNotificationWithText:(NSString *)text
-{
-    BBNotificationView *notificationView = [[BBNotificationView alloc] initWithNotification:text];
-    AppDelegate *delegate = [AppDelegate delegate];
-    [delegate.window addSubview:notificationView];
-    [delegate.window bringSubviewToFront:notificationView];
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [notificationView setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.2 delay:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            [notificationView setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
-        } completion:^(BOOL finished) {
-            [notificationView removeFromSuperview];
-        }];
-    }];
 }
 
 @end

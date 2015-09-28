@@ -146,6 +146,7 @@ static NSString *reuseBarCellId = @"barCell";
             }
             Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
             _since_id = status.idstr;
+            [Utils presentNotificationWithText:[NSString stringWithFormat:@"更新了%ld条微博", downloadedStatuses.count]];
         }
         [self.tableView.header endRefreshing];
     }

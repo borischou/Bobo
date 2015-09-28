@@ -7,6 +7,8 @@
 //
 
 #import "Utils.h"
+#import "AppDelegate.h"
+#import "BBNotificationView.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -337,6 +339,24 @@
         }
     }
     return statuses;
+}
+
++(void)presentNotificationWithText:(NSString *)text
+{
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    BBNotificationView *notificationView = [[BBNotificationView alloc] initWithNotification:text];
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:notificationView];
+    [delegate.window bringSubviewToFront:notificationView];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [notificationView setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 delay:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [notificationView setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
+        } completion:^(BOOL finished) {
+            [notificationView removeFromSuperview];
+        }];
+    }];
 }
 
 @end

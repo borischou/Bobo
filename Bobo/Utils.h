@@ -43,4 +43,6 @@ typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLRespo
 +(void)setupNavigationController:(UINavigationController *)uinvc withUIViewController:(UIViewController *)uivc;
 +(NSMutableArray *)statusesWith:(NSData *)data;
 
++(void)presentNotificationWithText:(NSString *)text;
+
 @end
