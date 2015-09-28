@@ -576,8 +576,10 @@ static NSString *reuseCountsCell = @"countsCell";
             [Utils weiboPostRequestWithAccount:account URL:@"friendships/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                 if (!error) {
                     NSLog(@"success");
-                    [_user setFollowing:NO];
-                    [cell setNeedsLayout];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_user setFollowing:NO];
+                        [cell setNeedsLayout];
+                    });
                 } else {
                     NSLog(@"error: %@", error);
                     [Utils presentNotificationWithText:@"取关失败"];
@@ -597,8 +599,10 @@ static NSString *reuseCountsCell = @"countsCell";
         [Utils weiboPostRequestWithAccount:account URL:@"friendships/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
             if (!error) {
                 NSLog(@"success");
-                [_user setFollowing:YES];
-                [cell setNeedsLayout];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_user setFollowing:YES];
+                    [cell setNeedsLayout];
+                });
             } else {
                 NSLog(@"error: %@", error);
                 [Utils presentNotificationWithText:@"关注失败"];
