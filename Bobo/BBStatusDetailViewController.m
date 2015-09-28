@@ -521,10 +521,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         [mask setAlpha:0];
     } completion:^(BOOL finished) {}];
     
-    [self presentViewController:alertController animated:YES completion:^{
-        
-        
-    }];
+    [self presentViewController:alertController animated:YES completion:^{}];
 }
 
 -(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
