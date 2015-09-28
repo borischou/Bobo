@@ -477,9 +477,20 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 #pragma mark - BBReplyCommentViewDelegate
 
--(void)replyView:(BBReplyCommentView *)replyView didPressDeleteButton:(UIButton *)sender
+-(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didPressDeleteButton:(UIButton *)sender
 {
-    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除评论" message:@"是否删除此评论？" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alertController addAction:deleteAction];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:^{
+        
+    }];
 }
 
 @end
