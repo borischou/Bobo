@@ -43,7 +43,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate>
+@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate>
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) ACAccount *weiboAccount;
@@ -306,6 +306,7 @@ static NSString *reuseCountsCell = @"countsCell";
         BBCountTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCountsCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.user = _user;
+        cell.delegate = self;
         return cell;
     }
     else
@@ -535,6 +536,63 @@ static NSString *reuseCountsCell = @"countsCell";
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:browserView];
+}
+
+#pragma mark - BBCountTableViewCellDelegate
+
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapTodoImageViewWithTapGesture:(UITapGestureRecognizer *)tap
+{
+    UIImageView *imageView = (UIImageView *)tap.view;
+    AppDelegate *delegate = [AppDelegate delegate];
+    ACAccount *account = [delegate defaultAccount];
+    
+    if ([imageView.image isEqual:[UIImage imageNamed:@"settings_icon"]])
+    {
+        NSLog(@"settings");
+        //个人设置
+    }
+    if ([imageView.image isEqual:[UIImage imageNamed:@"following_icon"]]
+        || [imageView.image isEqual:[UIImage imageNamed:@"friend_icon"]])
+    {
+        NSLog(@"following");
+        //取关
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"取消关注" message:@"您是否确定取消关注此用户？" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消关注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSDictionary *params = @{@"uid": _user.idstr};
+            [Utils weiboPostRequestWithAccount:account URL:@"friendships/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                if (!error) {
+                    NSLog(@"success");
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_user setFollowing:NO];
+                        [cell setNeedsLayout];
+                    });
+                } else {
+                    NSLog(@"error: %@", error);
+                }
+            }];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"继续关注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+        [alertController addAction:action];
+        [alertController addAction:cancelAction];
+        [self presentViewController:alertController animated:YES completion:^{}];
+    }
+    if ([imageView.image isEqual:[UIImage imageNamed:@"follow_icon"]])
+    {
+        NSLog(@"follow");
+        //关注
+        NSDictionary *params = @{@"uid": _user.idstr};
+        [Utils weiboPostRequestWithAccount:account URL:@"friendships/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+            if (!error) {
+                NSLog(@"success");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_user setFollowing:YES];
+                    [cell setNeedsLayout];
+                });
+            } else {
+                NSLog(@"error: %@", error);
+            }
+        }];
+    }
 }
 
 @end

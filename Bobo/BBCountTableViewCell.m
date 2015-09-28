@@ -35,6 +35,11 @@
 
 @interface BBCountTableViewCell ()
 
+@property (strong, nonatomic) UIImageView *todoImgView;
+@property (strong, nonatomic) UILabel *wbcounts;
+@property (strong, nonatomic) UILabel *friendcounts;
+@property (strong, nonatomic) UILabel *followercounts;
+
 @end
 
 @implementation BBCountTableViewCell
@@ -119,7 +124,7 @@
 
 -(void)todoImgViewTapped:(UITapGestureRecognizer *)tap
 {
-    
+    [self.delegate tableViewCell:self didTapTodoImageViewWithTapGesture:tap];
 }
 
 @end
