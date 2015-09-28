@@ -501,7 +501,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
                     [replyView setFrame:CGRectMake(0, bHeight, bWidth, replyView.viewHeight)];
                 } completion:^(BOOL finished) {
                     if (finished) {
-                        [self callbackForUpdateCompletionWithNotificationText:notificationText];
+                        [self presentNotificationWithText:notificationText];
                         [mask removeFromSuperview];
                         [replyView removeFromSuperview];
                     }
@@ -524,7 +524,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [self presentViewController:alertController animated:YES completion:^{}];
 }
 
--(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
+-(void)presentNotificationWithText:(NSString *)text
 {
     BBNotificationView *notificationView = [[BBNotificationView alloc] initWithNotification:text];
     AppDelegate *delegate = [AppDelegate delegate];
