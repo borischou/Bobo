@@ -118,46 +118,10 @@ static NSString *messageCell = @"messageCell";
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [Utils presentNotificationWithText:@"访问失败"];
+         });
      }];
-}
-
--(void)tableViewCell:(BBMessageTableViewCell *)cell didTapHotword:(NSString *)hotword
-{
-    BBMessageViewController *mvc = (BBMessageViewController *)self.nextResponder.nextResponder.nextResponder;
-    if ([hotword hasPrefix:@"@"]) {
-        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
-        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-                                          URL:@"statuses/user_timeline.json"
-                          SLRequestHTTPMethod:SLRequestMethodGET
-                                   parameters:params
-                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             NSMutableArray *statuses = [Utils statusesWith:responseObject];
-             Status *status = statuses.firstObject;
-             User *user = status.user;
-             BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-             [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
-             profiletvc.uid = user.idstr;
-             profiletvc.statuses = statuses;
-             profiletvc.user = user;
-             profiletvc.shouldNavBtnShown = NO;
-             profiletvc.title = @"Profile";
-             profiletvc.hidesBottomBarWhenPushed = YES;
-             [mvc.navigationController pushViewController:profiletvc animated:YES];
-         }
-                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
-             NSLog(@"error %@", error);
-         }];
-    }
-    if ([hotword hasPrefix:@"http"]) {
-        //打开webview
-        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
-        [mvc.navigationController presentViewController:sfvc animated:YES completion:^{}];
-    }
-    if ([hotword hasPrefix:@"#"]) {
-        //热门话题
-    }
 }
 
 #pragma mark - TTTAttributedLabelDelegate & support
@@ -203,7 +167,9 @@ static NSString *messageCell = @"messageCell";
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
-             [Utils presentNotificationWithText:@"访问失败"];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [Utils presentNotificationWithText:@"访问失败"];
+             });
          }];
     }
     if ([hotword hasPrefix:@"http"]) {

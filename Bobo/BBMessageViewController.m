@@ -217,8 +217,11 @@
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"message error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
-        [Utils presentNotificationWithText:@"更新失败"];
-        [tableView.header endRefreshing];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [Utils presentNotificationWithText:@"更新失败"];
+            [tableView.header endRefreshing];
+        });
+        
     }];
 }
 
@@ -240,8 +243,11 @@
             [self handleWeiboResult:result type:@"history" forTableView:_allTableView flag:3];
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [Utils presentNotificationWithText:@"更新失败"];
-        [tableView.footer endRefreshing];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [Utils presentNotificationWithText:@"更新失败"];
+            [tableView.footer endRefreshing];
+        });
+        
     }];
 }
 
