@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <TTTAttributedLabel.h>
 #import "Comment.h"
 
 @class BBMessageTableViewCell;
 @protocol BBMessageTableViewCellDelegate <NSObject>
 
 -(void)tableViewCell:(BBMessageTableViewCell *)cell didTapAvatarView:(UIImageView *)avatarView;
--(void)tableViewCell:(BBMessageTableViewCell *)cell didTapHotword:(NSString *)hotword;
 
 @end
 
@@ -22,5 +22,7 @@
 @property (weak, nonatomic) id <BBMessageTableViewCellDelegate> delegate;
 
 @property (strong, nonatomic) Comment *comment;
+@property (strong, nonatomic) TTTAttributedLabel *tweetTextLabel;
+@property (strong, nonatomic) TTTAttributedLabel *retweetTextLabel;
 
 @end

@@ -43,7 +43,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate>
+@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate, TTTAttributedLabelDelegate>
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) ACAccount *weiboAccount;
@@ -135,7 +135,9 @@ static NSString *reuseCountsCell = @"countsCell";
                 }
             } else {
                 NSLog(@"授权失败, 错误: %@", error);
-                [Utils presentNotificationWithText:@"授权失败"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"授权失败"];
+                });
             }
         }];
     }
@@ -152,7 +154,9 @@ static NSString *reuseCountsCell = @"countsCell";
                 [[NSUserDefaults standardUserDefaults] synchronize];
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"error: %@", error);
-                [Utils presentNotificationWithText:@"更新失败"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"更新失败"];
+                });
             }];
         } else {
             UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"已登录" message:@"您已授权并登录微博" preferredStyle:UIAlertControllerStyleActionSheet];
@@ -204,8 +208,11 @@ static NSString *reuseCountsCell = @"countsCell";
                 [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
-                [Utils presentNotificationWithText:@"更新失败"];
-                [self.tableView.header endRefreshing];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"更新失败"];
+                    [self.tableView.header endRefreshing];
+                });
+                
             }];
         } else {
             [self.tableView.header endRefreshing];
@@ -217,8 +224,11 @@ static NSString *reuseCountsCell = @"countsCell";
             [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
-            [Utils presentNotificationWithText:@"更新失败"];
-            [self.tableView.header endRefreshing];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [Utils presentNotificationWithText:@"更新失败"];
+                [self.tableView.header endRefreshing];
+            });
+            
         }];
     }
 }
@@ -250,8 +260,11 @@ static NSString *reuseCountsCell = @"countsCell";
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"profile footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
-        [Utils presentNotificationWithText:@"更新失败"];
-        [self.tableView.footer endRefreshing];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [Utils presentNotificationWithText:@"更新失败"];
+            [self.tableView.footer endRefreshing];
+        });
+        
     }];
 }
 
@@ -327,6 +340,8 @@ static NSString *reuseCountsCell = @"countsCell";
                 Status *status = [self.statuses objectAtIndex:indexPath.section-1];
                 cell.status = status;
                 cell.delegate = self;
+                cell.tweetTextLabel.delegate = self;
+                cell.retweetTextLabel.delegate = self;
             }
         }
         return cell;
@@ -411,7 +426,9 @@ static NSString *reuseCountsCell = @"countsCell";
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
-         [Utils presentNotificationWithText:@"访问失败"];
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [Utils presentNotificationWithText:@"访问失败"];
+         });
      }];
 }
 
@@ -437,11 +454,15 @@ static NSString *reuseCountsCell = @"countsCell";
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
-                [Utils presentNotificationWithText:@"删除成功"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"删除成功"];
+                });
             }
             else {
                 NSLog(@"收藏删除失败: %@", error);
-                [Utils presentNotificationWithText:@"删除失败"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"删除失败"];
+                });
             }
         }];
     }
@@ -453,11 +474,15 @@ static NSString *reuseCountsCell = @"countsCell";
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:YES];
-                [Utils presentNotificationWithText:@"收藏成功"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"收藏成功"];
+                });
             }
             else {
                 NSLog(@"收藏失败: %@", error);
-                [Utils presentNotificationWithText:@"收藏失败"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"收藏失败"];
+                });
             }
         }];
     }
@@ -504,47 +529,6 @@ static NSString *reuseCountsCell = @"countsCell";
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
 
--(void)tableViewCell:(BBStatusTableViewCell *)cell didTapHotword:(NSString *)hotword
-{
-    NSLog(@"点击%@", hotword);
-    if ([hotword hasPrefix:@"@"]) {
-        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
-        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-                                          URL:@"statuses/user_timeline.json"
-                          SLRequestHTTPMethod:SLRequestMethodGET
-                                   parameters:params
-                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             NSMutableArray *statuses = [Utils statusesWith:responseObject];
-             Status *status = statuses.firstObject;
-             User *user = status.user;
-             
-             BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-             [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
-             profiletvc.uid = user.idstr;
-             profiletvc.statuses = statuses;
-             profiletvc.user = user;
-             profiletvc.shouldNavBtnShown = NO;
-             profiletvc.title = @"Profile";
-             profiletvc.hidesBottomBarWhenPushed = YES;
-             [self.navigationController pushViewController:profiletvc animated:YES];
-         }
-                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
-             NSLog(@"error %@", error);
-             [Utils presentNotificationWithText:@"访问失败"];
-         }];
-    }
-    if ([hotword hasPrefix:@"http"]) {
-        //打开webview
-        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
-        [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
-    }
-    if ([hotword hasPrefix:@"#"]) {
-        //热门话题
-    }
-}
-
 -(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
 {
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
@@ -583,7 +567,9 @@ static NSString *reuseCountsCell = @"countsCell";
                     });
                 } else {
                     NSLog(@"error: %@", error);
-                    [Utils presentNotificationWithText:@"取关失败"];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [Utils presentNotificationWithText:@"取关失败"];
+                    });
                 }
             }];
         }];
@@ -607,9 +593,67 @@ static NSString *reuseCountsCell = @"countsCell";
                 });
             } else {
                 NSLog(@"error: %@", error);
-                [Utils presentNotificationWithText:@"关注失败"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"关注失败"];
+                });
             }
         }];
+    }
+}
+
+#pragma mark - TTTAttributedLabelDelegate & support
+
+-(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result
+{
+    NSLog(@"pressed: %@", [label.text substringWithRange:result.range]);
+    [self presentDetailViewWithHotword:[label.text substringWithRange:result.range]];
+}
+
+-(void)attributedLabel:(TTTAttributedLabel *)label didLongPressLinkWithTextCheckingResult:(NSTextCheckingResult *)result atPoint:(CGPoint)point
+{
+    NSLog(@"long pressed: %@", [label.text substringWithRange:result.range]);
+    [self presentDetailViewWithHotword:[label.text substringWithRange:result.range]];
+}
+
+-(void)presentDetailViewWithHotword:(NSString *)hotword
+{
+    if ([hotword hasPrefix:@"@"]) {
+        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
+        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                          URL:@"statuses/user_timeline.json"
+                          SLRequestHTTPMethod:SLRequestMethodGET
+                                   parameters:params
+                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             NSMutableArray *statuses = [Utils statusesWith:responseObject];
+             Status *status = statuses.firstObject;
+             User *user = status.user;
+             
+             BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+             [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
+             profiletvc.uid = user.idstr;
+             profiletvc.statuses = statuses;
+             profiletvc.user = user;
+             profiletvc.shouldNavBtnShown = NO;
+             profiletvc.title = @"Profile";
+             profiletvc.hidesBottomBarWhenPushed = YES;
+             [self.navigationController pushViewController:profiletvc animated:YES];
+         }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             NSLog(@"error %@", error);
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [Utils presentNotificationWithText:@"访问失败"];
+             });
+         }];
+    }
+    if ([hotword hasPrefix:@"http"]) {
+        //打开webview
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
+    }
+    if ([hotword hasPrefix:@"#"]) {
+        //热门话题
     }
 }
 

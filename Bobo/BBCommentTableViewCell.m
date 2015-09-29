@@ -30,6 +30,19 @@
 #define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 #define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 
+#define tLinkColor [UIColor colorWithRed:106.f/255 green:90.f/255 blue:205.f/255 alpha:1.f]
+#define tActiveLinkColor [UIColor colorWithRed:0.f/255 green:205.f/255 blue:102.f/255 alpha:1.f]
+
+static inline NSRegularExpression * HotwordRegularExpression() {
+    static NSRegularExpression *_hotwordRegularExpression = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _hotwordRegularExpression = [[NSRegularExpression alloc] initWithPattern:@"(@([\\w-]+[\\w-]*))|((https?://([\\w]+).([\\w]+))+/[\\w]+)|(#[^#]+#)" options:NSRegularExpressionCaseInsensitive error:nil];
+    });
+    
+    return _hotwordRegularExpression;
+}
+
 @implementation BBCommentTableViewCell
 
 - (void)awakeFromNib {
@@ -81,20 +94,17 @@
     _timeLbl.font = [UIFont systemFontOfSize:10.f];
     [self.contentView addSubview:_timeLbl];
     
-    __weak BBCommentTableViewCell *weakSelf = self;
-    //CGFloat fontSize = [Utils fontSizeForComment];
+    CGFloat fontSize = [Utils fontSizeForComment];
     _commentTextLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-    [_commentTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
     [_commentTextLabel setNumberOfLines:0];
-    [_commentTextLabel setBackgroundColor:[UIColor clearColor]];
-//    [_commentTextLabel setTextSelectable:NO];
-//    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
-//    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
-//    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
-//    [_commentTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
-//        //callback
-//        [weakSelf didTapHotword:string];
-//    }];
+    [_commentTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [_commentTextLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    [_commentTextLabel setTextColor:[UIColor customGray]];
+    [_commentTextLabel setLineSpacing:2.0];
+    [_commentTextLabel setLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                         (NSString *)kCTForegroundColorAttributeName: (__bridge id)tLinkColor.CGColor}];
+    [_commentTextLabel setActiveLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                               (NSString *)kCTForegroundColorAttributeName: (__bridge id)tActiveLinkColor.CGColor}];
     [self.contentView addSubview:_commentTextLabel];
 }
 
@@ -120,7 +130,15 @@
     }
     
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
-    [_commentTextLabel setText:_comment.text? [NSString markedText:_comment.text fontSize:[Utils fontSizeForComment] fontColor:[UIColor customGray]]: @""];
+    NSRegularExpression *regex = HotwordRegularExpression();
+
+    if (_comment.text) {
+        [_commentTextLabel setText:_comment.text];
+        NSArray *tweetLinkRanges = [regex matchesInString:_comment.text options:0 range:NSMakeRange(0, _comment.text.length)];
+        for (NSTextCheckingResult *result in tweetLinkRanges) {
+            [_commentTextLabel addLinkWithTextCheckingResult:result];
+        }
+    }
 }
 
 -(void)loadCommentLayout
@@ -138,13 +156,6 @@
 -(void)avatarViewTapped
 {
     [self.delegate commentTableViewCell:self didTapAvatarView:_avatarView];
-}
-
-#pragma mark - STTweetLabelBlockCallbacks support
-
--(void)didTapHotword:(NSString *)hotword
-{
-    [self.delegate commentTableViewCell:self didTapHotword:hotword];
 }
 
 @end

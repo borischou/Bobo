@@ -14,7 +14,6 @@
 @protocol BBCommentTableViewCellDelegate <NSObject>
 
 -(void)commentTableViewCell:(BBCommentTableViewCell *)cell didTapAvatarView:(UIImageView *)avatarView;
--(void)commentTableViewCell:(BBCommentTableViewCell *)cell didTapHotword:(NSString *)hotword;
 
 @end
 
@@ -25,7 +24,6 @@
 @property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UILabel *nameLbl;
 @property (strong, nonatomic) UILabel *timeLbl;
-//@property (strong, nonatomic) STTweetLabel *commentTextLabel;
 @property (strong, nonatomic) TTTAttributedLabel *commentTextLabel;
 @property (strong, nonatomic) Comment *comment;
 

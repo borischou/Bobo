@@ -188,8 +188,10 @@
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"refresh"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [Utils presentNotificationWithText:@"更新失败"];
-        [_waterfallView.header endRefreshing];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [Utils presentNotificationWithText:@"更新失败"];
+            [_waterfallView.header endRefreshing];
+        });
     }];
 }
 
@@ -199,8 +201,10 @@
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [Utils presentNotificationWithText:@"更新失败"];
-        [_waterfallView.footer endRefreshing];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [Utils presentNotificationWithText:@"访问失败"];
+            [_waterfallView.footer endRefreshing];
+        });
     }];
 }
 

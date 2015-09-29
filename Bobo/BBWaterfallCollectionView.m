@@ -34,9 +34,19 @@
 
 static NSString *reuseCellId = @"reuseCell";
 
-@interface BBWaterfallCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout, BBWaterfallCollectionViewCellDelegate>
+@interface BBWaterfallCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout, BBWaterfallCollectionViewCellDelegate, TTTAttributedLabelDelegate>
 
 @end
+
+static inline NSRegularExpression * HotwordRegularExpression() {
+    static NSRegularExpression *_hotwordRegularExpression = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _hotwordRegularExpression = [[NSRegularExpression alloc] initWithPattern:@"(@([\\w-]+[\\w-]*))|((https?://([\\w]+).([\\w]+))+/[\\w]+)|(#[^#]+#)" options:NSRegularExpressionCaseInsensitive error:nil];
+    });
+    
+    return _hotwordRegularExpression;
+}
 
 @implementation BBWaterfallCollectionView
 
@@ -82,6 +92,8 @@ static NSString *reuseCellId = @"reuseCell";
         Status *status = [_statuses objectAtIndex:indexPath.item];
         cell.status = status;
         cell.delegate = self;
+        cell.tweetTextLabel.delegate = self;
+        cell.retweetTextLabel.delegate = self;
         [self loadDataWithStatus:status cell:cell];
         if (cell.frame.size.height != status.heightForWaterfall) {
             [self loadLayoutWithStatus:status cell:cell];
@@ -123,15 +135,27 @@ static NSString *reuseCellId = @"reuseCell";
 
 -(void)loadDataWithStatus:(Status *)status cell:(BBWaterfallCollectionViewCell *)cell
 {
-    CGFloat fontSize = [Utils fontSizeForStatus];
+    NSRegularExpression *regex = HotwordRegularExpression();
+    
     cell.timeLabel.text = [Utils formatPostTime:status.created_at];
     cell.retweetNumLabel.text = [NSString stringWithFormat:@"%ld", status.reposts_count];
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", status.comments_count];
     cell.nameLabel.text = status.user.screen_name;
-    [cell.tweetTextLabel setText:status.text? [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] fontSize:fontSize fontColor:[UIColor customGray]]: @""];
+    if (status.text) {
+        [cell.tweetTextLabel setText:status.text];
+        NSArray *tweetLinkRanges = [regex matchesInString:status.text options:0 range:NSMakeRange(0, status.text.length)];
+        for (NSTextCheckingResult *result in tweetLinkRanges) {
+            [cell.tweetTextLabel addLinkWithTextCheckingResult:result];
+        }
+    }
+    
     if (status.retweeted_status) {
         [cell.retweetNameLabel setText:status.retweeted_status.user.screen_name];
-        [cell.retweetTextLabel setText:status.retweeted_status.text? [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] fontSize:fontSize fontColor:[UIColor lightTextColor]]: @""];
+        [cell.retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text]];
+        NSArray *retweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] length])];
+        for (NSTextCheckingResult *result in retweetLinkRanges) {
+            [cell.retweetTextLabel addLinkWithTextCheckingResult:result];
+        }
     }
 }
 
@@ -239,9 +263,30 @@ static NSString *reuseCellId = @"reuseCell";
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:0];
 }
 
--(void)collectionViewCell:(BBWaterfallCollectionViewCell *)cell didTapHotword:(NSString *)hotword
+-(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
 {
-    NSLog(@"点击%@", hotword);
+    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
+    [self.window addSubview:browserView];
+}
+
+#pragma mark - TTTAttributedLabelDelegate & support
+
+-(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result
+{
+    NSLog(@"pressed: %@", [label.text substringWithRange:result.range]);
+    [self presentDetailViewWithHotword:[label.text substringWithRange:result.range]];
+}
+
+-(void)attributedLabel:(TTTAttributedLabel *)label didLongPressLinkWithTextCheckingResult:(NSTextCheckingResult *)result atPoint:(CGPoint)point
+{
+    NSLog(@"long pressed: %@", [label.text substringWithRange:result.range]);
+    [self presentDetailViewWithHotword:[label.text substringWithRange:result.range]];
+}
+
+-(void)presentDetailViewWithHotword:(NSString *)hotword
+{
+    BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)self.nextResponder;
+    
     if ([hotword hasPrefix:@"@"]) {
         NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
         [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
@@ -255,36 +300,31 @@ static NSString *reuseCellId = @"reuseCell";
              User *user = status.user;
              
              BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-             BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)self.nextResponder;
+             [Utils setupNavigationController:wsvc.navigationController withUIViewController:profiletvc];
              profiletvc.uid = user.idstr;
              profiletvc.statuses = statuses;
              profiletvc.user = user;
              profiletvc.shouldNavBtnShown = NO;
              profiletvc.title = @"Profile";
              profiletvc.hidesBottomBarWhenPushed = YES;
-             [Utils setupNavigationController:wsvc.navigationController withUIViewController:profiletvc];
              [wsvc.navigationController pushViewController:profiletvc animated:YES];
          }
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [Utils presentNotificationWithText:@"访问失败"];
+             });
          }];
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)self.nextResponder;
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
         [wsvc.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题
     }
-}
-
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    [self.window addSubview:browserView];
 }
 
 @end

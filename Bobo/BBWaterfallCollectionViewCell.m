@@ -30,6 +30,9 @@
 #define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 #define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 
+#define tLinkColor [UIColor colorWithRed:106.f/255 green:90.f/255 blue:205.f/255 alpha:1.f]
+#define tActiveLinkColor [UIColor colorWithRed:0.f/255 green:205.f/255 blue:102.f/255 alpha:1.f]
+
 @interface BBWaterfallCollectionViewCell ()
 
 @end
@@ -63,20 +66,17 @@
     _avatarView.clipsToBounds = YES;
     [self.contentView addSubview:_avatarView];
     
-    __weak BBWaterfallCollectionViewCell *weakSelf = self;
     CGFloat fontSize = [Utils fontSizeForWaterfall];
     _tweetTextLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     [_tweetTextLabel setNumberOfLines:0];
     [_tweetTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    [_tweetTextLabel setBackgroundColor:[UIColor clearColor]];
-//    [_tweetTextLabel setTextSelectable:NO];
-//    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
-//    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
-//    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
-//    [_tweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
-//        //callback
-//        [weakSelf didTapHotword:string];
-//    }];
+    [_tweetTextLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    [_tweetTextLabel setTextColor:[UIColor customGray]];
+    [_tweetTextLabel setLineSpacing:2.0];
+    [_tweetTextLabel setLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                         (NSString *)kCTForegroundColorAttributeName: (__bridge id)tLinkColor.CGColor}];
+    [_tweetTextLabel setActiveLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                               (NSString *)kCTForegroundColorAttributeName: (__bridge id)tActiveLinkColor.CGColor}];
     [self.contentView addSubview:_tweetTextLabel];
     
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -103,17 +103,15 @@
     [self.contentView addSubview:_retweetNameLabel];
     
     _retweetTextLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-    _retweetTextLabel.numberOfLines = 0;
-    _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _retweetTextLabel.backgroundColor = [UIColor clearColor];
-//    [_retweetTextLabel setTextSelectable:NO];
-//    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor lightTextColor]]];
-//    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
-//    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
-//    [_retweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
-//        //callback
-//        [weakSelf didTapHotword:string];
-//    }];
+    [_retweetTextLabel setNumberOfLines:0];
+    [_retweetTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [_retweetTextLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    [_retweetTextLabel setTextColor:[UIColor lightTextColor]];
+    [_retweetTextLabel setLineSpacing:2.0];
+    [_retweetTextLabel setLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                           (NSString *)kCTForegroundColorAttributeName: (__bridge id)tLinkColor.CGColor}];
+    [_retweetTextLabel setActiveLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                                 (NSString *)kCTForegroundColorAttributeName: (__bridge id)tActiveLinkColor.CGColor}];
     [self.contentView addSubview:_retweetTextLabel];
     
     _retweetIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -139,13 +137,6 @@
     [_coverImageView setFrame:CGRectZero];
     [_retweetTextLabel setFrame:CGRectZero];
     [_mask removeFromSuperview];
-}
-
-#pragma mark - STTweetLabelBlockCallbacks support
-
--(void)didTapHotword:(NSString *)hotword
-{
-    [self.delegate collectionViewCell:self didTapHotword:hotword];
 }
 
 @end

@@ -36,7 +36,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBFavoritesTableViewController () <BBStatusTableViewCellDelegate>
+@interface BBFavoritesTableViewController () <BBStatusTableViewCellDelegate, TTTAttributedLabelDelegate>
 {
     int _page;
 }
@@ -134,9 +134,12 @@
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error]];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"favoristes error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
-        [Utils presentNotificationWithText:@"更新失败"];
-        [self.tableView.header endRefreshing];
-        [self.tableView.footer endRefreshing];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [Utils presentNotificationWithText:@"更新失败"];
+            [self.tableView.header endRefreshing];
+            [self.tableView.footer endRefreshing];
+        });
+        
     }];
 }
 
@@ -224,6 +227,8 @@
             Status *status = [self.statuses objectAtIndex:indexPath.section];
             cell.status = status;
             cell.delegate = self;
+            cell.tweetTextLabel.delegate = self;
+            cell.retweetTextLabel.delegate = self;
         }
     }
     return cell;
@@ -268,7 +273,9 @@
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
-         [Utils presentNotificationWithText:@"访问失败"];
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [Utils presentNotificationWithText:@"访问失败"];
+         });
      }];
 }
 
@@ -294,10 +301,15 @@
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"删除成功"];
+                });
             }
             else {
                 NSLog(@"收藏删除失败: %@", error);
-                [Utils presentNotificationWithText:@"删除失败"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"删除失败"];
+                });
             }
         }];
     }
@@ -309,10 +321,15 @@
             if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:YES];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"收藏成功"];
+                });
             }
             else {
                 NSLog(@"收藏失败: %@", error);
-                [Utils presentNotificationWithText:@"删除失败"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"收藏失败"];
+                });
             }
         }];
     }
@@ -359,9 +376,29 @@
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
 
--(void)tableViewCell:(BBStatusTableViewCell *)cell didTapHotword:(NSString *)hotword
+-(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
 {
-    NSLog(@"点击%@", hotword);
+    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:browserView];
+}
+
+#pragma mark - TTTAttributedLabelDelegate & support
+
+-(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result
+{
+    NSLog(@"pressed: %@", [label.text substringWithRange:result.range]);
+    [self presentDetailViewWithHotword:[label.text substringWithRange:result.range]];
+}
+
+-(void)attributedLabel:(TTTAttributedLabel *)label didLongPressLinkWithTextCheckingResult:(NSTextCheckingResult *)result atPoint:(CGPoint)point
+{
+    NSLog(@"long pressed: %@", [label.text substringWithRange:result.range]);
+    [self presentDetailViewWithHotword:[label.text substringWithRange:result.range]];
+}
+
+-(void)presentDetailViewWithHotword:(NSString *)hotword
+{
     if ([hotword hasPrefix:@"@"]) {
         NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
         [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
@@ -387,7 +424,9 @@
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
-             [Utils presentNotificationWithText:@"访问失败"];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [Utils presentNotificationWithText:@"访问失败"];
+             });
          }];
     }
     if ([hotword hasPrefix:@"http"]) {
@@ -398,13 +437,6 @@
     if ([hotword hasPrefix:@"#"]) {
         //热门话题
     }
-}
-
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
-{
-    BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
-    AppDelegate *delegate = [AppDelegate delegate];
-    [delegate.window addSubview:browserView];
 }
 
 @end

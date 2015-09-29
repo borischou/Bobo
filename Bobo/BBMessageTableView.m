@@ -23,7 +23,7 @@
 
 static NSString *messageCell = @"messageCell";
 
-@interface BBMessageTableView () <UITableViewDataSource, UITableViewDelegate, BBMessageTableViewCellDelegate>
+@interface BBMessageTableView () <UITableViewDataSource, UITableViewDelegate, BBMessageTableViewCellDelegate, TTTAttributedLabelDelegate>
 
 @end
 
@@ -62,6 +62,8 @@ static NSString *messageCell = @"messageCell";
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         cell.comment = comment;
         cell.delegate = self;
+        cell.tweetTextLabel.delegate = self;
+        cell.retweetTextLabel.delegate = self;
     }
     return cell;
 }
@@ -146,6 +148,62 @@ static NSString *messageCell = @"messageCell";
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
              NSLog(@"error %@", error);
+         }];
+    }
+    if ([hotword hasPrefix:@"http"]) {
+        //打开webview
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        [mvc.navigationController presentViewController:sfvc animated:YES completion:^{}];
+    }
+    if ([hotword hasPrefix:@"#"]) {
+        //热门话题
+    }
+}
+
+#pragma mark - TTTAttributedLabelDelegate & support
+
+-(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result
+{
+    NSLog(@"pressed: %@", [label.text substringWithRange:result.range]);
+    [self presentDetailViewWithHotword:[label.text substringWithRange:result.range]];
+}
+
+-(void)attributedLabel:(TTTAttributedLabel *)label didLongPressLinkWithTextCheckingResult:(NSTextCheckingResult *)result atPoint:(CGPoint)point
+{
+    NSLog(@"long pressed: %@", [label.text substringWithRange:result.range]);
+    [self presentDetailViewWithHotword:[label.text substringWithRange:result.range]];
+}
+
+-(void)presentDetailViewWithHotword:(NSString *)hotword
+{
+    BBMessageViewController *mvc = (BBMessageViewController *)self.nextResponder.nextResponder.nextResponder;
+    
+    if ([hotword hasPrefix:@"@"]) {
+        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
+        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                          URL:@"statuses/user_timeline.json"
+                          SLRequestHTTPMethod:SLRequestMethodGET
+                                   parameters:params
+                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             NSMutableArray *statuses = [Utils statusesWith:responseObject];
+             Status *status = statuses.firstObject;
+             User *user = status.user;
+             
+             BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+             [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
+             profiletvc.uid = user.idstr;
+             profiletvc.statuses = statuses;
+             profiletvc.user = user;
+             profiletvc.shouldNavBtnShown = NO;
+             profiletvc.title = @"Profile";
+             profiletvc.hidesBottomBarWhenPushed = YES;
+             [mvc.navigationController pushViewController:profiletvc animated:YES];
+         }
+                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             NSLog(@"error %@", error);
+             [Utils presentNotificationWithText:@"访问失败"];
          }];
     }
     if ([hotword hasPrefix:@"http"]) {

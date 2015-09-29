@@ -14,7 +14,6 @@
 @protocol BBStatusTableViewCellDelegate <NSObject>
 
 @optional
--(void)tableViewCell:(BBStatusTableViewCell *)cell didTapHotword:(NSString *)hotword;
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetIcon:(UIImageView *)retweetIcon;
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon;
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapAttitudeIcon:(UIImageView *)attitudeIcon;

@@ -60,6 +60,9 @@
 #define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 #define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 
+#define tLinkColor [UIColor colorWithRed:106.f/255 green:90.f/255 blue:205.f/255 alpha:1.f]
+#define tActiveLinkColor [UIColor colorWithRed:0.f/255 green:205.f/255 blue:102.f/255 alpha:1.f]
+
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 @interface BBStatusTableViewCell ()
@@ -168,6 +171,10 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     [_tweetTextLabel setFont:[UIFont systemFontOfSize:fontSize]];
     [_tweetTextLabel setTextColor:[UIColor customGray]];
     [_tweetTextLabel setLineSpacing:2.0];
+    [_tweetTextLabel setLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                         (NSString *)kCTForegroundColorAttributeName: (__bridge id)tLinkColor.CGColor}];
+    [_tweetTextLabel setActiveLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                               (NSString *)kCTForegroundColorAttributeName: (__bridge id)tActiveLinkColor.CGColor}];
     [self.contentView addSubview:_tweetTextLabel];
     
     //img views for status
@@ -196,6 +203,10 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     [_retweetTextLabel setFont:[UIFont systemFontOfSize:fontSize]];
     [_retweetTextLabel setTextColor:[UIColor lightTextColor]];
     [_retweetTextLabel setLineSpacing:2.0];
+    [_retweetTextLabel setLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                         (NSString *)kCTForegroundColorAttributeName: (__bridge id)tLinkColor.CGColor}];
+    [_retweetTextLabel setActiveLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                               (NSString *)kCTForegroundColorAttributeName: (__bridge id)tActiveLinkColor.CGColor}];
     [_repostView addSubview:_retweetTextLabel];
     
     //img views for retweeted_status
@@ -359,10 +370,6 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     //repost status
     if (_status.retweeted_status.text) {
         [_retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text]];
-        NSArray *tweetLinkRanges = [regex matchesInString:_status.text options:0 range:NSMakeRange(0, _status.text.length)];
-        for (NSTextCheckingResult *result in tweetLinkRanges) {
-            [_tweetTextLabel addLinkToURL:nil withRange:result.range];
-        }
         NSArray *retweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] length])];
         for (NSTextCheckingResult *result in retweetLinkRanges) {
             [_retweetTextLabel addLinkWithTextCheckingResult:result];

@@ -14,7 +14,6 @@
 @protocol BBWaterfallCollectionViewCellDelegate <NSObject>
 
 -(void)collectionViewCell:(BBWaterfallCollectionViewCell *)cell didTapCoverpicture:(UIImageView *)coverpicture;
--(void)collectionViewCell:(BBWaterfallCollectionViewCell *)cell didTapHotword:(NSString *)hotword;
 
 @end
 
