@@ -342,7 +342,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [_tweetTextLabel setText:_status.text];
         NSArray *tweetLinkRanges = [regex matchesInString:_status.text options:0 range:NSMakeRange(0, _status.text.length)];
         for (NSTextCheckingResult *result in tweetLinkRanges) {
-            [_tweetTextLabel addLinkToURL:nil withRange:result.range];
+            [_tweetTextLabel addLinkWithTextCheckingResult:result];
         }
     }
     
@@ -365,7 +365,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         }
         NSArray *retweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] length])];
         for (NSTextCheckingResult *result in retweetLinkRanges) {
-            [_retweetTextLabel addLinkToURL:nil withRange:result.range];
+            [_retweetTextLabel addLinkWithTextCheckingResult:result];
         }
     }
     
@@ -412,17 +412,14 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     [_sourceLbl setFrame:CGRectMake(10+bAvatarWidth+10+timeSize.width+10, 10+5+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
     
     //微博正文
-    //CGSize postSize = [_tweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
     CGSize postSize = [_tweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
     [_tweetTextLabel setFrame:CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height)];
     
     _repostView.hidden = YES;
     if (_status.retweeted_status) {
-        
         //转发微博
         _repostView.hidden = NO;
         [self resetImageViews:_statusImgViews];
-        //CGSize repostSize = [_retweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
         CGSize repostSize = [_retweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
         [_retweetTextLabel setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
         [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
@@ -464,12 +461,5 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [views[i] setFrame:CGRectZero];
     }
 }
-
-//#pragma mark - STTweetLabelBlockCallbacks support
-//
-//-(void)didTapHotword:(NSString *)hotword
-//{
-//    [self.delegate tableViewCell:self didTapHotword:hotword];
-//}
 
 @end
