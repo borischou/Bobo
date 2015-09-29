@@ -58,9 +58,15 @@
     NSInteger pickedNum = _photoPickerCollectionView.pickedOnes.count;
     for (int i = 0; i < pickedNum; i ++) {
         PHAsset *asset = _photoPickerCollectionView.pickedOnes[i];
-        CGSize targetSize = CGSizeMake(asset.pixelWidth*0.5, asset.pixelHeight*0.5);
-        [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
-            [images addObject:result];
+        //CGSize targetSize = CGSizeMake(asset.pixelWidth*0.5, asset.pixelHeight*0.5);
+        //[manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+            //[images addObject:result];
+            //if (i == pickedNum-1) {
+                //[self.delegate didFetchedPickedPhotos:images];
+            //}
+        //}];
+        [manager requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+            [images addObject:imageData];
             if (i == pickedNum-1) {
                 [self.delegate didFetchedPickedPhotos:images];
             }
