@@ -142,8 +142,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", status.comments_count];
     cell.nameLabel.text = status.user.screen_name;
     if (status.text) {
-        [cell.tweetTextLabel setText:status.text];
-        NSArray *tweetLinkRanges = [regex matchesInString:status.text options:0 range:NSMakeRange(0, status.text.length)];
+        [cell.tweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text]];
+        NSArray *tweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] length])];
         for (NSTextCheckingResult *result in tweetLinkRanges) {
             [cell.tweetTextLabel addLinkWithTextCheckingResult:result];
         }
