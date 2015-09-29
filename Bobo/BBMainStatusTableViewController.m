@@ -10,6 +10,7 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import <SafariServices/SafariServices.h>
+#import <TTTAttributedLabel.h>
 #import "SWRevealViewController.h"
 #import "Utils.h"
 #import "BBMainStatusTableViewController.h"
@@ -42,7 +43,7 @@
 static NSString *reuseIdentifier = @"reuseCell";
 static NSString *reuseBarCellId = @"barCell";
 
-@interface BBMainStatusTableViewController () <BBStatusTableViewCellDelegate>
+@interface BBMainStatusTableViewController () <BBStatusTableViewCellDelegate, TTTAttributedLabelDelegate>
 
 @property (copy, nonatomic) NSString *max_id;
 @property (copy, nonatomic) NSString *since_id;
@@ -240,6 +241,8 @@ static NSString *reuseBarCellId = @"barCell";
     if ([_statuses count]) {
         Status *status = [self.statuses objectAtIndex:indexPath.section];
         cell.status = status;
+        cell.tweetTextLabel.delegate = self;
+        cell.retweetTextLabel.delegate = self;
         cell.delegate = self;
     }
     return cell;
@@ -435,6 +438,16 @@ static NSString *reuseBarCellId = @"barCell";
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:browserView];
+}
+
+#pragma mark - TTTAttributedLabelDelegate
+
+- (void)attributedLabel:(__unused TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    NSLog(@"ttt pressed");
+}
+
+- (void)attributedLabel:(__unused TTTAttributedLabel *)label didLongPressLinkWithURL:(__unused NSURL *)url atPoint:(__unused CGPoint)point {
+    NSLog(@"long pressed");
 }
 
 @end

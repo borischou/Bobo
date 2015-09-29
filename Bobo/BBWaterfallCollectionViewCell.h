@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <TTTAttributedLabel.h>
 #import "Status.h"
-#import "STTweetLabel.h"
 
 @class BBWaterfallCollectionViewCell;
 @protocol BBWaterfallCollectionViewCellDelegate <NSObject>
@@ -30,14 +30,16 @@
 @property (strong, nonatomic) UIImageView *coverImageView;
 
 //博主微博信息
-@property (strong, nonatomic) STTweetLabel *tweetTextLabel;
+//@property (strong, nonatomic) STTweetLabel *tweetTextLabel;
+@property (strong, nonatomic) TTTAttributedLabel *tweetTextLabel;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UILabel *retweetNumLabel;
 @property (strong, nonatomic) UILabel *commentNumLabel;
 
 //转发微博信息
-@property (strong, nonatomic) STTweetLabel *retweetTextLabel;
+//@property (strong, nonatomic) STTweetLabel *retweetTextLabel;
+@property (strong, nonatomic) TTTAttributedLabel *retweetTextLabel;
 @property (strong, nonatomic) UILabel *retweetNameLabel;
 @property (strong, nonatomic) UIImageView *retweetIcon;
 @property (strong, nonatomic) UIImageView *commentIcon;

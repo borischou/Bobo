@@ -65,7 +65,7 @@
 @interface BBStatusTableViewCell ()
 
 //status
-@property (strong, nonatomic) STTweetLabel *tweetTextLabel;
+//@property (strong, nonatomic) STTweetLabel *tweetTextLabel;
 @property (strong, nonatomic) UILabel *nicknameLbl;
 @property (strong, nonatomic) UILabel *postTimeLbl;
 @property (strong, nonatomic) UILabel *sourceLbl;
@@ -75,7 +75,7 @@
 
 //repost status
 @property (strong, nonatomic) UIView *repostView;
-@property (strong, nonatomic) STTweetLabel *retweetTextLabel;
+//@property (strong, nonatomic) STTweetLabel *retweetTextLabel;
 @property (strong, nonatomic) NSMutableArray *imgViews;
 
 //barbuttons
@@ -89,6 +89,16 @@
 @property (strong, nonatomic) UILabel *likeCountLabel;
 
 @end
+
+static inline NSRegularExpression * HotwordRegularExpression() {
+    static NSRegularExpression *_hotwordRegularExpression = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _hotwordRegularExpression = [[NSRegularExpression alloc] initWithPattern:@"(@([\\w-]+[\\w-]*))|((https?://([\\w]+).([\\w]+))+/[\\w]+)|(#[^#]+#)" options:NSRegularExpressionCaseInsensitive error:nil];
+    });
+    
+    return _hotwordRegularExpression;
+}
 
 @implementation BBStatusTableViewCell
 
@@ -150,21 +160,14 @@
     [_sourceLbl setFont:[UIFont systemFontOfSize:10.f]];
     [self.contentView addSubview:_sourceLbl];
     
-    __weak BBStatusTableViewCell *weakSelf = self;
     CGFloat fontSize = [Utils fontSizeForStatus];
     //text
-    _tweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
+    _tweetTextLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     [_tweetTextLabel setNumberOfLines:0];
     [_tweetTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    [_tweetTextLabel setBackgroundColor:[UIColor clearColor]];
-    [_tweetTextLabel setTextSelectable:NO];
-    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
-    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
-    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
-    [_tweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
-        //callback
-        [weakSelf didTapHotword:string];
-    }];
+    [_tweetTextLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    [_tweetTextLabel setTextColor:[UIColor customGray]];
+    [_tweetTextLabel setLineSpacing:2.0];
     [self.contentView addSubview:_tweetTextLabel];
     
     //img views for status
@@ -187,18 +190,12 @@
     _repostView.backgroundColor = bRetweetBGColor;
     
     //repost text
-    _retweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
-    _retweetTextLabel.numberOfLines = 0;
-    _retweetTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _retweetTextLabel.backgroundColor = [UIColor clearColor];
-    [_retweetTextLabel setTextSelectable:NO];
-    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor lightTextColor]]];
-    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
-    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
-    [_retweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
-        //callback
-        [weakSelf didTapHotword:string];
-    }];
+    _retweetTextLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    [_retweetTextLabel setNumberOfLines:0];
+    [_retweetTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [_retweetTextLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    [_retweetTextLabel setTextColor:[UIColor lightTextColor]];
+    [_retweetTextLabel setLineSpacing:2.0];
     [_repostView addSubview:_retweetTextLabel];
     
     //img views for retweeted_status
@@ -322,6 +319,8 @@
 
 -(void)setStatusData
 {
+    NSRegularExpression *regex = HotwordRegularExpression();
+    
     //status
     [_avatarView sd_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
     
@@ -338,7 +337,14 @@
     
     _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
     _sourceLbl.text = [NSString trim:_status.source];
-    [_tweetTextLabel setText:_status.text];
+
+    if (_status.text) {
+        [_tweetTextLabel setText:_status.text];
+        NSArray *tweetLinkRanges = [regex matchesInString:_status.text options:0 range:NSMakeRange(0, _status.text.length)];
+        for (NSTextCheckingResult *result in tweetLinkRanges) {
+            [_tweetTextLabel addLinkToURL:nil withRange:result.range];
+        }
+    }
     
     if (_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.pic_urls count]; i ++) {
@@ -351,7 +357,17 @@
     }
     
     //repost status
-    [_retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text]];
+    if (_status.retweeted_status.text) {
+        [_retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text]];
+        NSArray *tweetLinkRanges = [regex matchesInString:_status.text options:0 range:NSMakeRange(0, _status.text.length)];
+        for (NSTextCheckingResult *result in tweetLinkRanges) {
+            [_tweetTextLabel addLinkToURL:nil withRange:result.range];
+        }
+        NSArray *retweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] length])];
+        for (NSTextCheckingResult *result in retweetLinkRanges) {
+            [_retweetTextLabel addLinkToURL:nil withRange:result.range];
+        }
+    }
     
     if (_status.retweeted_status.pic_urls.count > 0) {
         for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {
@@ -396,7 +412,8 @@
     [_sourceLbl setFrame:CGRectMake(10+bAvatarWidth+10+timeSize.width+10, 10+5+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
     
     //微博正文
-    CGSize postSize = [_tweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
+    //CGSize postSize = [_tweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
+    CGSize postSize = [_tweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
     [_tweetTextLabel setFrame:CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height)];
     
     _repostView.hidden = YES;
@@ -405,7 +422,8 @@
         //转发微博
         _repostView.hidden = NO;
         [self resetImageViews:_statusImgViews];
-        CGSize repostSize = [_retweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
+        //CGSize repostSize = [_retweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
+        CGSize repostSize = [_retweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
         [_retweetTextLabel setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
         [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
         
@@ -447,11 +465,11 @@
     }
 }
 
-#pragma mark - STTweetLabelBlockCallbacks support
-
--(void)didTapHotword:(NSString *)hotword
-{
-    [self.delegate tableViewCell:self didTapHotword:hotword];
-}
+//#pragma mark - STTweetLabelBlockCallbacks support
+//
+//-(void)didTapHotword:(NSString *)hotword
+//{
+//    [self.delegate tableViewCell:self didTapHotword:hotword];
+//}
 
 @end

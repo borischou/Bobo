@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <TTTAttributedLabel.h>
 #import "Status.h"
-#import "STTweetLabel.h"
 
 @class BBStatusTableViewCell;
 @protocol BBStatusTableViewCellDelegate <NSObject>
@@ -29,6 +29,8 @@
 @interface BBStatusTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) Status *status;
+@property (strong, nonatomic) TTTAttributedLabel *retweetTextLabel;
+@property (strong, nonatomic) TTTAttributedLabel *tweetTextLabel;
 
 @property (weak, nonatomic) id <BBStatusTableViewCellDelegate> delegate;
 

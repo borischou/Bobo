@@ -8,11 +8,11 @@
 
 #import "BBMessageTableViewCell.h"
 #import <UIImageView+WebCache.h>
+#import <TTTAttributedLabel.h>
 #import "Utils.h"
 #import "AppDelegate.h"
 #import "NSString+Convert.h"
 #import "UIColor+Custom.h"
-#import "STTweetLabel.h"
 #import "BBMessageViewController.h"
 #import "BBProfileTableViewController.h"
 
@@ -42,7 +42,7 @@
 @interface BBMessageTableViewCell ()
 
 //status
-@property (strong, nonatomic) STTweetLabel *tweetTextLabel;
+@property (strong, nonatomic) TTTAttributedLabel *tweetTextLabel;
 @property (strong, nonatomic) UILabel *nicknameLbl;
 @property (strong, nonatomic) UILabel *postTimeLbl;
 @property (strong, nonatomic) UILabel *sourceLbl;
@@ -51,7 +51,7 @@
 
 //repost status
 @property (strong, nonatomic) UIView *repostView;
-@property (strong, nonatomic) STTweetLabel *retweetTextLabel;
+@property (strong, nonatomic) TTTAttributedLabel *retweetTextLabel;
 
 @end
 
@@ -123,21 +123,21 @@
     [_sourceLbl setFont:[UIFont systemFontOfSize:10.f]];
     [self.contentView addSubview:_sourceLbl];
     
-    __weak BBMessageTableViewCell *weakSelf = self;
-    CGFloat fontSize = [Utils fontSizeForStatus];
+    //__weak BBMessageTableViewCell *weakSelf = self;
+    //CGFloat fontSize = [Utils fontSizeForStatus];
     //text
-    _tweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
+    _tweetTextLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     [_tweetTextLabel setNumberOfLines:0];
     [_tweetTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
     [_tweetTextLabel setBackgroundColor:[UIColor clearColor]];
-    [_tweetTextLabel setTextSelectable:NO];
-    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
-    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
-    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
-    [_tweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
-        //callback
-        [weakSelf didTapHotword:string];
-    }];
+//    [_tweetTextLabel setTextSelectable:NO];
+//    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
+//    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
+//    [_tweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
+//    [_tweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
+//        //callback
+//        [weakSelf didTapHotword:string];
+//    }];
     [self.contentView addSubview:_tweetTextLabel];
     
     //retweet view
@@ -147,23 +147,25 @@
     [self.contentView addSubview:_repostView];
     
     //repost text
-    _retweetTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
+    _retweetTextLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     [_retweetTextLabel setNumberOfLines:0];
     [_retweetTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
     [_retweetTextLabel setBackgroundColor:[UIColor clearColor]];
-    [_retweetTextLabel setTextSelectable:NO];
-    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor lightTextColor]]];
-    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
-    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
-    [_retweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
-        //callback
-        [weakSelf didTapHotword:string];
-    }];
+//    [_retweetTextLabel setTextSelectable:NO];
+//    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor lightTextColor]]];
+//    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
+//    [_retweetTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
+//    [_retweetTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
+//        //callback
+//        [weakSelf didTapHotword:string];
+//    }];
     [_repostView addSubview:_retweetTextLabel];
 }
 
 -(void)loadData
 {
+    CGFloat fontSize = [Utils fontSizeForStatus];
+
     //status
     [_avatarView sd_setImageWithURL:[NSURL URLWithString:_comment.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
     
@@ -180,10 +182,10 @@
     
     _postTimeLbl.text = [Utils formatPostTime:_comment.created_at];
     _sourceLbl.text = [NSString trim:_comment.source];
-    [_tweetTextLabel setText:_comment.text];
+    [_tweetTextLabel setText:_comment.text? [NSString markedText:_comment.text fontSize:fontSize fontColor:[UIColor customGray]]: @""];
     
     //repost status
-    [_retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text]];
+    [_retweetTextLabel setText:_comment.status.text? [NSString markedText:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text] fontSize:fontSize fontColor:[UIColor lightTextColor]]: @""];
 }
 
 -(void)loadLayout
@@ -207,10 +209,10 @@
     [_sourceLbl setFrame:CGRectMake(10+bAvatarWidth+10+timeSize.width+10, 10+5+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
     
     //微博正文
-    CGSize postSize = [_tweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
+    CGSize postSize = [_tweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
     [_tweetTextLabel setFrame:CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height)];
     
-    CGSize repostSize = [_retweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:bWidth-2*bBigGap];
+    CGSize repostSize = [_retweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
     [_retweetTextLabel setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
     
     [_repostView setFrame:CGRectMake(0, bBigGap+bAvatarHeight+bBigGap+postSize.height+bBigGap, bWidth, repostSize.height+bSmallGap)];

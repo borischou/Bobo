@@ -82,19 +82,19 @@
     [self.contentView addSubview:_timeLbl];
     
     __weak BBCommentTableViewCell *weakSelf = self;
-    CGFloat fontSize = [Utils fontSizeForComment];
-    _commentTextLabel = [[STTweetLabel alloc] initWithFrame:CGRectZero];
+    //CGFloat fontSize = [Utils fontSizeForComment];
+    _commentTextLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     [_commentTextLabel setLineBreakMode:NSLineBreakByWordWrapping];
     [_commentTextLabel setNumberOfLines:0];
     [_commentTextLabel setBackgroundColor:[UIColor clearColor]];
-    [_commentTextLabel setTextSelectable:NO];
-    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
-    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
-    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
-    [_commentTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
-        //callback
-        [weakSelf didTapHotword:string];
-    }];
+//    [_commentTextLabel setTextSelectable:NO];
+//    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor customGray]]];
+//    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetLink];
+//    [_commentTextLabel setAttributes:[Utils genericAttributesWithFontSize:fontSize fontColor:[UIColor dodgerBlue]] hotWord:STTweetHashtag];
+//    [_commentTextLabel setDetectionBlock:^(STTweetHotWord hotword, NSString *string, NSString *protocol, NSRange range) {
+//        //callback
+//        [weakSelf didTapHotword:string];
+//    }];
     [self.contentView addSubview:_commentTextLabel];
 }
 
@@ -120,7 +120,7 @@
     }
     
     _timeLbl.text = [Utils formatPostTime:_comment.created_at];
-    [_commentTextLabel setText:_comment.text];
+    [_commentTextLabel setText:_comment.text? [NSString markedText:_comment.text fontSize:[Utils fontSizeForComment] fontColor:[UIColor customGray]]: @""];
 }
 
 -(void)loadCommentLayout
@@ -131,7 +131,7 @@
     CGSize timeSize = [_timeLbl sizeThatFits:CGSizeMake(MAXFLOAT, cNameHeight)];
     _timeLbl.frame = CGRectMake(cBigGap+2*cSmallGap+cAvatarWidth+_nameLbl.frame.size.width, cBigGap, timeSize.width, cNameHeight);
     
-    CGSize textSize = [_commentTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:cTextWidth];
+    CGSize textSize = [_commentTextLabel sizeThatFits:CGSizeMake(cTextWidth, MAXFLOAT)];
     [_commentTextLabel setFrame:CGRectMake(cBigGap+cSmallGap+cAvatarWidth, cBigGap+cNameHeight+cSmallGap, cTextWidth, textSize.height)];
 }
 

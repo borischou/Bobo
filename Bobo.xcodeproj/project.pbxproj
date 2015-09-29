@@ -68,7 +68,6 @@
 		457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */; };
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
-		457CE3191BA7E73D00D3926B /* STTweetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 457CE3181BA7E73D00D3926B /* STTweetLabel.m */; };
 		457CE31B1BA812D200D3926B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457CE31A1BA812D200D3926B /* Social.framework */; };
 		457CE31D1BA812E600D3926B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457CE31C1BA812E600D3926B /* Accounts.framework */; };
 		458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 458393521B7B4B98005B1766 /* BBUpdateStatusView.m */; };
@@ -205,8 +204,6 @@
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_holder_profile_image@3x.png"; sourceTree = "<group>"; };
 		457C9E3A1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
 		457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
-		457CE3171BA7E73D00D3926B /* STTweetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTweetLabel.h; sourceTree = "<group>"; };
-		457CE3181BA7E73D00D3926B /* STTweetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTweetLabel.m; sourceTree = "<group>"; };
 		457CE31A1BA812D200D3926B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		457CE31C1BA812E600D3926B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		458393511B7B4B98005B1766 /* BBUpdateStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUpdateStatusView.h; sourceTree = "<group>"; };
@@ -477,7 +474,6 @@
 		457C9E391B8F13C800932B37 /* Vender */ = {
 			isa = PBXGroup;
 			children = (
-				457CE3161BA7E72C00D3926B /* STTweetLabel */,
 				457CE3151BA7E72000D3926B /* CHTCollectionViewWaterfallLayout */,
 			);
 			name = Vender;
@@ -490,15 +486,6 @@
 				457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */,
 			);
 			name = CHTCollectionViewWaterfallLayout;
-			sourceTree = "<group>";
-		};
-		457CE3161BA7E72C00D3926B /* STTweetLabel */ = {
-			isa = PBXGroup;
-			children = (
-				457CE3171BA7E73D00D3926B /* STTweetLabel.h */,
-				457CE3181BA7E73D00D3926B /* STTweetLabel.m */,
-			);
-			name = STTweetLabel;
 			sourceTree = "<group>";
 		};
 		45A979041B6E512D00A8D472 /* SWRevealViewController */ = {
@@ -807,7 +794,6 @@
 				459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */,
 				45704DB01B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */,
-				457CE3191BA7E73D00D3926B /* STTweetLabel.m in Sources */,
 				454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */,
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,

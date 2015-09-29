@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 Zhouboli. All rights reserved.
 //
 
+#import <UIImageView+WebCache.h>
+#import <SafariServices/SafariServices.h>
+#import <MJRefresh/MJRefresh.h>
+
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "BBWaterfallCollectionView.h"
 #import "BBWaterfallCollectionViewCell.h"
@@ -15,11 +19,9 @@
 #import "BBImageBrowserView.h"
 #import "Utils.h"
 #import "AppDelegate.h"
-#import <UIImageView+WebCache.h>
-#import <SafariServices/SafariServices.h>
+
 #import "NSString+Convert.h"
 #import "UIColor+Custom.h"
-#import <MJRefresh/MJRefresh.h>
 
 #define wSmallGap 2
 #define wBottomItemHeight 15
@@ -121,14 +123,15 @@ static NSString *reuseCellId = @"reuseCell";
 
 -(void)loadDataWithStatus:(Status *)status cell:(BBWaterfallCollectionViewCell *)cell
 {
+    CGFloat fontSize = [Utils fontSizeForStatus];
     cell.timeLabel.text = [Utils formatPostTime:status.created_at];
     cell.retweetNumLabel.text = [NSString stringWithFormat:@"%ld", status.reposts_count];
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", status.comments_count];
     cell.nameLabel.text = status.user.screen_name;
-    [cell.tweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text]];
+    [cell.tweetTextLabel setText:status.text? [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] fontSize:fontSize fontColor:[UIColor customGray]]: @""];
     if (status.retweeted_status) {
         [cell.retweetNameLabel setText:status.retweeted_status.user.screen_name];
-        [cell.retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text]];
+        [cell.retweetTextLabel setText:status.retweeted_status.text? [NSString markedText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] fontSize:fontSize fontColor:[UIColor lightTextColor]]: @""];
     }
 }
 
@@ -136,8 +139,8 @@ static NSString *reuseCellId = @"reuseCell";
 {
     CGFloat imageHeight = [Utils maxHeightForWaterfallCoverPicture];
     CGFloat cellWidth = [Utils cellWidthForWaterfall];
-    CGSize textSize = [cell.tweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:cellWidth-2*wSmallGap];
-    CGSize rSize = [cell.retweetTextLabel suggestedFrameSizeToFitEntireStringConstrainedToWidth:cellWidth-2*wSmallGap];
+    CGSize textSize = [cell.tweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
+    CGSize rSize = [cell.retweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
   
     if (status.pic_urls.count > 0 || (status.retweeted_status && status.retweeted_status.pic_urls.count > 0)) {
         cell.coverImageView.hidden = NO;

@@ -65,7 +65,7 @@
 
 +(NSAttributedString *)markedText:(NSString *)text fontSize:(CGFloat)fontSize fontColor:(UIColor *)color
 {
-    NSString *pattern = @"(@([\\w-]+[\\w-]*))|((https?://((\\w)+).((\\w)+))+/(\\w)+)|(#[^#]+#)";
+    NSString *pattern = @"(@([\\w-]+[\\w-]*))|((https?://([\\w]+).([\\w]+))+/[\\w]+)|(#[^#]+#)";
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setLineSpacing:2.0];

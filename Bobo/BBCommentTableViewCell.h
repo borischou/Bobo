@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Comment.h"
-#import "STTweetLabel.h"
+#import <TTTAttributedLabel.h>
 
 @class BBCommentTableViewCell;
 @protocol BBCommentTableViewCellDelegate <NSObject>
@@ -25,7 +25,8 @@
 @property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UILabel *nameLbl;
 @property (strong, nonatomic) UILabel *timeLbl;
-@property (strong, nonatomic) STTweetLabel *commentTextLabel;
+//@property (strong, nonatomic) STTweetLabel *commentTextLabel;
+@property (strong, nonatomic) TTTAttributedLabel *commentTextLabel;
 @property (strong, nonatomic) Comment *comment;
 
 @end
