@@ -40,4 +40,9 @@
     return [UIColor colorWithRed:16.0/255 green:78.0/255 blue:139.0/255 alpha:1.0];
 }
 
++(UIColor *)seaGreen
+{
+    return [UIColor colorWithRed:46.0/255 green:139.0/255 blue:87.0/255 alpha:1.0];
+}
+
 @end

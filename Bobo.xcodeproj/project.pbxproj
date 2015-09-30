@@ -53,7 +53,6 @@
 		456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920401B74758B00E2C204 /* bb_collect_icon@3x.png */; };
 		456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920421B7478A800E2C204 /* iconfont-denglu.png */; };
 		456920451B7478A800E2C204 /* iconfont-logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920431B7478A800E2C204 /* iconfont-logout.png */; };
-		456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */; };
 		456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C0FDA1B31570C007B5CFB /* CoreText.framework */; };
 		456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C77E21B2A88110055FBE8 /* libz.dylib */; };
 		456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */; };
@@ -65,6 +64,8 @@
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
 		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
 		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
+		4579AA021BBB9F2E001A2927 /* group_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		4579AA051BBBA06B001A2927 /* BBGroupSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */; settings = {ASSET_TAGS = (); }; };
 		457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */; };
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
@@ -83,7 +84,6 @@
 		45A183E41BB9319B00FE9890 /* following_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E31BB9319B00FE9890 /* following_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 		45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E51BB931A800FE9890 /* follow_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 		45A183E81BB931BF00FE9890 /* friend_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E71BB931BF00FE9890 /* friend_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
-		45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A979021B6E512000A8D472 /* SWRevealViewController.m */; };
 		45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */; };
 		45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */; };
 		45C57B451B9FE97000FE040E /* barbutton_icon_post@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */; };
@@ -177,8 +177,6 @@
 		456920401B74758B00E2C204 /* bb_collect_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_collect_icon@3x.png"; sourceTree = "<group>"; };
 		456920421B7478A800E2C204 /* iconfont-denglu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-denglu.png"; sourceTree = "<group>"; };
 		456920431B7478A800E2C204 /* iconfont-logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-logout.png"; sourceTree = "<group>"; };
-		456A2F481B7985E0005AF4E0 /* BBFriendsGroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFriendsGroupTableViewController.h; sourceTree = "<group>"; };
-		456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFriendsGroupTableViewController.m; sourceTree = "<group>"; };
 		456C0FDA1B31570C007B5CFB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		456C77E21B2A88110055FBE8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		456C77E61B2AC5B90055FBE8 /* BBStatusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBStatusTableViewCell.h; sourceTree = "<group>"; };
@@ -199,6 +197,9 @@
 		457278831B53900D00AC0C9C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4572E1C11B3C59F900348866 /* BBImageBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBImageBrowserView.h; sourceTree = "<group>"; };
 		4572E1C21B3C59F900348866 /* BBImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBImageBrowserView.m; sourceTree = "<group>"; };
+		4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "group_tab_icon@3x.png"; sourceTree = "<group>"; };
+		4579AA031BBBA06B001A2927 /* BBGroupSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBGroupSelectView.h; sourceTree = "<group>"; };
+		4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBGroupSelectView.m; sourceTree = "<group>"; };
 		457C60E91B7301F500B10D53 /* BBProfileHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileHeaderView.h; sourceTree = "<group>"; };
 		457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileHeaderView.m; sourceTree = "<group>"; };
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_holder_profile_image@3x.png"; sourceTree = "<group>"; };
@@ -225,8 +226,6 @@
 		45A183E31BB9319B00FE9890 /* following_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "following_icon@3x.png"; sourceTree = "<group>"; };
 		45A183E51BB931A800FE9890 /* follow_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "follow_icon@3x.png"; sourceTree = "<group>"; };
 		45A183E71BB931BF00FE9890 /* friend_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "friend_icon@3x.png"; sourceTree = "<group>"; };
-		45A979011B6E512000A8D472 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
-		45A979021B6E512000A8D472 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		45BBDA581B902FA200BABEDD /* BBPhotoPickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBPhotoPickerCollectionView.h; sourceTree = "<group>"; };
 		45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBPhotoPickerCollectionView.m; sourceTree = "<group>"; };
 		45BEC7591B9EB62500001DAE /* BBMessageMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMessageMenuView.h; sourceTree = "<group>"; };
@@ -340,7 +339,6 @@
 			children = (
 				451441DD1B295CA9000532DD /* Images.xcassets */,
 				451441DF1B295CA9000532DD /* LaunchScreen.xib */,
-				45A979041B6E512D00A8D472 /* SWRevealViewController */,
 				451442221B296413000532DD /* syslib */,
 				451441D11B295CA9000532DD /* Info.plist */,
 				451441D21B295CA9000532DD /* main.m */,
@@ -396,6 +394,7 @@
 			isa = PBXGroup;
 			children = (
 				45A183E31BB9319B00FE9890 /* following_icon@3x.png */,
+				4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */,
 				45A183E71BB931BF00FE9890 /* friend_icon@3x.png */,
 				45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */,
 				45A183E51BB931A800FE9890 /* follow_icon@3x.png */,
@@ -440,14 +439,10 @@
 		456C77E51B2AC59B0055FBE8 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
-				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
+				4579AA031BBBA06B001A2927 /* BBGroupSelectView.h */,
+				4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
 				4572E1C21B3C59F900348866 /* BBImageBrowserView.m */,
-				456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */,
-				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
-				000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */,
-				000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */,
 				006E2F631B949FD2008AB6DF /* BBNotificationView.h */,
 				006E2F641B949FD2008AB6DF /* BBNotificationView.m */,
 				45D7D1F31BB3908D0034B659 /* BBLoadingView.h */,
@@ -488,21 +483,11 @@
 			name = CHTCollectionViewWaterfallLayout;
 			sourceTree = "<group>";
 		};
-		45A979041B6E512D00A8D472 /* SWRevealViewController */ = {
-			isa = PBXGroup;
-			children = (
-				45A979011B6E512000A8D472 /* SWRevealViewController.h */,
-				45A979021B6E512000A8D472 /* SWRevealViewController.m */,
-			);
-			name = SWRevealViewController;
-			sourceTree = "<group>";
-		};
 		45BEC74F1B9E773200001DAE /* Module */ = {
 			isa = PBXGroup;
 			children = (
 				451441D41B295CA9000532DD /* AppDelegate.h */,
 				451441D51B295CA9000532DD /* AppDelegate.m */,
-				45BEC7581B9E790000001DAE /* Sidemenu */,
 				45BEC7561B9E77D000001DAE /* Detail */,
 				45BEC7551B9E77AF00001DAE /* Post */,
 				45BEC7541B9E779E00001DAE /* Favorite */,
@@ -522,10 +507,10 @@
 				459232501B969A490006A123 /* BBMessageTableViewCell.m */,
 				4592324C1B969A3B0006A123 /* BBMessageTableView.h */,
 				4592324D1B969A3B0006A123 /* BBMessageTableView.m */,
-				459232491B969A170006A123 /* BBMessageViewController.h */,
-				4592324A1B969A170006A123 /* BBMessageViewController.m */,
 				45BEC7591B9EB62500001DAE /* BBMessageMenuView.h */,
 				45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */,
+				459232491B969A170006A123 /* BBMessageViewController.h */,
+				4592324A1B969A170006A123 /* BBMessageViewController.m */,
 			);
 			name = Message;
 			sourceTree = "<group>";
@@ -579,6 +564,10 @@
 		45BEC7551B9E77AF00001DAE /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */,
+				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
+				000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */,
+				000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */,
 				45704DAE1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.h */,
 				45704DAF1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m */,
 				45BBDA581B902FA200BABEDD /* BBPhotoPickerCollectionView.h */,
@@ -594,6 +583,8 @@
 		45BEC7561B9E77D000001DAE /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
+				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */,
 				4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */,
 				45688A111B85BB810015461E /* BBCommentBarView.h */,
@@ -612,15 +603,6 @@
 				457278831B53900D00AC0C9C /* Utils.m */,
 			);
 			name = Utility;
-			sourceTree = "<group>";
-		};
-		45BEC7581B9E790000001DAE /* Sidemenu */ = {
-			isa = PBXGroup;
-			children = (
-				456A2F481B7985E0005AF4E0 /* BBFriendsGroupTableViewController.h */,
-				456A2F491B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m */,
-			);
-			name = Sidemenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -731,6 +713,7 @@
 				456254D31B82E7E00009A332 /* cmt_icon@3x.png in Resources */,
 				456254D91B8305220009A332 /* faved_icon@3x.png in Resources */,
 				458B60E01B95A8E8005A1749 /* icon_vip.png in Resources */,
+				4579AA021BBB9F2E001A2927 /* group_tab_icon@3x.png in Resources */,
 				456254D51B82E7E00009A332 /* retwt_icon@3x.png in Resources */,
 				459232531B96BE530006A123 /* tab_icon_message@3x.png in Resources */,
 				456254DF1B8306910009A332 /* like_icon_2@3x.png in Resources */,
@@ -798,9 +781,9 @@
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,
 				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
-				45A979031B6E512000A8D472 /* SWRevealViewController.m in Sources */,
 				45688A101B85ABBF0015461E /* CUser.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
+				4579AA051BBBA06B001A2927 /* BBGroupSelectView.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,
 				4592324E1B969A3B0006A123 /* BBMessageTableView.m in Sources */,
 				00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */,
@@ -812,7 +795,6 @@
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
 				009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */,
 				00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */,
-				456A2F4A1B7985E0005AF4E0 /* BBFriendsGroupTableViewController.m in Sources */,
 				4592324B1B969A170006A123 /* BBMessageViewController.m in Sources */,
 				451442061B295E8B000532DD /* BBMainStatusTableViewController.m in Sources */,
 				457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */,

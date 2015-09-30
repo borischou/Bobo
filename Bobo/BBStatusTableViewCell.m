@@ -362,7 +362,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
             if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
                 [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
             } else {
-                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
+                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
             }
         }
     }
@@ -381,7 +381,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
             if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
                 [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
             } else {
-                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
+                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
             }
         }
     }

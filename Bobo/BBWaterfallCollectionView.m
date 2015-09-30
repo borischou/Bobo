@@ -221,7 +221,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     } else {
         sdUrl = [NSString middlePictureUrlConvertedFromThumbUrl:url];
     }
-    [cell.coverImageView sd_setImageWithURL:[NSURL URLWithString:sdUrl] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
+    [cell.coverImageView sd_setImageWithURL:[NSURL URLWithString:sdUrl] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
 }
 
 -(void)layoutBottomButtonsWithTop:(CGFloat)top forCell:(BBWaterfallCollectionViewCell *)cell
@@ -319,7 +319,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
         [wsvc.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {

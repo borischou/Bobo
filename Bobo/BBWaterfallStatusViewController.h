@@ -11,6 +11,8 @@
 
 @interface BBWaterfallStatusViewController : UIViewController
 
+@property (nonatomic) NSInteger groupNumber;
+
 -(void)fetchHistoryStatuses;
 
 @end

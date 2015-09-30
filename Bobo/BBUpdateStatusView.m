@@ -34,7 +34,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-static CGFloat imageQuality = 0.7;
+//static CGFloat imageQuality = 0.7;
 
 @interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BBPhotoSelectionCollectionViewControllerDelegate> {
     int _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
@@ -80,9 +80,7 @@ static CGFloat imageQuality = 0.7;
         
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _mask.alpha = 0.5;
-        } completion:^(BOOL finished) {
-            
-        }];
+        } completion:^(BOOL finished) {}];
     }
     
     _cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero andTitle:@"取消" withBackgroundColor:nil andTintColor:nil];
@@ -152,7 +150,11 @@ static CGFloat imageQuality = 0.7;
     
     if (_pickedOnes.count > 0) {
         [_imageView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight+uSmallGap, uImgWidth, uImgHeight)];
-        _imageView.image = [_pickedOnes firstObject];
+        
+        NSData *imageData = _pickedOnes.firstObject;
+        UIImage *image = [UIImage imageWithData:imageData];
+        [_imageView setImage:image];
+        //_imageView.image = [_pickedOnes firstObject];
     }
     
     if (!_mask) {
@@ -167,9 +169,7 @@ static CGFloat imageQuality = 0.7;
         
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _mask.alpha = 0.5;
-        } completion:^(BOOL finished) {
-            
-        }];
+        } completion:^(BOOL finished) {}];
     }
 }
 
@@ -213,19 +213,6 @@ static CGFloat imageQuality = 0.7;
         [_pickedOnes removeAllObjects];
     }
     [Utils presentNotificationWithText:text];
-//    BBNotificationView *notificationView = [[BBNotificationView alloc] initWithNotification:text];
-//    AppDelegate *delegate = [AppDelegate delegate];
-//    [delegate.window addSubview:notificationView];
-//    [delegate.window bringSubviewToFront:notificationView];
-//    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//        [notificationView setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
-//    } completion:^(BOOL finished) {
-//        [UIView animateWithDuration:0.2 delay:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//            [notificationView setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
-//        } completion:^(BOOL finished) {
-//            [notificationView removeFromSuperview];
-//        }];
-//    }];
 }
 
 -(void)refreshComments
@@ -241,8 +228,9 @@ static CGFloat imageQuality = 0.7;
         case 0: //发微博
             {
                 if (_pickedOnes.count > 0) { //有配图
-                    UIImage *firstImage = [_pickedOnes firstObject];
-                    NSData *imgData = UIImageJPEGRepresentation(firstImage, imageQuality);
+                    //UIImage *firstImage = [_pickedOnes firstObject];
+                    //NSData *imgData = UIImageJPEGRepresentation(firstImage, imageQuality);
+                    NSData *imgData = _pickedOnes.firstObject;
                     params = @{@"status": _statusTextView.text};
                     SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodPOST URL:[NSURL URLWithString:@"https://api.weibo.com/2/statuses/upload.json"] parameters:params];
                     [request setAccount:weiboAccount];

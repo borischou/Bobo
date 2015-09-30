@@ -9,7 +9,6 @@
 #import "BBFavoritesTableViewController.h"
 #import "BBStatusDetailViewController.h"
 #import "BBProfileTableViewController.h"
-#import "SWRevealViewController.h"
 #import "BBStatusTableViewCell.h"
 #import "BBButtonbarTableViewCell.h"
 #import "BBImageBrowserView.h"
@@ -60,31 +59,7 @@
     [self.tableView.header beginRefreshing];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self addSWRevealViewControllerGestureRecognizer];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self removeSWRevealControllerGestureRecognizer];
-}
-
 #pragma mark - Helpers
-
--(void)addSWRevealViewControllerGestureRecognizer
-{
-    [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
-
--(void)removeSWRevealControllerGestureRecognizer
-{
-    [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
 
 -(void)setMJRefresh
 {
@@ -431,7 +406,7 @@
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
         [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {

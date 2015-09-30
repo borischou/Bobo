@@ -10,4 +10,6 @@
 
 @interface BBMainStatusTableViewController : UITableViewController
 
+@property (nonatomic) NSInteger groupNumber;
+
 @end
