@@ -90,7 +90,6 @@
 -(void)accessWeiboSystemAccount
 {
     //获取系统账号数据库中的新浪微博账号数据
-    _weiboAccount = [Utils systemAccounts].firstObject;
     _uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     
     //若未授权则向用户申请授权
