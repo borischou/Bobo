@@ -33,6 +33,9 @@
         _comnt_id = [[dictionary objectForKey:@"id"] integerValue];
         _user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];
         _status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"status"]];
+        if (![dictionary[@"reply_comment"] isEqual:[NSNull null]]) {
+            _reply_comment = [[ReplyComment alloc] initWithDictionary:dictionary[@"reply_comment"]];
+        }
         
         CGFloat messageFontSize = [Utils fontSizeForStatus];
         CGFloat textHeight = [Utils heightForString:_text width:cTextWidth fontSize:[Utils fontSizeForComment]];

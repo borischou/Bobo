@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 #import "Status.h"
+#import "ReplyComment.h"
 
 @interface Comment : NSObject
 
@@ -20,8 +21,9 @@
 @property (nonatomic) NSInteger comnt_id;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) Status *status;
-@property (nonatomic) CGFloat height; //评论cell高度
+@property (strong, nonatomic) ReplyComment *reply_comment;
 
+@property (nonatomic) CGFloat height; //评论cell高度
 @property (nonatomic) CGFloat heightForMessageCell;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;

@@ -13,6 +13,7 @@
 		006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006E2F641B949FD2008AB6DF /* BBNotificationView.m */; };
 		0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
+		00D8AA081BBC1EB700EFE208 /* ReplyComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D8AA071BBC1EB700EFE208 /* ReplyComment.m */; settings = {ASSET_TAGS = (); }; };
 		00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */; };
 		00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */; };
 		00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */; };
@@ -116,6 +117,8 @@
 		007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comntbar_icon@3x.png"; sourceTree = "<group>"; };
 		009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBReplyCommentView.h; sourceTree = "<group>"; };
 		009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBReplyCommentView.m; sourceTree = "<group>"; };
+		00D8AA061BBC1EB700EFE208 /* ReplyComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyComment.h; sourceTree = "<group>"; };
+		00D8AA071BBC1EB700EFE208 /* ReplyComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyComment.m; sourceTree = "<group>"; };
 		00E63A0A1B8CC22500736E6A /* BBWaterfallStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallStatusViewController.h; sourceTree = "<group>"; };
 		00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallStatusViewController.m; sourceTree = "<group>"; };
 		00E63A0D1B8CC24A00736E6A /* BBWaterfallCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallCollectionView.h; sourceTree = "<group>"; };
@@ -462,6 +465,8 @@
 				4572787C1B53894F00AC0C9C /* User.m */,
 				4588F7311B3B9B5A00EE32D0 /* Counts.h */,
 				4588F7321B3B9B5A00EE32D0 /* Counts.m */,
+				00D8AA061BBC1EB700EFE208 /* ReplyComment.h */,
+				00D8AA071BBC1EB700EFE208 /* ReplyComment.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -807,6 +812,7 @@
 				004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */,
 				45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */,
 				00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */,
+				00D8AA081BBC1EB700EFE208 /* ReplyComment.m in Sources */,
 				006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
