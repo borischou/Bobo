@@ -64,6 +64,8 @@
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
 		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
 		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
+		4579AA021BBB9F2E001A2927 /* group_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		4579AA051BBBA06B001A2927 /* BBGroupSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */; settings = {ASSET_TAGS = (); }; };
 		457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */; };
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
@@ -195,6 +197,9 @@
 		457278831B53900D00AC0C9C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4572E1C11B3C59F900348866 /* BBImageBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBImageBrowserView.h; sourceTree = "<group>"; };
 		4572E1C21B3C59F900348866 /* BBImageBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBImageBrowserView.m; sourceTree = "<group>"; };
+		4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "group_tab_icon@3x.png"; sourceTree = "<group>"; };
+		4579AA031BBBA06B001A2927 /* BBGroupSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBGroupSelectView.h; sourceTree = "<group>"; };
+		4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBGroupSelectView.m; sourceTree = "<group>"; };
 		457C60E91B7301F500B10D53 /* BBProfileHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileHeaderView.h; sourceTree = "<group>"; };
 		457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileHeaderView.m; sourceTree = "<group>"; };
 		457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_holder_profile_image@3x.png"; sourceTree = "<group>"; };
@@ -389,6 +394,7 @@
 			isa = PBXGroup;
 			children = (
 				45A183E31BB9319B00FE9890 /* following_icon@3x.png */,
+				4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */,
 				45A183E71BB931BF00FE9890 /* friend_icon@3x.png */,
 				45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */,
 				45A183E51BB931A800FE9890 /* follow_icon@3x.png */,
@@ -433,14 +439,8 @@
 		456C77E51B2AC59B0055FBE8 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
-				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
 				4572E1C21B3C59F900348866 /* BBImageBrowserView.m */,
-				456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */,
-				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
-				000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */,
-				000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */,
 				006E2F631B949FD2008AB6DF /* BBNotificationView.h */,
 				006E2F641B949FD2008AB6DF /* BBNotificationView.m */,
 				45D7D1F31BB3908D0034B659 /* BBLoadingView.h */,
@@ -533,6 +533,8 @@
 				456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */,
 				451442041B295E8B000532DD /* BBMainStatusTableViewController.h */,
 				451442051B295E8B000532DD /* BBMainStatusTableViewController.m */,
+				4579AA031BBBA06B001A2927 /* BBGroupSelectView.h */,
+				4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */,
 			);
 			name = Homeline;
 			sourceTree = "<group>";
@@ -562,6 +564,10 @@
 		45BEC7551B9E77AF00001DAE /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				456DA1B31B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.h */,
+				456DA1B41B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m */,
+				000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */,
+				000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */,
 				45704DAE1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.h */,
 				45704DAF1B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m */,
 				45BBDA581B902FA200BABEDD /* BBPhotoPickerCollectionView.h */,
@@ -577,6 +583,8 @@
 		45BEC7561B9E77D000001DAE /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */,
+				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */,
 				4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */,
 				45688A111B85BB810015461E /* BBCommentBarView.h */,
@@ -705,6 +713,7 @@
 				456254D31B82E7E00009A332 /* cmt_icon@3x.png in Resources */,
 				456254D91B8305220009A332 /* faved_icon@3x.png in Resources */,
 				458B60E01B95A8E8005A1749 /* icon_vip.png in Resources */,
+				4579AA021BBB9F2E001A2927 /* group_tab_icon@3x.png in Resources */,
 				456254D51B82E7E00009A332 /* retwt_icon@3x.png in Resources */,
 				459232531B96BE530006A123 /* tab_icon_message@3x.png in Resources */,
 				456254DF1B8306910009A332 /* like_icon_2@3x.png in Resources */,
@@ -774,6 +783,7 @@
 				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
 				45688A101B85ABBF0015461E /* CUser.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
+				4579AA051BBBA06B001A2927 /* BBGroupSelectView.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,
 				4592324E1B969A3B0006A123 /* BBMessageTableView.m in Sources */,
 				00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */,

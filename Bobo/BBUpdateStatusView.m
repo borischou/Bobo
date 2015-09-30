@@ -80,9 +80,7 @@
         
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _mask.alpha = 0.5;
-        } completion:^(BOOL finished) {
-            
-        }];
+        } completion:^(BOOL finished) {}];
     }
     
     _cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero andTitle:@"取消" withBackgroundColor:nil andTintColor:nil];
@@ -171,9 +169,7 @@
         
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _mask.alpha = 0.5;
-        } completion:^(BOOL finished) {
-            
-        }];
+        } completion:^(BOOL finished) {}];
     }
 }
 

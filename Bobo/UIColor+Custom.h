@@ -16,5 +16,6 @@
 +(UIColor *)lightSnow;
 +(UIColor *)firebrick;
 +(UIColor *)dodgerBlue;
++(UIColor *)seaGreen;
 
 @end
