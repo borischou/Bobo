@@ -439,6 +439,8 @@
 		456C77E51B2AC59B0055FBE8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4579AA031BBBA06B001A2927 /* BBGroupSelectView.h */,
+				4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */,
 				4572E1C11B3C59F900348866 /* BBImageBrowserView.h */,
 				4572E1C21B3C59F900348866 /* BBImageBrowserView.m */,
 				006E2F631B949FD2008AB6DF /* BBNotificationView.h */,
@@ -533,8 +535,6 @@
 				456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */,
 				451442041B295E8B000532DD /* BBMainStatusTableViewController.h */,
 				451442051B295E8B000532DD /* BBMainStatusTableViewController.m */,
-				4579AA031BBBA06B001A2927 /* BBGroupSelectView.h */,
-				4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */,
 			);
 			name = Homeline;
 			sourceTree = "<group>";
