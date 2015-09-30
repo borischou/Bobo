@@ -359,17 +359,4 @@
     }];
 }
 
-+(BOOL)validateURLLink:(NSString *)url
-{
-    if (url.length < 4) {
-        return NO;
-    }
-    if ([url hasPrefix:@"http"] || [url hasPrefix:@"https"]) {
-        if (url ) {
-            
-        }
-    }
-    return NO;
-}
-
 @end

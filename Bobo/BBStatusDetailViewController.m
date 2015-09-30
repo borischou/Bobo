@@ -40,7 +40,7 @@
 static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
-@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBStatusTableViewCellDelegate, BBCommentTableViewCellDelegate, BBReplyCommentViewDelegate>
+@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBStatusTableViewCellDelegate, BBCommentTableViewCellDelegate, BBReplyCommentViewDelegate, TTTAttributedLabelDelegate>
 {
     int _page;
 }
@@ -204,6 +204,8 @@ static NSString *reuseCMCell = @"reuseCMCell";
         BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseWBCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.status = _status;
+        cell.tweetTextLabel.delegate = self;
+        cell.retweetTextLabel.delegate = self;
         cell.delegate = self;
         return cell;
     }
@@ -214,6 +216,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         cell.comment = comment;
+        cell.commentTextLabel.delegate = self;
         cell.delegate = self;
         return cell;
     }
@@ -375,49 +378,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
 
--(void)tableViewCell:(BBStatusTableViewCell *)cell didTapHotword:(NSString *)hotword
-{
-    NSLog(@"点击%@", hotword);
-    if ([hotword hasPrefix:@"@"]) {
-        NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
-        [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-                                          URL:@"statuses/user_timeline.json"
-                          SLRequestHTTPMethod:SLRequestMethodGET
-                                   parameters:params
-                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             NSMutableArray *statuses = [Utils statusesWith:responseObject];
-             Status *status = statuses.firstObject;
-             User *user = status.user;
-             
-             BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-             profiletvc.uid = user.idstr;
-             profiletvc.statuses = statuses;
-             profiletvc.user = user;
-             profiletvc.shouldNavBtnShown = NO;
-             profiletvc.title = @"Profile";
-             profiletvc.hidesBottomBarWhenPushed = YES;
-             [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
-             [self.navigationController pushViewController:profiletvc animated:YES];
-         }
-                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
-             NSLog(@"error %@", error);
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [Utils presentNotificationWithText:@"访问失败"];
-             });
-         }];
-    }
-    if ([hotword hasPrefix:@"http"]) {
-        //打开webview
-        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
-        [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
-    }
-    if ([hotword hasPrefix:@"#"]) {
-        //热门话题
-    }
-}
-
 -(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
 {
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds withImageUrls:urls andImageTag:tag];
@@ -555,6 +515,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
+        NSLog(@"encoded url: %@", [hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]);
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]]];
         [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
