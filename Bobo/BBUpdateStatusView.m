@@ -34,7 +34,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-//static CGFloat imageQuality = 0.7;
+static CGFloat compressionQuality = 0.7;
 
 @interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BBPhotoSelectionCollectionViewControllerDelegate> {
     int _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
@@ -419,7 +419,8 @@
     if (!_pickedOnes) {
         _pickedOnes = @[].mutableCopy;
     }
-    [_pickedOnes addObject:takenImage];
+    NSData *imageData = UIImageJPEGRepresentation(takenImage, compressionQuality);
+    [_pickedOnes addObject:imageData];
     [_picker dismissViewControllerAnimated:YES completion:^{}];
     [self setNeedsLayout];
     [_statusTextView becomeFirstResponder];
