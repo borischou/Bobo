@@ -96,9 +96,10 @@ static CGFloat lineHeight = 3;
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [_bgImgView setCenter:CGPointMake(flag*mButtonWidth+mButtonWidth/2, height-lineHeight/2)];
-    } completion:^(BOOL finished) {
-        
-    }];
+        if (_bgImgView.frame.origin.x < _scrollView.frame.origin.x) { //左侧出边界了
+            
+        }
+    } completion:^(BOOL finished) {}];
 }
 
 -(void)buttonPressed:(UIButton *)sender
@@ -139,5 +140,7 @@ static CGFloat lineHeight = 3;
         }];
     }
 }
+
+#pragma mark - UIScrollViewDelegate
 
 @end
