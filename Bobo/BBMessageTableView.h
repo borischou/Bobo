@@ -10,6 +10,6 @@
 
 @interface BBMessageTableView : UITableView
 
-@property (copy, nonatomic) NSMutableArray *comments;
+@property (strong, nonatomic) NSMutableArray *comments;
 
 @end

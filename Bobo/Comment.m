@@ -42,4 +42,26 @@
     return self;
 }
 
+-(instancetype)initWithStatus:(Status *)status
+{
+    self = [super init];
+    if (self) {
+        _created_at = status.created_at;
+        _text = status.text;
+        _source = status.source;
+        _idstr = status.idstr;
+        _user = status.user;
+        _status = status;
+        
+        _mid = @"";
+        _comnt_id = 0;
+        
+        CGFloat messageFontSize = [Utils fontSizeForStatus];
+        CGFloat textHeight = [Utils heightForString:_text width:cTextWidth fontSize:[Utils fontSizeForComment]];
+        _height = cAvatarHeight > cNameHeight+cSmallGap+textHeight? cBigGap*2+cAvatarHeight: cBigGap*2+cNameHeight+cSmallGap+textHeight;
+        _heightForMessageCell = cBigGap+cAvatarHeight+cBigGap+[Utils heightForString:_text width:mTextWidth fontSize:messageFontSize]+cBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text] width:mTextWidth fontSize:messageFontSize]+cBigGap;
+    }
+    return self;
+}
+
 @end

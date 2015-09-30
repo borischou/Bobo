@@ -25,5 +25,6 @@
 @property (nonatomic) CGFloat heightForMessageCell;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+-(instancetype)initWithStatus:(Status *)status;
 
 @end
