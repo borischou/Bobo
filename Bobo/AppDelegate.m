@@ -31,7 +31,7 @@
 #define uSmallGap 5
 #define uBigGap 10
 
-@interface AppDelegate () <SWRevealViewControllerDelegate>
+@interface AppDelegate ()
 
 @property (strong, nonatomic) ACAccount *weiboAccount;
 
