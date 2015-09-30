@@ -555,7 +555,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]]];
         [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {

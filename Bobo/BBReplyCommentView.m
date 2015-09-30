@@ -10,7 +10,6 @@
 #import "BBUpdateStatusView.h"
 #import "AppDelegate.h"
 #import "BBStatusDetailViewController.h"
-#import "SWRevealViewController.h"
 #import "BBNotificationView.h"
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
@@ -152,13 +151,12 @@
         if (finished) {
             [_mask removeFromSuperview];
             _mask = nil;
-            if ([self.window.rootViewController isKindOfClass:[SWRevealViewController class]]) {
+            if ([self.window.rootViewController isKindOfClass:[UITabBarController class]]) {
                 BBStatusDetailViewController *dtvc = [[BBStatusDetailViewController alloc] init];
                 dtvc.title = @"Detail";
                 dtvc.hidesBottomBarWhenPushed = YES;
                 dtvc.status = _comment.status;
-                SWRevealViewController *swrvc = (SWRevealViewController *)self.window.rootViewController;
-                UITabBarController *tbc = (UITabBarController *)swrvc.frontViewController;
+                UITabBarController *tbc = (UITabBarController *)self.window.rootViewController;
                 UINavigationController *uinc = (UINavigationController *)tbc.selectedViewController;
                 [uinc pushViewController:dtvc animated:YES];
             }

@@ -12,7 +12,6 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import "Utils.h"
-#import "SWRevealViewController.h"
 #import "AppDelegate.h"
 #import "BBWaterfallCollectionView.h"
 #import "BBUpdateStatusView.h"
@@ -64,31 +63,12 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self addSWRevealViewControllerGestureRecognizer];
     if (_waterfallView.statuses.count <= 0) {
         [_waterfallView.header beginRefreshing];
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self removeSWRevealControllerGestureRecognizer];
-}
-
 #pragma mark - Helpers
-
--(void)addSWRevealViewControllerGestureRecognizer
-{
-    [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
-
--(void)removeSWRevealControllerGestureRecognizer
-{
-    [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
 
 -(void)setNavBarBtn
 {

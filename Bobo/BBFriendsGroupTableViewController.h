@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWRevealViewController.h"
 
 @interface BBFriendsGroupTableViewController : UITableViewController
 

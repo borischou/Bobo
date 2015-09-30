@@ -10,12 +10,10 @@
 #import <CoreData/CoreData.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
-#import "SWRevealViewController.h"
 #import "User.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) SWRevealViewController *revealViewController;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) User *user;
 @property (copy, nonatomic) NSString *uid;

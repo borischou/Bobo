@@ -189,15 +189,15 @@
     [tabBarController setViewControllers:@[weiboListNvc, messagenvc, waterfallnvc, profileNvc, collectionNvc] animated:YES];
     tabBarController.tabBar.barTintColor = kBarColor;
     
-    //Rear:微博分组
-    BBFriendsGroupTableViewController *friendsGroupTvc = [[BBFriendsGroupTableViewController alloc] init];
-    friendsGroupTvc.title = @"Group";
-    friendsGroupTvc.view.backgroundColor = [UIColor whiteColor];
+//    //Rear:微博分组
+//    BBFriendsGroupTableViewController *friendsGroupTvc = [[BBFriendsGroupTableViewController alloc] init];
+//    friendsGroupTvc.title = @"Group";
+//    friendsGroupTvc.view.backgroundColor = [UIColor whiteColor];
     
-    _revealViewController = [[SWRevealViewController alloc] initWithRearViewController:friendsGroupTvc frontViewController:tabBarController];
-    _revealViewController.delegate = self;
+//    _revealViewController = [[SWRevealViewController alloc] initWithRearViewController:friendsGroupTvc frontViewController:tabBarController];
+//    _revealViewController.delegate = self;
     
-    self.window.rootViewController = _revealViewController;
+    self.window.rootViewController = tabBarController;
 }
 
 #pragma mark - Weibo support
@@ -240,18 +240,6 @@
             NSLog(@"error: %@", error);
         }];
     }
-}
-
-#pragma mark - SWRevealViewControllerDelegate
-
--(void)revealControllerPanGestureEnded:(SWRevealViewController *)revealController
-{
-    
-}
-
--(void)revealControllerPanGestureBegan:(SWRevealViewController *)revealController
-{
-    
 }
 
 #pragma mark - Core Data stack

@@ -10,7 +10,6 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import <SafariServices/SafariServices.h>
-#import "SWRevealViewController.h"
 #import "Utils.h"
 #import "BBMainStatusTableViewController.h"
 #import "BBProfileTableViewController.h"
@@ -46,8 +45,9 @@ static NSString *reuseBarCellId = @"barCell";
 
 @property (copy, nonatomic) NSString *max_id;
 @property (copy, nonatomic) NSString *since_id;
-@property (copy, nonatomic) NSMutableArray *statuses;
+@property (copy, nonatomic) NSString *url;
 @property (strong, nonatomic) ACAccount *weiboAccount;
+@property (strong, nonatomic) NSMutableArray *statuses;
 
 @end
 
@@ -55,37 +55,18 @@ static NSString *reuseBarCellId = @"barCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (!_groupNumber) {
+        _url = @"statuses/home_timeline.json";
+    } else {
+        _url = @"statuses/bilateral_timeline.json";
+    }
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self addSWRevealViewControllerGestureRecognizer];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self removeSWRevealControllerGestureRecognizer];
-}
-
 #pragma mark - Helpers
-
--(void)addSWRevealViewControllerGestureRecognizer
-{
-    [self.view addGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view addGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
-
--(void)removeSWRevealControllerGestureRecognizer
-{
-    [self.view removeGestureRecognizer:[self.revealViewController panGestureRecognizer]];
-    [self.view removeGestureRecognizer:[self.revealViewController tapGestureRecognizer]];
-}
 
 -(void)setNavBarBtn
 {
@@ -170,13 +151,17 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)fetchLatestStatuses
 {
-    NSString *url;
-    if (!_since_id) {
-        url = @"statuses/home_timeline.json";
-    } else {
-        url = [NSString stringWithFormat:@"statuses/home_timeline.json?since_id=%@", _since_id];
+    NSString *requestUrl = _url;
+//    if (!_since_id) {
+//        requestUrl = @"statuses/home_timeline.json";
+//    } else {
+//        requestUrl = [NSString stringWithFormat:@"statuses/home_timeline.json?since_id=%@", _since_id];
+//    }
+    NSDictionary *param = nil;
+    if (_since_id) {
+        param = @{@"since_id": _since_id};
     }
-    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:url SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"refresh"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -190,7 +175,11 @@ static NSString *reuseBarCellId = @"barCell";
 
 -(void)fetchHistoryStatuses
 {
-    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"statuses/home_timeline.json?max_id=%@&count=20", _max_id] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *requestUrl = _url;
+    NSDictionary *param = @{@"max_id": _max_id, @"count": @"20"};
+    //[NSString stringWithFormat:@"statuses/home_timeline.json?max_id=%@&count=20", _max_id]
+    
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -460,7 +449,7 @@ static NSString *reuseBarCellId = @"barCell";
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]]];
         [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {

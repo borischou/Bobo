@@ -319,7 +319,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     }
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
-        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:hotword]];
+        SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]]];
         [wsvc.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {
