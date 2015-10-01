@@ -316,7 +316,9 @@
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
     //updateStatusView.idStr = cell.status.idstr;
     updateStatusView.status = cell.status;
-    updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//%@:%@", cell.status.user.screen_name, cell.status.text];
+    if (cell.status.retweeted_status.text.length > 0) {
+        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", cell.status.user.screen_name, cell.status.text];
+    }
     updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
     updateStatusView.nameLabel.text = @"转发";
     AppDelegate *delegate = [AppDelegate delegate];

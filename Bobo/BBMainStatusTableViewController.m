@@ -417,7 +417,9 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     //updateStatusView.idStr = cell.status.idstr;
     updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = @"转发";
-    updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//%@:%@", cell.status.user.screen_name, cell.status.text];
+    if (cell.status.retweeted_status.text.length > 0) {
+        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", cell.status.user.screen_name, cell.status.text];
+    }
     updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];

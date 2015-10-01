@@ -344,7 +344,9 @@ static NSString *reuseCMCell = @"reuseCMCell";
     //updateStatusView.idStr = cell.status.idstr;
     updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = @"转发";
-    updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//%@:%@", _status.user.screen_name, _status.text];
+    if (_status.retweeted_status.text.length > 0) {
+        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", _status.user.screen_name, _status.text];
+    }
     updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
