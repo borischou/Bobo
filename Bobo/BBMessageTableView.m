@@ -23,7 +23,7 @@
 
 static NSString *messageCell = @"messageCell";
 
-@interface BBMessageTableView () <UITableViewDataSource, UITableViewDelegate, BBMessageTableViewCellDelegate, TTTAttributedLabelDelegate>
+@interface BBMessageTableView () <UITableViewDataSource, UITableViewDelegate, BBMessageTableViewCellDelegate, TTTAttributedLabelDelegate, BBReplyCommentViewDelegate>
 
 @end
 
@@ -73,14 +73,23 @@ static NSString *messageCell = @"messageCell";
     Comment *comment = [_comments objectAtIndex:indexPath.row];
     BBReplyCommentView *replyView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 50*5)];
     replyView.comment = comment;
+    replyView.delegate = self;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:replyView];
     replyView.shouldShowViewStatusOption = YES;
     CGRect replyRect;
-    if ([comment.status.user.idstr isEqualToString:delegate.user.idstr]) {
+    if ([comment.status.user.idstr isEqualToString:delegate.user.idstr]) //评论的微博是自己发的
+    {
         replyView.shouldShowDeleteOption = YES;
         replyRect = CGRectMake(0, bHeight-50*5, bWidth, 50*5);
-    } else {
+    }
+    else if ([comment.user.idstr isEqualToString:delegate.user.idstr]) //评论是自己发的
+    {
+        replyView.shouldShowDeleteOption = YES;
+        replyRect = CGRectMake(0, bHeight-50*5, bWidth, 50*5);
+    }
+    else
+    {
         replyView.shouldShowDeleteOption = NO;
         replyRect = CGRectMake(0, bHeight-50*4, bWidth, 50*4);
     }
@@ -103,7 +112,7 @@ static NSString *messageCell = @"messageCell";
          NSMutableArray *statuses = [Utils statusesWith:responseObject];
          Status *status = statuses.firstObject;
          User *user = status.user;
-         BBMessageViewController *mvc = (BBMessageViewController *)self.nextResponder.nextResponder.nextResponder;
+         UITabBarController *uitbc = (UITabBarController *)self.window.rootViewController;
          
          BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
          profiletvc.uid = user.idstr;
@@ -112,8 +121,8 @@ static NSString *messageCell = @"messageCell";
          profiletvc.shouldNavBtnShown = NO;
          profiletvc.title = @"Profile";
          profiletvc.hidesBottomBarWhenPushed = YES;
-         [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
-         [mvc.navigationController pushViewController:profiletvc animated:YES];
+         [Utils setupNavigationController:uitbc.selectedViewController.navigationController withUIViewController:profiletvc];
+         [uitbc.selectedViewController.navigationController pushViewController:profiletvc animated:YES];
      }
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
@@ -140,7 +149,7 @@ static NSString *messageCell = @"messageCell";
 
 -(void)presentDetailViewWithHotword:(NSString *)hotword
 {
-    BBMessageViewController *mvc = (BBMessageViewController *)self.nextResponder.nextResponder.nextResponder;
+    UITabBarController *uitbc = (UITabBarController *)self.window.rootViewController;
     
     if ([hotword hasPrefix:@"@"]) {
         NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
@@ -155,14 +164,14 @@ static NSString *messageCell = @"messageCell";
              User *user = status.user;
              
              BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-             [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
+             [Utils setupNavigationController:uitbc.selectedViewController withUIViewController:profiletvc];
              profiletvc.uid = user.idstr;
              profiletvc.statuses = statuses;
              profiletvc.user = user;
              profiletvc.shouldNavBtnShown = NO;
              profiletvc.title = @"Profile";
              profiletvc.hidesBottomBarWhenPushed = YES;
-             [mvc.navigationController pushViewController:profiletvc animated:YES];
+             [uitbc.selectedViewController.navigationController pushViewController:profiletvc animated:YES];
          }
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
@@ -175,11 +184,60 @@ static NSString *messageCell = @"messageCell";
     if ([hotword hasPrefix:@"http"]) {
         //打开webview
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
-        [mvc.navigationController presentViewController:sfvc animated:YES completion:^{}];
+        [uitbc.selectedViewController.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
     if ([hotword hasPrefix:@"#"]) {
         //热门话题
     }
+}
+
+#pragma mark - BBReplyCommentViewDelegate
+
+-(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didPressDeleteButton:(UIButton *)sender
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除评论" message:@"是否删除此评论？" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //调用删除接口
+        NSDictionary *params = @{@"cid": replyView.comment.idstr};
+        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"comments/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+            NSString *notificationText = nil;
+            if (!error) {
+                NSLog(@"评论删除成功。");
+                notificationText = @"评论删除成功";
+            }
+            else
+            {
+                NSLog(@"评论删除失败：%@", error);
+                notificationText = [NSString stringWithFormat:@"评论删除失败: %@", error];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    mask.alpha = 0;
+                    [replyView setFrame:CGRectMake(0, bHeight, bWidth, replyView.viewHeight)];
+                } completion:^(BOOL finished) {
+                    if (finished) {
+                        [Utils presentNotificationWithText:notificationText];
+                        [mask removeFromSuperview];
+                        [replyView removeFromSuperview];
+                    }
+                }];
+            });
+        }];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [mask removeFromSuperview];
+        [replyView removeFromSuperview];
+    }];
+    [alertController addAction:deleteAction];
+    [alertController addAction:cancelAction];
+    
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [replyView setAlpha:0];
+        [mask setAlpha:0];
+    } completion:^(BOOL finished) {}];
+    
+    UITabBarController *uitbc = (UITabBarController *)self.window.rootViewController;
+    [uitbc.selectedViewController presentViewController:alertController animated:YES completion:^{}];
 }
 
 @end
