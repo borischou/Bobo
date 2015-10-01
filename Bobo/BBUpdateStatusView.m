@@ -436,11 +436,16 @@ static CGFloat compressionQuality = 0.7;
 
 -(void)textViewDidChange:(UITextView *)textView
 {
-    if (textView.text.length == 0 || textView.text.length >= 140) {
+    if (textView.text.length >= 140) {
         _sendBtn.enabled = NO;
     } else {
         _sendBtn.enabled = YES;
     }
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    _sendBtn.enabled = YES;
 }
 
 @end
