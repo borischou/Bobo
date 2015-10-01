@@ -458,7 +458,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
             });
         }];
     }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [mask removeFromSuperview];
         [replyView removeFromSuperview];
     }];

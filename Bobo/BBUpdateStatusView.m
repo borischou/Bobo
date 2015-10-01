@@ -517,16 +517,33 @@ static NSString *reuseCell = @"photocell";
     //借用PhotoSelectionCollectionViewCell先用着
     [collectionView registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:reuseCell];
     BBPhotoSelectionCollectionViewCell *cell = (BBPhotoSelectionCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseCell forIndexPath:indexPath];
-    NSData *imageData = _pickedOnes[indexPath.item];
-    UIImage *image = [UIImage imageWithData:imageData];
-    [cell.imageView setImage:image];
-    
+    if (![_pickedOnes[indexPath.item] isEqual:[NSNull null]]) {
+        NSData *imageData = _pickedOnes[indexPath.item];
+        UIImage *image = [UIImage imageWithData:imageData];
+        [cell.imageView setImage:image];
+    }
     return cell;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"移除照片" message:@"是否移除这张照片？" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *removeAction = [UIAlertAction actionWithTitle:@"移除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [_pickedOnes removeObjectAtIndex:indexPath.item];
+        [self setNeedsLayout];
+        [_collectionView reloadData];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [_mask setHidden:NO];
+            [_statusTextView becomeFirstResponder];
+        } completion:^(BOOL finished) {}];
+    }];
+    [alertcontroller addAction:removeAction];
+    [alertcontroller addAction:cancelAction];
+    [_mask setHidden:YES];
+    [_statusTextView resignFirstResponder];
+    [self.window.rootViewController presentViewController:alertcontroller animated:YES completion:^{}];
 }
 
 
