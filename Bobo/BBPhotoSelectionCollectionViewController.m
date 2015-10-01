@@ -60,11 +60,9 @@
         PHAsset *asset = _photoPickerCollectionView.pickedOnes[i];
         [manager requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
             [images addObject:imageData];
-            if (i == pickedNum-1) {
-                [self.delegate didFetchedPickedPhotos:images];
-            }
         }];
     }
+    [self.delegate didFetchedPickedPhotos:images];
     [self.navigationController dismissViewControllerAnimated:YES completion:^{}];
 }
 

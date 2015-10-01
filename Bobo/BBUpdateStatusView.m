@@ -15,6 +15,7 @@
 #import "BBKeyboardInputAccessoryView.h"
 #import "AppDelegate.h"
 #import "BBPhotoSelectionCollectionViewController.h"
+#import "BBPhotoSelectionCollectionViewCell.h"
 #import "BBStatusDetailViewController.h"
 #import "BBNotificationView.h"
 #import "UIColor+Custom.h"
@@ -26,6 +27,8 @@
 #define uImgHeight 60
 #define uImgWidth uImgHeight
 
+#define itemLength 45
+
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 #define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
@@ -35,12 +38,14 @@
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 static CGFloat compressionQuality = 0.7;
+static NSString *reuseCell = @"photocell";
 
-@interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BBPhotoSelectionCollectionViewControllerDelegate> {
+@interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BBPhotoSelectionCollectionViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate> {
     int _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 }
 
 @property (strong, nonatomic) BBKeyboardInputAccessoryView *keyboardInputView;
+@property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIView *mask;
 @property (strong, nonatomic) UIImagePickerController *picker;
@@ -83,12 +88,14 @@ static CGFloat compressionQuality = 0.7;
         } completion:^(BOOL finished) {}];
     }
     
+    //取消按钮
     _cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero andTitle:@"取消" withBackgroundColor:nil andTintColor:nil];
     [_cancelBtn setBackgroundColor:[UIColor firebrick]];
     [_cancelBtn setTitleColor:[UIColor lightTextColor] forState:UIControlStateNormal];
     [_cancelBtn addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_cancelBtn];
     
+    //发送按钮
     _sendBtn = [[UIButton alloc] initWithFrame:CGRectZero andTitle:@"发送" withBackgroundColor:nil andTintColor:nil];
     [_sendBtn setBackgroundColor:[UIColor dodgerBlue]];
     [_sendBtn setTitleColor:[UIColor mintCream] forState:UIControlStateNormal];
@@ -97,11 +104,13 @@ static CGFloat compressionQuality = 0.7;
     _sendBtn.enabled = NO;
     [self addSubview:_sendBtn];
     
+    //标题
     _nameLabel = [[UILabel alloc] init];
     _nameLabel.textColor = [UIColor lightTextColor];
     _nameLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_nameLabel];
     
+    //文本输入框
     _statusTextView = [[UITextView alloc] initWithFrame:CGRectZero];
     _statusTextView.textColor = [UIColor lightTextColor];
     _statusTextView.backgroundColor = bBGColor;
@@ -109,6 +118,17 @@ static CGFloat compressionQuality = 0.7;
     _statusTextView.typingAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:[Utils fontSizeForStatus]],
                                          NSForegroundColorAttributeName: [UIColor customGray]};
     [self addSubview:_statusTextView];
+    
+    //照片墙
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    [layout setMinimumInteritemSpacing:1.0];
+    [layout setMinimumLineSpacing:1.0];
+    [layout setItemSize:CGSizeMake(itemLength, itemLength)];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    _collectionView.backgroundColor = [UIColor clearColor];
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
+    [self addSubview:_collectionView];
     
     [_cancelBtn setFrame:CGRectMake(uBigGap, uBigGap, uBtnWidth, uBtnHeight)];
     [_sendBtn setFrame:CGRectMake(self.frame.size.width-uBigGap-uBtnWidth, uBigGap, uBtnWidth, uBtnHeight)];
@@ -146,15 +166,27 @@ static CGFloat compressionQuality = 0.7;
 
 -(void)layoutSubviews
 {
-    [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
-    
-    if (_pickedOnes.count > 0) {
-        [_imageView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight+uSmallGap, uImgWidth, uImgHeight)];
-        
-        NSData *imageData = _pickedOnes.firstObject;
-        UIImage *image = [UIImage imageWithData:imageData];
-        [_imageView setImage:image];
-        //_imageView.image = [_pickedOnes firstObject];
+    //铺文本输入框
+    if (_flag == 0) { //发微博时不考虑下方标签
+        if (_pickedOnes.count == 1) { //单图
+            [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
+            [_collectionView setFrame:CGRectZero];
+            [_imageView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight+uSmallGap, uImgWidth, uImgHeight)];
+            NSData *imageData = _pickedOnes.firstObject;
+            UIImage *image = [UIImage imageWithData:imageData];
+            [_imageView setImage:image];
+        }
+        if (_pickedOnes.count > 1) { //多图
+            CGFloat collectionViewLength = itemLength*3+2;
+            CGFloat textViewHeight = self.frame.size.height-uBigGap*2-uBtnHeight-uSmallGap-uBigGap-collectionViewLength;
+            [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, textViewHeight)];
+            [_imageView setFrame:CGRectZero];
+            //在文本框外面铺照片墙
+            [_collectionView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+textViewHeight+uSmallGap, collectionViewLength, collectionViewLength)];
+        }
+    } else {
+        [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
+        [_collectionView setFrame:CGRectZero];
     }
     
     if (!_mask) {
@@ -227,7 +259,8 @@ static CGFloat compressionQuality = 0.7;
     switch (_flag) {
         case 0: //发微博
             {
-                if (_pickedOnes.count > 0) { //有配图
+                if (_pickedOnes.count == 1)
+                { //有一张配图
                     NSData *imgData = _pickedOnes.firstObject;
                     params = @{@"status": _statusTextView.text};
                     SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodPOST URL:[NSURL URLWithString:@"https://api.weibo.com/2/statuses/upload.json"] parameters:params];
@@ -248,8 +281,13 @@ static CGFloat compressionQuality = 0.7;
                             [self callbackForUpdateCompletionWithNotificationText:notificationText];
                         });
                     }];
+                }
+                else if (_pickedOnes.count > 1)
+                { //有多张配图
                     
-                } else { //无配图
+                }
+                else
+                { //无配图
                     params = @{@"status": _statusTextView.text};
                     [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/update.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                         NSString *notificationText = nil;
@@ -395,6 +433,7 @@ static CGFloat compressionQuality = 0.7;
     _pickedOnes = photos;
     [self shouldHideMaskAndView:NO];
     [self setNeedsLayout];
+    [_collectionView reloadData];
     [_statusTextView becomeFirstResponder];
 }
 
@@ -447,5 +486,31 @@ static CGFloat compressionQuality = 0.7;
 {
     _sendBtn.enabled = YES;
 }
+
+#pragma mark - UICollectionViewDataSource & Delegate & Support
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return _pickedOnes.count;
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    //借用PhotoSelectionCollectionViewCell先用着
+    [collectionView registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:reuseCell];
+    BBPhotoSelectionCollectionViewCell *cell = (BBPhotoSelectionCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseCell forIndexPath:indexPath];
+    NSData *imageData = _pickedOnes[indexPath.item];
+    UIImage *image = [UIImage imageWithData:imageData];
+    [cell.imageView setImage:image];
+    
+    return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+
+
 
 @end

@@ -46,7 +46,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _weiboAccount = [Utils systemAccounts].firstObject;
     [self accessWeiboSystemAccount];
-    [self fetchUserProfile];
+    //[self fetchUserProfile];
     [self initControllers];
     [_window makeKeyAndVisible];
     return YES;

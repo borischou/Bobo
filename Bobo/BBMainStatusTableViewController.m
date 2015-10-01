@@ -68,7 +68,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     [self setNavBarBtn];
     [self setMJRefresh];
-    [self.tableView.header beginRefreshing];
+    //[self.tableView.header beginRefreshing];
 }
 
 #pragma mark - Helpers
