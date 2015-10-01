@@ -169,6 +169,10 @@ static NSString *reuseCell = @"photocell";
     //铺文本输入框
     if (_flag == 0) { //发微博时不考虑下方标签
         NSInteger num = _pickedOnes.count;
+        if (num == 0) {
+            [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
+            [_collectionView setFrame:CGRectZero];
+        }
         if (num == 1) { //单图
             [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
             [_collectionView setFrame:CGRectZero];
