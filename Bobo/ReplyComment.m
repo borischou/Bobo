@@ -22,6 +22,7 @@
         _source_allowclick = [dict[@"source_allowclick"] boolValue];
         _source_type = [dict[@"source_type"] integerValue];
         _mid = dict[@"mid"];
+        _text = dict[@"text"];
         _user = [[User alloc] initWithDictionary:dict[@"user"]];
     }
     return self;

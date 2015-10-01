@@ -24,5 +24,6 @@
 @property (strong, nonatomic) Comment *comment;
 @property (strong, nonatomic) TTTAttributedLabel *tweetTextLabel;
 @property (strong, nonatomic) TTTAttributedLabel *retweetTextLabel;
+@property (strong, nonatomic) TTTAttributedLabel *lastReplyLabel;
 
 @end

@@ -147,7 +147,17 @@ static inline NSRegularExpression * HotwordRegularExpression() {
                                                (NSString *)kCTForegroundColorAttributeName: (__bridge id)tActiveLinkColor.CGColor}];
     [self.contentView addSubview:_tweetTextLabel];
     
-    //retweet view
+    //如果有最近一次回复文本（仅显示一行)
+    _lastReplyLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    [_lastReplyLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    [_lastReplyLabel setTextColor:[UIColor lightTextColor]];
+    [_lastReplyLabel setLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                         (NSString *)kCTForegroundColorAttributeName: (__bridge id)tLinkColor.CGColor}];
+    [_lastReplyLabel setActiveLinkAttributes:@{(__bridge NSString *)kCTUnderlineStyleAttributeName: [NSNumber numberWithBool:NO],
+                                               (NSString *)kCTForegroundColorAttributeName: (__bridge id)tActiveLinkColor.CGColor}];
+    [self.contentView addSubview:_lastReplyLabel];
+    
+    //retweet view (评论的微博内容)
     _repostView = [[UIView alloc] initWithFrame:CGRectZero];
     _repostView.userInteractionEnabled = YES;
     _repostView.backgroundColor = bRetweetBGColor;
@@ -195,6 +205,14 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         }
     }
     
+    if (_comment.reply_comment.text) {
+        [_lastReplyLabel setText:[NSString stringWithFormat:@"@%@:%@", _comment.reply_comment.user.screen_name, _comment.reply_comment.text]];
+        NSArray *tweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", _comment.reply_comment.user.screen_name, _comment.reply_comment.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", _comment.reply_comment.user.screen_name, _comment.reply_comment.text] length])];
+        for (NSTextCheckingResult *result in tweetLinkRanges) {
+            [_lastReplyLabel addLinkWithTextCheckingResult:result];
+        }
+    }
+    
     //repost status
     if (_comment.status.text) {
         [_retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text]];
@@ -229,10 +247,17 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     CGSize postSize = [_tweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
     [_tweetTextLabel setFrame:CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height)];
     
+    CGFloat replyHeight = 0;
+    if (_comment.reply_comment.text.length > 0) {
+        CGSize replySize = [_lastReplyLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
+        [_lastReplyLabel setFrame:CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap+postSize.height+bSmallGap, bWidth-2*bBigGap, replySize.height)];
+        replyHeight += bSmallGap+replySize.height;
+    }
+    
     CGSize repostSize = [_retweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
     [_retweetTextLabel setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
     
-    [_repostView setFrame:CGRectMake(0, bBigGap+bAvatarHeight+bBigGap+postSize.height+bBigGap, bWidth, repostSize.height+bSmallGap)];
+    [_repostView setFrame:CGRectMake(0, bBigGap+bAvatarHeight+bBigGap+postSize.height+replyHeight+bBigGap, bWidth, repostSize.height+bSmallGap)];
 }
 
 -(void)avatarViewTapped
