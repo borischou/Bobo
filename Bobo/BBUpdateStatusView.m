@@ -168,7 +168,8 @@ static NSString *reuseCell = @"photocell";
 {
     //铺文本输入框
     if (_flag == 0) { //发微博时不考虑下方标签
-        if (_pickedOnes.count == 1) { //单图
+        NSInteger num = _pickedOnes.count;
+        if (num == 1) { //单图
             [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
             [_collectionView setFrame:CGRectZero];
             [_imageView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight+uSmallGap, uImgWidth, uImgHeight)];
@@ -176,13 +177,26 @@ static NSString *reuseCell = @"photocell";
             UIImage *image = [UIImage imageWithData:imageData];
             [_imageView setImage:image];
         }
-        if (_pickedOnes.count > 1) { //多图
-            CGFloat collectionViewLength = itemLength*3+2;
-            CGFloat textViewHeight = self.frame.size.height-uBigGap*2-uBtnHeight-uSmallGap-uBigGap-collectionViewLength;
+        if (num > 1) { //多图
+            CGFloat collectionViewHeight;
+            if (num <= 3)
+            {
+                collectionViewHeight = itemLength;
+            }
+            else if (num > 3 && num <= 6)
+            {
+                collectionViewHeight = itemLength*2+1;
+            }
+            else
+            {
+                collectionViewHeight = itemLength*3+2;
+            }
+            CGFloat collectionViewWidth = itemLength*3+2;
+            CGFloat textViewHeight = self.frame.size.height-uBigGap*2-uBtnHeight-uSmallGap-uBigGap-collectionViewHeight;
             [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, textViewHeight)];
             [_imageView setFrame:CGRectZero];
             //在文本框外面铺照片墙
-            [_collectionView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+textViewHeight+uSmallGap, collectionViewLength, collectionViewLength)];
+            [_collectionView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+textViewHeight+uSmallGap, collectionViewWidth, collectionViewHeight)];
         }
     } else {
         [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
