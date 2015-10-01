@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Status.h"
+#import "Comment.h"
 
 @interface BBUpdateStatusView : UIView
 
@@ -15,8 +17,10 @@
 @property (strong, nonatomic) UIButton *cancelBtn;
 @property (strong, nonatomic) UIButton *sendBtn;
 @property (strong, nonatomic) UITextView *statusTextView;
-@property (copy, nonatomic) NSString *idStr; //当前微博id
-@property (copy, nonatomic) NSString *cidStr; //评论时评论cid
+//@property (copy, nonatomic) NSString *idStr; //当前微博id
+@property (strong, nonatomic) Status *status;
+//@property (copy, nonatomic) NSString *cidStr; //评论时评论cid
+@property (strong, nonatomic) Comment *comment;
 @property (copy, nonatomic) NSMutableArray *pickedOnes;
 
 -(instancetype)initWithFlag:(int)flag;

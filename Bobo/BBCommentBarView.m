@@ -102,7 +102,8 @@
 {
     AppDelegate *delegate = [AppDelegate delegate];
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
-    updateStatusView.idStr = _status.idstr;
+    //updateStatusView.idStr = _status.idstr;
+    updateStatusView.status = _status;
     updateStatusView.nameLabel.text = _status.user.screen_name;
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{

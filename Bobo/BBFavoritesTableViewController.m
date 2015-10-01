@@ -257,7 +257,8 @@
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
-    updateStatusView.idStr = cell.status.idstr;
+    //updateStatusView.idStr = cell.status.idstr;
+    updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = cell.status.user.screen_name;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
@@ -313,7 +314,10 @@
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetIcon:(UIImageView *)retweetIcon
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
-    updateStatusView.idStr = cell.status.idstr;
+    //updateStatusView.idStr = cell.status.idstr;
+    updateStatusView.status = cell.status;
+    updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//%@:%@", cell.status.user.screen_name, cell.status.text];
+    updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
     updateStatusView.nameLabel.text = @"转发";
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];

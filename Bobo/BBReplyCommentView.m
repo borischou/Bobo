@@ -173,8 +173,9 @@
 -(void)replyButtonPressed:(UIButton *)sender
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3]; //回复评论
-    updateStatusView.idStr = _comment.status.idstr;
-    updateStatusView.cidStr = _comment.idstr;
+    //updateStatusView.idStr = _comment.status.idstr;
+    //updateStatusView.cidStr = _comment.idstr;
+    updateStatusView.comment = _comment;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -194,8 +195,9 @@
 -(void)repostButtonPressed:(UIButton *)sender
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发评论
-    updateStatusView.idStr = _comment.status.idstr;
-    updateStatusView.cidStr = _comment.idstr;
+    //updateStatusView.idStr = _comment.status.idstr;
+    //updateStatusView.cidStr = _comment.idstr;
+    updateStatusView.comment = _comment;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
