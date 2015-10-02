@@ -325,7 +325,7 @@ static NSString *reuseCell = @"photocell";
         case 1: //写评论
             {
                 params = @{@"comment": _statusTextView.text,
-                           @"id": _comment.idstr,
+                           @"id": _status.idstr,
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
