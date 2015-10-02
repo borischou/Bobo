@@ -113,6 +113,8 @@ static NSString *messageCell = @"messageCell";
          Status *status = statuses.firstObject;
          User *user = status.user;
          UITabBarController *uitbc = (UITabBarController *)self.window.rootViewController;
+         UINavigationController *uinvc = uitbc.selectedViewController;
+         BBMessageViewController *mvc = uinvc.viewControllers.firstObject;
          
          BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
          profiletvc.uid = user.idstr;
@@ -121,8 +123,8 @@ static NSString *messageCell = @"messageCell";
          profiletvc.shouldNavBtnShown = NO;
          profiletvc.title = @"Profile";
          profiletvc.hidesBottomBarWhenPushed = YES;
-         [Utils setupNavigationController:uitbc.selectedViewController.navigationController withUIViewController:profiletvc];
-         [uitbc.selectedViewController.navigationController pushViewController:profiletvc animated:YES];
+         [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
+         [mvc.navigationController pushViewController:profiletvc animated:YES];
      }
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
@@ -162,16 +164,19 @@ static NSString *messageCell = @"messageCell";
              NSMutableArray *statuses = [Utils statusesWith:responseObject];
              Status *status = statuses.firstObject;
              User *user = status.user;
+             UITabBarController *uitbc = (UITabBarController *)self.window.rootViewController;
+             UINavigationController *uinvc = uitbc.selectedViewController;
+             BBMessageViewController *mvc = uinvc.viewControllers.firstObject;
              
              BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-             [Utils setupNavigationController:uitbc.selectedViewController withUIViewController:profiletvc];
+             [Utils setupNavigationController:mvc.navigationController withUIViewController:profiletvc];
              profiletvc.uid = user.idstr;
              profiletvc.statuses = statuses;
              profiletvc.user = user;
              profiletvc.shouldNavBtnShown = NO;
              profiletvc.title = @"Profile";
              profiletvc.hidesBottomBarWhenPushed = YES;
-             [uitbc.selectedViewController.navigationController pushViewController:profiletvc animated:YES];
+             [mvc.navigationController pushViewController:profiletvc animated:YES];
          }
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
          {

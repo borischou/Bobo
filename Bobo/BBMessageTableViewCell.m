@@ -235,6 +235,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [_vipView setImage:nil];
     }
     
+    [_lastReplyLabel setFrame:CGRectZero]; //标签尺寸置零防止cell复用时造成的内容重叠
+    
     //时间
     CGSize timeSize = [_postTimeLbl sizeThatFits:CGSizeMake(MAXFLOAT, bPostTimeHeight)];
     [_postTimeLbl setFrame:CGRectMake(10+bAvatarWidth+10, 10+5+bNicknameHeight+3, timeSize.width, bPostTimeHeight)];
