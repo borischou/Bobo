@@ -46,7 +46,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 }
 
 @property (strong, nonatomic) ACAccount *weiboAccount;
-@property (copy, nonatomic) NSMutableArray *comments;
+@property (strong, nonatomic) NSMutableArray *comments;
 @property (strong, nonatomic) BBCommentBarView *barView;
 
 @end
