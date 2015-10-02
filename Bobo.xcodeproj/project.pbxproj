@@ -13,6 +13,7 @@
 		006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006E2F641B949FD2008AB6DF /* BBNotificationView.m */; };
 		0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
+		009FE62D1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009FE62C1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m */; settings = {ASSET_TAGS = (); }; };
 		00D8AA081BBC1EB700EFE208 /* ReplyComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D8AA071BBC1EB700EFE208 /* ReplyComment.m */; settings = {ASSET_TAGS = (); }; };
 		00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */; };
 		00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */; };
@@ -117,6 +118,8 @@
 		007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comntbar_icon@3x.png"; sourceTree = "<group>"; };
 		009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBReplyCommentView.h; sourceTree = "<group>"; };
 		009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBReplyCommentView.m; sourceTree = "<group>"; };
+		009FE62B1BBEDCB800BE4665 /* BBProfileMenuHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileMenuHeaderView.h; sourceTree = "<group>"; };
+		009FE62C1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProfileMenuHeaderView.m; sourceTree = "<group>"; };
 		00D8AA061BBC1EB700EFE208 /* ReplyComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyComment.h; sourceTree = "<group>"; };
 		00D8AA071BBC1EB700EFE208 /* ReplyComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyComment.m; sourceTree = "<group>"; };
 		00E63A0A1B8CC22500736E6A /* BBWaterfallStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallStatusViewController.h; sourceTree = "<group>"; };
@@ -553,6 +556,8 @@
 				457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */,
 				4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */,
 				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
+				009FE62B1BBEDCB800BE4665 /* BBProfileMenuHeaderView.h */,
+				009FE62C1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -813,6 +818,7 @@
 				45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */,
 				00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */,
 				00D8AA081BBC1EB700EFE208 /* ReplyComment.m in Sources */,
+				009FE62D1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m in Sources */,
 				006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
