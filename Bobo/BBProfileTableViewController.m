@@ -578,7 +578,7 @@ static NSString *reuseCountsCell = @"countsCell";
                 }
             }];
         }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"继续关注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"继续关注" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
         [alertController addAction:action];
         [alertController addAction:cancelAction];
         [self presentViewController:alertController animated:YES completion:^{}];
