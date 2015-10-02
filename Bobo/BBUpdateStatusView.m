@@ -289,7 +289,6 @@ static NSString *reuseCell = @"photocell";
                     [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                         NSString *notificationText = nil;
                         if (!error) {
-                            //NSLog(@"response: %@\n%@\n%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding], urlResponse, error);
                             notificationText = @"微博发布成功";
                         } else {
                             NSLog(@"发布失败：%@", error);
