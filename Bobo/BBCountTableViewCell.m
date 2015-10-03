@@ -49,6 +49,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.contentView.backgroundColor = bCellBGColor;
+        self.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.layer.shadowOpacity = .2;
+        self.layer.shadowOffset = CGSizeMake(0, -2);
         [self initCountLayout];
     }
     return self;
