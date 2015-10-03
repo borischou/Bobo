@@ -25,7 +25,7 @@
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
 #import "Utils.h"
-#import "BBProfileHeaderView.h"
+#import "BBProfileMenuHeaderView.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -43,7 +43,7 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate, TTTAttributedLabelDelegate>
+@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate, TTTAttributedLabelDelegate, BBProfileMenuHeaderViewDelegate>
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) ACAccount *weiboAccount;
@@ -351,11 +351,11 @@ static NSString *reuseCountsCell = @"countsCell";
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 0) {
-        BBProfileHeaderView *headerView = [[BBProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, 35)];
+        BBProfileMenuHeaderView *headerView = [[BBProfileMenuHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, 35)];
+        headerView.delegate = self;
         return headerView;
-    } else {
-        return nil;
     }
+    return nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -398,6 +398,9 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return 35;
+    }
     return 2;
 }
 
@@ -405,6 +408,13 @@ static NSString *reuseCountsCell = @"countsCell";
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
+}
+
+#pragma mark - BBProfileMenuHeaderViewDelegate
+
+-(void)didClickMenuButtonAtIndex:(NSInteger)index
+{
+    
 }
 
 #pragma mark - BBStatusTableViewCellDelegate & support

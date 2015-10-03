@@ -11,6 +11,8 @@
 #define buttonWidth self.frame.size.width/3
 #define buttonHeight self.frame.size.height
 
+#define menuColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
+
 static CGFloat lineHeight = 3;
 
 @interface BBProfileMenuHeaderView ()
@@ -26,28 +28,34 @@ static CGFloat lineHeight = 3;
     self = [super initWithFrame:frame];
     if (self) {
         [self setupSubviews];
+        [self setupLineView];
     }
     return self;
 }
 
 -(void)setupSubviews
 {
+    [self setBackgroundColor:menuColor];
+    self.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.layer.shadowOpacity = .2;
+    self.layer.shadowOffset = CGSizeMake(0, 2);
+    
     UIButton *photoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [photoButton setTitle:@"Album" forState:UIControlStateNormal];
+    [photoButton setTitle:@"All" forState:UIControlStateNormal];
     [photoButton setFrame:CGRectMake(0, 0, buttonWidth, buttonHeight)];
     [photoButton.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [photoButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:photoButton];
     
     UIButton *allButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [allButton setTitle:@"All" forState:UIControlStateNormal];
+    [allButton setTitle:@"Origin" forState:UIControlStateNormal];
     [allButton setFrame:CGRectMake(buttonWidth, 0, buttonWidth, buttonHeight)];
     [allButton.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [allButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:allButton];
     
     UIButton *originButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [originButton setTitle:@"Origin" forState:UIControlStateNormal];
+    [originButton setTitle:@"Album" forState:UIControlStateNormal];
     [originButton setFrame:CGRectMake(buttonWidth*2, 0, buttonWidth, buttonHeight)];
     [originButton.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [originButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -57,7 +65,7 @@ static CGFloat lineHeight = 3;
 -(void)setupLineView
 {
     CGFloat lineWidth = self.frame.size.width/3;
-    _lineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-lineHeight, lineWidth, lineHeight)];
+    _lineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, buttonHeight-lineHeight, lineWidth, lineHeight)];
     [_lineView setBackgroundColor:[UIColor redColor]];
     [self addSubview:_lineView];
 }
@@ -65,13 +73,34 @@ static CGFloat lineHeight = 3;
 -(void)moveLineAccordingToFlag:(NSInteger)flag
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [_lineView setCenter:CGPointMake(flag*buttonWidth+buttonWidth/2, self.frame.size.height-lineHeight/2)];
+        [_lineView setCenter:CGPointMake(flag*buttonWidth+buttonWidth/2, buttonHeight-lineHeight/2)];
     } completion:^(BOOL finished) {}];
 }
 
 -(void)buttonPressed:(UIButton *)sender
 {
-
+    UIButton *pressedButton = (UIButton *)sender;
+    if ([pressedButton.titleLabel.text isEqualToString:@"All"]) {
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [_lineView setCenter:CGPointMake(buttonWidth/2, buttonHeight-lineHeight/2)];
+        } completion:^(BOOL finished) {
+            [self.delegate didClickMenuButtonAtIndex:0];
+        }];
+    }
+    if ([pressedButton.titleLabel.text isEqualToString:@"Origin"]) {
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [_lineView setCenter:CGPointMake(buttonWidth+buttonWidth/2, buttonHeight-lineHeight/2)];
+        } completion:^(BOOL finished) {
+            [self.delegate didClickMenuButtonAtIndex:1];
+        }];
+    }
+    if ([pressedButton.titleLabel.text isEqualToString:@"Album"]) {
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [_lineView setCenter:CGPointMake(buttonWidth*2+buttonWidth/2, buttonHeight-lineHeight/2)];
+        } completion:^(BOOL finished) {
+            [self.delegate didClickMenuButtonAtIndex:2];
+        }];
+    }
 }
 
 @end

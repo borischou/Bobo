@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BBProfileMenuHeaderViewDelegate <NSObject>
+
+-(void)didClickMenuButtonAtIndex:(NSInteger)index;
+
+@end
+
 @interface BBProfileMenuHeaderView : UIView
+
+@property (weak, nonatomic) id <BBProfileMenuHeaderViewDelegate> delegate;
+
+-(void)moveLineAccordingToFlag:(NSInteger)flag; //0-All; 1-Origin; 2-Album
 
 @end
