@@ -81,9 +81,7 @@ static CGFloat lineHeight = 3;
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [_bgImgView setCenter:CGPointMake(flag*mButtonWidth+mButtonWidth/2, height-lineHeight/2)];
-    } completion:^(BOOL finished) {
-        
-    }];
+    } completion:^(BOOL finished) {}];
 }
 
 -(void)buttonPressed:(UIButton *)sender

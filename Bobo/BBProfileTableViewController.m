@@ -25,6 +25,7 @@
 #import "NSString+Convert.h"
 #import "UIButton+Bobtn.h"
 #import "Utils.h"
+#import "BBProfileHeaderView.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -347,7 +348,15 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == 0) {
+        BBProfileHeaderView *headerView = [[BBProfileHeaderView alloc] initWithFrame:CGRectMake(0, 0, bWidth, 35)];
+        return headerView;
+    } else {
+        return nil;
+    }
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
