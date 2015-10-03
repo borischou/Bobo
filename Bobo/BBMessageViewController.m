@@ -165,12 +165,16 @@
             for (int i = 0; i < [downloadedComments count]; i ++) {
                 Comment *tmp_comment = [[Comment alloc] initWithDictionary:downloadedComments[i]];
                 [tableView.comments insertObject:tmp_comment atIndex:i];
-                if ([downloadedComments count] - 1 == i) {
-                    _maxids[flag] = tmp_comment.idstr;
-                }
+//                if ([downloadedComments count] - 1 == i) {
+//                    _maxids[flag] = tmp_comment.idstr;
+//                }
             }
-            Comment *comment = [[Comment alloc] initWithDictionary:[downloadedComments objectAtIndex:0]];
-            _sinceids[flag] = comment.idstr;
+//            Comment *comment = [[Comment alloc] initWithDictionary:[downloadedComments objectAtIndex:0]];
+//            _sinceids[flag] = comment.idstr;
+            NSDictionary *lastone = downloadedComments.lastObject;
+            _maxids[flag] = lastone[@"idstr"];
+            NSDictionary *firstone = downloadedComments.firstObject;
+            _sinceids[flag] = firstone[@"idstr"];
         }
         [tableView.header endRefreshing];
     }
@@ -181,10 +185,12 @@
             for (int i = 1; i < [historyMessages count]; i ++) {
                 Comment *tmp_comment = [[Comment alloc] initWithDictionary:historyMessages[i]];
                 [tableView.comments addObject:tmp_comment];
-                if ([historyMessages count] - 1 == i) {
-                    _maxids[flag] = tmp_comment.idstr;
-                }
+//                if ([historyMessages count] - 1 == i) {
+//                    _maxids[flag] = tmp_comment.idstr;
+//                }
             }
+            NSDictionary *lastone = historyMessages.lastObject;
+            _maxids[flag] = lastone[@"idstr"];
         }
         [tableView.footer endRefreshing];
     }
