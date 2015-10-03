@@ -158,12 +158,16 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
                 Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
                 [_waterfallView.statuses insertObject:tmp_status atIndex:i];
-                if ([downloadedStatuses count] - 1 == i) {
-                    _max_id = tmp_status.idstr;
-                }
+//                if ([downloadedStatuses count] - 1 == i) {
+//                    _max_id = tmp_status.idstr;
+//                }
             }
-            Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
-            _since_id = status.idstr;
+//            Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
+//            _since_id = status.idstr;
+            NSDictionary *lastone = downloadedStatuses.lastObject;
+            _max_id = lastone[@"idstr"];
+            NSDictionary *firstone = downloadedStatuses.firstObject;
+            _since_id = firstone[@"idstr"];
             [Utils presentNotificationWithText:[NSString stringWithFormat:@"更新了%ld条微博", downloadedStatuses.count]];
         }
         if (_waterfallView.statuses.count <= 8) {
@@ -178,10 +182,12 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
             for (int i = 1; i < [historyStatuses count]; i ++) {
                 Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
                 [_waterfallView.statuses addObject:tmp_status];
-                if ([historyStatuses count] - 1 == i) {
-                    _max_id = tmp_status.idstr;
-                }
+//                if ([historyStatuses count] - 1 == i) {
+//                    _max_id = tmp_status.idstr;
+//                }
             }
+            NSDictionary *lastone = historyStatuses.lastObject;
+            _max_id = lastone[@"idstr"];
         }
         [_waterfallView.footer endRefreshing];
     }
