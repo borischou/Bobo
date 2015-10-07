@@ -352,10 +352,10 @@
                     NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
                         if (_statuses[indexPath.section]) {
                             [_statuses removeObjectAtIndex:indexPath.section];
                         }
+                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
                         [Utils presentNotificationWithText:@"删除成功"];
                     });
                 }
