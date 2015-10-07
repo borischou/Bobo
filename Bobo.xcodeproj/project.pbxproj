@@ -12,6 +12,7 @@
 		0060CCC41BA5C660005F3E20 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0060CCC31BA5C660005F3E20 /* UIColor+Custom.m */; };
 		006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006E2F641B949FD2008AB6DF /* BBNotificationView.m */; };
 		0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */; };
+		0094A0851BC5585A00C96D67 /* delete_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0094A0841BC5585A00C96D67 /* delete_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
 		009FE62D1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009FE62C1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m */; settings = {ASSET_TAGS = (); }; };
 		00D8AA081BBC1EB700EFE208 /* ReplyComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D8AA071BBC1EB700EFE208 /* ReplyComment.m */; settings = {ASSET_TAGS = (); }; };
@@ -116,6 +117,7 @@
 		006E2F631B949FD2008AB6DF /* BBNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNotificationView.h; sourceTree = "<group>"; };
 		006E2F641B949FD2008AB6DF /* BBNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBNotificationView.m; sourceTree = "<group>"; };
 		007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comntbar_icon@3x.png"; sourceTree = "<group>"; };
+		0094A0841BC5585A00C96D67 /* delete_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete_icon@3x.png"; sourceTree = "<group>"; };
 		009B0C411B8376EF00B221E0 /* BBReplyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBReplyCommentView.h; sourceTree = "<group>"; };
 		009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBReplyCommentView.m; sourceTree = "<group>"; };
 		009FE62B1BBEDCB800BE4665 /* BBProfileMenuHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProfileMenuHeaderView.h; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 		45620D3C1B3706BF00B9F9F2 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				0094A0841BC5585A00C96D67 /* delete_icon@3x.png */,
 				45A183E31BB9319B00FE9890 /* following_icon@3x.png */,
 				4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */,
 				45A183E71BB931BF00FE9890 /* friend_icon@3x.png */,
@@ -721,6 +724,7 @@
 				45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */,
 				457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */,
 				456254D31B82E7E00009A332 /* cmt_icon@3x.png in Resources */,
+				0094A0851BC5585A00C96D67 /* delete_icon@3x.png in Resources */,
 				456254D91B8305220009A332 /* faved_icon@3x.png in Resources */,
 				458B60E01B95A8E8005A1749 /* icon_vip.png in Resources */,
 				4579AA021BBB9F2E001A2927 /* group_tab_icon@3x.png in Resources */,

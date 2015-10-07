@@ -37,6 +37,7 @@
 #define bTopPadding 10.0
 #define bSmallGap 5
 #define bBigGap 10
+#define bDeleteBtnWidth 20
 #define bTextFontSize 14.f
 #define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
 
@@ -68,7 +69,6 @@
 @interface BBStatusTableViewCell ()
 
 //status
-//@property (strong, nonatomic) STTweetLabel *tweetTextLabel;
 @property (strong, nonatomic) UILabel *nicknameLbl;
 @property (strong, nonatomic) UILabel *postTimeLbl;
 @property (strong, nonatomic) UILabel *sourceLbl;
@@ -76,9 +76,10 @@
 @property (strong, nonatomic) UIImageView *vipView;
 @property (strong, nonatomic) NSMutableArray *statusImgViews;
 
+@property (strong, nonatomic) UIButton *deleteButton;
+
 //repost status
 @property (strong, nonatomic) UIView *repostView;
-//@property (strong, nonatomic) STTweetLabel *retweetTextLabel;
 @property (strong, nonatomic) NSMutableArray *imgViews;
 
 //barbuttons
@@ -162,6 +163,13 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     _sourceLbl.textColor = [UIColor lightTextColor];
     [_sourceLbl setFont:[UIFont systemFontOfSize:10.f]];
     [self.contentView addSubview:_sourceLbl];
+    
+    //delete
+    _deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_deleteButton setFrame:CGRectZero];
+    [_deleteButton setBackgroundImage:[UIImage imageNamed:@"delete_icon"] forState:UIControlStateNormal];
+    [_deleteButton addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_deleteButton];
     
     CGFloat fontSize = [Utils fontSizeForStatus];
     //text
@@ -313,6 +321,11 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     [self.delegate tableViewCell:self didTapAvatar:_avatarView];
 }
 
+-(void)deleteButtonPressed:(UIButton *)sender
+{
+    [self.delegate tableViewCell:self didPressDeleteButton:sender];
+}
+
 #pragma mark - Cell configure support
 
 //override this method to load views dynamically
@@ -417,6 +430,15 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     //来源
     CGSize sourceSize = [_sourceLbl sizeThatFits:CGSizeMake(MAXFLOAT, bPostTimeHeight)];
     [_sourceLbl setFrame:CGRectMake(10+bAvatarWidth+10+timeSize.width+10, 10+5+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
+    
+    //删除
+    AppDelegate *delegate = [AppDelegate delegate];
+    [_deleteButton setFrame:CGRectMake(bWidth-bBigGap-bDeleteBtnWidth, 10+5, bDeleteBtnWidth, bDeleteBtnWidth)];
+    if ([_status.user.idstr isEqualToString:delegate.user.idstr]) {
+        [_deleteButton setHidden:NO];
+    } else {
+        [_deleteButton setHidden:YES];
+    }
     
     //微博正文
     CGSize postSize = [_tweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];

@@ -339,6 +339,38 @@
     [self.navigationController pushViewController:dtvc animated:YES];
 }
 
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didPressDeleteButton:(UIButton *)sender
+{
+    //delete the status
+    AppDelegate *delegate = [AppDelegate delegate];
+    if ([cell.status.user.idstr isEqualToString:delegate.user.idstr]) {
+        UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"删除微博" message:@"是否删除此微博？" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSDictionary *params = @{@"id": cell.status.idstr};
+            [Utils weiboPostRequestWithAccount:_weiboAccount URL:@"statuses/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                if (!error) {
+                    NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [Utils presentNotificationWithText:@"删除成功"];
+                    });
+                }
+                else {
+                    NSLog(@"收藏失败: %@", error);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [Utils presentNotificationWithText:@"删除失败"];
+                    });
+                }
+            }];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            //取消
+        }];
+        [alertcontroller addAction:deleteAction];
+        [alertcontroller addAction:cancelAction];
+        [self.navigationController presentViewController:alertcontroller animated:YES completion:^{}];
+    }
+}
+
 -(void)tableViewCell:(BBStatusTableViewCell *)cell statusPictureTapped:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
