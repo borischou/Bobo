@@ -149,12 +149,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
                 Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
                 [_statuses insertObject:tmp_status atIndex:i];
-//                if ([downloadedStatuses count] - 1 == i) {
-//                    _max_id = tmp_status.idstr;
-//                }
             }
-//            Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
-//            _since_id = status.idstr;
             NSDictionary *lastone = downloadedStatuses.lastObject;
             _max_id = lastone[@"idstr"];
             NSDictionary *firstone = downloadedStatuses.firstObject;
@@ -170,9 +165,6 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
             for (int i = 1; i < [historyStatuses count]; i ++) {
                 Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
                 [_statuses addObject:tmp_status];
-//                if ([historyStatuses count] - 1 == i) {
-//                    _max_id = tmp_status.idstr;
-//                }
             }
             NSDictionary *lastone = historyStatuses.lastObject;
             _max_id = lastone[@"idstr"];
@@ -243,6 +235,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
             } else {
                 _url = homeTimeline;
                 [self clearStatuses];
+                [self.tableView reloadData];
                 [self.tableView.header beginRefreshing];
             }
             [groupView maskViewTapped];
@@ -253,6 +246,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
             } else {
                 _url = bilateralTimeline;
                 [self clearStatuses];
+                [self.tableView reloadData];
                 [self.tableView.header beginRefreshing];
             }
             [groupView maskViewTapped];
@@ -365,7 +359,6 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
-    //updateStatusView.idStr = cell.status.idstr;
     updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = cell.status.user.screen_name;
     AppDelegate *delegate = [AppDelegate delegate];
@@ -422,7 +415,6 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetIcon:(UIImageView *)retweetIcon
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
-    //updateStatusView.idStr = cell.status.idstr;
     updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = @"转发";
     if (cell.status.retweeted_status.text.length > 0) {
