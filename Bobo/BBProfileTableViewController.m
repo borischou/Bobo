@@ -569,6 +569,10 @@ static NSString *reuseCountsCell = @"countsCell";
     AppDelegate *delegate = [AppDelegate delegate];
     ACAccount *account = [delegate defaultAccount];
     
+    if ([imageView.image isEqual:[NSNull null]] || imageView.image == nil) {
+        //do nothing
+    }
+    
     if ([imageView.image isEqual:[UIImage imageNamed:@"settings_icon"]])
     {
         NSLog(@"settings");
@@ -577,6 +581,9 @@ static NSString *reuseCountsCell = @"countsCell";
     if ([imageView.image isEqual:[UIImage imageNamed:@"following_icon"]]
         || [imageView.image isEqual:[UIImage imageNamed:@"friend_icon"]])
     {
+        if ([delegate.user.idstr isEqualToString:cell.user.idstr]) {
+            return;
+        }
         NSLog(@"following");
         //取关
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"取消关注" message:@"您是否确定取消关注此用户？" preferredStyle:UIAlertControllerStyleActionSheet];
@@ -605,6 +612,9 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     if ([imageView.image isEqual:[UIImage imageNamed:@"follow_icon"]])
     {
+        if ([delegate.user.idstr isEqualToString:cell.user.idstr]) {
+            return;
+        }
         NSLog(@"follow");
         //关注
         NSDictionary *params = @{@"uid": _user.idstr};

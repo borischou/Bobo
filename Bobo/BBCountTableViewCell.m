@@ -77,7 +77,8 @@
     [self initCellLabel:followerTextLbl withFrame:CGRectMake(bCountSmallCellWidth*2, bNumPartHeight, bCountSmallCellWidth, bTextPartHeight) andTitle:@"Followers" withFontSize:13.f];
     
     _todoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(bCountSmallCellWidth*3+(bCountSmallCellWidth-bCountCellHeight*0.4)*.5, bCountCellHeight*0.3, bCountCellHeight*0.4, bCountCellHeight*0.4)];
-    _todoImgView.userInteractionEnabled = YES;
+    [_todoImgView setUserInteractionEnabled:YES];
+    [_todoImgView setImage:nil];
     [_todoImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(todoImgViewTapped:)]];
     [self.contentView addSubview:_todoImgView];
 }
