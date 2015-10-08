@@ -607,7 +607,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
 
 #pragma mark - BBCountTableViewCellDelegate
 
--(void)tableViewCell:(BBCountTableViewCell *)cell didTapTodoImageViewWithTapGesture:(UITapGestureRecognizer *)tap
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapTodoImageView:(UITapGestureRecognizer *)tap
 {
     UIImageView *imageView = (UIImageView *)tap.view;
     AppDelegate *delegate = [AppDelegate delegate];
