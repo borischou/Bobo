@@ -15,6 +15,7 @@
 +(NSString *)middlePictureUrlConvertedFromThumbUrl:(NSString *)url;
 +(NSString *)formatNum:(NSInteger)num;
 +(NSString *)trim:(NSString *)source;
++(NSString *)formatPostTime:(NSString *)postTime; //EEE HH:mm:ss yy-MM-dd
 +(NSAttributedString *)markedText:(NSString *)text fontSize:(CGFloat)fontSize fontColor:(UIColor *)color;
 
 @end

@@ -195,7 +195,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [_nicknameLbl setTextColor:[UIColor lightTextColor]];
     }
     
-    _postTimeLbl.text = [Utils formatPostTime:_comment.created_at];
+    _postTimeLbl.text = [NSString formatPostTime:_comment.created_at];
     _sourceLbl.text = [NSString trim:_comment.source];
     if (_comment.text) {
         [_tweetTextLabel setText:_comment.text];

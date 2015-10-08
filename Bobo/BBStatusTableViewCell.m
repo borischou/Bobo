@@ -332,8 +332,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    [self setStatusData];
-    [self setCellLayout];
+    [self loadData];
+    [self loadLayout];
 }
 
 -(void)prepareForReuse
@@ -341,7 +341,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     [super prepareForReuse];
 }
 
--(void)setStatusData
+-(void)loadData
 {
     NSRegularExpression *regex = HotwordRegularExpression();
     
@@ -359,7 +359,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [_nicknameLbl setTextColor:[UIColor lightTextColor]];
     }
     
-    _postTimeLbl.text = [Utils formatPostTime:_status.created_at];
+    _postTimeLbl.text = [NSString formatPostTime:_status.created_at];
     _sourceLbl.text = [NSString trim:_status.source];
 
     if (_status.text) {
@@ -411,7 +411,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     }
 }
 
--(void)setCellLayout
+-(void)loadLayout
 {
     //vip
     if (_status.user.verified) {

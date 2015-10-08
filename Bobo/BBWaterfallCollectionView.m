@@ -137,7 +137,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 {
     NSRegularExpression *regex = HotwordRegularExpression();
     
-    cell.timeLabel.text = [Utils formatPostTime:status.created_at];
+    cell.timeLabel.text = [NSString formatPostTime:status.created_at];
     cell.retweetNumLabel.text = [NSString stringWithFormat:@"%ld", status.reposts_count];
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", status.comments_count];
     cell.nameLabel.text = status.user.screen_name;

@@ -129,7 +129,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [_nameLbl setTextColor:[UIColor lightTextColor]];
     }
     
-    _timeLbl.text = [Utils formatPostTime:_comment.created_at];
+    _timeLbl.text = [NSString formatPostTime:_comment.created_at];
     NSRegularExpression *regex = HotwordRegularExpression();
 
     if (_comment.text) {

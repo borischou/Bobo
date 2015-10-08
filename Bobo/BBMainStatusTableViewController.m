@@ -45,6 +45,11 @@ static NSString *reuseBarCellId = @"barCell";
 static NSString *homeTimeline = @"statuses/home_timeline.json";
 static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
 
+typedef NS_ENUM(NSInteger, fetchResultType) {
+    fetchResultTypeRefresh,
+    fetchResultTypeHistory
+};
+
 @interface BBMainStatusTableViewController () <BBStatusTableViewCellDelegate, TTTAttributedLabelDelegate, BBGroupSelectViewDelegate>
 
 @property (copy, nonatomic) NSString *max_id;
@@ -138,12 +143,12 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     self.tableView.footer = footer;
 }
 
--(void)handleWeiboResult:(id)result type:(NSString *)type
+-(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type
 {
     if (!_statuses) {
         _statuses = @[].mutableCopy;
     }
-    if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
+    if (type == fetchResultTypeRefresh) { //下拉刷新最新微博
         NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
         if (downloadedStatuses.count > 0) {
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
@@ -159,7 +164,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
         [self.tableView.header endRefreshing];
     }
     
-    if ([type isEqualToString:@"history"]) { //上拉刷新历史微博
+    if (type == fetchResultTypeHistory) { //上拉刷新历史微博
         NSArray *historyStatuses = [result objectForKey:@"statuses"];
         if (historyStatuses.count > 0) {
             for (int i = 1; i < [historyStatuses count]; i ++) {
@@ -185,7 +190,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"refresh"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeRefresh];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -202,7 +207,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeHistory];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"main footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -476,7 +481,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     }
 }
 
--(void)tableViewCell:(BBStatusTableViewCell *)cell statusPictureTapped:(UITapGestureRecognizer *)tap
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapStatusPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
     for (NSString *str in cell.status.pic_urls) {
@@ -485,7 +490,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
 
--(void)tableViewCell:(BBStatusTableViewCell *)cell retweetPictureTapped:(UITapGestureRecognizer *)tap
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
     for (NSString *str in cell.status.retweeted_status.pic_urls) {

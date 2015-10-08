@@ -58,22 +58,6 @@
     return height;
 }
 
-+(NSString *)formatPostTime:(NSString *)postTime
-{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"EEE MMM d HH:mm:ss Z yyyy"];
-    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Beijing"]];
-    [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_CN"]];
-    
-    NSDate *date = [formatter dateFromString:postTime];
-    NSDateFormatter *outFormatter = [[NSDateFormatter alloc] init];
-    [outFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Beijing"]];
-    [outFormatter setDateFormat:@"EEE HH:mm:ss yy-MM-dd"];
-    NSString *formattedTime = [outFormatter stringFromDate:date];
-    
-    return formattedTime;
-}
-
 +(CGFloat)heightForString:(NSString *)str width:(CGFloat)width fontSize:(CGFloat)size
 {
     if (!str) {

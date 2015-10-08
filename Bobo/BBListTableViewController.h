@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
+
+typedef NS_ENUM(NSInteger, listType) {
+    listTypeFollower,
+    listTypeFollowing
+};
 
 @interface BBListTableViewController : UITableViewController
 
-@property (strong, nonatomic) NSMutableArray *users;
+@property (strong, nonatomic) User *user;
+-(instancetype)initWithStyle:(UITableViewStyle)style listType:(NSInteger)type;
 
 @end

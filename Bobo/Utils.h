@@ -22,7 +22,6 @@ typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLRespo
 //Calculates the height of cell
 +(CGFloat)getHeightForCellWithStatusText:(NSString *)text statusImageCount:(NSInteger)count andRetweetScreenName:(NSString *)screenName retweetText:(NSString *)retweetText retweetImageCount:(NSInteger)retweetImgCount;
 +(CGFloat)heightForImgsWithCount:(NSInteger)count; //Calculates the height of images in total
-+(NSString *)formatPostTime:(NSString *)postTime; //EEE HH:mm:ss yy-MM-dd
 +(CGFloat)heightForString:(NSString *)str width:(CGFloat)width fontSize:(CGFloat)size;
 +(CGFloat)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height;
 +(CGFloat)heightForWaterfallCellWithStatus:(Status *)status textWidth:(CGFloat)width;

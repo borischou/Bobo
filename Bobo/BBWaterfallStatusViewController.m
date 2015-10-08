@@ -29,6 +29,11 @@
 static NSString *homeTimeline = @"statuses/home_timeline.json";
 static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
 
+typedef NS_ENUM(NSInteger, fetchResultType) {
+    fetchResultTypeRefresh,
+    fetchResultTypeHistory
+};
+
 @interface BBWaterfallStatusViewController () <UICollectionViewDelegate, BBGroupSelectViewDelegate>
 
 @property (strong, nonatomic) BBWaterfallCollectionView *waterfallView;
@@ -147,23 +152,18 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     _waterfallView.footer = footer;
 }
 
--(void)handleWeiboResult:(id)result type:(NSString *)type
+-(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type
 {
     if (!_waterfallView.statuses) {
         _waterfallView.statuses = @[].mutableCopy;
     }
-    if ([type isEqualToString:@"refresh"]) { //下拉刷新最新微博
+    if (type == fetchResultTypeRefresh) { //下拉刷新最新微博
         NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
         if (downloadedStatuses.count > 0) {
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
                 Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
                 [_waterfallView.statuses insertObject:tmp_status atIndex:i];
-//                if ([downloadedStatuses count] - 1 == i) {
-//                    _max_id = tmp_status.idstr;
-//                }
             }
-//            Status *status = [[Status alloc] initWithDictionary:[downloadedStatuses objectAtIndex:0]];
-//            _since_id = status.idstr;
             NSDictionary *lastone = downloadedStatuses.lastObject;
             _max_id = lastone[@"idstr"];
             NSDictionary *firstone = downloadedStatuses.firstObject;
@@ -176,15 +176,12 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
         [_waterfallView.header endRefreshing];
     }
     
-    if ([type isEqualToString:@"history"]) { //上拉刷新历史微博
+    if (type == fetchResultTypeHistory) { //上拉刷新历史微博
         NSArray *historyStatuses = [result objectForKey:@"statuses"];
         if (historyStatuses.count > 0) {
             for (int i = 1; i < [historyStatuses count]; i ++) {
                 Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
                 [_waterfallView.statuses addObject:tmp_status];
-//                if ([historyStatuses count] - 1 == i) {
-//                    _max_id = tmp_status.idstr;
-//                }
             }
             NSDictionary *lastone = historyStatuses.lastObject;
             _max_id = lastone[@"idstr"];
@@ -204,7 +201,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"refresh"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeRefresh];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"更新失败"];
@@ -220,7 +217,7 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
     
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeHistory];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"访问失败"];

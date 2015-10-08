@@ -16,6 +16,7 @@
 #import "BBUpdateStatusView.h"
 #import "BBProfileTableViewController.h"
 #import "BBStatusDetailViewController.h"
+#import "BBListTableViewController.h"
 #import "BBCountTableViewCell.h"
 #import "AppDelegate.h"
 #import "BBProfileHeaderView.h"
@@ -42,6 +43,12 @@
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
 static NSString *reuseCountsCell = @"countsCell";
+
+typedef NS_ENUM(NSInteger, fetchResultType) {
+    fetchResultTypeRefresh,
+    fetchResultTypeHistory,
+    fetchResultTypeCounts
+};
 
 @interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate, TTTAttributedLabelDelegate, BBProfileMenuHeaderViewDelegate>
 
@@ -205,7 +212,7 @@ static NSString *reuseCountsCell = @"countsCell";
         if (delegate.uid || delegate.user.idstr) {
             [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = nil;
-                [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
+                [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeCounts];
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -221,7 +228,7 @@ static NSString *reuseCountsCell = @"countsCell";
     } else {
         [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSError *error = nil;
-            [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"show"];
+            [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeCounts];
         } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -241,7 +248,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"latest"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeRefresh];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [Utils presentNotificationWithText:@"更新失败"];
@@ -257,7 +264,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid, @"count": @"5", @"max_id": _currentLastStatusId} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:@"history"];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeHistory];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"profile footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -270,9 +277,9 @@ static NSString *reuseCountsCell = @"countsCell";
 
 #pragma mark - Helpers
 
--(void)handleWeiboResult:(id)result type:(NSString *)type
+-(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type
 {
-    if ([type isEqualToString:@"show"]) {
+    if (type == fetchResultTypeCounts) {
         [self.tableView.header endRefreshing];
         _user = [[User alloc] initWithDictionary:result];
         self.tableView.tableHeaderView = [self getAvatarView];
@@ -282,7 +289,7 @@ static NSString *reuseCountsCell = @"countsCell";
     if (!_statuses) {
         _statuses = @[].mutableCopy;
     }
-    if ([type isEqualToString:@"latest"]) {
+    if (type == fetchResultTypeRefresh) {
         if (downloadedStatuses.count > 0) {
             _statuses = nil;
             _statuses = @[].mutableCopy;
@@ -292,7 +299,7 @@ static NSString *reuseCountsCell = @"countsCell";
             }
         }
     }
-    if ([type isEqualToString:@"history"]) {
+    if (type == fetchResultTypeHistory) {
         for (int i = 1; i < downloadedStatuses.count; i ++) {
             Status *status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
             [_statuses addObject:status];
@@ -414,7 +421,7 @@ static NSString *reuseCountsCell = @"countsCell";
 
 -(void)didClickMenuButtonAtIndex:(NSInteger)index
 {
-    
+    //读取相册，所有微博或原创微博
 }
 
 #pragma mark - BBStatusTableViewCellDelegate & support
@@ -573,7 +580,7 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
--(void)tableViewCell:(BBStatusTableViewCell *)cell statusPictureTapped:(UITapGestureRecognizer *)tap
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapStatusPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
     for (NSString *str in cell.status.pic_urls) {
@@ -582,7 +589,7 @@ static NSString *reuseCountsCell = @"countsCell";
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
 
--(void)tableViewCell:(BBStatusTableViewCell *)cell retweetPictureTapped:(UITapGestureRecognizer *)tap
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
     for (NSString *str in cell.status.retweeted_status.pic_urls) {
@@ -676,6 +683,7 @@ static NSString *reuseCountsCell = @"countsCell";
 -(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowerCountLabel:(UITapGestureRecognizer *)tap
 {
     //跳转获取粉丝数列表
+    
 }
 
 -(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowingCountLabel:(UITapGestureRecognizer *)tap

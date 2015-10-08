@@ -23,6 +23,11 @@
 #define mMenuHeight 35
 #define mTableViewHeight bHeight-mMenuHeight-49-44-[UIApplication sharedApplication].statusBarFrame.size.height
 
+typedef NS_ENUM(NSInteger, fetchResultType) {
+    fetchResultTypeRefresh,
+    fetchResultTypeHistory
+};
+
 @interface BBMessageViewController () <UIScrollViewDelegate, BBMessageMenuViewDelegate>
 
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -33,8 +38,8 @@
 @property (strong, nonatomic) BBMessageTableView *mentionTableView;
 @property (strong, nonatomic) BBMessageTableView *allTableView;
 
-@property (copy, nonatomic) NSMutableArray *maxids;
-@property (copy, nonatomic) NSMutableArray *sinceids;
+@property (strong, nonatomic) NSMutableArray *maxids;
+@property (strong, nonatomic) NSMutableArray *sinceids;
 @property (copy, nonatomic) NSString *uri;
 
 @property (strong, nonatomic) ACAccount *weiboAccount;
@@ -157,9 +162,9 @@
     tableView.footer = footer;
 }
 
--(void)handleWeiboResult:(id)result type:(NSString *)type forTableView:(BBMessageTableView *)tableView flag:(NSInteger)flag
+-(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type forTableView:(BBMessageTableView *)tableView flag:(NSInteger)flag
 {
-    if ([type isEqualToString:@"refresh"]) { //下拉刷新最新消息
+    if (type == fetchResultTypeRefresh) { //下拉刷新最新消息
         NSArray *downloadedComments = [result objectForKey:@"comments"];
         if (downloadedComments.count > 0) {
             for (int i = 0; i < [downloadedComments count]; i ++) {
@@ -174,7 +179,7 @@
         [tableView.header endRefreshing];
     }
     
-    if ([type isEqualToString:@"history"]) { //上拉刷新历史消息
+    if (type == fetchResultTypeHistory) { //上拉刷新历史消息
         NSArray *historyMessages = [result objectForKey:@"statuses"];
         if (historyMessages.count > 0) {
             for (int i = 1; i < [historyMessages count]; i ++) {
@@ -202,16 +207,16 @@
         NSError *error = nil;
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
         if ([_uri isEqualToString:@"to_me"]) {
-            [self handleWeiboResult:result type:@"refresh" forTableView:_messageTableView flag:0];
+            [self handleWeiboResult:result fetchResultType:fetchResultTypeRefresh forTableView:_messageTableView flag:0];
         }
         if ([_uri isEqualToString:@"by_me"]) {
-            [self handleWeiboResult:result type:@"refresh" forTableView:_byMeTableView flag:1];
+            [self handleWeiboResult:result fetchResultType:fetchResultTypeRefresh forTableView:_byMeTableView flag:1];
         }
         if ([_uri isEqualToString:@"mentions"]) {
-            [self handleWeiboResult:result type:@"refresh" forTableView:_mentionTableView flag:2];
+            [self handleWeiboResult:result fetchResultType:fetchResultTypeRefresh forTableView:_mentionTableView flag:2];
         }
         if ([_uri isEqualToString:@"timeline"]) {
-            [self handleWeiboResult:result type:@"refresh" forTableView:_allTableView flag:3];
+            [self handleWeiboResult:result fetchResultType:fetchResultTypeRefresh forTableView:_allTableView flag:3];
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"message error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
@@ -229,16 +234,16 @@
         NSError *error = nil;
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
         if ([_uri isEqualToString:@"to_me"]) {
-            [self handleWeiboResult:result type:@"history" forTableView:_messageTableView flag:0];
+            [self handleWeiboResult:result fetchResultType:fetchResultTypeHistory forTableView:_messageTableView flag:0];
         }
         if ([_uri isEqualToString:@"by_me"]) {
-            [self handleWeiboResult:result type:@"history" forTableView:_byMeTableView flag:1];
+            [self handleWeiboResult:result fetchResultType:fetchResultTypeHistory forTableView:_byMeTableView flag:1];
         }
         if ([_uri isEqualToString:@"mentions"]) {
-            [self handleWeiboResult:result type:@"history" forTableView:_mentionTableView flag:2];
+            [self handleWeiboResult:result fetchResultType:fetchResultTypeHistory forTableView:_mentionTableView flag:2];
         }
         if ([_uri isEqualToString:@"timeline"]) {
-            [self handleWeiboResult:result type:@"history" forTableView:_allTableView flag:3];
+            [self handleWeiboResult:result fetchResultType:fetchResultTypeHistory forTableView:_allTableView flag:3];
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
