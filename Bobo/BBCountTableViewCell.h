@@ -13,7 +13,11 @@
 @class BBCountTableViewCell;
 @protocol BBCountTableViewCellDelegate <NSObject>
 
--(void)tableViewCell:(BBCountTableViewCell *)cell didTapTodoImageViewWithTapGesture:(UITapGestureRecognizer *)tap;
+@optional
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapTodoImageView:(UITapGestureRecognizer *)tap;
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapWeiboCountLabel:(UITapGestureRecognizer *)tap;
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowerCountLabel:(UITapGestureRecognizer *)tap;
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowingCountLabel:(UITapGestureRecognizer *)tap;
 
 @end
 

@@ -673,6 +673,21 @@ static NSString *reuseCountsCell = @"countsCell";
     }
 }
 
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowerCountLabel:(UITapGestureRecognizer *)tap
+{
+    //跳转获取粉丝数列表
+}
+
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowingCountLabel:(UITapGestureRecognizer *)tap
+{
+    //跳转获取关注列表
+}
+
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapWeiboCountLabel:(UITapGestureRecognizer *)tap
+{
+    //刷新个人微博列表
+}
+
 #pragma mark - TTTAttributedLabelDelegate & support
 
 -(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result

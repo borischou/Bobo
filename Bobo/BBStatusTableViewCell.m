@@ -303,12 +303,12 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 
 -(void)statusImageTapped:(UITapGestureRecognizer *)tap
 {
-    [self.delegate tableViewCell:self statusPictureTapped:tap];
+    [self.delegate tableViewCell:self didTapStatusPicture:tap];
 }
 
 -(void)repostImageTapped:(UITapGestureRecognizer *)tap
 {
-    [self.delegate tableViewCell:self retweetPictureTapped:tap];
+    [self.delegate tableViewCell:self didTapRetweetPicture:tap];
 }
 
 -(void)repostViewTapped:(UITapGestureRecognizer *)tap

@@ -60,12 +60,16 @@
 -(void)initCountLayout
 {
     //number part
-    self.wbcounts = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, bCountSmallCellWidth, bNumPartHeight)];
-    self.friendcounts = [[UILabel alloc] initWithFrame:CGRectMake(bCountSmallCellWidth, 0, bCountSmallCellWidth, bNumPartHeight)];
-    self.followercounts = [[UILabel alloc] initWithFrame:CGRectMake(bCountSmallCellWidth*2, 0, bCountSmallCellWidth, bNumPartHeight)];
-    [self initCellLabel:self.wbcounts];
-    [self initCellLabel:self.friendcounts];
-    [self initCellLabel:self.followercounts];
+    _wbcounts = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, bCountSmallCellWidth, bNumPartHeight)];
+    _friendcounts = [[UILabel alloc] initWithFrame:CGRectMake(bCountSmallCellWidth, 0, bCountSmallCellWidth, bNumPartHeight)];
+    _followercounts = [[UILabel alloc] initWithFrame:CGRectMake(bCountSmallCellWidth*2, 0, bCountSmallCellWidth, bNumPartHeight)];
+    [self initCellLabel:_wbcounts];
+    [self initCellLabel:_friendcounts];
+    [self initCellLabel:_followercounts];
+    
+    [_wbcounts addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(wbcountsTapped:)]];
+    [_friendcounts addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(friendcountsTapped:)]];
+    [_followercounts addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(followercountsTapped:)]];
     
     //text part
     UILabel *wbTextLbl = nil;
@@ -89,6 +93,7 @@
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
+    [label setUserInteractionEnabled:YES];
     [self.contentView addSubview:label];
 }
 
@@ -126,9 +131,26 @@
     }
 }
 
+#pragma mark - Actions
+
 -(void)todoImgViewTapped:(UITapGestureRecognizer *)tap
 {
-    [self.delegate tableViewCell:self didTapTodoImageViewWithTapGesture:tap];
+    [self.delegate tableViewCell:self didTapTodoImageView:tap];
+}
+
+-(void)friendcountsTapped:(UITapGestureRecognizer *)tap
+{
+    [self.delegate tableViewCell:self didTapFollowingCountLabel:tap];
+}
+
+-(void)wbcountsTapped:(UITapGestureRecognizer *)tap
+{
+    [self.delegate tableViewCell:self didTapWeiboCountLabel:tap];
+}
+
+-(void)followercountsTapped:(UITapGestureRecognizer *)tap
+{
+    [self.delegate tableViewCell:self didTapFollowerCountLabel:tap];
 }
 
 @end

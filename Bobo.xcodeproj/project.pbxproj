@@ -74,10 +74,12 @@
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
 		457CE31B1BA812D200D3926B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457CE31A1BA812D200D3926B /* Social.framework */; };
 		457CE31D1BA812E600D3926B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457CE31C1BA812E600D3926B /* Accounts.framework */; };
+		458239771BC60A5B0065B4D2 /* BBListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458239761BC60A5B0065B4D2 /* BBListTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		4582397A1BC60CDA0065B4D2 /* BBListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 458239791BC60CDA0065B4D2 /* BBListTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 458393521B7B4B98005B1766 /* BBUpdateStatusView.m */; };
 		458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 458393571B7B54E4005B1766 /* post_tab_icon@3x.png */; };
 		4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* Counts.m */; };
-		458B60E01B95A8E8005A1749 /* icon_vip.png in Resources */ = {isa = PBXBuildFile; fileRef = 458B60DF1B95A8E8005A1749 /* icon_vip.png */; };
+		458B60E01B95A8E8005A1749 /* icon_vip@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 458B60DF1B95A8E8005A1749 /* icon_vip@3x.png */; };
 		4592324B1B969A170006A123 /* BBMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4592324A1B969A170006A123 /* BBMessageViewController.m */; };
 		4592324E1B969A3B0006A123 /* BBMessageTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4592324D1B969A3B0006A123 /* BBMessageTableView.m */; };
 		459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459232501B969A490006A123 /* BBMessageTableViewCell.m */; };
@@ -215,12 +217,16 @@
 		457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
 		457CE31A1BA812D200D3926B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		457CE31C1BA812E600D3926B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		458239751BC60A5B0065B4D2 /* BBListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBListTableViewController.h; sourceTree = "<group>"; };
+		458239761BC60A5B0065B4D2 /* BBListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBListTableViewController.m; sourceTree = "<group>"; };
+		458239781BC60CDA0065B4D2 /* BBListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBListTableViewCell.h; sourceTree = "<group>"; };
+		458239791BC60CDA0065B4D2 /* BBListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBListTableViewCell.m; sourceTree = "<group>"; };
 		458393511B7B4B98005B1766 /* BBUpdateStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBUpdateStatusView.h; sourceTree = "<group>"; };
 		458393521B7B4B98005B1766 /* BBUpdateStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBUpdateStatusView.m; sourceTree = "<group>"; };
 		458393571B7B54E4005B1766 /* post_tab_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "post_tab_icon@3x.png"; sourceTree = "<group>"; };
 		4588F7311B3B9B5A00EE32D0 /* Counts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counts.h; sourceTree = "<group>"; };
 		4588F7321B3B9B5A00EE32D0 /* Counts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Counts.m; sourceTree = "<group>"; };
-		458B60DF1B95A8E8005A1749 /* icon_vip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_vip.png; sourceTree = "<group>"; };
+		458B60DF1B95A8E8005A1749 /* icon_vip@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_vip@3x.png"; sourceTree = "<group>"; };
 		459232491B969A170006A123 /* BBMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMessageViewController.h; sourceTree = "<group>"; };
 		4592324A1B969A170006A123 /* BBMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessageViewController.m; sourceTree = "<group>"; };
 		4592324C1B969A3B0006A123 /* BBMessageTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMessageTableView.h; sourceTree = "<group>"; };
@@ -416,7 +422,7 @@
 				45C57B4C1B9FFDC700FE040E /* bobo_tab_icon@3x.png */,
 				459232521B96BE530006A123 /* tab_icon_message@3x.png */,
 				457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */,
-				458B60DF1B95A8E8005A1749 /* icon_vip.png */,
+				458B60DF1B95A8E8005A1749 /* icon_vip@3x.png */,
 				456254D81B8305220009A332 /* faved_icon@3x.png */,
 				456920401B74758B00E2C204 /* bb_collect_icon@3x.png */,
 				456254D01B82E7E00009A332 /* cmt_icon@3x.png */,
@@ -494,6 +500,17 @@
 			name = CHTCollectionViewWaterfallLayout;
 			sourceTree = "<group>";
 		};
+		458239741BC609F60065B4D2 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				458239751BC60A5B0065B4D2 /* BBListTableViewController.h */,
+				458239761BC60A5B0065B4D2 /* BBListTableViewController.m */,
+				458239781BC60CDA0065B4D2 /* BBListTableViewCell.h */,
+				458239791BC60CDA0065B4D2 /* BBListTableViewCell.m */,
+			);
+			name = List;
+			sourceTree = "<group>";
+		};
 		45BEC74F1B9E773200001DAE /* Module */ = {
 			isa = PBXGroup;
 			children = (
@@ -502,6 +519,7 @@
 				45BEC7561B9E77D000001DAE /* Detail */,
 				45BEC7551B9E77AF00001DAE /* Post */,
 				45BEC7541B9E779E00001DAE /* Favorite */,
+				458239741BC609F60065B4D2 /* List */,
 				45BEC7531B9E779300001DAE /* Profile */,
 				45BEC7521B9E778300001DAE /* Homeline */,
 				45BEC7511B9E777E00001DAE /* Waterfall */,
@@ -557,10 +575,10 @@
 				45A052151B3A898200A1488D /* BBCountTableViewCell.m */,
 				457C60E91B7301F500B10D53 /* BBProfileHeaderView.h */,
 				457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */,
-				4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */,
-				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
 				009FE62B1BBEDCB800BE4665 /* BBProfileMenuHeaderView.h */,
 				009FE62C1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m */,
+				4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */,
+				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -726,7 +744,7 @@
 				456254D31B82E7E00009A332 /* cmt_icon@3x.png in Resources */,
 				0094A0851BC5585A00C96D67 /* delete_icon@3x.png in Resources */,
 				456254D91B8305220009A332 /* faved_icon@3x.png in Resources */,
-				458B60E01B95A8E8005A1749 /* icon_vip.png in Resources */,
+				458B60E01B95A8E8005A1749 /* icon_vip@3x.png in Resources */,
 				4579AA021BBB9F2E001A2927 /* group_tab_icon@3x.png in Resources */,
 				456254D51B82E7E00009A332 /* retwt_icon@3x.png in Resources */,
 				459232531B96BE530006A123 /* tab_icon_message@3x.png in Resources */,
@@ -782,12 +800,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */,
+				458239771BC60A5B0065B4D2 /* BBListTableViewController.m in Sources */,
 				45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
 				45688A0F1B85ABBF0015461E /* CStatus.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
 				45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */,
+				4582397A1BC60CDA0065B4D2 /* BBListTableViewCell.m in Sources */,
 				459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */,
 				45704DB01B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */,
