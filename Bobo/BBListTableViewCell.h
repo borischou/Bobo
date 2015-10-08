@@ -9,7 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 
+@class BBListTableViewCell;
+@protocol BBListTableViewCellDelegate <NSObject>
+
+@optional
+-(void)tableViewCell:(BBListTableViewCell *)cell didTapRelationshipView:(UITapGestureRecognizer *)tap;
+
+@end
+
 @interface BBListTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) id <BBListTableViewCellDelegate> delegate;
 
 @property (strong, nonatomic) User *user;
 

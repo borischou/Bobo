@@ -15,7 +15,7 @@
 
 #define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 
-@interface BBListTableViewController ()
+@interface BBListTableViewController () <BBListTableViewCellDelegate>
 
 @property (nonatomic) NSInteger listType;
 @property (nonatomic) NSInteger cursor;
@@ -130,6 +130,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView registerClass:[BBListTableViewCell class] forCellReuseIdentifier:@"reuse"];
     BBListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
+    cell.delegate = self;
     if (_users.count > 0) {
         cell.user = _users[indexPath.row];
     }
@@ -144,6 +145,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
+}
+
+#pragma mark - BBListTableViewCellDelegate
+
+-(void)tableViewCell:(BBListTableViewCell *)cell didTapRelationshipView:(UITapGestureRecognizer *)tap
+{
+    
 }
 
 @end

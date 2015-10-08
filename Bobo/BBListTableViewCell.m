@@ -54,7 +54,8 @@ static float nameHeight = 20;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.contentView.backgroundColor = bCellBGColor;
+        [self.contentView setBackgroundColor:bCellBGColor];
+        [self setBackgroundColor:bCellBGColor]; //可设置与contentView同色或透明色以防止左侧分割线颜色不一致
         [self setupSubviews];
     }
     return self;
@@ -69,6 +70,7 @@ static float nameHeight = 20;
     //状态
     _relationship = [[UIImageView alloc] initWithFrame:CGRectZero];
     [_relationship setUserInteractionEnabled:YES];
+    [_relationship addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(relationshipTapped:)]];
     [self.contentView addSubview:_relationship];
     
     //vip
@@ -152,6 +154,11 @@ static float nameHeight = 20;
         [_name setFrame:CGRectMake(lBigGap+avatarLength+lBigGap, lBigGap+lBigGap, nameSize.width, nameHeight)];
         [_vip setFrame:CGRectMake(lBigGap+avatarLength+lBigGap+nameSize.width, lBigGap+lBigGap, 15, 15)];
     }
+}
+
+-(void)relationshipTapped:(UITapGestureRecognizer *)tap
+{
+    [self.delegate tableViewCell:self didTapRelationshipView:tap];
 }
 
 @end
