@@ -8,6 +8,7 @@
 
 #import "BBListTableViewController.h"
 #import "BBListTableViewCell.h"
+#import "BBProfileTableViewController.h"
 #import <MJRefresh.h>
 #import <Accounts/Accounts.h>
 #import "AppDelegate.h"
@@ -144,14 +145,110 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    User *user = _users[indexPath.row];
+    NSDictionary *params = @{@"uid": user.idstr};
+    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+                                      URL:@"statuses/user_timeline.json"
+                      SLRequestHTTPMethod:SLRequestMethodGET
+                               parameters:params
+               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSMutableArray *statuses = [Utils statusesWith:responseObject];
+         Status *status = statuses.firstObject;
+         User *user = status.user;
+         
+         BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+         [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
+         profiletvc.uid = user.idstr;
+         profiletvc.statuses = statuses;
+         profiletvc.user = user;
+         profiletvc.shouldNavBtnShown = NO;
+         profiletvc.title = @"Profile";
+         profiletvc.hidesBottomBarWhenPushed = YES;
+         [self.navigationController pushViewController:profiletvc animated:YES];
+     }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"error %@", error);
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [Utils presentNotificationWithText:@"访问失败"];
+         });
+     }];
 }
 
 #pragma mark - BBListTableViewCellDelegate
 
 -(void)tableViewCell:(BBListTableViewCell *)cell didTapRelationshipView:(UITapGestureRecognizer *)tap
 {
+    UIImageView *imageView = (UIImageView *)tap.view;
+    AppDelegate *delegate = [AppDelegate delegate];
+    ACAccount *account = [delegate defaultAccount];
     
+    if ([imageView.image isEqual:[NSNull null]] || imageView.image == nil) {
+        //do nothing
+    }
+    
+    if ([imageView.image isEqual:[UIImage imageNamed:@"settings_icon"]])
+    {
+        NSLog(@"settings");
+        //个人设置
+    }
+    if ([imageView.image isEqual:[UIImage imageNamed:@"following_icon"]]
+        || [imageView.image isEqual:[UIImage imageNamed:@"friend_icon"]])
+    {
+        if ([delegate.user.idstr isEqualToString:cell.user.idstr]) {
+            return;
+        }
+        NSLog(@"following");
+        //取关
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"取消关注" message:@"您是否确定取消关注此用户？" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消关注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSDictionary *params = @{@"uid": _user.idstr};
+            [Utils weiboPostRequestWithAccount:account URL:@"friendships/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                if (!error) {
+                    NSLog(@"success");
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [cell.user setFollowing:NO];
+                        [Utils presentNotificationWithText:@"成功取关"];
+                        [cell setNeedsLayout];
+                    });
+                } else {
+                    NSLog(@"error: %@", error);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [Utils presentNotificationWithText:@"取关失败"];
+                    });
+                }
+            }];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"继续关注" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
+        [alertController addAction:action];
+        [alertController addAction:cancelAction];
+        [self presentViewController:alertController animated:YES completion:^{}];
+    }
+    if ([imageView.image isEqual:[UIImage imageNamed:@"follow_icon"]])
+    {
+        if ([delegate.user.idstr isEqualToString:cell.user.idstr]) {
+            return;
+        }
+        NSLog(@"follow");
+        //关注
+        NSDictionary *params = @{@"uid": _user.idstr};
+        [Utils weiboPostRequestWithAccount:account URL:@"friendships/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+            if (!error) {
+                NSLog(@"success");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [cell.user setFollowing:YES];
+                    [Utils presentNotificationWithText:@"关注成功"];
+                    [cell setNeedsLayout];
+                });
+            } else {
+                NSLog(@"error: %@", error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utils presentNotificationWithText:@"关注失败"];
+                });
+            }
+        }];
+    }
 }
 
 @end
