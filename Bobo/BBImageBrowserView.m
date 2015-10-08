@@ -31,7 +31,6 @@
         self.alpha = 0.0;
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.alpha = 1.0;
-            [[UIApplication sharedApplication] setStatusBarHidden:YES];
         } completion:^(BOOL finished) {
             
         }];
@@ -112,7 +111,6 @@
 
 -(void)tapAction
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [_imageView sd_cancelCurrentImageLoad];
     
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
