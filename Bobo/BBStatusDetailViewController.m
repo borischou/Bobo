@@ -145,12 +145,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
         _comments = @[].mutableCopy;
     }
     
-    NSError *error = nil;
-    
-    if (error) {
-        NSLog(@"JSON ERROR: %@", error);
-    }
-    
     if (![[result objectForKey:@"comments"] isEqual:[NSNull null]]) {
         NSArray *commentsArray = [result objectForKey:@"comments"];
         if (commentsArray.count > 0) {

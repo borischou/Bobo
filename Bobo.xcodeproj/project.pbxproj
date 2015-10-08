@@ -503,10 +503,10 @@
 		458239741BC609F60065B4D2 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				458239751BC60A5B0065B4D2 /* BBListTableViewController.h */,
-				458239761BC60A5B0065B4D2 /* BBListTableViewController.m */,
 				458239781BC60CDA0065B4D2 /* BBListTableViewCell.h */,
 				458239791BC60CDA0065B4D2 /* BBListTableViewCell.m */,
+				458239751BC60A5B0065B4D2 /* BBListTableViewController.h */,
+				458239761BC60A5B0065B4D2 /* BBListTableViewController.m */,
 			);
 			name = List;
 			sourceTree = "<group>";

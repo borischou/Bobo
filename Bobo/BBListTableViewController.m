@@ -13,15 +13,12 @@
 #import "AppDelegate.h"
 #import "Utils.h"
 
-typedef NS_ENUM(NSInteger, fetchResultType) {
-    fetchResultTypeRefresh,
-    fetchResultTypeHistory
-};
+#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 
 @interface BBListTableViewController ()
 
 @property (nonatomic) NSInteger listType;
-@property (copy, nonatomic) NSString *cursor;
+@property (nonatomic) NSInteger cursor;
 @property (strong, nonatomic) NSMutableArray *users;
 @property (strong, nonatomic) ACAccount *weiboAccount;
 
@@ -40,8 +37,11 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = bBGColor;
+    self.tableView.separatorColor = bBGColor;
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     [self setMJRefresh];
+    [self.tableView.header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,6 +54,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self resetCursor];
         [self fetchListData];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchListData)];
@@ -63,64 +64,60 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     self.tableView.footer = footer;
 }
 
+-(void)resetCursor
+{
+    _cursor = 0;
+}
+
 -(void)fetchListData
 {
     NSDictionary *params = nil;
+    NSString *uri = nil;
     if (_listType == listTypeFollower)
     {
-        params = @{@"uid": _user.idstr, @"cursor": _cursor? _cursor: @""};
-        [Utils genericWeiboRequestWithAccount:_weiboAccount
-                                          URL:@"friendships/followers.json"
-                          SLRequestHTTPMethod:SLRequestMethodGET
-                                   parameters:params
-                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-        {
-            NSError *error = nil;
-            [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeRefresh];
-        }
-                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-        {
-            NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [Utils presentNotificationWithText:@"更新失败"];
-                [self.tableView.header endRefreshing];
-            });
-        }];
+        uri = @"friendships/followers.json";
     }
-    if (_listType == listTypeFollowing)
-    {
-        params = @{@"uid": _user.idstr, @"cursor": _cursor? _cursor: @""};
-        [Utils genericWeiboRequestWithAccount:_weiboAccount
-                                          URL:@"friendships/friends.json"
-                          SLRequestHTTPMethod:SLRequestMethodGET
-                                   parameters:params
-                   completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             NSError *error = nil;
-             [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeRefresh];
-         }
-                   completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
-             NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [Utils presentNotificationWithText:@"更新失败"];
-                 [self.tableView.header endRefreshing];
-             });
-         }];
+    if (_listType == listTypeFollowing) {
+        uri = @"friendships/friends.json";
     }
+    params = @{@"uid": _user.idstr, @"cursor": [NSString stringWithFormat:@"%ld", _cursor], @"count": @"200", @"trim_status": @"0"};
+    [Utils genericWeiboRequestWithAccount:_weiboAccount
+                                      URL:uri
+                      SLRequestHTTPMethod:SLRequestMethodGET
+                               parameters:params
+               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSError *error = nil;
+         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error]];
+     }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [Utils presentNotificationWithText:@"更新失败"];
+             [self.tableView.header endRefreshing];
+         });
+     }];
 }
 
--(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type
+-(void)handleWeiboResult:(id)result
 {
-    switch (type) {
-        case fetchResultTypeRefresh:
-            //重新刷新列表数据
-            break;
-        case fetchResultTypeHistory:
-            //载入更多列表数据
-            break;
-        default:
-            break;
+    if (!_users || _cursor == 0) {
+        _users = @[].mutableCopy;
+        [self.tableView reloadData];
+    }
+    if (![[result objectForKey:@"users"] isEqual:[NSNull null]]) {
+        NSArray *fetchedData = [result objectForKey:@"users"];
+        if (fetchedData.count > 0) {
+            for (NSDictionary *dict in fetchedData) {
+                User *tmp_user = [[User alloc] initWithDictionary:dict];
+                [_users addObject:tmp_user];
+            }
+            _cursor = [[result objectForKey:@"next_cursor"] integerValue];
+        }
+        [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
+        [self.tableView reloadData];
     }
 }
 
@@ -136,8 +133,12 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     if (_users.count > 0) {
         cell.user = _users[indexPath.row];
     }
-    
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60+10+10;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

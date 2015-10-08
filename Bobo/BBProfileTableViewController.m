@@ -683,7 +683,10 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
 -(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowerCountLabel:(UITapGestureRecognizer *)tap
 {
     //跳转获取粉丝数列表
-    
+    BBListTableViewController *ltvc = [[BBListTableViewController alloc] initWithStyle:UITableViewStylePlain listType:listTypeFollower];
+    ltvc.hidesBottomBarWhenPushed = YES;
+    ltvc.user = _user;
+    [self.navigationController pushViewController:ltvc animated:YES];
 }
 
 -(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowingCountLabel:(UITapGestureRecognizer *)tap
