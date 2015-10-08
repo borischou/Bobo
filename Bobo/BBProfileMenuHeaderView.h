@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, menuButtonIndex) {
+    menuButtonIndexAll,
+    menuButtonIndexOriginals,
+    menuButtonIndexAlbum
+};
+
 @protocol BBProfileMenuHeaderViewDelegate <NSObject>
 
 -(void)didClickMenuButtonAtIndex:(NSInteger)index;
@@ -19,5 +25,6 @@
 @property (weak, nonatomic) id <BBProfileMenuHeaderViewDelegate> delegate;
 
 -(void)moveLineAccordingToFlag:(NSInteger)flag; //0-All; 1-Origin; 2-Album
+-(instancetype)initWithFrame:(CGRect)frame flag:(NSInteger)flag;
 
 @end
