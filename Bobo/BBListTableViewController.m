@@ -87,7 +87,8 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
             });
         }];
     }
-    if (_listType == listTypeFollowing) {
+    if (_listType == listTypeFollowing)
+    {
         params = @{@"uid": _user.idstr, @"cursor": _cursor? _cursor: @""};
         [Utils genericWeiboRequestWithAccount:_weiboAccount
                                           URL:@"friendships/friends.json"
