@@ -9,7 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 
+@class BBAlbumCollectionViewController;
+@protocol BBAlbumCollectionViewControllerDelegate <NSObject>
+
+@optional
+-(void)collectionViewControllerDidPushBack:(BBAlbumCollectionViewController *)collectionViewController;
+
+@end
+
 @interface BBAlbumCollectionViewController : UICollectionViewController
+
+@property (weak, nonatomic) id <BBAlbumCollectionViewControllerDelegate> delegate;
 
 @property (strong, nonatomic) User *user;
 

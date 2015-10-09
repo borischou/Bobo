@@ -43,11 +43,19 @@ static NSString * const reuseIdentifier = @"Cell";
     
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     _currentLastStatusId = @"";
+    [self setMJRefresh];
+    [self.collectionView.header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.delegate collectionViewControllerDidPushBack:self];
 }
 
 #pragma mark - Weibo support & helpers

@@ -17,6 +17,7 @@
 #import "BBProfileTableViewController.h"
 #import "BBStatusDetailViewController.h"
 #import "BBListTableViewController.h"
+#import "BBAlbumCollectionViewController.h"
 #import "BBCountTableViewCell.h"
 #import "AppDelegate.h"
 #import "BBProfileHeaderView.h"
@@ -50,11 +51,12 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     fetchResultTypeCounts
 };
 
-@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate, TTTAttributedLabelDelegate, BBProfileMenuHeaderViewDelegate>
+@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate, TTTAttributedLabelDelegate, BBProfileMenuHeaderViewDelegate, BBAlbumCollectionViewControllerDelegate>
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) ACAccount *weiboAccount;
 @property (nonatomic) BOOL originalTurnedOn;
+@property (nonatomic) NSInteger currentIndex;
 
 @end
 
@@ -477,13 +479,14 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     [nc removeObserver:self];
 }
 
-#pragma mark - BBProfileMenuHeaderViewDelegate
+#pragma mark - BBProfileMenuHeaderViewDelegate & support
 
 -(void)didClickMenuButtonAtIndex:(NSInteger)index
 {
     //读取相册，所有微博或原创微博
     if (index == menuButtonIndexAll)
     {
+        _currentIndex = menuButtonIndexAll;
         _originalTurnedOn = NO;
         [_statuses removeAllObjects];
         [self.tableView reloadData];
@@ -491,7 +494,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     }
     if (index == menuButtonIndexOriginals)
     {
-        NSLog(@"originals");
+        _currentIndex = menuButtonIndexOriginals;
         _originalTurnedOn = YES;
         [_statuses removeAllObjects];
         [self.tableView reloadData];
@@ -499,8 +502,30 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     }
     if (index == menuButtonIndexAlbum)
     {
-        NSLog(@"Hey album");
+        //此处不保存index，因为会压入新viewcontroller
+        BBAlbumCollectionViewController *acvc = [[BBAlbumCollectionViewController alloc] initWithCollectionViewLayout:[self flowLayout]];
+        acvc.user = _user;
+        acvc.hidesBottomBarWhenPushed = YES;
+        acvc.delegate = self;
+        [self.navigationController pushViewController:acvc animated:YES];
     }
+}
+
+-(UICollectionViewFlowLayout *)flowLayout
+{
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake((bWidth-3)/4, (bWidth-3)/4);
+    layout.minimumInteritemSpacing = 1.0;
+    layout.minimumLineSpacing = 1.0;
+    return layout;
+}
+
+#pragma mark - BBAlbumCollectionViewControllerDelegate
+
+-(void)collectionViewControllerDidPushBack:(BBAlbumCollectionViewController *)collectionViewController
+{
+    BBProfileMenuHeaderView *menuView = (BBProfileMenuHeaderView *)[self.tableView footerViewForSection:0];
+    [menuView moveLineAccordingToFlag:_currentIndex];
 }
 
 #pragma mark - BBStatusTableViewCellDelegate & support
@@ -601,7 +626,6 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetIcon:(UIImageView *)retweetIcon
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
-    //updateStatusView.idStr = cell.status.idstr;
     updateStatusView.status = cell.status;
     if (cell.status.retweeted_status.text.length > 0)
     {

@@ -46,31 +46,31 @@ static CGFloat lineHeight = 3;
 
 -(void)setupSubviews
 {
-    [self setBackgroundColor:menuColor];
-    self.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.layer.shadowOpacity = .2;
-    self.layer.shadowOffset = CGSizeMake(0, 2);
+    [self.contentView setBackgroundColor:menuColor];
+    self.contentView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.contentView.layer.shadowOpacity = .2;
+    self.contentView.layer.shadowOffset = CGSizeMake(0, 2);
     
     UIButton *photoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [photoButton setTitle:@"All" forState:UIControlStateNormal];
     [photoButton setFrame:CGRectMake(0, 0, buttonWidth, buttonHeight)];
     [photoButton.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [photoButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:photoButton];
+    [self.contentView addSubview:photoButton];
     
     UIButton *allButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [allButton setTitle:@"Originals" forState:UIControlStateNormal];
     [allButton setFrame:CGRectMake(buttonWidth, 0, buttonWidth, buttonHeight)];
     [allButton.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [allButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:allButton];
+    [self.contentView addSubview:allButton];
     
     UIButton *originButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [originButton setTitle:@"Album" forState:UIControlStateNormal];
     [originButton setFrame:CGRectMake(buttonWidth*2, 0, buttonWidth, buttonHeight)];
     [originButton.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [originButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:originButton];
+    [self.contentView addSubview:originButton];
 }
 
 -(void)setupLineView
@@ -78,7 +78,7 @@ static CGFloat lineHeight = 3;
     CGFloat lineWidth = self.frame.size.width/3;
     _lineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, buttonHeight-lineHeight, lineWidth, lineHeight)];
     [_lineView setBackgroundColor:[UIColor redColor]];
-    [self addSubview:_lineView];
+    [self.contentView addSubview:_lineView];
 }
 
 -(void)moveLineAccordingToFlag:(NSInteger)flag

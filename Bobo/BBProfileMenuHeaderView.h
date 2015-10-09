@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, menuButtonIndex) {
 
 @end
 
-@interface BBProfileMenuHeaderView : UIView
+@interface BBProfileMenuHeaderView : UITableViewHeaderFooterView
 
 @property (weak, nonatomic) id <BBProfileMenuHeaderViewDelegate> delegate;
 
