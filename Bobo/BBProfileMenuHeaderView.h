@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger, menuButtonIndex) {
 
 @end
 
+//此处继承UITableViewHeaderFooterView则可以通过发送footerViewForSection:/headerViewForSection:来获取对应对象
 @interface BBProfileMenuHeaderView : UITableViewHeaderFooterView
 
 @property (weak, nonatomic) id <BBProfileMenuHeaderViewDelegate> delegate;
