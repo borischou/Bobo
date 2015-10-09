@@ -54,8 +54,8 @@
 		45688A161B85D0E20015461E /* BBStatusDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45688A151B85D0E20015461E /* BBStatusDetailViewController.m */; };
 		4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */; };
 		456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920401B74758B00E2C204 /* bb_collect_icon@3x.png */; };
-		456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920421B7478A800E2C204 /* iconfont-denglu.png */; };
-		456920451B7478A800E2C204 /* iconfont-logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920431B7478A800E2C204 /* iconfont-logout.png */; };
+		456920441B7478A800E2C204 /* iconfont-denglu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920421B7478A800E2C204 /* iconfont-denglu@3x.png */; };
+		456920451B7478A800E2C204 /* iconfont-logout@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 456920431B7478A800E2C204 /* iconfont-logout@3x.png */; };
 		456C0FDB1B31570C007B5CFB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C0FDA1B31570C007B5CFB /* CoreText.framework */; };
 		456C77E31B2A88110055FBE8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 456C77E21B2A88110055FBE8 /* libz.dylib */; };
 		456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */; };
@@ -97,6 +97,7 @@
 		45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7D1F41BB3908D0034B659 /* BBLoadingView.m */; settings = {ASSET_TAGS = (); }; };
 		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
+		45F9CE9D1BC750170095133D /* BBAlbumCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */; settings = {ASSET_TAGS = (); }; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -185,8 +186,8 @@
 		4569202D1B745ECA00E2C204 /* BBFavoritesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFavoritesTableViewController.h; sourceTree = "<group>"; };
 		4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFavoritesTableViewController.m; sourceTree = "<group>"; };
 		456920401B74758B00E2C204 /* bb_collect_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bb_collect_icon@3x.png"; sourceTree = "<group>"; };
-		456920421B7478A800E2C204 /* iconfont-denglu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-denglu.png"; sourceTree = "<group>"; };
-		456920431B7478A800E2C204 /* iconfont-logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-logout.png"; sourceTree = "<group>"; };
+		456920421B7478A800E2C204 /* iconfont-denglu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-denglu@3x.png"; sourceTree = "<group>"; };
+		456920431B7478A800E2C204 /* iconfont-logout@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-logout@3x.png"; sourceTree = "<group>"; };
 		456C0FDA1B31570C007B5CFB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		456C77E21B2A88110055FBE8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		456C77E61B2AC5B90055FBE8 /* BBStatusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBStatusTableViewCell.h; sourceTree = "<group>"; };
@@ -251,6 +252,8 @@
 		45D7D1F41BB3908D0034B659 /* BBLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBLoadingView.m; sourceTree = "<group>"; };
 		45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_placeholder@3x.png"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		45F9CE9B1BC750170095133D /* BBAlbumCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAlbumCollectionViewController.h; sourceTree = "<group>"; };
+		45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAlbumCollectionViewController.m; sourceTree = "<group>"; };
 		68ADFD39DDA092351BC9F4D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A514AEC441207DBA08E4A83B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -427,9 +430,9 @@
 				456920401B74758B00E2C204 /* bb_collect_icon@3x.png */,
 				456254D01B82E7E00009A332 /* cmt_icon@3x.png */,
 				456254D21B82E7E00009A332 /* retwt_icon@3x.png */,
-				456920421B7478A800E2C204 /* iconfont-denglu.png */,
+				456920421B7478A800E2C204 /* iconfont-denglu@3x.png */,
 				456254DE1B8306910009A332 /* like_icon_2@3x.png */,
-				456920431B7478A800E2C204 /* iconfont-logout.png */,
+				456920431B7478A800E2C204 /* iconfont-logout@3x.png */,
 				456254DC1B8306200009A332 /* fav_icon_3@3x.png */,
 				458393571B7B54E4005B1766 /* post_tab_icon@3x.png */,
 				4567C2DB1B9C2BA300C8660B /* icon_album_selected@3x.png */,
@@ -579,6 +582,8 @@
 				009FE62C1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m */,
 				4566BC491B37ACD5008CF8D5 /* BBProfileTableViewController.h */,
 				4566BC4A1B37ACD5008CF8D5 /* BBProfileTableViewController.m */,
+				45F9CE9B1BC750170095133D /* BBAlbumCollectionViewController.h */,
+				45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -719,7 +724,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				456920451B7478A800E2C204 /* iconfont-logout.png in Resources */,
+				456920451B7478A800E2C204 /* iconfont-logout@3x.png in Resources */,
 				451441E11B295CA9000532DD /* LaunchScreen.xib in Resources */,
 				45C57B4D1B9FFDC700FE040E /* bobo_tab_icon@3x.png in Resources */,
 				4566BC5D1B386001008CF8D5 /* iconfont-gerenshiwu@3x.png in Resources */,
@@ -735,7 +740,7 @@
 				456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */,
 				4567C2D81B9C2AF700C8660B /* icon_camera@3x.png in Resources */,
 				0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */,
-				456920441B7478A800E2C204 /* iconfont-denglu.png in Resources */,
+				456920441B7478A800E2C204 /* iconfont-denglu@3x.png in Resources */,
 				45A183E01BB9301B00FE9890 /* settings_icon@3x.png in Resources */,
 				45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */,
 				458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */,
@@ -829,6 +834,7 @@
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
 				009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */,
 				00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */,
+				45F9CE9D1BC750170095133D /* BBAlbumCollectionViewController.m in Sources */,
 				4592324B1B969A170006A123 /* BBMessageViewController.m in Sources */,
 				451442061B295E8B000532DD /* BBMainStatusTableViewController.m in Sources */,
 				457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */,
