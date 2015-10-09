@@ -158,7 +158,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    //全屏查看照片
 }
 
 /*
