@@ -7,13 +7,24 @@
 //
 
 #import <UIImageView+WebCache.h>
+#import <Accounts/Accounts.h>
+#import <MJRefresh.h>
 
 #import "BBAlbumCollectionViewController.h"
 #import "BBPhotoSelectionCollectionViewCell.h"
+#import "AppDelegate.h"
+#import "Utils.h"
+
+typedef NS_ENUM(NSInteger, fetchResultType) {
+    fetchResultTypeRefresh,
+    fetchResultTypeHistory
+};
 
 @interface BBAlbumCollectionViewController ()
 
 @property (strong, nonatomic) NSMutableArray *urls;
+@property (strong, nonatomic) ACAccount *weiboAccount;
+@property (copy, nonatomic) NSString *currentLastStatusId;
 
 @end
 
@@ -25,12 +36,13 @@ static NSString * const reuseIdentifier = @"Cell";
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = YES;
     
     // Register cell classes
     [self.collectionView registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
-    // Do any additional setup after loading the view.
+    _weiboAccount = [[AppDelegate delegate] defaultAccount];
+    _currentLastStatusId = @"";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,15 +50,87 @@ static NSString * const reuseIdentifier = @"Cell";
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Weibo support & helpers
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)setMJRefresh
+{
+    self.collectionView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self refreshPhoto];
+    }];
+    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(historyPhoto)];
+    [footer setTitle:@"上拉以获取更多" forState:MJRefreshStateIdle];
+    [footer setTitle:@"正在获取" forState:MJRefreshStateRefreshing];
+    [footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
+    self.collectionView.footer = footer;
 }
-*/
+
+-(void)refreshPhoto
+{
+    NSString *requestUrl = @"statuses/user_timeline.json";
+    NSDictionary *param = @{@"uid": _user.idstr};
+    
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *error = nil;
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeRefresh];
+    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [Utils presentNotificationWithText:@"更新失败"];
+            [self.collectionView.header endRefreshing];
+        });
+    }];
+}
+
+-(void)historyPhoto
+{
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _user.idstr, @"count": @"20", @"max_id": _currentLastStatusId} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSError *error = nil;
+         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeHistory];
+     }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"profile footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [Utils presentNotificationWithText:@"更新失败"];
+             [self.collectionView.footer endRefreshing];
+         });
+     }];
+}
+
+-(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type
+{
+    NSMutableArray *downloadedStatuses = [result objectForKey:@"statuses"];
+    if (!_urls)
+    {
+        _urls = @[].mutableCopy;
+    }
+    if (type == fetchResultTypeRefresh)
+    {
+        [_urls removeAllObjects];
+        [self.collectionView reloadData];
+    }
+    if (downloadedStatuses.count > 0)
+    {
+        
+        for (int i = 0; i < downloadedStatuses.count; i ++)
+        {
+            Status *status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
+            if (status.pic_urls.count > 0) {
+                for (NSString *url in status.pic_urls) {
+                    [_urls addObject:url];
+                }
+            }
+            if (i == downloadedStatuses.count-1) {
+                _currentLastStatusId = status.idstr;
+            }
+        }
+    }
+    
+    [self.collectionView.header endRefreshing];
+    [self.collectionView.footer endRefreshing];
+    [self.collectionView reloadData];
+}
 
 #pragma mark <UICollectionViewDataSource>
 
