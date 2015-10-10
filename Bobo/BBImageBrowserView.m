@@ -36,13 +36,13 @@
         } completion:^(BOOL finished) {}];
         _imageTag = tag;
         _count = [urls count];
-        [self setScrollViewWithImageUrls:urls viewTag:tag];
+        [self loadMainScrollViewWithImages:urls viewTag:tag];
         [self loadPageControl];
     }
     return self;
 }
 
--(void)setScrollViewWithImageUrls:(NSMutableArray *)urls viewTag:(NSInteger)tag
+-(void)loadMainScrollViewWithImages:(NSMutableArray *)urls viewTag:(NSInteger)tag
 {
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
     _scrollView.delegate = self;
@@ -58,19 +58,19 @@
     [self addSubview:_scrollView];
     
     //第一个UIImageView放最后一张图
-    [self layoutImageOnScrollViewFromUrl:[urls lastObject] withImageOriginX:0];
+    [self loadSubScrollViewWithImage:[urls lastObject] originX:0];
     
     //第二个UIImageView开始顺序放图
     for (int i = 0; i < [urls count]; i ++)
     {
-        [self layoutImageOnScrollViewFromUrl:urls[i] withImageOriginX:bWidth*(i+1)];
+        [self loadSubScrollViewWithImage:urls[i] originX:bWidth*(i+1)];
     }
     
     //最后一个UIImageView放第一张图
-    [self layoutImageOnScrollViewFromUrl:[urls firstObject] withImageOriginX:bWidth*(1+urls.count)];
+    [self loadSubScrollViewWithImage:[urls firstObject] originX:bWidth*(1+urls.count)];
 }
 
--(void)layoutImageOnScrollViewFromUrl:(NSString *)url withImageOriginX:(CGFloat)originX
+-(void)loadSubScrollViewWithImage:(NSString *)url originX:(CGFloat)originX
 {
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
     
@@ -97,12 +97,12 @@
     {
         if (!error)
         {
-            [self loadImage:image imageView:imageView originX:originX scrollView:scrollView];
+            [self resizeImage:image imageView:imageView originX:originX scrollView:scrollView];
         }
     }];
 }
 
--(void)loadImage:(UIImage *)image imageView:(UIImageView *)imageView originX:(CGFloat)originX scrollView:(UIScrollView *)scrollView
+-(void)resizeImage:(UIImage *)image imageView:(UIImageView *)imageView originX:(CGFloat)originX scrollView:(UIScrollView *)scrollView
 {
     CGFloat imageHeight = image.size.height*bWidth/image.size.width;
     [imageView setImage:image];
