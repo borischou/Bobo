@@ -138,11 +138,11 @@
 {
     if ([scrollView isEqual:_scrollView]) {
         if (scrollView.contentOffset.x == 0) {
-            [_scrollView setContentOffset:CGPointMake(bWidth*(_count-2), 0) animated:NO];
+            [scrollView setContentOffset:CGPointMake(bWidth*(_count-2), 0) animated:NO];
             _pageControl.currentPage = _count-2;
         } else if (scrollView.contentOffset.x == bWidth*(_count-1)) {
             _pageControl.currentPage = 0;
-            [_scrollView setContentOffset:CGPointMake(bWidth, 0) animated:NO];
+            [scrollView setContentOffset:CGPointMake(bWidth, 0) animated:NO];
         } else {
             _pageControl.currentPage = scrollView.contentOffset.x/bWidth-1;
         }
