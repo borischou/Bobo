@@ -50,50 +50,62 @@
     _scrollView.pagingEnabled = YES;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.userInteractionEnabled = YES;
-    _scrollView.minimumZoomScale = 0.5;
     _scrollView.maximumZoomScale = 2.0;
+    _scrollView.minimumZoomScale = 0.5;
     _scrollView.alwaysBounceVertical = NO;
     _scrollView.alwaysBounceHorizontal = YES;
     [_scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
     [self addSubview:_scrollView];
-    [self layoutImageOnScrollViewFromUrl:[urls lastObject] withImageOriginX:0]; //第一个UIImageView放最后一张图
-    for (int i = 1; i < [urls count]+1; i ++) {
-        [self layoutImageOnScrollViewFromUrl:urls[i-1] withImageOriginX:bWidth*i]; //第二个UIImageView开始顺序放图
+    
+    //第一个UIImageView放最后一张图
+    [self layoutImageOnScrollViewFromUrl:[urls lastObject] withImageOriginX:0];
+    
+    //第二个UIImageView开始顺序放图
+    for (int i = 1; i < [urls count]+1; i ++)
+    {
+        [self layoutImageOnScrollViewFromUrl:urls[i-1] withImageOriginX:bWidth*i];
     }
-    [self layoutImageOnScrollViewFromUrl:[urls firstObject] withImageOriginX:bWidth*(urls.count+1)]; //最后一个UIImageView放第一张图
+    
+    //最后一个UIImageView放第一张图
+    [self layoutImageOnScrollViewFromUrl:[urls firstObject] withImageOriginX:bWidth*(urls.count+1)];
 }
 
 -(void)layoutImageOnScrollViewFromUrl:(NSString *)url withImageOriginX:(CGFloat)originX
 {
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
-    _imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [_scrollView addSubview:_imageView];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
+
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+    [imageView setContentMode:UIViewContentModeScaleAspectFit];
     
-    [_imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"pic_placeholder@3x"] options:SDWebImageCacheMemoryOnly completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [scrollView setDelegate:self];
+    [scrollView setUserInteractionEnabled:YES];
+    [scrollView setMaximumZoomScale:2.0];
+    [scrollView setMinimumZoomScale:0.5];
+    
+    [scrollView addSubview:imageView];
+    [_scrollView addSubview:scrollView];
+    
+    [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"pic_placeholder@3x"] options:SDWebImageCacheMemoryOnly completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (!error) {
-            [self setSizeForImage:image withImageView:_imageView andOriginX:originX];
+            [self loadImage:image imageView:imageView originX:originX scrollView:scrollView];
         } else {
             //下载图片失败后动作
         }
     }];
 }
 
--(void)setSizeForImage:(UIImage *)image withImageView:(UIImageView *)imageView andOriginX:(CGFloat)originX
+-(void)loadImage:(UIImage *)image imageView:(UIImageView *)imageView originX:(CGFloat)originX scrollView:(UIScrollView *)scrollView
 {
     CGFloat imageHeight = image.size.height*bWidth/image.size.width;
+    [imageView setImage:image];
+    [scrollView setContentOffset:CGPointMake(originX, 0)];
     if (imageHeight > bHeight) {
         [imageView setFrame:CGRectMake(0, 0, bWidth, imageHeight)];
-        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
-        [scrollView setContentOffset:CGPointMake(originX, 0)];
         [scrollView setContentSize:CGSizeMake(bWidth, imageHeight)];
-        [_imageView removeFromSuperview];
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
-        [scrollView addSubview:imageView];
-        [_scrollView addSubview:scrollView];
     } else {
-        [imageView setFrame:CGRectMake(originX, 0, bWidth, bHeight)];
+        [imageView setFrame:CGRectMake(0, 0, bWidth, bHeight)];
+        [scrollView setContentSize:CGSizeMake(bWidth, bHeight)];
     }
-    [imageView setImage:image];
 }
 
 -(void)loadPageControl
@@ -124,15 +136,25 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.x == 0) {
-        [_scrollView setContentOffset:CGPointMake(bWidth*(_count-2), 0) animated:NO];
-        _pageControl.currentPage = _count-2;
-    } else if (scrollView.contentOffset.x == bWidth*(_count-1)) {
-        _pageControl.currentPage = 0;
-        [_scrollView setContentOffset:CGPointMake(bWidth, 0) animated:NO];
-    } else {
-        _pageControl.currentPage = scrollView.contentOffset.x/bWidth-1;
+    if ([scrollView isEqual:_scrollView]) {
+        if (scrollView.contentOffset.x == 0) {
+            [_scrollView setContentOffset:CGPointMake(bWidth*(_count-2), 0) animated:NO];
+            _pageControl.currentPage = _count-2;
+        } else if (scrollView.contentOffset.x == bWidth*(_count-1)) {
+            _pageControl.currentPage = 0;
+            [_scrollView setContentOffset:CGPointMake(bWidth, 0) animated:NO];
+        } else {
+            _pageControl.currentPage = scrollView.contentOffset.x/bWidth-1;
+        }
     }
+}
+
+//当使用捏合手势时scrollview会向代理发送此方法告诉代理需要缩放的子控件是哪一个
+-(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    if ([scrollView isEqual:_scrollView]) {
+        return nil;
+    } else return _imageView;
 }
 
 @end
