@@ -18,6 +18,7 @@
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (nonatomic) NSInteger count;
+@property (nonatomic) NSInteger imageTag;
 
 @end
 
@@ -26,34 +27,33 @@
 -(instancetype)initWithFrame:(CGRect)frame withImageUrls:(NSMutableArray *)urls andImageTag:(NSInteger)tag
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         self.backgroundColor = [UIColor blackColor];
         self.alpha = 0.0;
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.alpha = 1.0;
-        } completion:^(BOOL finished) {
-            
-        }];
-        _count = [urls count]+2;
-        [self setScrollViewWithImageUrls:urls andTag:tag];
+        } completion:^(BOOL finished) {}];
+        _imageTag = tag;
+        _count = [urls count];
+        [self setScrollViewWithImageUrls:urls viewTag:tag];
         [self loadPageControl];
     }
     return self;
 }
 
--(void)setScrollViewWithImageUrls:(NSMutableArray *)urls andTag:(NSInteger)tag
+-(void)setScrollViewWithImageUrls:(NSMutableArray *)urls viewTag:(NSInteger)tag
 {
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
     _scrollView.delegate = self;
-    _scrollView.contentSize = CGSizeMake(bWidth*_count, bHeight);
+    _scrollView.contentSize = CGSizeMake(bWidth*(2+_count), bHeight);
     _scrollView.contentOffset = CGPointMake(bWidth*(tag+1), 0);
     _scrollView.pagingEnabled = YES;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.userInteractionEnabled = YES;
-    _scrollView.maximumZoomScale = 2.0;
-    _scrollView.minimumZoomScale = 0.5;
     _scrollView.alwaysBounceVertical = NO;
     _scrollView.alwaysBounceHorizontal = YES;
+    
     [_scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
     [self addSubview:_scrollView];
     
@@ -61,21 +61,26 @@
     [self layoutImageOnScrollViewFromUrl:[urls lastObject] withImageOriginX:0];
     
     //第二个UIImageView开始顺序放图
-    for (int i = 1; i < [urls count]+1; i ++)
+    for (int i = 0; i < [urls count]; i ++)
     {
-        [self layoutImageOnScrollViewFromUrl:urls[i-1] withImageOriginX:bWidth*i];
+        [self layoutImageOnScrollViewFromUrl:urls[i] withImageOriginX:bWidth*(i+1)];
     }
     
     //最后一个UIImageView放第一张图
-    [self layoutImageOnScrollViewFromUrl:[urls firstObject] withImageOriginX:bWidth*(urls.count+1)];
+    [self layoutImageOnScrollViewFromUrl:[urls firstObject] withImageOriginX:bWidth*(1+urls.count)];
 }
 
 -(void)layoutImageOnScrollViewFromUrl:(NSString *)url withImageOriginX:(CGFloat)originX
 {
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
-
+    
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
     [imageView setContentMode:UIViewContentModeScaleAspectFit];
+    
+    if (_imageTag == originX/bWidth-1) {
+        NSLog(@"initial index: %ld", _imageTag);
+        _imageView = imageView;
+    }
     
     [scrollView setDelegate:self];
     [scrollView setUserInteractionEnabled:YES];
@@ -85,11 +90,14 @@
     [scrollView addSubview:imageView];
     [_scrollView addSubview:scrollView];
     
-    [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"pic_placeholder@3x"] options:SDWebImageCacheMemoryOnly completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (!error) {
+    [imageView sd_setImageWithURL:[NSURL URLWithString:url]
+                 placeholderImage:[UIImage imageNamed:@"pic_placeholder@3x"]
+                          options:SDWebImageCacheMemoryOnly
+                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+    {
+        if (!error)
+        {
             [self loadImage:image imageView:imageView originX:originX scrollView:scrollView];
-        } else {
-            //下载图片失败后动作
         }
     }];
 }
@@ -99,10 +107,13 @@
     CGFloat imageHeight = image.size.height*bWidth/image.size.width;
     [imageView setImage:image];
     [scrollView setContentOffset:CGPointMake(originX, 0)];
-    if (imageHeight > bHeight) {
+    if (imageHeight > bHeight)
+    {
         [imageView setFrame:CGRectMake(0, 0, bWidth, imageHeight)];
         [scrollView setContentSize:CGSizeMake(bWidth, imageHeight)];
-    } else {
+    }
+    else
+    {
         [imageView setFrame:CGRectMake(0, 0, bWidth, bHeight)];
         [scrollView setContentSize:CGSizeMake(bWidth, bHeight)];
     }
@@ -113,11 +124,11 @@
     _pageControl = [[UIPageControl alloc] init];
     _pageControl.bounds = CGRectMake(0, 0, bWidth/2, 20);
     _pageControl.center = CGPointMake(bWidth/2, bHeight-30);
-    _pageControl.numberOfPages = _count-2;
+    _pageControl.numberOfPages = _count;
     _pageControl.userInteractionEnabled = NO;
     _pageControl.pageIndicatorTintColor = [UIColor darkGrayColor];
     _pageControl.currentPageIndicatorTintColor = [UIColor lightTextColor];
-    _pageControl.currentPage = _scrollView.contentOffset.x/bWidth-1;
+    _pageControl.currentPage = _imageTag;
     [self addSubview:_pageControl];
 }
 
@@ -136,25 +147,45 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if ([scrollView isEqual:_scrollView]) {
-        if (scrollView.contentOffset.x == 0) {
-            [scrollView setContentOffset:CGPointMake(bWidth*(_count-2), 0) animated:NO];
-            _pageControl.currentPage = _count-2;
-        } else if (scrollView.contentOffset.x == bWidth*(_count-1)) {
+    if ([scrollView isEqual:_scrollView])
+    {
+        NSInteger imageIndex = 0;
+        
+        if (scrollView.contentOffset.x == 0) //第一张图(真实最后一张图)
+        {
+            imageIndex = _count;
+            [scrollView setContentOffset:CGPointMake(bWidth*_count, 0) animated:NO];
+            _pageControl.currentPage = _count-1;
+        }
+        else if (scrollView.contentOffset.x == bWidth*(_count+1)) //最后一张图(真实第一张图)
+        {
+            imageIndex = 1;
             _pageControl.currentPage = 0;
             [scrollView setContentOffset:CGPointMake(bWidth, 0) animated:NO];
-        } else {
+        }
+        else //正常顺序
+        {
+            imageIndex = scrollView.contentOffset.x/bWidth;
             _pageControl.currentPage = scrollView.contentOffset.x/bWidth-1;
         }
+        
+        UIScrollView *subScrollView = (UIScrollView *)scrollView.subviews[imageIndex];
+        UIImageView *currentView = (UIImageView *)subScrollView.subviews.firstObject;
+        _imageView = currentView;
     }
 }
 
 //当使用捏合手势时scrollview会向代理发送此方法告诉代理需要缩放的子控件是哪一个
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    if ([scrollView isEqual:_scrollView]) {
+    if ([scrollView isEqual:_scrollView])
+    {
         return nil;
-    } else return _imageView;
+    }
+    else
+    {
+        return _imageView;
+    }
 }
 
 @end
