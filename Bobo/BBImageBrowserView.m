@@ -24,7 +24,7 @@
 
 @implementation BBImageBrowserView
 
--(instancetype)initWithFrame:(CGRect)frame withImageUrls:(NSMutableArray *)urls andImageTag:(NSInteger)tag
+-(instancetype)initWithFrame:(CGRect)frame imageUrls:(NSMutableArray *)urls imageTag:(NSInteger)tag
 {
     self = [super initWithFrame:frame];
     if (self)

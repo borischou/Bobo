@@ -14,6 +14,10 @@
 #import "BBPhotoSelectionCollectionViewCell.h"
 #import "AppDelegate.h"
 #import "Utils.h"
+#import "BBImageBrowserView.h"
+
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
 
 typedef NS_ENUM(NSInteger, fetchResultType) {
     fetchResultTypeRefresh,
@@ -159,6 +163,9 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //全屏查看照片
+    BBImageBrowserView *imageBrowser = [[BBImageBrowserView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) imageUrls:_urls imageTag:indexPath.item];
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:imageBrowser];
 }
 
 /*
