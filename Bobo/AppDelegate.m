@@ -146,7 +146,7 @@
     
     //Tab:微博主页
     BBMainStatusTableViewController *weiboListTvc = [[BBMainStatusTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    weiboListTvc.title = @"Bobo";
+    weiboListTvc.title = @"Friends";
     weiboListTvc.tabBarItem.image = [UIImage imageNamed:@"bobo_tab_icon"];
     UINavigationController *weiboListNvc = [[UINavigationController alloc] initWithRootViewController:weiboListTvc];
     [Utils setupNavigationController:weiboListNvc withUIViewController:weiboListTvc];
