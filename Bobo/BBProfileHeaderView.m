@@ -9,6 +9,8 @@
 #import <UIImageView+WebCache.h>
 #import "BBProfileHeaderView.h"
 #import "UIColor+Custom.h"
+#import "BBImageBrowserView.h"
+#import "AppDelegate.h"
 #import "Utils.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
@@ -70,6 +72,8 @@
     _avatarView.layer.cornerRadius = _avatarView.bounds.size.width*0.5;
     _avatarView.layer.borderWidth = 0.1;
     _avatarView.layer.borderColor = [UIColor blackColor].CGColor;
+    [_avatarView setUserInteractionEnabled:YES];
+    [_avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapped:)]];
     [_scrollView addSubview:_avatarView];
     
     _name = [[UILabel alloc] initWithFrame:CGRectMake(0, 15+bWidth/5+10, bWidth, 30)];
@@ -201,6 +205,15 @@
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [_pageControl setCurrentPage:scrollView.contentOffset.x/bWidth];
+}
+
+#pragma mark - Actions
+
+-(void)avatarViewTapped:(UITapGestureRecognizer *)tap
+{
+    BBImageBrowserView *imageBrowser = [[BBImageBrowserView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) imageUrls:@[_user.avatar_hd] imageTag:0];
+    AppDelegate *delegate = [AppDelegate delegate];
+    [delegate.window addSubview:imageBrowser];
 }
 
 @end

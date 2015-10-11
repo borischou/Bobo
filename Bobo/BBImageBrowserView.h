@@ -10,6 +10,6 @@
 
 @interface BBImageBrowserView : UIView
 
--(instancetype)initWithFrame:(CGRect)frame imageUrls:(NSMutableArray *)urls imageTag:(NSInteger)tag;
+-(instancetype)initWithFrame:(CGRect)frame imageUrls:(NSArray *)urls imageTag:(NSInteger)tag;
 
 @end
