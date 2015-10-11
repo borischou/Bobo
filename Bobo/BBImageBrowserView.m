@@ -39,7 +39,7 @@
         _imageTag = tag;
         _count = [urls count];
         [self loadMainScrollViewWithImages:urls viewTag:tag];
-        if (urls.count <= 9) {
+        if (urls.count <= 9 && urls.count > 1) {
             [self loadPageControl];
         }
     }

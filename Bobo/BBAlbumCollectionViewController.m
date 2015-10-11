@@ -14,6 +14,7 @@
 #import "BBPhotoSelectionCollectionViewCell.h"
 #import "AppDelegate.h"
 #import "Utils.h"
+#import "NSString+Convert.h"
 #import "BBImageBrowserView.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
@@ -130,7 +131,7 @@ static NSString * const reuseIdentifier = @"Cell";
             Status *status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
             if (status.pic_urls.count > 0) {
                 for (NSString *url in status.pic_urls) {
-                    [_urls addObject:url];
+                    [_urls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:url]];
                 }
             }
             if (i == downloadedStatuses.count-1) {
