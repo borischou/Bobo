@@ -16,7 +16,8 @@
 
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIImageView *imageView;
-@property (strong, nonatomic) UIPageControl *pageControl;
+@property (strong, nonatomic) UIPageControl *pageControl; //图片数量不超过9张时显示page control
+@property (strong, nonatomic) UILabel *pageNumberLabel; //图片数量超过9张时显示分数
 @property (nonatomic) NSInteger count;
 @property (nonatomic) NSInteger imageTag;
 
