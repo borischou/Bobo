@@ -8,6 +8,8 @@
 
 #import "BBImageBrowserView.h"
 #import <UIImageView+WebCache.h>
+#import "Utils.h"
+#import "UIColor+Custom.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -17,7 +19,6 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIPageControl *pageControl; //图片数量不超过9张时显示page control
-@property (strong, nonatomic) UILabel *pageNumberLabel; //图片数量超过9张时显示分数
 @property (nonatomic) NSInteger count;
 @property (nonatomic) NSInteger imageTag;
 
@@ -38,7 +39,9 @@
         _imageTag = tag;
         _count = [urls count];
         [self loadMainScrollViewWithImages:urls viewTag:tag];
-        [self loadPageControl];
+        if (urls.count <= 9) {
+            [self loadPageControl];
+        }
     }
     return self;
 }
