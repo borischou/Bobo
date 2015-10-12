@@ -8,6 +8,19 @@
 
 #import "BBDraftboxTableViewCell.h"
 
+@interface BBDraftboxTableViewCell ()
+
+@property (strong, nonatomic) UIButton *resendButton; //重新发送按钮
+@property (strong, nonatomic) UILabel *type; //草稿类型
+@property (strong, nonatomic) UILabel *content; //草稿内容
+@property (strong, nonatomic) UILabel *time; //草稿保存时间
+@property (strong, nonatomic) UIImageView *preview; //草稿第一张附图预览
+
+//转发草稿
+@property (strong, nonatomic) UILabel *repostContent; //原微博文本
+
+@end
+
 @implementation BBDraftboxTableViewCell
 
 - (void)awakeFromNib {
