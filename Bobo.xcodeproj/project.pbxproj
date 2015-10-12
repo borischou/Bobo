@@ -33,6 +33,8 @@
 		4514421F1B2963FA000532DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4514421E1B2963FA000532DD /* Foundation.framework */; };
 		451442211B296401000532DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442201B296401000532DD /* CoreGraphics.framework */; };
 		451673C71BC914A90078ACA3 /* faved_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451673C61BC914A90078ACA3 /* faved_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		451F30241BCB74D200668561 /* BBDraftboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30231BCB74D200668561 /* BBDraftboxTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		451F30271BCB74EE00668561 /* BBDraftboxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30261BCB74EE00668561 /* BBDraftboxTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+Convert.m */; };
 		4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */; };
 		4553E4041B54D73D0020989C /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4031B54D73D0020989C /* Comment.m */; };
@@ -154,6 +156,10 @@
 		4514421E1B2963FA000532DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		451442201B296401000532DD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		451673C61BC914A90078ACA3 /* faved_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "faved_icon@3x.png"; sourceTree = "<group>"; };
+		451F30221BCB74D200668561 /* BBDraftboxTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDraftboxTableViewController.h; sourceTree = "<group>"; };
+		451F30231BCB74D200668561 /* BBDraftboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDraftboxTableViewController.m; sourceTree = "<group>"; };
+		451F30251BCB74EE00668561 /* BBDraftboxTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDraftboxTableViewCell.h; sourceTree = "<group>"; };
+		451F30261BCB74EE00668561 /* BBDraftboxTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDraftboxTableViewCell.m; sourceTree = "<group>"; };
 		453035D21B4A609400647ACC /* Release-iphoneos */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Release-iphoneos"; path = "Bobo/Release-iphoneos"; sourceTree = "<group>"; };
 		454E93E61B3FCD72001126E4 /* NSString+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Convert.h"; sourceTree = "<group>"; };
 		454E93E71B3FCD72001126E4 /* NSString+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Convert.m"; sourceTree = "<group>"; };
@@ -394,6 +400,17 @@
 			name = syslib;
 			sourceTree = "<group>";
 		};
+		451F30211BCB74AE00668561 /* Draftbox */ = {
+			isa = PBXGroup;
+			children = (
+				451F30221BCB74D200668561 /* BBDraftboxTableViewController.h */,
+				451F30231BCB74D200668561 /* BBDraftboxTableViewController.m */,
+				451F30251BCB74EE00668561 /* BBDraftboxTableViewCell.h */,
+				451F30261BCB74EE00668561 /* BBDraftboxTableViewCell.m */,
+			);
+			name = Draftbox;
+			sourceTree = "<group>";
+		};
 		45617A671B2ECA1600BDFE7F /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -520,6 +537,7 @@
 				451441D41B295CA9000532DD /* AppDelegate.h */,
 				451441D51B295CA9000532DD /* AppDelegate.m */,
 				45BEC7561B9E77D000001DAE /* Detail */,
+				451F30211BCB74AE00668561 /* Draftbox */,
 				45BEC7551B9E77AF00001DAE /* Post */,
 				45BEC7541B9E779E00001DAE /* Favorite */,
 				458239741BC609F60065B4D2 /* List */,
@@ -825,6 +843,7 @@
 				4579AA051BBBA06B001A2927 /* BBGroupSelectView.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,
 				4592324E1B969A3B0006A123 /* BBMessageTableView.m in Sources */,
+				451F30271BCB74EE00668561 /* BBDraftboxTableViewCell.m in Sources */,
 				00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */,
 				457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				45688A131B85BB810015461E /* BBCommentBarView.m in Sources */,
@@ -843,6 +862,7 @@
 				451441D31B295CA9000532DD /* main.m in Sources */,
 				45688A161B85D0E20015461E /* BBStatusDetailViewController.m in Sources */,
 				45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */,
+				451F30241BCB74D200668561 /* BBDraftboxTableViewController.m in Sources */,
 				458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */,
 				004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */,
 				45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */,
