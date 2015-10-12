@@ -309,8 +309,11 @@ static NSString *reuseCell = @"photocell";
                     [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/update.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                         NSString *notificationText = nil;
                         if (!error) {
-                            NSLog(@"发布成功。");
-                            notificationText = @"微博发布成功";
+                            if (urlResponse.statusCode < 300 && urlResponse.statusCode > 0) {
+                                notificationText = @"微博发布成功";
+                            } else {
+                                notificationText = @"微博发布失败";
+                            }
                         } else {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
@@ -398,6 +401,13 @@ static NSString *reuseCell = @"photocell";
             [self removeFromSuperview];
         }
     }];
+}
+
+#pragma mark - Draftbox
+
+-(void)dropIntoDraftbox:(NSData *)responseData error:(NSError *)error
+{
+    
 }
 
 -(void)addPictureButtonPressed:(UIButton *)sender
