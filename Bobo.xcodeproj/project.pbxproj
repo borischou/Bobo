@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		000AE6CE1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */; };
-		004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */; };
 		0060CCC41BA5C660005F3E20 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0060CCC31BA5C660005F3E20 /* UIColor+Custom.m */; };
 		006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006E2F641B949FD2008AB6DF /* BBNotificationView.m */; };
 		0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */; };
@@ -50,8 +49,6 @@
 		4567C2DA1B9C2B5E00C8660B /* icon_camera_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4567C2D91B9C2B5E00C8660B /* icon_camera_selected@3x.png */; };
 		4567C2DC1B9C2BA300C8660B /* icon_album_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4567C2DB1B9C2BA300C8660B /* icon_album_selected@3x.png */; };
 		45688A0A1B85A8BA0015461E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45688A091B85A8BA0015461E /* CoreData.framework */; };
-		45688A0F1B85ABBF0015461E /* CStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 45688A0C1B85ABBF0015461E /* CStatus.m */; };
-		45688A101B85ABBF0015461E /* CUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45688A0E1B85ABBF0015461E /* CUser.m */; };
 		45688A131B85BB810015461E /* BBCommentBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45688A121B85BB810015461E /* BBCommentBarView.m */; };
 		45688A161B85D0E20015461E /* BBStatusDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45688A151B85D0E20015461E /* BBStatusDetailViewController.m */; };
 		4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */; };
@@ -116,7 +113,6 @@
 /* Begin PBXFileReference section */
 		000AE6CC1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBKIAccessoryNoImageView.h; sourceTree = "<group>"; };
 		000AE6CD1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBKIAccessoryNoImageView.m; sourceTree = "<group>"; };
-		004984BD1B84B1CA004E6C41 /* Bobo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bobo.xcdatamodel; sourceTree = "<group>"; };
 		0060CCC21BA5C660005F3E20 /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
 		0060CCC31BA5C660005F3E20 /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		006E2F631B949FD2008AB6DF /* BBNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNotificationView.h; sourceTree = "<group>"; };
@@ -181,10 +177,6 @@
 		4567C2D91B9C2B5E00C8660B /* icon_camera_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera_selected@3x.png"; sourceTree = "<group>"; };
 		4567C2DB1B9C2BA300C8660B /* icon_album_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_album_selected@3x.png"; sourceTree = "<group>"; };
 		45688A091B85A8BA0015461E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		45688A0B1B85ABBF0015461E /* CStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CStatus.h; sourceTree = "<group>"; };
-		45688A0C1B85ABBF0015461E /* CStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CStatus.m; sourceTree = "<group>"; };
-		45688A0D1B85ABBF0015461E /* CUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUser.h; sourceTree = "<group>"; };
-		45688A0E1B85ABBF0015461E /* CUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CUser.m; sourceTree = "<group>"; };
 		45688A111B85BB810015461E /* BBCommentBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCommentBarView.h; sourceTree = "<group>"; };
 		45688A121B85BB810015461E /* BBCommentBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCommentBarView.m; sourceTree = "<group>"; };
 		45688A141B85D0E20015461E /* BBStatusDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBStatusDetailViewController.h; sourceTree = "<group>"; };
@@ -349,7 +341,6 @@
 				45BEC7571B9E78D200001DAE /* Utility */,
 				45BEC74F1B9E773200001DAE /* Module */,
 				457C9E391B8F13C800932B37 /* Vender */,
-				456889B31B8573620015461E /* Coredata */,
 				45620D3C1B3706BF00B9F9F2 /* Image */,
 				456C77E91B2AE3E30055FBE8 /* Model */,
 				451441D01B295CA9000532DD /* Supporting Files */,
@@ -457,18 +448,6 @@
 				4567C2D71B9C2AF700C8660B /* icon_camera@3x.png */,
 			);
 			name = Image;
-			sourceTree = "<group>";
-		};
-		456889B31B8573620015461E /* Coredata */ = {
-			isa = PBXGroup;
-			children = (
-				45688A0B1B85ABBF0015461E /* CStatus.h */,
-				45688A0C1B85ABBF0015461E /* CStatus.m */,
-				45688A0D1B85ABBF0015461E /* CUser.h */,
-				45688A0E1B85ABBF0015461E /* CUser.m */,
-				004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */,
-			);
-			name = Coredata;
 			sourceTree = "<group>";
 		};
 		456C77E51B2AC59B0055FBE8 /* View */ = {
@@ -842,7 +821,6 @@
 				458239771BC60A5B0065B4D2 /* BBListTableViewController.m in Sources */,
 				45704DAD1B7DBBAE00DC1C8B /* BBPhotoSelectionCollectionViewController.m in Sources */,
 				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
-				45688A0F1B85ABBF0015461E /* CStatus.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
 				45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */,
@@ -854,7 +832,6 @@
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,
 				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
-				45688A101B85ABBF0015461E /* CUser.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
 				4579AA051BBBA06B001A2927 /* BBGroupSelectView.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,
@@ -880,7 +857,6 @@
 				45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */,
 				451F30241BCB74D200668561 /* BBDraftboxTableViewController.m in Sources */,
 				458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */,
-				004984BE1B84B1CA004E6C41 /* Bobo.xcdatamodeld in Sources */,
 				45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */,
 				00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */,
 				00D8AA081BBC1EB700EFE208 /* ReplyComment.m in Sources */,
@@ -1135,19 +1111,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		004984BC1B84B1CA004E6C41 /* Bobo.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				004984BD1B84B1CA004E6C41 /* Bobo.xcdatamodel */,
-			);
-			currentVersion = 004984BD1B84B1CA004E6C41 /* Bobo.xcdatamodel */;
-			path = Bobo.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 451441C51B295CA9000532DD /* Project object */;
 }
