@@ -45,6 +45,9 @@ static NSString *reuseBarCellId = @"barCell";
 static NSString *homeTimeline = @"statuses/home_timeline.json";
 static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
 
+static NSString *filename = @"wbdata";
+static NSString *filepath = @"wbdata.plist";
+
 typedef NS_ENUM(NSInteger, fetchResultType) {
     fetchResultTypeRefresh,
     fetchResultTypeHistory
@@ -75,10 +78,54 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     [self setNavBarBtn];
     [self setMJRefresh];
+    _statuses = [self readStatusesFromPlist];
+    if (_statuses.count > 0) {
+        [self.tableView reloadData];
+    }
     [self.tableView.header beginRefreshing];
 }
 
 #pragma mark - Helpers
+
+-(NSMutableArray *)readStatusesFromPlist
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesDirectory = [paths objectAtIndex:0];
+    NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+    NSMutableArray *statuses = @[].mutableCopy;
+    if (![data[@"statuses"] isEqual:[NSNull null]]) {
+        NSArray *results = [data objectForKey:@"statuses"];
+        if (results.count > 0) {
+            for (NSDictionary *dict in results) {
+                [statuses addObject:[[Status alloc] initWithDictionary:dict]];
+            }
+        }
+    }
+    return statuses;
+}
+
+-(void)saveStatusesToPlist:(NSArray *)statuses
+{
+    NSDictionary *dict = @{@"statuses": statuses};
+    
+    //获取Library/Caches目录
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesDirectory = [paths objectAtIndex:0];
+    
+    //将文件名拼在目录后面形成完整文件路径
+    NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
+    NSLog(@"PATH: %@", plistPath);
+    
+    //将字典数据写入文件
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:plistPath]) {
+        BOOL isCreated = [manager createFileAtPath:plistPath contents:nil attributes:nil];
+        NSLog(@"创建结果：%@", isCreated? @"成功": @"失败");
+    }
+    BOOL flag = [dict writeToFile:plistPath atomically:YES];
+    NSLog(@"写入结果：%@", flag? @"成功": @"失败");
+}
 
 -(void)setNavBarBtn
 {
@@ -135,6 +182,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self fetchLatestStatuses];
+        //[self saveStatusesToPlist:nil];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatuses)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
@@ -160,6 +208,11 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
             NSDictionary *firstone = downloadedStatuses.firstObject;
             _since_id = firstone[@"idstr"];
             [Utils presentNotificationWithText:[NSString stringWithFormat:@"更新了%ld条微博", downloadedStatuses.count]];
+            
+            __weak BBMainStatusTableViewController *weakSelf = self;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                [weakSelf saveStatusesToPlist:downloadedStatuses];
+            });
         }
         [self.tableView.header endRefreshing];
     }
