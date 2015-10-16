@@ -28,6 +28,7 @@
 #import "UIButton+Bobtn.h"
 #import "Utils.h"
 #import "BBProfileMenuHeaderView.h"
+#import "BBSettingsTableViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -734,6 +735,11 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     {
         NSLog(@"settings");
         //个人设置
+        BBSettingsTableViewController *stvc = [[BBSettingsTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        [stvc setTitle:@"Settings"];
+        stvc.hidesBottomBarWhenPushed = YES;
+        [Utils setupNavigationController:nil withUIViewController:stvc];
+        [self.navigationController pushViewController:stvc animated:YES];
     }
     if ([imageView.image isEqual:[UIImage imageNamed:@"following_icon"]]
         || [imageView.image isEqual:[UIImage imageNamed:@"friend_icon"]])

@@ -24,4 +24,6 @@ typedef NS_ENUM(NSInteger, DraftType) {
 @property (copy, nonatomic) NSString *url; //发送目标的url
 @property (nonatomic) NSInteger draftType; //草稿类型
 
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
 @end

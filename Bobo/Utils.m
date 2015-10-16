@@ -295,11 +295,13 @@
 
 +(void)setupNavigationController:(UINavigationController *)uinvc withUIViewController:(UIViewController *)uivc
 {
-    uinvc.navigationBar.barTintColor = kBarColor;
-    uinvc.navigationBar.tintColor = [UIColor whiteColor];
-    uinvc.navigationBar.layer.shadowOpacity = 0.2;
-    uinvc.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
-    uinvc.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    if (uinvc) {
+        uinvc.navigationBar.barTintColor = kBarColor;
+        uinvc.navigationBar.tintColor = [UIColor whiteColor];
+        uinvc.navigationBar.layer.shadowOpacity = 0.2;
+        uinvc.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
+        uinvc.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    }
     
     uivc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     uivc.view.backgroundColor = bBGColor;

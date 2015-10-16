@@ -10,6 +10,8 @@
 #import "Utils.h"
 #import "UIColor+Custom.h"
 
+#define bCellBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
+
 static CGFloat dSmallGap = 5;
 static CGFloat dBigGap = 10;
 static CGFloat previewLength = 45;
@@ -52,6 +54,8 @@ static CGFloat bigHeight = 20;
 
 -(void)setupSubviews
 {
+    [self.contentView setBackgroundColor:bCellBGColor];
+    
     _type = [[UILabel alloc] initWithFrame:CGRectZero];
     [_type setTextColor:[UIColor customGreen]];
     [_type setFont:[UIFont systemFontOfSize:[Utils fontSizeForComment]]];
@@ -141,8 +145,8 @@ static CGFloat bigHeight = 20;
         if (_draft.images.count > 0) //有图模式
         {
             contentWidth = contentViewWidth-dBigGap*2-previewLength-dBigGap*2-btnLength;
-            [_preview setFrame:CGRectMake(dBigGap, dBigGap, previewLength, previewLength)];
-            [_type setFrame:CGRectMake(dBigGap+previewLength+dBigGap, dBigGap, typeSize.width, smallHeight)];
+            [_type setFrame:CGRectMake(dBigGap, dBigGap, typeSize.width, smallHeight)];
+            [_preview setFrame:CGRectMake(dBigGap, dBigGap+smallHeight+dSmallGap, previewLength, previewLength)];
             [_content setFrame:CGRectMake(dBigGap+previewLength+dBigGap, dBigGap+smallHeight+dSmallGap, contentWidth, bigHeight)];
             [_time setFrame:CGRectMake(dBigGap+previewLength+dBigGap, dBigGap+smallHeight+dSmallGap+bigHeight+dSmallGap, contentWidth, smallHeight)];
         }

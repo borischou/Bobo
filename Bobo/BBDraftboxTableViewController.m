@@ -11,6 +11,10 @@
 #import "Draft.h"
 
 static NSString *reuseId = @"draftcell";
+static CGFloat cellHeight = 105;
+
+static NSString *filename = @"draft";
+static NSString *filepath = @"draft.plist";
 
 @interface BBDraftboxTableViewController ()
 
@@ -23,7 +27,10 @@ static NSString *reuseId = @"draftcell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerClass:[BBDraftboxTableViewCell class] forCellReuseIdentifier:reuseId];
-    
+    _drafts = [self readDraftsFromPlist];
+    if (_drafts && _drafts.count > 0) {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,11 +38,28 @@ static NSString *reuseId = @"draftcell";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - Helpers
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 0;
+-(NSMutableArray *)readDraftsFromPlist
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesDirectory = [paths objectAtIndex:0];
+    NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
+    
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:plistPath]) {
+        return nil;
+    }
+    NSDictionary *draftDict = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    NSMutableArray *drafts = @[].mutableCopy;
+    NSArray *draftArray = draftDict[@"draft"];
+    for (NSDictionary *tmp_draft in draftArray) {
+        [drafts addObject:[[Draft alloc] initWithDictionary:tmp_draft]];
+    }
+    return drafts;
 }
+
+#pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _drafts.count;
@@ -46,6 +70,11 @@ static NSString *reuseId = @"draftcell";
     Draft *draft = _drafts[indexPath.row];
     cell.draft = draft;
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return cellHeight;
 }
 
 @end
