@@ -79,6 +79,39 @@ static CGFloat dBigGap = 10;
     [self.contentView addSubview:_resendButton];
 }
 
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    [self loadData];
+    [self loadSubviews];
+}
+
+-(void)loadData
+{
+    switch (_draft.draftType) {
+        case DraftTypeOriginal:
+            [_type setText:@"微博草稿"];
+            break;
+        case DraftTypeComment:
+            [_type setText:@"评论草稿"];
+            break;
+        case DraftTypeRepost:
+            [_type setText:@"转发草稿"];
+            break;
+        case DraftTypeReply:
+            [_type setText:@"回复草稿"];
+            break;
+        default:
+            break;
+    }
+    [_content setText:_draft.text];
+}
+
+-(void)loadSubviews
+{
+    
+}
+
 -(void)resendButtonPressed:(UIButton *)sender
 {
     
