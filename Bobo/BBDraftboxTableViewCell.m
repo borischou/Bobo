@@ -50,7 +50,7 @@ static CGFloat dBigGap = 10;
 -(void)setupSubviews
 {
     _type = [[UILabel alloc] initWithFrame:CGRectZero];
-    [_type setTextColor:[UIColor lightTextColor]];
+    [_type setTextColor:[UIColor customGreen]];
     [_type setFont:[UIFont systemFontOfSize:[Utils fontSizeForComment]]];
     [_type setBackgroundColor:[UIColor clearColor]];
     [self.contentView addSubview:_type];
@@ -71,6 +71,17 @@ static CGFloat dBigGap = 10;
     [_preview setBackgroundColor:[UIColor clearColor]];
     [_preview setContentMode:UIViewContentModeScaleAspectFit];
     [self.contentView addSubview:_preview];
+    
+    _resendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_resendButton setBackgroundColor:[UIColor customGray]];
+    [_resendButton setBackgroundImage:[UIImage imageNamed:@"resend_icon"] forState:UIControlStateNormal];
+    [_resendButton addTarget:self action:@selector(resendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_resendButton];
+}
+
+-(void)resendButtonPressed:(UIButton *)sender
+{
+    
 }
 
 @end
