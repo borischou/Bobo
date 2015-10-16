@@ -35,6 +35,6 @@
 @property (nonatomic) CGFloat heightForWaterfall;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
--(NSDictionary *)convertToNSDictionary;
+-(NSDictionary *)convertToDictionary;
 
 @end

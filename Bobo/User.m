@@ -54,7 +54,7 @@
     return self;
 }
 
--(NSDictionary *)convertToNSDictionary
+-(NSDictionary *)convertToDictionary
 {
     NSDictionary *dict = @{@"id": @(_user_id), @"idstr": _idstr, @"screen_name": _screen_name, @"name": _name,
                            @"province": @(_province), @"city": @(_city), @"location": _location,
@@ -69,7 +69,7 @@
                            @"avatar_hd": _avatar_hd, @"verified_reason": _verified_reason, @"follow_me": @(_follow_me),
                            @"following": @(_following), @"online_status": @(_online_status),
                            @"bi_followers_count": @(_bi_followers_count),
-                           @"lang": _lang, @"status": _status? [_status convertToNSDictionary]: [NSNull null]};
+                           @"lang": _lang, @"status": _status? [_status convertToDictionary]: [NSNull null]};
     
     return dict;
 }

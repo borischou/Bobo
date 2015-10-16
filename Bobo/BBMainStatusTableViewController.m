@@ -243,7 +243,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSMutableArray *plistarray = @[].mutableCopy;
             for (Status *status in _statuses) {
-                [plistarray addObject:[status convertToNSDictionary]];
+                [plistarray addObject:[status convertToDictionary]];
             }
             [weakSelf saveStatusesToPlist:plistarray];
         });

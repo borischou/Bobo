@@ -75,7 +75,7 @@
     return self;
 }
 
--(NSDictionary *)convertToNSDictionary
+-(NSDictionary *)convertToDictionary
 {
     NSNull *sNull = [NSNull null];
     NSMutableDictionary *dict = @{@"created_at": _created_at? _created_at: sNull,
@@ -94,8 +94,8 @@
         }
         [dict setObject:urls forKey:@"pic_urls"];
     }
-    [dict setObject:_user? [_user convertToNSDictionary]: sNull forKey:@"user"];
-    [dict setObject:_retweeted_status? [_retweeted_status convertToNSDictionary]: sNull forKey:@"retweeted_status"];
+    [dict setObject:_user? [_user convertToDictionary]: sNull forKey:@"user"];
+    [dict setObject:_retweeted_status? [_retweeted_status convertToDictionary]: sNull forKey:@"retweeted_status"];
     
     return dict;
 }
