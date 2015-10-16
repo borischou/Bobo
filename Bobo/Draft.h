@@ -19,11 +19,9 @@ typedef NS_ENUM(NSInteger, DraftType) {
 
 @property (strong, nonatomic) NSArray *images; //发送微博时的图片
 @property (strong, nonatomic) NSDictionary *params; //发送所需参数
-
 @property (copy, nonatomic) NSString *text; //草稿文字
 @property (copy, nonatomic) NSString *time; //草稿撰写时间
 @property (copy, nonatomic) NSString *url; //发送目标的url
-
 @property (nonatomic) NSInteger draftType; //草稿类型
 
 @end
