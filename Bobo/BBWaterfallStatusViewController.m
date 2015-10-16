@@ -29,9 +29,9 @@
 static NSString *homeTimeline = @"statuses/home_timeline.json";
 static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
 
-typedef NS_ENUM(NSInteger, fetchResultType) {
-    fetchResultTypeRefresh,
-    fetchResultTypeHistory
+typedef NS_ENUM(NSInteger, FetchResultType) {
+    FetchResultTypeRefresh,
+    FetchResultTypeHistory
 };
 
 @interface BBWaterfallStatusViewController () <UICollectionViewDelegate, BBGroupSelectViewDelegate>
@@ -157,7 +157,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     if (!_waterfallView.statuses) {
         _waterfallView.statuses = @[].mutableCopy;
     }
-    if (type == fetchResultTypeRefresh) { //下拉刷新最新微博
+    if (type == FetchResultTypeRefresh) { //下拉刷新最新微博
         NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
         if (downloadedStatuses.count > 0) {
             for (int i = 0; i < [downloadedStatuses count]; i ++) {
@@ -176,7 +176,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
         [_waterfallView.header endRefreshing];
     }
     
-    if (type == fetchResultTypeHistory) { //上拉刷新历史微博
+    if (type == FetchResultTypeHistory) { //上拉刷新历史微博
         NSArray *historyStatuses = [result objectForKey:@"statuses"];
         if (historyStatuses.count > 0) {
             for (int i = 1; i < [historyStatuses count]; i ++) {
@@ -201,7 +201,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     }
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeRefresh];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeRefresh];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"更新失败"];
@@ -217,7 +217,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeHistory];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeHistory];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"访问失败"];

@@ -89,6 +89,7 @@
 		45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E51BB931A800FE9890 /* follow_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 		45A183E81BB931BF00FE9890 /* friend_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E71BB931BF00FE9890 /* friend_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 		45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */; };
+		45BE63EA1BD0CB4100FBA95E /* Draft.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BE63E91BD0CB4100FBA95E /* Draft.m */; settings = {ASSET_TAGS = (); }; };
 		45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */; };
 		45C57B451B9FE97000FE040E /* barbutton_icon_post@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */; };
 		45C57B471B9FEC6D00FE040E /* tab_waterfall@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B461B9FEC6D00FE040E /* tab_waterfall@3x.png */; };
@@ -241,6 +242,8 @@
 		45A183E71BB931BF00FE9890 /* friend_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "friend_icon@3x.png"; sourceTree = "<group>"; };
 		45BBDA581B902FA200BABEDD /* BBPhotoPickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBPhotoPickerCollectionView.h; sourceTree = "<group>"; };
 		45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBPhotoPickerCollectionView.m; sourceTree = "<group>"; };
+		45BE63E81BD0CB4100FBA95E /* Draft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Draft.h; sourceTree = "<group>"; };
+		45BE63E91BD0CB4100FBA95E /* Draft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Draft.m; sourceTree = "<group>"; };
 		45BEC7591B9EB62500001DAE /* BBMessageMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMessageMenuView.h; sourceTree = "<group>"; };
 		45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessageMenuView.m; sourceTree = "<group>"; };
 		45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barbutton_icon_post@3x.png"; sourceTree = "<group>"; };
@@ -470,6 +473,8 @@
 			children = (
 				457278781B53887A00AC0C9C /* Status.h */,
 				457278791B53887A00AC0C9C /* Status.m */,
+				45BE63E81BD0CB4100FBA95E /* Draft.h */,
+				45BE63E91BD0CB4100FBA95E /* Draft.m */,
 				4553E4021B54D73D0020989C /* Comment.h */,
 				4553E4031B54D73D0020989C /* Comment.m */,
 				4572787B1B53894F00AC0C9C /* User.h */,
@@ -840,6 +845,7 @@
 				00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */,
 				457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				45688A131B85BB810015461E /* BBCommentBarView.m in Sources */,
+				45BE63EA1BD0CB4100FBA95E /* Draft.m in Sources */,
 				456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */,
 				000AE6CE1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,

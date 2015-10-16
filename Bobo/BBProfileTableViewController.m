@@ -45,10 +45,10 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-typedef NS_ENUM(NSInteger, fetchResultType) {
-    fetchResultTypeRefresh,
-    fetchResultTypeHistory,
-    fetchResultTypeCounts
+typedef NS_ENUM(NSInteger, FetchResultType) {
+    FetchResultTypeRefresh,
+    FetchResultTypeHistory,
+    FetchResultTypeCounts
 };
 
 @interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate, TTTAttributedLabelDelegate, BBProfileMenuHeaderViewDelegate, BBAlbumCollectionViewControllerDelegate>
@@ -217,7 +217,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
         {
             [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = nil;
-                [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeCounts];
+                [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeCounts];
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -237,7 +237,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     {
         [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSError *error = nil;
-            [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeCounts];
+            [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeCounts];
         }
                    completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
         {
@@ -262,7 +262,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:params completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
     {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeRefresh];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeRefresh];
     }
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
@@ -282,7 +282,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid, @"count": @"20", @"max_id": _currentLastStatusId} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
     {
         NSError *error = nil;
-        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeHistory];
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeHistory];
     }
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
@@ -299,7 +299,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
 
 -(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type
 {
-    if (type == fetchResultTypeCounts)
+    if (type == FetchResultTypeCounts)
     {
         [self.tableView.header endRefreshing];
         _user = [[User alloc] initWithDictionary:result];
@@ -311,7 +311,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     {
         _statuses = @[].mutableCopy;
     }
-    if (type == fetchResultTypeRefresh)
+    if (type == FetchResultTypeRefresh)
     {
         if (downloadedStatuses.count > 0)
         {
@@ -334,7 +334,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
             }
         }
     }
-    if (type == fetchResultTypeHistory)
+    if (type == FetchResultTypeHistory)
     {
         for (int i = 1; i < downloadedStatuses.count; i ++)
         {
