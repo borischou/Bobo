@@ -47,6 +47,15 @@
     return self;
 }
 
+-(NSDictionary *)dictionaryWithStatus:(Status *)status
+{
+    NSDictionary *dict = @{@"created_at": _created_at, @"id": @(_status_id), @"mid": @(_status_mid), @"idstr": _idstr,
+                           @"text": _text, @"source": _source, @"favorited": @(_favorited), @"truncated": @(_truncated),
+                           @"thumbnail_pic": _thumbnail_pic, @"bmiddle_pic": _bmiddle_pic, @"original_pic": _original_pic};
+    
+    return dict;
+}
+
 -(void)calculateStatusHeight
 {
     _height = [Utils getHeightForCellWithStatusText:_text statusImageCount:[_pic_urls count] andRetweetScreenName:_retweeted_status.user.screen_name retweetText:_retweeted_status.text retweetImageCount:[_retweeted_status.pic_urls count]];

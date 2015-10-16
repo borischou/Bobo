@@ -80,34 +80,48 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
     [self setMJRefresh];
     _statuses = [self readStatusesFromPlist];
     if (_statuses.count > 0) {
+        _max_id = [self lastIdFromStatuses:_statuses];
         [self.tableView reloadData];
+    } else {
+        [self.tableView.header beginRefreshing];
     }
-    [self.tableView.header beginRefreshing];
 }
 
 #pragma mark - Helpers
+
+-(NSString *)lastIdFromStatuses:(NSMutableArray *)statuses
+{
+    Status *lastOne = statuses.lastObject;
+    return lastOne.idstr;
+}
 
 -(NSMutableArray *)readStatusesFromPlist
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachesDirectory = [paths objectAtIndex:0];
     NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
-    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+    NSData *data = [NSData dataWithContentsOfFile:plistPath];
+    NSDictionary *dict = (NSDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    //NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+    
     NSMutableArray *statuses = @[].mutableCopy;
-    if (![data[@"statuses"] isEqual:[NSNull null]]) {
-        NSArray *results = [data objectForKey:@"statuses"];
+    if (![dict[@"statuses"] isEqual:[NSNull null]]) {
+        NSArray *results = [dict objectForKey:@"statuses"];
         if (results.count > 0) {
-            for (NSDictionary *dict in results) {
-                [statuses addObject:[[Status alloc] initWithDictionary:dict]];
+            for (NSDictionary *tmp_dict in results) {
+                [statuses addObject:[[Status alloc] initWithDictionary:tmp_dict]];
             }
         }
     }
     return statuses;
 }
 
+//使用NSKeyedArchiver将微博数据模型字典转成NSData然后写入plist文件（由于微博数据字典过大无法直接写入）
 -(void)saveStatusesToPlist:(NSArray *)statuses
 {
     NSDictionary *dict = @{@"statuses": statuses};
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
     
     //获取Library/Caches目录
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -123,7 +137,7 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
         BOOL isCreated = [manager createFileAtPath:plistPath contents:nil attributes:nil];
         NSLog(@"创建结果：%@", isCreated? @"成功": @"失败");
     }
-    BOOL flag = [dict writeToFile:plistPath atomically:YES];
+    BOOL flag = [data writeToFile:plistPath atomically:YES];
     NSLog(@"写入结果：%@", flag? @"成功": @"失败");
 }
 
@@ -182,7 +196,6 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self fetchLatestStatuses];
-        //[self saveStatusesToPlist:nil];
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatuses)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
@@ -208,7 +221,6 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
             NSDictionary *firstone = downloadedStatuses.firstObject;
             _since_id = firstone[@"idstr"];
             [Utils presentNotificationWithText:[NSString stringWithFormat:@"更新了%ld条微博", downloadedStatuses.count]];
-            
             __weak BBMainStatusTableViewController *weakSelf = self;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 [weakSelf saveStatusesToPlist:downloadedStatuses];
@@ -229,7 +241,6 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
         }
         [self.tableView.footer endRefreshing];
     }
-    NSLog(@"The currentLastStatusId is: %@", _max_id);
     [self.tableView reloadData];
 }
 
