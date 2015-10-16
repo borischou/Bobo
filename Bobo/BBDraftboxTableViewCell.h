@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Draft.h"
 
 @interface BBDraftboxTableViewCell : UITableViewCell
+
+@property (strong, nonatomic) Draft *draft;
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "BBDraftboxTableViewCell.h"
+#import "Utils.h"
+#import "UIColor+Custom.h"
 
 static CGFloat dSmallGap = 5;
 static CGFloat dBigGap = 10;
@@ -40,14 +42,35 @@ static CGFloat dBigGap = 10;
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        [self setupSubviews];
     }
     return self;
 }
 
 -(void)setupSubviews
 {
+    _type = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_type setTextColor:[UIColor lightTextColor]];
+    [_type setFont:[UIFont systemFontOfSize:[Utils fontSizeForComment]]];
+    [_type setBackgroundColor:[UIColor clearColor]];
+    [self.contentView addSubview:_type];
     
+    _content = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_content setTextColor:[UIColor customGray]];
+    [_content setFont:[UIFont systemFontOfSize:[Utils fontSizeForStatus]]];
+    [_content setBackgroundColor:[UIColor clearColor]];
+    [self.contentView addSubview:_content];
+    
+    _time = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_time setTextColor:[UIColor lightTextColor]];
+    [_time setFont:[UIFont systemFontOfSize:13.0]];
+    [_time setBackgroundColor:[UIColor clearColor]];
+    [self.contentView addSubview:_time];
+    
+    _preview = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [_preview setBackgroundColor:[UIColor clearColor]];
+    [_preview setContentMode:UIViewContentModeScaleAspectFit];
+    [self.contentView addSubview:_preview];
 }
 
 @end
