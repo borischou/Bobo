@@ -7,8 +7,14 @@
 //
 
 #import "BBDraftboxTableViewController.h"
+#import "BBDraftboxTableViewCell.h"
+#import "Draft.h"
+
+static NSString *reuseId = @"draftcell";
 
 @interface BBDraftboxTableViewController ()
+
+@property (strong, nonatomic) NSMutableArray *drafts;
 
 @end
 
@@ -16,7 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self.tableView registerClass:[BBDraftboxTableViewCell class] forCellReuseIdentifier:reuseId];
     
 }
 
@@ -32,14 +38,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return _drafts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    BBDraftboxTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId forIndexPath:indexPath];
+    Draft *draft = _drafts[indexPath.row];
+    cell.draft = draft;
     return cell;
 }
 

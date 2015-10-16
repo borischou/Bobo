@@ -12,6 +12,9 @@
 
 static CGFloat dSmallGap = 5;
 static CGFloat dBigGap = 10;
+static CGFloat previewLength = 45;
+static CGFloat smallHeight = 15;
+static CGFloat bigHeight = 20;
 
 @interface BBDraftboxTableViewCell ()
 
@@ -59,7 +62,15 @@ static CGFloat dBigGap = 10;
     [_content setTextColor:[UIColor customGray]];
     [_content setFont:[UIFont systemFontOfSize:[Utils fontSizeForStatus]]];
     [_content setBackgroundColor:[UIColor clearColor]];
+    [_content setNumberOfLines:1];
     [self.contentView addSubview:_content];
+    
+    _repostContent = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_repostContent setTextColor:[UIColor lightTextColor]];
+    [_repostContent setFont:[UIFont systemFontOfSize:[Utils fontSizeForStatus]]];
+    [_repostContent setBackgroundColor:[UIColor clearColor]];
+    [_repostContent setNumberOfLines:1];
+    [self.contentView addSubview:_repostContent];
     
     _time = [[UILabel alloc] initWithFrame:CGRectZero];
     [_time setTextColor:[UIColor lightTextColor]];
@@ -88,7 +99,11 @@ static CGFloat dBigGap = 10;
 
 -(void)loadData
 {
-    switch (_draft.draftType) {
+    NSInteger type = _draft.draftType;
+    NSDictionary *params = _draft.params;
+    NSData *imageData = _draft.images.firstObject;
+    
+    switch (type) {
         case DraftTypeOriginal:
             [_type setText:@"微博草稿"];
             break;
@@ -104,12 +119,50 @@ static CGFloat dBigGap = 10;
         default:
             break;
     }
+    
+    if (type != DraftTypeOriginal) {
+        [_repostContent setText:params[@"original"]];
+    }
     [_content setText:_draft.text];
+    [_time setText:_draft.time];
+    [_preview setImage:[UIImage imageWithData:imageData]];
 }
 
 -(void)loadSubviews
 {
+    NSInteger type = _draft.draftType;
+    CGSize typeSize = [_type sizeThatFits:CGSizeMake(MAXFLOAT, smallHeight)];
+    CGFloat btnLength = 30;
+    CGFloat contentWidth = 0;
+    CGFloat contentViewWidth = self.contentView.frame.size.width;
     
+    if (type == DraftTypeOriginal) //微博草稿
+    {
+        if (_draft.images.count > 0) //有图模式
+        {
+            contentWidth = contentViewWidth-dBigGap*2-previewLength-dBigGap*2-btnLength;
+            [_preview setFrame:CGRectMake(dBigGap, dBigGap, previewLength, previewLength)];
+            [_type setFrame:CGRectMake(dBigGap+previewLength+dBigGap, dBigGap, typeSize.width, smallHeight)];
+            [_content setFrame:CGRectMake(dBigGap+previewLength+dBigGap, dBigGap+smallHeight+dSmallGap, contentWidth, bigHeight)];
+            [_time setFrame:CGRectMake(dBigGap+previewLength+dBigGap, dBigGap+smallHeight+dSmallGap+bigHeight+dSmallGap, contentWidth, smallHeight)];
+        }
+        else //无图模式
+        {
+            contentWidth = contentViewWidth-dBigGap*2-btnLength-dBigGap;
+            [_type setFrame:CGRectMake(dBigGap, dBigGap, typeSize.width, smallHeight)];
+            [_content setFrame:CGRectMake(dBigGap, dBigGap+smallHeight+dSmallGap, contentWidth, bigHeight)];
+            [_time setFrame:CGRectMake(dBigGap, dBigGap+smallHeight+dSmallGap+bigHeight+dSmallGap, contentWidth, smallHeight)];
+        }
+    }
+    else
+    {
+        contentWidth = contentViewWidth-dBigGap*2-btnLength-dBigGap;
+        [_type setFrame:CGRectMake(dBigGap, dBigGap, typeSize.width, smallHeight)];
+        [_content setFrame:CGRectMake(dBigGap, dBigGap+smallHeight+dSmallGap, contentWidth, bigHeight)];
+        [_repostContent setFrame:CGRectMake(dBigGap, dBigGap+smallHeight+dSmallGap+bigHeight+dSmallGap, contentWidth, bigHeight)];
+        [_time setFrame:CGRectMake(dBigGap, dBigGap+smallHeight+dSmallGap+bigHeight+dSmallGap+bigHeight+dSmallGap, contentWidth, smallHeight)];
+    }
+    [_resendButton setFrame:CGRectMake(contentViewWidth-dBigGap-btnLength, (self.contentView.frame.size.height-btnLength)/2, btnLength, btnLength)];
 }
 
 -(void)resendButtonPressed:(UIButton *)sender

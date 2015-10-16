@@ -538,12 +538,14 @@ static NSString *filepath = @"draft.plist";
             url = @"https://api.weibo.com/2/comments/create.json";
             [params setObject:_status.idstr forKey:@"id"];
             [params setObject:[_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0" forKey:@"comment_ori"];
+            [params setObject:_status.text forKey:@"original"];
             break;
             
         case DraftTypeRepost:
             url = @"https://api.weibo.com/2/statuses/repost.json";
             [params setObject:_status.idstr forKey:@"id"];
             [params setObject:[_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0" forKey:@"is_comment"];
+            [params setObject:_status.text forKey:@"original"];
             break;
             
         case DraftTypeReply:
@@ -551,6 +553,7 @@ static NSString *filepath = @"draft.plist";
             [params setObject:_comment.status.idstr forKey:@"id"];
             [params setObject:_comment.idstr forKey:@"cid"];
             [params setObject:[_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0" forKey:@"comment_ori"];
+            [params setObject:_comment.text forKey:@"original"];
             break;
         default:
             break;
