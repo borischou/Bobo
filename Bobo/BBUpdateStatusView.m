@@ -254,53 +254,6 @@ static NSString *reuseCell = @"photocell";
     }
 }
 
--(void)alertForDraft
-{
-    UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"草稿" message:@"是否保存为草稿?" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"保存草稿" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self removeViewAnimation];
-    }];
-    UIAlertAction *unsaveAction = [UIAlertAction actionWithTitle:@"不保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self removeViewAnimation];
-    }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self resignTextViewAndMask:NO];
-    }];
-    [alertcontroller addAction:saveAction];
-    [alertcontroller addAction:unsaveAction];
-    [alertcontroller addAction:cancelAction];
-    
-    UITabBarController *tbc = (UITabBarController *)self.window.rootViewController;
-    UINavigationController *nvc = tbc.selectedViewController;
-    UIViewController *currentvc = nvc.viewControllers.firstObject;
-    
-    [self resignTextViewAndMask:YES];
-    
-    [currentvc presentViewController:alertcontroller animated:YES completion:^{}];
-}
-
--(void)removeViewAnimation
-{
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
-        if (_mask) {
-            _mask.alpha = 0;
-        }
-    } completion:^(BOOL finished) {
-        if (finished) {
-            if (_mask) {
-                [_mask removeFromSuperview];
-                _mask = nil;
-            }
-            if (_pickedOnes.count > 0) {
-                [_pickedOnes removeAllObjects];
-            }
-            _pickedOnes = nil;
-            [self removeFromSuperview];
-        }
-    }];
-}
-
 -(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
 {
     [self refreshComments];
@@ -448,13 +401,6 @@ static NSString *reuseCell = @"photocell";
     }];
 }
 
-#pragma mark - Draftbox
-
--(void)dropIntoDraftbox:(NSData *)responseData error:(NSError *)error
-{
-    
-}
-
 -(void)addPictureButtonPressed:(UIButton *)sender
 {
     [_statusTextView resignFirstResponder];
@@ -496,6 +442,60 @@ static NSString *reuseCell = @"photocell";
 {
     self.hidden = flag;
     _mask.hidden = flag;
+}
+
+#pragma mark - Draft support
+
+-(void)alertForDraft
+{
+    UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"草稿" message:@"是否保存为草稿?" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"保存草稿" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self removeViewAnimation];
+    }];
+    UIAlertAction *unsaveAction = [UIAlertAction actionWithTitle:@"不保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self removeViewAnimation];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self resignTextViewAndMask:NO];
+    }];
+    [alertcontroller addAction:saveAction];
+    [alertcontroller addAction:unsaveAction];
+    [alertcontroller addAction:cancelAction];
+    
+    UITabBarController *tbc = (UITabBarController *)self.window.rootViewController;
+    UINavigationController *nvc = tbc.selectedViewController;
+    UIViewController *currentvc = nvc.viewControllers.firstObject;
+    
+    [self resignTextViewAndMask:YES];
+    
+    [currentvc presentViewController:alertcontroller animated:YES completion:^{}];
+}
+
+-(void)removeViewAnimation
+{
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
+        if (_mask) {
+            _mask.alpha = 0;
+        }
+    } completion:^(BOOL finished) {
+        if (finished) {
+            if (_mask) {
+                [_mask removeFromSuperview];
+                _mask = nil;
+            }
+            if (_pickedOnes.count > 0) {
+                [_pickedOnes removeAllObjects];
+            }
+            _pickedOnes = nil;
+            [self removeFromSuperview];
+        }
+    }];
+}
+
+-(void)dropIntoDraftbox:(NSData *)responseData error:(NSError *)error
+{
+    
 }
 
 #pragma mark - BBPhotoSelectionCollectionViewControllerDelegate
