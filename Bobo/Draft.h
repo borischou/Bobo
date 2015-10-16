@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, DraftType) {
 
 @interface Draft : NSObject
 
-@property (strong, nonatomic) NSArray *images; //发送微博时的图片
+@property (strong, nonatomic) NSArray *images; //发送微博时的图片(NSData)
 @property (strong, nonatomic) NSDictionary *params; //发送所需参数
 @property (copy, nonatomic) NSString *text; //草稿文字
 @property (copy, nonatomic) NSString *time; //草稿撰写时间

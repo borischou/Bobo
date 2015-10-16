@@ -14,7 +14,12 @@
 {
     self = [super init];
     if (self) {
-        
+        _text = dictionary[@"text"];
+        _draftType = [dictionary[@"flag"] integerValue];
+        _url = dictionary[@"url"];
+        _images = dictionary[@"images"];
+        _time = dictionary[@"time"];
+        _params = dictionary[@"params"];
     }
     return self;
 }

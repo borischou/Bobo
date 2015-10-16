@@ -556,15 +556,30 @@ static NSString *filepath = @"draft.plist";
             break;
     }
     
+    NSDate *date = [NSDate date];
+    
+    
     NSMutableDictionary *draft = @{@"text": _statusTextView.text,
-                                   @"flag": @(_flag), @"url": url,
-                                   @"images": images, @"params": params}.mutableCopy;
+                                   @"flag": @(_flag),
+                                   @"url": url,
+                                   @"images": images,
+                                   @"params": params,
+                                   @"time": [self stringFromDate:date]}.mutableCopy;
     [self saveDraftToPlist:draft];
 }
 
 -(void)dropIntoDraftbox:(NSData *)responseData error:(NSError *)error
 {
     
+}
+
+-(NSString *)stringFromDate:(NSDate *)date
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"EEE MMM d HH:mm:ss Z yyyy"];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Beijing"]];
+    [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_CN"]];
+    return [formatter stringFromDate:date];
 }
 
 //草稿保存使用plist直接保存草稿字典数据
