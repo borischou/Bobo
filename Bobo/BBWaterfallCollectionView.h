@@ -11,6 +11,6 @@
 
 @interface BBWaterfallCollectionView : UICollectionView
 
-@property (copy, nonatomic) NSMutableArray *statuses;
+@property (strong, nonatomic) NSMutableArray *statuses;
 
 @end

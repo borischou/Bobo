@@ -78,7 +78,6 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     } else {
         [_waterfallView.header beginRefreshing];
     }
-    [_waterfallView.header beginRefreshing];
 }
 
 -(void)didReceiveMemoryWarning

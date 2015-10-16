@@ -236,6 +236,51 @@ static NSString *reuseCell = @"photocell";
 
 -(void)cancelButtonPressed:(UIButton *)sender
 {
+    if (_statusTextView.text.length < 1) {
+        [self removeViewAnimation];
+    } else {
+        [self alertForDraft];
+    }
+}
+
+-(void)resignTextViewAndMask:(BOOL)flag
+{
+    if (flag) {
+        [_statusTextView resignFirstResponder];
+        [_mask setFrame:CGRectZero];
+    } else {
+        [_mask setFrame:CGRectMake(0, 0, bWidth, bHeight)];
+        [_statusTextView becomeFirstResponder];
+    }
+}
+
+-(void)alertForDraft
+{
+    UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"草稿" message:@"是否保存为草稿?" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"保存草稿" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self removeViewAnimation];
+    }];
+    UIAlertAction *unsaveAction = [UIAlertAction actionWithTitle:@"不保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self removeViewAnimation];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self resignTextViewAndMask:NO];
+    }];
+    [alertcontroller addAction:saveAction];
+    [alertcontroller addAction:unsaveAction];
+    [alertcontroller addAction:cancelAction];
+    
+    UITabBarController *tbc = (UITabBarController *)self.window.rootViewController;
+    UINavigationController *nvc = tbc.selectedViewController;
+    UIViewController *currentvc = nvc.viewControllers.firstObject;
+    
+    [self resignTextViewAndMask:YES];
+    
+    [currentvc presentViewController:alertcontroller animated:YES completion:^{}];
+}
+
+-(void)removeViewAnimation
+{
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
         if (_mask) {
@@ -554,7 +599,5 @@ static NSString *reuseCell = @"photocell";
     [_statusTextView resignFirstResponder];
     [self.window.rootViewController presentViewController:alertcontroller animated:YES completion:^{}];
 }
-
-
 
 @end
