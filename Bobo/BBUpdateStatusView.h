@@ -10,6 +10,13 @@
 #import "Status.h"
 #import "Comment.h"
 
+typedef NS_ENUM(NSInteger, DraftType) {
+    DraftTypeOriginal,
+    DraftTypeComment,
+    DraftTypeRepost,
+    DraftTypeReply
+};
+
 @interface BBUpdateStatusView : UIView
 
 @property (strong, nonatomic) UILabel *todoLabel;
@@ -17,12 +24,10 @@
 @property (strong, nonatomic) UIButton *cancelBtn;
 @property (strong, nonatomic) UIButton *sendBtn;
 @property (strong, nonatomic) UITextView *statusTextView;
-//@property (copy, nonatomic) NSString *idStr; //当前微博id
 @property (strong, nonatomic) Status *status;
-//@property (copy, nonatomic) NSString *cidStr; //评论时评论cid
 @property (strong, nonatomic) Comment *comment;
 @property (copy, nonatomic) NSMutableArray *pickedOnes;
 
--(instancetype)initWithFlag:(int)flag;
+-(instancetype)initWithFlag:(NSInteger)flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 
 @end

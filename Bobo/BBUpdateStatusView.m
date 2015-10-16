@@ -40,8 +40,11 @@
 static CGFloat compressionQuality = 0.7;
 static NSString *reuseCell = @"photocell";
 
+static NSString *filename = @"draft";
+static NSString *filepath = @"draft.plist";
+
 @interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BBPhotoSelectionCollectionViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate> {
-    int _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
+    NSInteger _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 }
 
 @property (strong, nonatomic) BBKeyboardInputAccessoryView *keyboardInputView;
@@ -54,7 +57,7 @@ static NSString *reuseCell = @"photocell";
 
 @implementation BBUpdateStatusView
 
--(instancetype)initWithFlag:(int)flag
+-(instancetype)initWithFlag:(NSInteger)flag
 {
     self = [super init];
     if (self) {
@@ -202,12 +205,15 @@ static NSString *reuseCell = @"photocell";
             //在文本框外面铺照片墙
             [_collectionView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+textViewHeight+uSmallGap, collectionViewWidth, collectionViewHeight)];
         }
-    } else {
+    }
+    else
+    {
         [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
         [_collectionView setFrame:CGRectZero];
     }
     
-    if (!_mask) {
+    if (!_mask)
+    {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
         _mask.alpha = 0.0;
@@ -227,28 +233,37 @@ static NSString *reuseCell = @"photocell";
 
 -(void)todoLabelTapped
 {
-    if ([_todoLabel.textColor isEqual:[UIColor lightTextColor]]) {
+    if ([_todoLabel.textColor isEqual:[UIColor lightTextColor]])
+    {
         [_todoLabel setTextColor:[UIColor greenColor]];
-    } else {
+    }
+    else
+    {
         [_todoLabel setTextColor:[UIColor lightTextColor]];
     }
 }
 
 -(void)cancelButtonPressed:(UIButton *)sender
 {
-    if (_statusTextView.text.length < 1) {
+    if (_statusTextView.text.length < 1)
+    {
         [self removeViewAnimation];
-    } else {
+    }
+    else
+    {
         [self alertForDraft];
     }
 }
 
 -(void)resignTextViewAndMask:(BOOL)flag
 {
-    if (flag) {
+    if (flag)
+    {
         [_statusTextView resignFirstResponder];
         [_mask setFrame:CGRectZero];
-    } else {
+    }
+    else
+    {
         [_mask setFrame:CGRectMake(0, 0, bWidth, bHeight)];
         [_statusTextView becomeFirstResponder];
     }
@@ -257,7 +272,8 @@ static NSString *reuseCell = @"photocell";
 -(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
 {
     [self refreshComments];
-    if (_pickedOnes.count > 0) {
+    if (_pickedOnes.count > 0)
+    {
         [_pickedOnes removeAllObjects];
     }
     [Utils presentNotificationWithText:text];
@@ -450,6 +466,7 @@ static NSString *reuseCell = @"photocell";
 {
     UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"草稿" message:@"是否保存为草稿?" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"保存草稿" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self saveToDraft];
         [self removeViewAnimation];
     }];
     UIAlertAction *unsaveAction = [UIAlertAction actionWithTitle:@"不保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -493,9 +510,91 @@ static NSString *reuseCell = @"photocell";
     }];
 }
 
+-(void)saveToDraft
+{
+    //先组成草稿字典
+    NSString *url = @"";
+    NSMutableArray *images = @[].mutableCopy;
+    NSMutableDictionary *params = @{}.mutableCopy;
+    
+    switch (_flag) {
+        case DraftTypeOriginal:
+            if (_pickedOnes.count == 1) { //一张配图
+                url = @"https://api.weibo.com/2/statuses/upload.json";
+                [images addObject:_pickedOnes.firstObject];
+            }
+            if (_pickedOnes.count > 1) { //多张配图
+                url = @"";
+                for (NSData *data in _pickedOnes) {
+                    [images addObject:data];
+                }
+            }
+            if (!_pickedOnes || _pickedOnes.count == 0) {
+                url = @"https://api.weibo.com/2/statuses/update.json";
+            }
+            break;
+            
+        case DraftTypeComment:
+            url = @"https://api.weibo.com/2/comments/create.json";
+            [params setObject:_status.idstr forKey:@"id"];
+            [params setObject:[_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0" forKey:@"comment_ori"];
+            break;
+            
+        case DraftTypeRepost:
+            url = @"https://api.weibo.com/2/statuses/repost.json";
+            [params setObject:_status.idstr forKey:@"id"];
+            [params setObject:[_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0" forKey:@"is_comment"];
+            break;
+            
+        case DraftTypeReply:
+            url = @"https://api.weibo.com/2/comments/reply.json";
+            [params setObject:_comment.status.idstr forKey:@"id"];
+            [params setObject:_comment.idstr forKey:@"cid"];
+            [params setObject:[_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0" forKey:@"comment_ori"];
+            break;
+        default:
+            break;
+    }
+    
+    NSMutableDictionary *draft = @{@"text": _statusTextView.text,
+                                   @"flag": @(_flag), @"url": url,
+                                   @"images": images, @"params": params}.mutableCopy;
+    [self saveDraftToPlist:draft];
+}
+
 -(void)dropIntoDraftbox:(NSData *)responseData error:(NSError *)error
 {
     
+}
+
+//草稿保存使用plist直接保存草稿字典数据
+-(void)saveDraftToPlist:(NSDictionary *)draft
+{
+    //获取Library/Caches目录
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesDirectory = [paths objectAtIndex:0];
+    
+    //将文件名拼在目录后面形成完整文件路径
+    NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
+    
+    //将字典数据写入文件
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:plistPath]) { //若plist不存在则创建一个
+        BOOL isCreated = [manager createFileAtPath:plistPath contents:nil attributes:nil];
+        NSLog(@"创建结果：%@", isCreated? @"成功": @"失败");
+        
+        NSMutableArray *array = @[].mutableCopy;
+        [array addObject:draft];
+        NSMutableDictionary *drafts = @{@"draft": array}.mutableCopy;
+        
+        BOOL flag = [drafts writeToFile:plistPath atomically:YES];
+        NSLog(@"写入结果：%@", flag? @"成功": @"失败");
+    }
+    NSMutableDictionary *drafts = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+    NSMutableArray *array = drafts[@"draft"];
+    [array addObject:draft];
+    BOOL flag = [drafts writeToFile:plistPath atomically:YES];
+    NSLog(@"写入结果：%@", flag? @"成功": @"失败");
 }
 
 #pragma mark - BBPhotoSelectionCollectionViewControllerDelegate
