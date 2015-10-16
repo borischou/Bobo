@@ -221,10 +221,6 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
             NSDictionary *firstone = downloadedStatuses.firstObject;
             _since_id = firstone[@"idstr"];
             [Utils presentNotificationWithText:[NSString stringWithFormat:@"更新了%ld条微博", downloadedStatuses.count]];
-            __weak BBMainStatusTableViewController *weakSelf = self;
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                [weakSelf saveStatusesToPlist:downloadedStatuses];
-            });
         }
         [self.tableView.header endRefreshing];
     }
@@ -242,6 +238,16 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
         [self.tableView.footer endRefreshing];
     }
     [self.tableView reloadData];
+    if (_statuses.count > 0) {
+        __weak BBMainStatusTableViewController *weakSelf = self;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSMutableArray *plistarray = @[].mutableCopy;
+            for (Status *status in _statuses) {
+                [plistarray addObject:[status convertToNSDictionary]];
+            }
+            [weakSelf saveStatusesToPlist:plistarray];
+        });
+    }
 }
 
 -(void)fetchLatestStatuses

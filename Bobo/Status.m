@@ -15,30 +15,58 @@
 {
     self = [super init];
     if (self) {
-        _created_at = [dictionary objectForKey:@"created_at"];
-        _status_id = [[dictionary objectForKey:@"id"] integerValue];
-        _status_mid = [[dictionary objectForKey:@"mid"] integerValue];
-        _idstr = [dictionary objectForKey:@"idstr"];
-        _text = [dictionary objectForKey:@"text"];
-        _source = [dictionary objectForKey:@"source"];
-        _favorited = [[dictionary objectForKey:@"favorited"] boolValue];
-        _truncated = [[dictionary objectForKey:@"truncated"] boolValue];
-        _thumbnail_pic = [dictionary objectForKey:@"thumbnail_pic"];
-        _bmiddle_pic = [dictionary objectForKey:@"bmiddle_pic"];
-        _original_pic = [dictionary objectForKey:@"original_pic"];
-        _reposts_count = [[dictionary objectForKey:@"reposts_count"] integerValue];
-        _comments_count = [[dictionary objectForKey:@"comments_count"] integerValue];
-        _attitudes_count = [[dictionary objectForKey:@"attitudes_count"] integerValue];
+        if (![[dictionary objectForKey:@"created_at"] isEqual:[NSNull null]]) {
+            _created_at = [dictionary objectForKey:@"created_at"];
+        }
+        if (![[dictionary objectForKey:@"id"] isEqual:[NSNull null]]) {
+            _status_id = [[dictionary objectForKey:@"id"] integerValue];
+        }
+        if (![[dictionary objectForKey:@"mid"] isEqual:[NSNull null]]) {
+            _status_mid = [[dictionary objectForKey:@"mid"] integerValue];
+        }
+        if (![[dictionary objectForKey:@"idstr"] isEqual:[NSNull null]]) {
+            _idstr = [dictionary objectForKey:@"idstr"];
+        }
+        if (![[dictionary objectForKey:@"text"] isEqual:[NSNull null]]) {
+            _text = [dictionary objectForKey:@"text"];
+        }
+        if (![[dictionary objectForKey:@"source"] isEqual:[NSNull null]]) {
+            _source = [dictionary objectForKey:@"source"];
+        }
+        if (![[dictionary objectForKey:@"favorited"] isEqual:[NSNull null]]) {
+            _favorited = [[dictionary objectForKey:@"favorited"] boolValue];
+        }
+        if (![[dictionary objectForKey:@"truncated"] isEqual:[NSNull null]]) {
+            _truncated = [[dictionary objectForKey:@"truncated"] boolValue];
+        }
+        if (![[dictionary objectForKey:@"thumbnail_pic"] isEqual:[NSNull null]]) {
+            _thumbnail_pic = [dictionary objectForKey:@"thumbnail_pic"];
+        }
+        if (![[dictionary objectForKey:@"bmiddle_pic"] isEqual:[NSNull null]]) {
+            _bmiddle_pic = [dictionary objectForKey:@"bmiddle_pic"];
+        }
+        if (![[dictionary objectForKey:@"original_pic"] isEqual:[NSNull null]]) {
+            _original_pic = [dictionary objectForKey:@"original_pic"];
+        }
+        if (![[dictionary objectForKey:@"reposts_count"] isEqual:[NSNull null]]) {
+            _reposts_count = [[dictionary objectForKey:@"reposts_count"] integerValue];
+        }
+        if (![[dictionary objectForKey:@"comments_count"] isEqual:[NSNull null]]) {
+            _comments_count = [[dictionary objectForKey:@"comments_count"] integerValue];
+        }
+        if (![[dictionary objectForKey:@"attitudes_count"] isEqual:[NSNull null]]) {
+            _attitudes_count = [[dictionary objectForKey:@"attitudes_count"] integerValue];
+        }
         if ([dictionary objectForKey:@"pic_urls"]) {
             _pic_urls = @[].mutableCopy;
             for (NSDictionary *dict in [dictionary objectForKey:@"pic_urls"]) {
                 [_pic_urls addObject:[dict objectForKey:@"thumbnail_pic"]];
             }
         }
-        if ([dictionary objectForKey:@"user"]) {
+        if ([dictionary objectForKey:@"user"] && ![[dictionary objectForKey:@"user"] isEqual:[NSNull null]]) {
             _user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];
         }
-        if ([dictionary objectForKey:@"retweeted_status"]) {
+        if ([dictionary objectForKey:@"retweeted_status"] && ![[dictionary objectForKey:@"retweeted_status"] isEqual:[NSNull null]]) {
             _retweeted_status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"retweeted_status"]];
         }
         [self calculateStatusHeight];
@@ -47,11 +75,27 @@
     return self;
 }
 
--(NSDictionary *)dictionaryWithStatus:(Status *)status
+-(NSDictionary *)convertToNSDictionary
 {
-    NSDictionary *dict = @{@"created_at": _created_at, @"id": @(_status_id), @"mid": @(_status_mid), @"idstr": _idstr,
-                           @"text": _text, @"source": _source, @"favorited": @(_favorited), @"truncated": @(_truncated),
-                           @"thumbnail_pic": _thumbnail_pic, @"bmiddle_pic": _bmiddle_pic, @"original_pic": _original_pic};
+    NSNull *sNull = [NSNull null];
+    NSMutableDictionary *dict = @{@"created_at": _created_at? _created_at: sNull,
+                                  @"id": @(_status_id), @"mid": @(_status_mid), @"idstr": _idstr? _idstr: sNull,
+                                  @"text": _text? _text: sNull, @"source": _source? _source: sNull,
+                                  @"favorited": @(_favorited), @"truncated": @(_truncated),
+                                  @"thumbnail_pic": _thumbnail_pic? _thumbnail_pic: sNull,
+                                  @"bmiddle_pic": _bmiddle_pic? _bmiddle_pic: sNull,
+                                  @"original_pic": _original_pic? _original_pic: sNull,
+                                  @"reposts_count": @(_reposts_count), @"comments_count": @(_comments_count),
+                                  @"attitudes_count": @(_attitudes_count)}.mutableCopy;
+    if (_pic_urls.count > 0) {
+        NSMutableArray *urls = @[].mutableCopy;
+        for (NSString *url in _pic_urls) {
+            [urls addObject:@{@"thumbnail_pic": url}];
+        }
+        [dict setObject:urls forKey:@"pic_urls"];
+    }
+    [dict setObject:_user? [_user convertToNSDictionary]: sNull forKey:@"user"];
+    [dict setObject:_retweeted_status? [_retweeted_status convertToNSDictionary]: sNull forKey:@"retweeted_status"];
     
     return dict;
 }

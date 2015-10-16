@@ -47,5 +47,6 @@
 @property (copy, nonatomic) NSString *lang;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+-(NSDictionary *)convertToNSDictionary;
 
 @end

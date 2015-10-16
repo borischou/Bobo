@@ -47,11 +47,31 @@
         _online_status = [[dictionary objectForKey:@"online_status"] integerValue];
         _bi_followers_count = [[dictionary objectForKey:@"bi_followers_count"] integerValue];
         _lang = [dictionary objectForKey:@"lang"];
-        if ([dictionary objectForKey:@"status"]) {
+        if ([dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]) {
             _status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"status"]];
         }
     }
     return self;
+}
+
+-(NSDictionary *)convertToNSDictionary
+{
+    NSDictionary *dict = @{@"id": @(_user_id), @"idstr": _idstr, @"screen_name": _screen_name, @"name": _name,
+                           @"province": @(_province), @"city": @(_city), @"location": _location,
+                           @"description": _user_description, @"url": _url,
+                           @"profile_image_url": _profile_image_url, @"profile_url": _profile_url,
+                           @"domain": _domain, @"weihao": _weihao, @"gender": _gender,
+                           @"followers_count": @(_followers_count), @"friends_count": @(_friends_count),
+                           @"statuses_count": @(_statuses_count), @"favourites_count": @(_favourites_count),
+                           @"created_at": _created_at, @"allow_all_act_msg": @(_allow_all_act_msg),
+                           @"geo_enabled": @(_geo_enabled), @"verified": @(_verified), @"remark": _remark,
+                           @"allow_all_comment": @(_allow_all_comment), @"avatar_large": _avatar_large,
+                           @"avatar_hd": _avatar_hd, @"verified_reason": _verified_reason, @"follow_me": @(_follow_me),
+                           @"following": @(_following), @"online_status": @(_online_status),
+                           @"bi_followers_count": @(_bi_followers_count),
+                           @"lang": _lang, @"status": _status? [_status convertToNSDictionary]: [NSNull null]};
+    
+    return dict;
 }
 
 @end
