@@ -55,6 +55,7 @@ static CGFloat bigHeight = 20;
 -(void)setupSubviews
 {
     [self.contentView setBackgroundColor:bCellBGColor];
+    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     _type = [[UILabel alloc] initWithFrame:CGRectZero];
     [_type setTextColor:[UIColor customGreen]];
