@@ -579,7 +579,8 @@ static NSString *filepath = @"draft.plist";
     
     //将字典数据写入文件
     NSFileManager *manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:plistPath]) { //若plist不存在则创建一个
+    if (![manager fileExistsAtPath:plistPath])
+    { //若plist不存在则创建一个
         BOOL isCreated = [manager createFileAtPath:plistPath contents:nil attributes:nil];
         NSLog(@"创建结果：%@", isCreated? @"成功": @"失败");
         
@@ -590,11 +591,14 @@ static NSString *filepath = @"draft.plist";
         BOOL flag = [drafts writeToFile:plistPath atomically:YES];
         NSLog(@"写入结果：%@", flag? @"成功": @"失败");
     }
-    NSMutableDictionary *drafts = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
-    NSMutableArray *array = drafts[@"draft"];
-    [array addObject:draft];
-    BOOL flag = [drafts writeToFile:plistPath atomically:YES];
-    NSLog(@"写入结果：%@", flag? @"成功": @"失败");
+    else
+    {
+        NSMutableDictionary *drafts = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+        NSMutableArray *array = drafts[@"draft"];
+        [array addObject:draft];
+        BOOL flag = [drafts writeToFile:plistPath atomically:YES];
+        NSLog(@"写入结果：%@", flag? @"成功": @"失败");
+    }
 }
 
 #pragma mark - BBPhotoSelectionCollectionViewControllerDelegate
