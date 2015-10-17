@@ -94,7 +94,35 @@ static NSString *filepath = @"draft.plist";
 {
     AppDelegate *delegate = [AppDelegate delegate];
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:cell.draft.draftType]; //0: 发微博
-    updateStatusView.nameLabel.text = delegate.user.screen_name;
+    NSDictionary *params = cell.draft.params;
+    switch (cell.draft.draftType) {
+        case DraftTypeOriginal:
+            [updateStatusView.nameLabel setText:@"微博草稿"];
+            [updateStatusView.statusTextView setText:cell.draft.text];
+            [updateStatusView.todoLabel setHidden:YES];
+            break;
+        case DraftTypeComment:
+            [updateStatusView.nameLabel setText:@"评论草稿"];
+            [updateStatusView.statusTextView setText:[NSString stringWithFormat:@"%@\nReply:%@", cell.draft.text, params[@"original"]]];
+            [updateStatusView.todoLabel setHidden:NO];
+            [updateStatusView.todoLabel setTextColor:[params[@"comment_ori"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
+            break;
+        case DraftTypeRepost:
+            [updateStatusView.nameLabel setText:@"转发草稿"];
+            [updateStatusView.statusTextView setText:[NSString stringWithFormat:@"%@\n%@", cell.draft.text, params[@"original"]]];
+            [updateStatusView.todoLabel setHidden:NO];
+            [updateStatusView.todoLabel setTextColor:[params[@"is_comment"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
+            break;
+        case DraftTypeReply:
+            [updateStatusView.nameLabel setText:@"回复草稿"];
+            [updateStatusView.statusTextView setText:[NSString stringWithFormat:@"%@\n%@", cell.draft.text, params[@"original"]]];
+            [updateStatusView.todoLabel setHidden:NO];
+            [updateStatusView.todoLabel setTextColor:[params[@"comment_ori"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
+            break;
+    
+        default:
+            break;
+    }
     [delegate.window addSubview:updateStatusView];
     
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
