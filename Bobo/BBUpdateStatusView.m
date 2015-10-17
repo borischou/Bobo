@@ -518,7 +518,7 @@ static NSString *filepath = @"draft.plist";
     NSMutableDictionary *params = @{}.mutableCopy;
     
     switch (_flag) {
-        case DraftTypeOriginal:
+        case 0:
             if (_pickedOnes.count == 1) { //一张配图
                 url = @"https://api.weibo.com/2/statuses/upload.json";
                 [images addObject:_pickedOnes.firstObject];
@@ -534,21 +534,21 @@ static NSString *filepath = @"draft.plist";
             }
             break;
             
-        case DraftTypeComment:
+        case 1:
             url = @"https://api.weibo.com/2/comments/create.json";
             [params setObject:_status.idstr forKey:@"id"];
             [params setObject:[_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0" forKey:@"comment_ori"];
             [params setObject:[NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text] forKey:@"original"];
             break;
             
-        case DraftTypeRepost:
+        case 2:
             url = @"https://api.weibo.com/2/statuses/repost.json";
             [params setObject:_status.idstr forKey:@"id"];
             [params setObject:[_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0" forKey:@"is_comment"];
             [params setObject:[NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text] forKey:@"original"];
             break;
             
-        case DraftTypeReply:
+        case 3:
             url = @"https://api.weibo.com/2/comments/reply.json";
             [params setObject:_comment.status.idstr forKey:@"id"];
             [params setObject:_comment.idstr forKey:@"cid"];

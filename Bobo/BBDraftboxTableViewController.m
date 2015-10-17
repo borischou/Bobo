@@ -88,10 +88,9 @@ static NSString *filepath = @"draft.plist";
     } else return 0;
 }
 
-#pragma mark - BBDraftboxTableViewCellDelegate
-
--(void)tableViewCell:(BBDraftboxTableViewCell *)cell didPressResendButton:(UIButton *)sender
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BBDraftboxTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     AppDelegate *delegate = [AppDelegate delegate];
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:cell.draft.draftType]; //0: 发微博
     NSDictionary *params = cell.draft.params;
@@ -100,6 +99,12 @@ static NSString *filepath = @"draft.plist";
             [updateStatusView.nameLabel setText:@"微博草稿"];
             [updateStatusView.statusTextView setText:cell.draft.text];
             [updateStatusView.todoLabel setHidden:YES];
+            if (cell.draft.images.count > 0) {
+                updateStatusView.pickedOnes = @[].mutableCopy;
+                for (NSData *image in cell.draft.images) {
+                    [updateStatusView.pickedOnes addObject:image];
+                }
+            }
             break;
         case DraftTypeComment:
             [updateStatusView.nameLabel setText:@"评论草稿"];
@@ -119,7 +124,7 @@ static NSString *filepath = @"draft.plist";
             [updateStatusView.todoLabel setHidden:NO];
             [updateStatusView.todoLabel setTextColor:[params[@"comment_ori"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
             break;
-    
+            
         default:
             break;
     }
@@ -129,6 +134,15 @@ static NSString *filepath = @"draft.plist";
         updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
         [updateStatusView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {}];
+}
+
+#pragma mark - BBDraftboxTableViewCellDelegate
+
+-(void)tableViewCell:(BBDraftboxTableViewCell *)cell didPressResendButton:(UIButton *)sender
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+    });
 }
 
 @end
