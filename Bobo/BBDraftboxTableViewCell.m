@@ -14,7 +14,7 @@
 
 static CGFloat dSmallGap = 5;
 static CGFloat dBigGap = 10;
-static CGFloat previewLength = 45;
+static CGFloat previewLength = 40;
 static CGFloat smallHeight = 15;
 static CGFloat bigHeight = 20;
 
@@ -85,12 +85,13 @@ static CGFloat bigHeight = 20;
     
     _preview = [[UIImageView alloc] initWithFrame:CGRectZero];
     [_preview setBackgroundColor:[UIColor clearColor]];
-    [_preview setContentMode:UIViewContentModeScaleAspectFit];
+    [_preview setContentMode:UIViewContentModeScaleAspectFill];
+    [_preview setClipsToBounds:YES];
     [self.contentView addSubview:_preview];
     
     _resendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_resendButton setBackgroundColor:[UIColor customGray]];
-    [_resendButton setBackgroundImage:[UIImage imageNamed:@"resend_icon"] forState:UIControlStateNormal];
+    [_resendButton setBackgroundColor:[UIColor clearColor]];
+    [_resendButton setImage:[UIImage imageNamed:@"resend_icon"] forState:UIControlStateNormal];
     [_resendButton addTarget:self action:@selector(resendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_resendButton];
 }

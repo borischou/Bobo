@@ -212,11 +212,11 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 //https://api.weibo.com/2/users/show.json?uid=id_string
 -(void)fetchUserProfile
 {
-    if (!_uid) {
+    if (!_uid || _uid.length < 1) {
         AppDelegate *delegate = [AppDelegate delegate];
         if (delegate.uid || delegate.user.idstr)
         {
-            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": delegate.uid? delegate.uid: delegate.user.idstr} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = nil;
                 [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeCounts];
             } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -785,7 +785,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         }
         NSLog(@"follow");
         //关注
-        NSDictionary *params = @{@"uid": _user.idstr};
+        NSDictionary *params = @{@"uid": _user.idstr? _user.idstr: @""};
         [Utils weiboPostRequestWithAccount:account URL:@"friendships/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
             if (!error)
             {

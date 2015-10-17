@@ -11,7 +11,6 @@
 #import "Draft.h"
 
 static NSString *reuseId = @"draftcell";
-static CGFloat cellHeight = 105;
 
 static NSString *filename = @"draft";
 static NSString *filepath = @"draft.plist";
@@ -74,7 +73,10 @@ static NSString *filepath = @"draft.plist";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return cellHeight;
+    if (_drafts.count > 0) {
+        Draft *draft = _drafts[indexPath.row];
+        return draft.height;
+    } else return 0;
 }
 
 @end

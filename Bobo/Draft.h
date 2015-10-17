@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, DraftType) {
 @property (copy, nonatomic) NSString *time; //草稿撰写时间
 @property (copy, nonatomic) NSString *url; //发送目标的url
 @property (nonatomic) NSInteger draftType; //草稿类型
+@property (nonatomic) float height; //提前计算好所需的cell高度
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
