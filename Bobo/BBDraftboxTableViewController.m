@@ -108,19 +108,19 @@ static NSString *filepath = @"draft.plist";
             break;
         case DraftTypeComment:
             [updateStatusView.nameLabel setText:@"评论草稿"];
-            [updateStatusView.statusTextView setText:[NSString stringWithFormat:@"%@\nReply:%@", cell.draft.text, params[@"original"]]];
+            [updateStatusView.statusTextView setText:cell.draft.text];
             [updateStatusView.todoLabel setHidden:NO];
             [updateStatusView.todoLabel setTextColor:[params[@"comment_ori"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
             break;
         case DraftTypeRepost:
             [updateStatusView.nameLabel setText:@"转发草稿"];
-            [updateStatusView.statusTextView setText:[NSString stringWithFormat:@"%@\n%@", cell.draft.text, params[@"original"]]];
+            [updateStatusView.statusTextView setText:cell.draft.text];
             [updateStatusView.todoLabel setHidden:NO];
             [updateStatusView.todoLabel setTextColor:[params[@"is_comment"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
             break;
         case DraftTypeReply:
             [updateStatusView.nameLabel setText:@"回复草稿"];
-            [updateStatusView.statusTextView setText:[NSString stringWithFormat:@"%@\n%@", cell.draft.text, params[@"original"]]];
+            [updateStatusView.statusTextView setText:cell.draft.text];
             [updateStatusView.todoLabel setHidden:NO];
             [updateStatusView.todoLabel setTextColor:[params[@"comment_ori"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
             break;
