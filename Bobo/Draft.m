@@ -39,4 +39,11 @@
     return 80;
 }
 
+-(NSDictionary *)convertToDictionary
+{
+    return @{@"text": _text, @"flag": @(_draftType),
+             @"url": _url, @"images": _images,
+             @"params": _params, @"time": _time};
+}
+
 @end

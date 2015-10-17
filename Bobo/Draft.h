@@ -26,5 +26,6 @@ typedef NS_ENUM(NSInteger, DraftType) {
 @property (nonatomic) float height; //提前计算好所需的cell高度
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+-(NSDictionary *)convertToDictionary;
 
 @end

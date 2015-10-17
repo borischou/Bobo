@@ -137,7 +137,7 @@ static NSString *filepath = @"draft.plist";
     } completion:^(BOOL finished) {}];
 }
 
-#pragma mark - BBDraftboxTableViewCellDelegate
+#pragma mark - BBDraftboxTableViewCellDelegate & support
 
 -(void)tableViewCell:(BBDraftboxTableViewCell *)cell didPressResendButton:(UIButton *)sender
 {
@@ -161,6 +161,10 @@ static NSString *filepath = @"draft.plist";
                         NSString *notificationText = nil;
                         if (!error) {
                             notificationText = @"微博发布成功";
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+                                [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
+                            });
                         } else {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
@@ -182,6 +186,10 @@ static NSString *filepath = @"draft.plist";
                         if (!error) {
                             if (urlResponse.statusCode < 300 && urlResponse.statusCode > 0) {
                                 notificationText = @"微博发布成功";
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+                                    [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
+                                });
                             } else {
                                 notificationText = @"微博发布失败";
                             }
@@ -206,6 +214,10 @@ static NSString *filepath = @"draft.plist";
                     if (!error) {
                         NSLog(@"发布成功。");
                         notificationText = @"评论发布成功";
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+                            [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
+                        });
                     }
                     if (error) {
                         NSLog(@"发布失败：%@", error);
@@ -226,6 +238,10 @@ static NSString *filepath = @"draft.plist";
                     NSString *notificationText = nil;
                     if (!error) {
                         notificationText = @"转发发布成功";
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+                            [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
+                        });
                     } else {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
@@ -245,8 +261,11 @@ static NSString *filepath = @"draft.plist";
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
                     if (!error) {
-                        NSLog(@"response: %@", urlResponse);
                         notificationText = @"评论发布成功";
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+                            [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
+                        });
                     } else {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
@@ -259,6 +278,31 @@ static NSString *filepath = @"draft.plist";
                 break;
         }
     });
+}
+
+-(void)tableViewCell:(BBDraftboxTableViewCell *)cell shouldDeleteDraftAtIndexPath:(NSIndexPath *)indexPath
+{
+    //获取Library/Caches目录
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesDirectory = [paths objectAtIndex:0];
+    
+    //将文件名拼在目录后面形成完整文件路径
+    NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
+    
+    //取出原数据
+    NSMutableDictionary *drafts = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+    NSMutableArray *array = drafts[@"draft"];
+    
+    //删除对应子数据
+    [array removeObject:[cell.draft convertToDictionary]];
+    
+    //将新数据重新覆盖写入文件
+    BOOL flag = [drafts writeToFile:plistPath atomically:YES];
+    NSLog(@"写入结果：%@", flag? @"成功": @"失败");
+    if (flag) {
+        [_drafts removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 @end

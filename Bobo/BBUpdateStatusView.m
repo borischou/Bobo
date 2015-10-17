@@ -561,7 +561,6 @@ static NSString *filepath = @"draft.plist";
     
     NSDate *date = [NSDate date];
     
-    
     NSMutableDictionary *draft = @{@"text": _statusTextView.text,
                                    @"flag": @(_flag),
                                    @"url": url,
