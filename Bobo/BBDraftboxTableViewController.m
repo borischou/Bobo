@@ -9,6 +9,7 @@
 #import "BBDraftboxTableViewController.h"
 #import "BBDraftboxTableViewCell.h"
 #import "Draft.h"
+#import "Utils.h"
 #import "BBUpdateStatusView.h"
 #import "AppDelegate.h"
 
@@ -141,7 +142,122 @@ static NSString *filepath = @"draft.plist";
 -(void)tableViewCell:(BBDraftboxTableViewCell *)cell didPressResendButton:(UIButton *)sender
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
+        ACAccount *weiboAccount = [[AppDelegate delegate] defaultAccount];
+        NSDictionary *cellParams = cell.draft.params;
+        NSDictionary *params = nil;
+        switch (cell.draft.draftType) {
+            case 0: //发微博
+            {
+                if (cell.draft.images.count == 1)
+                { //有一张配图
+                    NSData *imgData = cell.draft.images.firstObject;
+                    params = @{@"status": cell.draft.text};
+                    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodPOST URL:[NSURL URLWithString:@"https://api.weibo.com/2/statuses/upload.json"] parameters:params];
+                    [request setAccount:weiboAccount];
+                    
+                    //必须指定一个filename的字符串，可以是任意字符串，但必须有，原因未知。
+                    [request addMultipartData:imgData withName:@"pic" type:@"multipart/form-data" filename:@"pic"];
+                    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                        NSString *notificationText = nil;
+                        if (!error) {
+                            notificationText = @"微博发布成功";
+                        } else {
+                            NSLog(@"发布失败：%@", error);
+                            notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [Utils presentNotificationWithText:notificationText];
+                        });
+                    }];
+                }
+                else if (cell.draft.images.count > 1)
+                { //有多张配图
+                    
+                }
+                else
+                { //无配图
+                    params = @{@"status": cell.draft.text};
+                    [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/update.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                        NSString *notificationText = nil;
+                        if (!error) {
+                            if (urlResponse.statusCode < 300 && urlResponse.statusCode > 0) {
+                                notificationText = @"微博发布成功";
+                            } else {
+                                notificationText = @"微博发布失败";
+                            }
+                        } else {
+                            NSLog(@"发布失败：%@", error);
+                            notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [Utils presentNotificationWithText:notificationText];
+                        });
+                    }];
+                }
+            }
+                break;
+            case 1: //写评论
+            {
+                params = @{@"comment": cell.draft.text,
+                           @"id": cellParams[@"id"],
+                           @"comment_ori": cellParams[@"comment_ori"]};
+                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    NSString *notificationText = nil;
+                    if (!error) {
+                        NSLog(@"发布成功。");
+                        notificationText = @"评论发布成功";
+                    }
+                    if (error) {
+                        NSLog(@"发布失败：%@", error);
+                        notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [Utils presentNotificationWithText:notificationText];
+                    });
+                }];
+            }
+                break;
+            case 2: //转发微博
+            {
+                params = @{@"status": cell.draft.text,
+                           @"id": cellParams[@"id"],
+                           @"is_comment": cellParams[@"is_comment"]};
+                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/repost.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    NSString *notificationText = nil;
+                    if (!error) {
+                        notificationText = @"转发发布成功";
+                    } else {
+                        NSLog(@"发布失败：%@", error);
+                        notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [Utils presentNotificationWithText:notificationText];
+                    });
+                }];
+            }
+                break;
+            case 3: //回复评论
+            {
+                params = @{@"comment": cell.draft.text,
+                           @"id": cellParams[@"id"],
+                           @"cid": cellParams[@"cid"],
+                           @"comment_ori": cellParams[@"comment_ori"]};
+                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    NSString *notificationText = nil;
+                    if (!error) {
+                        NSLog(@"response: %@", urlResponse);
+                        notificationText = @"评论发布成功";
+                    } else {
+                        NSLog(@"发布失败：%@", error);
+                        notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [Utils presentNotificationWithText:notificationText];
+                    });
+                }];
+            }
+                break;
+        }
     });
 }
 
