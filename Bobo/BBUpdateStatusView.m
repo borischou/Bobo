@@ -745,7 +745,7 @@ static NSString *filepath = @"draft.plist";
 -(void)textViewDidChange:(UITextView *)textView
 {
     if (_draft) {
-        if ([textView.text isEqualToString:_draft.text]) {
+        if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0) {
             _statusChanged = NO;
         } else _statusChanged = YES;
     } else {
@@ -764,13 +764,19 @@ static NSString *filepath = @"draft.plist";
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
     if (_draft) {
-        if ([textView.text isEqualToString:_draft.text]) {
+        _sendBtn.enabled = YES;
+        if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0) {
             _statusChanged = NO;
-        } else _statusChanged = YES;
+        } else {
+            _statusChanged = YES;
+        }
     } else {
+        _sendBtn.enabled = NO;
         if (textView.text.length > 0) {
             _statusChanged = YES;
-        } else _statusChanged = NO;
+        } else {
+            _statusChanged = NO;
+        }
     }
 }
 
