@@ -341,8 +341,11 @@ static NSString *filepath = @"draft.plist";
             break;
         case 1: //写评论
             {
+                if (_status) {
+                    _idstr = _status.idstr;
+                }
                 params = @{@"comment": _statusTextView.text,
-                           @"id": _status.idstr,
+                           @"id": _idstr,
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
@@ -362,8 +365,11 @@ static NSString *filepath = @"draft.plist";
             break;
         case 2: //转发微博
             {
+                if (_status) {
+                    _idstr = _status.idstr;
+                }
                 params = @{@"status": _statusTextView.text,
-                           @"id": _status.idstr,
+                           @"id": _idstr,
                            @"is_comment": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/repost.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
@@ -381,9 +387,13 @@ static NSString *filepath = @"draft.plist";
             break;
         case 3: //回复评论
             {
+                if (_comment) {
+                    _idstr = _comment.status.idstr;
+                    _cid = _comment.idstr;
+                }
                 params = @{@"comment": _statusTextView.text,
-                           @"id": _comment.status.idstr,
-                           @"cid": _comment.idstr,
+                           @"id": _idstr,
+                           @"cid": _cid,
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;

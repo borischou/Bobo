@@ -21,6 +21,9 @@
 @property (strong, nonatomic) Comment *comment;
 @property (strong, nonatomic) NSMutableArray *pickedOnes;
 
+@property (copy, nonatomic) NSString *idstr;
+@property (copy, nonatomic) NSString *cid;
+
 -(instancetype)initWithFlag:(NSInteger)flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 
 @end

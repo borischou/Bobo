@@ -10,9 +10,9 @@
 
 typedef NS_ENUM(NSInteger, DraftType) {
     DraftTypeOriginal,
+    DraftTypeComment,
     DraftTypeRepost,
-    DraftTypeReply,
-    DraftTypeComment
+    DraftTypeReply
 };
 
 @interface Draft : NSObject
