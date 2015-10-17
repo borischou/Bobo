@@ -9,8 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "Status.h"
 #import "Comment.h"
+#import "Draft.h"
+
+@class BBUpdateStatusView;
+@protocol BBUpdateStatusViewDelegate <NSObject>
+
+@optional
+-(void)updateStatusView:(BBUpdateStatusView *)updateStatusView shouldDeleteDraftAt:(NSString *)time;
+
+@end
 
 @interface BBUpdateStatusView : UIView
+
+@property (weak, nonatomic) id <BBUpdateStatusViewDelegate> delegate;
 
 @property (strong, nonatomic) UILabel *todoLabel;
 @property (strong, nonatomic) UILabel *nameLabel;
@@ -21,8 +32,10 @@
 @property (strong, nonatomic) Comment *comment;
 @property (strong, nonatomic) NSMutableArray *pickedOnes;
 
+//草稿字典所含数据项
 @property (copy, nonatomic) NSString *idstr;
 @property (copy, nonatomic) NSString *cid;
+@property (copy, nonatomic) NSString *time;
 
 -(instancetype)initWithFlag:(NSInteger)flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 

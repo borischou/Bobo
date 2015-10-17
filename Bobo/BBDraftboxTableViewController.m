@@ -20,11 +20,9 @@
 #define uBigGap 10
 
 static NSString *reuseId = @"draftcell";
-
-static NSString *filename = @"draft";
 static NSString *filepath = @"draft.plist";
 
-@interface BBDraftboxTableViewController () <BBDraftboxTableViewCellDelegate>
+@interface BBDraftboxTableViewController () <BBDraftboxTableViewCellDelegate, BBUpdateStatusViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *drafts;
 
@@ -50,9 +48,7 @@ static NSString *filepath = @"draft.plist";
 
 -(NSMutableArray *)readDraftsFromPlist
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cachesDirectory = [paths objectAtIndex:0];
-    NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
+    NSString *plistPath = [Utils plistPathForFilename:filepath];
     
     NSFileManager *manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:plistPath]) {
@@ -94,7 +90,9 @@ static NSString *filepath = @"draft.plist";
     BBDraftboxTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     AppDelegate *delegate = [AppDelegate delegate];
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:cell.draft.draftType]; //0: 发微博
+    updateStatusView.delegate = self;
     NSDictionary *params = cell.draft.params;
+    updateStatusView.time = cell.draft.time;
     switch (cell.draft.draftType) {
         case DraftTypeOriginal:
             [updateStatusView.nameLabel setText:@"微博草稿"];
@@ -286,12 +284,7 @@ static NSString *filepath = @"draft.plist";
 
 -(void)tableViewCell:(BBDraftboxTableViewCell *)cell shouldDeleteDraftAtIndexPath:(NSIndexPath *)indexPath
 {
-    //获取Library/Caches目录
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cachesDirectory = [paths objectAtIndex:0];
-    
-    //将文件名拼在目录后面形成完整文件路径
-    NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
+    NSString *plistPath = [Utils plistPathForFilename:filepath];
     
     //取出原数据
     NSMutableDictionary *drafts = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
@@ -305,6 +298,37 @@ static NSString *filepath = @"draft.plist";
     NSLog(@"写入结果：%@", flag? @"成功": @"失败");
     if (flag) {
         [_drafts removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+#pragma mark - BBUpdateStatusViewDelegate
+
+-(void)updateStatusView:(BBUpdateStatusView *)updateStatusView shouldDeleteDraftAt:(NSString *)time
+{
+    NSString *plistPath = [Utils plistPathForFilename:filepath];
+    
+    //取出原数据
+    NSMutableDictionary *drafts = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+    NSMutableArray *array = drafts[@"draft"];
+    
+    NSInteger index;
+    for (int i = 0; i < array.count; i ++) {
+        NSDictionary *dict = array[i];
+        if ([dict[@"time"] isEqualToString:time]) {
+            index = i;
+            break;
+        }
+    }
+    Draft *draft = _drafts[index];
+    [array removeObject:[draft convertToDictionary]];
+    
+    //将新数据重新覆盖写入文件
+    BOOL flag = [drafts writeToFile:plistPath atomically:YES];
+    NSLog(@"写入结果：%@", flag? @"成功": @"失败");
+    if (flag) {
+        [_drafts removeObjectAtIndex:index];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }

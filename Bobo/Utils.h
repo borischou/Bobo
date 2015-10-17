@@ -44,4 +44,6 @@ typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLRespo
 
 +(void)presentNotificationWithText:(NSString *)text;
 
++(NSString *)plistPathForFilename:(NSString *)file;
+
 @end

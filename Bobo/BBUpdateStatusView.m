@@ -304,6 +304,9 @@ static NSString *filepath = @"draft.plist";
                         NSString *notificationText = nil;
                         if (!error) {
                             notificationText = @"微博发布成功";
+                            if (_time) {
+                                [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                            }
                         } else {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
@@ -325,6 +328,9 @@ static NSString *filepath = @"draft.plist";
                         if (!error) {
                             if (urlResponse.statusCode < 300 && urlResponse.statusCode > 0) {
                                 notificationText = @"微博发布成功";
+                                if (_time) {
+                                    [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                                }
                             } else {
                                 notificationText = @"微博发布失败";
                             }
@@ -350,8 +356,10 @@ static NSString *filepath = @"draft.plist";
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
                     if (!error) {
-                        NSLog(@"发布成功。");
                         notificationText = @"评论发布成功";
+                        if (_time) {
+                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                        }
                     }
                     if (error) {
                         NSLog(@"发布失败：%@", error);
@@ -375,6 +383,9 @@ static NSString *filepath = @"draft.plist";
                     NSString *notificationText = nil;
                     if (!error) {
                         notificationText = @"转发发布成功";
+                        if (_time) {
+                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                        }
                     } else {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
@@ -398,8 +409,10 @@ static NSString *filepath = @"draft.plist";
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
                     if (!error) {
-                        NSLog(@"response: %@", urlResponse);
                         notificationText = @"评论发布成功";
+                        if (_time) {
+                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                        }
                     } else {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];

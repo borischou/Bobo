@@ -345,4 +345,14 @@
     }];
 }
 
++(NSString *)plistPathForFilename:(NSString *)file
+{
+    //获取Library/Caches目录
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesDirectory = [paths objectAtIndex:0];
+    
+    //将文件名拼在目录后面形成完整文件路径
+    return [cachesDirectory stringByAppendingPathComponent:file];
+}
+
 @end
