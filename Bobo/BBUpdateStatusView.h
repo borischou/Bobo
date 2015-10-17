@@ -33,9 +33,10 @@
 @property (strong, nonatomic) NSMutableArray *pickedOnes;
 
 //草稿字典所含数据项
-@property (copy, nonatomic) NSString *idstr;
-@property (copy, nonatomic) NSString *cid;
-@property (copy, nonatomic) NSString *time;
+@property (strong, nonatomic) Draft *draft;
+//@property (copy, nonatomic) NSString *idstr;
+//@property (copy, nonatomic) NSString *cid;
+//@property (copy, nonatomic) NSString *time;
 
 -(instancetype)initWithFlag:(NSInteger)flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
 

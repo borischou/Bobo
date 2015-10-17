@@ -45,6 +45,7 @@ static NSString *filepath = @"draft.plist";
 
 @interface BBUpdateStatusView () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BBPhotoSelectionCollectionViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate> {
     NSInteger _flag; //0-发微博; 1-写评论; 2-转发; 3-回复评论
+    BOOL _statusChanged; //是否需要保存为新草稿
 }
 
 @property (strong, nonatomic) BBKeyboardInputAccessoryView *keyboardInputView;
@@ -169,14 +170,57 @@ static NSString *filepath = @"draft.plist";
 
 -(void)layoutSubviews
 {
+    [self loadData];
+    [self loadSubviews];
+}
+
+-(void)loadData
+{
+    if (_draft) {
+        NSDictionary *params = _draft.params;
+        [_statusTextView setText:_draft.text];
+        switch (_draft.draftType) {
+            case DraftTypeOriginal:
+                [_nameLabel setText:@"微博草稿"];
+                [_todoLabel setHidden:YES];
+                if (_draft.images.count > 0) {
+                    _pickedOnes = _draft.images.copy;
+                }
+                break;
+            case DraftTypeComment:
+                [_nameLabel setText:@"评论草稿"];
+                [_todoLabel setHidden:NO];
+                [_todoLabel setTextColor:[params[@"comment_ori"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
+                break;
+            case DraftTypeRepost:
+                [_nameLabel setText:@"转发草稿"];
+                [_todoLabel setHidden:NO];
+                [_todoLabel setTextColor:[params[@"is_comment"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
+                break;
+            case DraftTypeReply:
+                [_nameLabel setText:@"回复草稿"];
+                [_todoLabel setHidden:NO];
+                [_todoLabel setTextColor:[params[@"comment_ori"] boolValue]? [UIColor greenColor]: [UIColor lightTextColor]];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+-(void)loadSubviews
+{
     //铺文本输入框
-    if (_flag == 0) { //发微博时不考虑下方标签
+    if (_flag == 0)
+    { //发微博时不考虑下方标签
         NSInteger num = _pickedOnes.count;
-        if (num == 0) {
+        if (num == 0)
+        {
             [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
             [_collectionView setFrame:CGRectZero];
         }
-        if (num == 1) { //单图
+        if (num == 1)
+        { //单图
             [_statusTextView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight, self.frame.size.width-2*uBigGap, self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight)];
             [_collectionView setFrame:CGRectZero];
             [_imageView setFrame:CGRectMake(uBigGap, uBigGap*2+uBtnHeight+self.frame.size.height-3*uBigGap-uBtnHeight-uSmallGap-uBtnHeight-uImgHeight+uSmallGap, uImgWidth, uImgHeight)];
@@ -184,7 +228,8 @@ static NSString *filepath = @"draft.plist";
             UIImage *image = [UIImage imageWithData:imageData];
             [_imageView setImage:image];
         }
-        if (num > 1) { //多图
+        if (num > 1)
+        { //多图
             CGFloat collectionViewHeight;
             if (num <= 3)
             {
@@ -245,13 +290,13 @@ static NSString *filepath = @"draft.plist";
 
 -(void)cancelButtonPressed:(UIButton *)sender
 {
-    if (_statusTextView.text.length < 1)
+    if (_statusChanged)
     {
-        [self removeViewAnimation];
+        [self alertForDraft];
     }
     else
     {
-        [self alertForDraft];
+        [self removeViewAnimation];
     }
 }
 
@@ -288,6 +333,8 @@ static NSString *filepath = @"draft.plist";
 {
     ACAccount *weiboAccount = [[AppDelegate delegate] defaultAccount];
     NSDictionary *params = nil;
+    NSDictionary *draftParams = _draft.params;
+    NSString *idstr, *cid;
     switch (_flag) {
         case 0: //发微博
             {
@@ -304,8 +351,8 @@ static NSString *filepath = @"draft.plist";
                         NSString *notificationText = nil;
                         if (!error) {
                             notificationText = @"微博发布成功";
-                            if (_time) {
-                                [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                            if (_draft) {
+                                [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
                             }
                         } else {
                             NSLog(@"发布失败：%@", error);
@@ -328,8 +375,8 @@ static NSString *filepath = @"draft.plist";
                         if (!error) {
                             if (urlResponse.statusCode < 300 && urlResponse.statusCode > 0) {
                                 notificationText = @"微博发布成功";
-                                if (_time) {
-                                    [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                                if (_draft) {
+                                    [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
                                 }
                             } else {
                                 notificationText = @"微博发布失败";
@@ -348,17 +395,19 @@ static NSString *filepath = @"draft.plist";
         case 1: //写评论
             {
                 if (_status) {
-                    _idstr = _status.idstr;
+                    idstr = _status.idstr;
+                } else {
+                    idstr = draftParams[@"id"];
                 }
                 params = @{@"comment": _statusTextView.text,
-                           @"id": _idstr,
+                           @"id": idstr,
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
                     if (!error) {
                         notificationText = @"评论发布成功";
-                        if (_time) {
-                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                        if (_draft) {
+                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
                         }
                     }
                     if (error) {
@@ -374,17 +423,19 @@ static NSString *filepath = @"draft.plist";
         case 2: //转发微博
             {
                 if (_status) {
-                    _idstr = _status.idstr;
+                    idstr = _status.idstr;
+                } else {
+                    idstr = draftParams[@"id"];
                 }
                 params = @{@"status": _statusTextView.text,
-                           @"id": _idstr,
+                           @"id": idstr,
                            @"is_comment": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/repost.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
                     if (!error) {
                         notificationText = @"转发发布成功";
-                        if (_time) {
-                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                        if (_draft) {
+                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
                         }
                     } else {
                         NSLog(@"发布失败：%@", error);
@@ -399,19 +450,22 @@ static NSString *filepath = @"draft.plist";
         case 3: //回复评论
             {
                 if (_comment) {
-                    _idstr = _comment.status.idstr;
-                    _cid = _comment.idstr;
+                    idstr = _comment.status.idstr;
+                    cid = _comment.idstr;
+                } else {
+                    idstr = draftParams[@"id"];
+                    cid = draftParams[@"cid"];
                 }
                 params = @{@"comment": _statusTextView.text,
-                           @"id": _idstr,
-                           @"cid": _cid,
+                           @"id": idstr,
+                           @"cid": cid,
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
                     if (!error) {
                         notificationText = @"评论发布成功";
-                        if (_time) {
-                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_time];
+                        if (_draft) {
+                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
                         }
                     } else {
                         NSLog(@"发布失败：%@", error);
@@ -690,6 +744,16 @@ static NSString *filepath = @"draft.plist";
 
 -(void)textViewDidChange:(UITextView *)textView
 {
+    if (_draft) {
+        if ([textView.text isEqualToString:_draft.text]) {
+            _statusChanged = NO;
+        } else _statusChanged = YES;
+    } else {
+        if (textView.text.length > 0) {
+            _statusChanged = YES;
+        } else _statusChanged = NO;
+    }
+    
     if (textView.text.length >= 140) {
         _sendBtn.enabled = NO;
     } else {
@@ -699,7 +763,15 @@ static NSString *filepath = @"draft.plist";
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    _sendBtn.enabled = YES;
+    if (_draft) {
+        if ([textView.text isEqualToString:_draft.text]) {
+            _statusChanged = NO;
+        } else _statusChanged = YES;
+    } else {
+        if (textView.text.length > 0) {
+            _statusChanged = YES;
+        } else _statusChanged = NO;
+    }
 }
 
 #pragma mark - UICollectionViewDataSource & Delegate & Support
