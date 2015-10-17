@@ -85,6 +85,28 @@ static NSString *filepath = @"draft.plist";
     } else return 0;
 }
 
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //向左侧滑后点击删除按钮即触发此回调方法
+    NSString *plistPath = [Utils plistPathForFilename:filepath];
+    
+    //取出原数据
+    NSMutableDictionary *drafts = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+    NSMutableArray *array = drafts[@"draft"];
+    
+    //删除对应子数据
+    Draft *draft = _drafts[indexPath.row];
+    [array removeObject:[draft convertToDictionary]];
+    
+    //将新数据重新覆盖写入文件
+    BOOL flag = [drafts writeToFile:plistPath atomically:YES];
+    NSLog(@"写入结果：%@", flag? @"成功": @"失败");
+    if (flag) {
+        [_drafts removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BBDraftboxTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
