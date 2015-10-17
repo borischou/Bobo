@@ -9,13 +9,21 @@
 #import "BBDraftboxTableViewController.h"
 #import "BBDraftboxTableViewCell.h"
 #import "Draft.h"
+#import "BBUpdateStatusView.h"
+#import "AppDelegate.h"
+
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
+#define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
+#define uSmallGap 5
+#define uBigGap 10
 
 static NSString *reuseId = @"draftcell";
 
 static NSString *filename = @"draft";
 static NSString *filepath = @"draft.plist";
 
-@interface BBDraftboxTableViewController ()
+@interface BBDraftboxTableViewController () <BBDraftboxTableViewCellDelegate>
 
 @property (strong, nonatomic) NSMutableArray *drafts;
 
@@ -58,7 +66,7 @@ static NSString *filepath = @"draft.plist";
     return drafts;
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table view data source & delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _drafts.count;
@@ -68,6 +76,7 @@ static NSString *filepath = @"draft.plist";
     BBDraftboxTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId forIndexPath:indexPath];
     Draft *draft = _drafts[indexPath.row];
     cell.draft = draft;
+    cell.delegate = self;
     return cell;
 }
 
@@ -77,6 +86,21 @@ static NSString *filepath = @"draft.plist";
         Draft *draft = _drafts[indexPath.row];
         return draft.height;
     } else return 0;
+}
+
+#pragma mark - BBDraftboxTableViewCellDelegate
+
+-(void)tableViewCell:(BBDraftboxTableViewCell *)cell didPressResendButton:(UIButton *)sender
+{
+    AppDelegate *delegate = [AppDelegate delegate];
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:cell.draft.draftType]; //0: 发微博
+    updateStatusView.nameLabel.text = delegate.user.screen_name;
+    [delegate.window addSubview:updateStatusView];
+    
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
+        [updateStatusView.statusTextView becomeFirstResponder];
+    } completion:^(BOOL finished) {}];
 }
 
 @end

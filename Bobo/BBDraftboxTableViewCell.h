@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "Draft.h"
 
+@class BBDraftboxTableViewCell;
+@protocol BBDraftboxTableViewCellDelegate <NSObject>
+
+-(void)tableViewCell:(BBDraftboxTableViewCell *)cell didPressResendButton:(UIButton *)sender;
+
+@end
+
 @interface BBDraftboxTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) id <BBDraftboxTableViewCellDelegate> delegate;
 
 @property (strong, nonatomic) Draft *draft;
 

@@ -173,7 +173,7 @@ static CGFloat bigHeight = 20;
 
 -(void)resendButtonPressed:(UIButton *)sender
 {
-    
+    [self.delegate tableViewCell:self didPressResendButton:sender];
 }
 
 @end
