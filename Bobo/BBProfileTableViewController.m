@@ -257,7 +257,11 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     if (!_uid)
     {
-        return;
+        AppDelegate *delegate = [AppDelegate delegate];
+        _uid = delegate.uid? delegate.uid: delegate.user.idstr;
+        if (!_uid || _uid.length == 0) {
+            return;
+        }
     }
     NSDictionary *params = @{@"uid": _uid};
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"statuses/user_timeline.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:params completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
