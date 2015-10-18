@@ -380,10 +380,12 @@ static NSString *filepath = @"draft.plist";
                                 }
                             } else {
                                 notificationText = @"微博发布失败";
+                                [self saveToDraft];
                             }
                         } else {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
+                            [self saveToDraft];
                         }
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self callbackForUpdateCompletionWithNotificationText:notificationText];
@@ -405,14 +407,20 @@ static NSString *filepath = @"draft.plist";
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
                     if (!error) {
-                        notificationText = @"评论发布成功";
-                        if (_draft) {
-                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                        if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) { //2xx
+                            notificationText = @"评论发布成功";
+                            if (_draft) {
+                                [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                            }
+                        } else {
+                            [self saveToDraft];
                         }
+                        
                     }
                     if (error) {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
+                        [self saveToDraft];
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self callbackForUpdateCompletionWithNotificationText:notificationText];
@@ -433,9 +441,13 @@ static NSString *filepath = @"draft.plist";
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/repost.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
                     if (!error) {
-                        notificationText = @"转发发布成功";
-                        if (_draft) {
-                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                        if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) {
+                            notificationText = @"转发发布成功";
+                            if (_draft) {
+                                [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                            }
+                        } else {
+                            [self saveToDraft];
                         }
                     } else {
                         NSLog(@"发布失败：%@", error);
@@ -463,9 +475,13 @@ static NSString *filepath = @"draft.plist";
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
                     if (!error) {
-                        notificationText = @"评论发布成功";
-                        if (_draft) {
-                            [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                        if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) {
+                            notificationText = @"评论发布成功";
+                            if (_draft) {
+                                [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                            }
+                        } else {
+                            [self saveToDraft];
                         }
                     } else {
                         NSLog(@"发布失败：%@", error);
