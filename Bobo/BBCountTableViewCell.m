@@ -73,7 +73,7 @@
     
     //text part
     UILabel *wbTextLbl = nil;
-    [self initCellLabel:wbTextLbl withFrame:CGRectMake(0, bNumPartHeight, bCountSmallCellWidth, bTextPartHeight) andTitle:@"Bobo" withFontSize:13.f];
+    [self initCellLabel:wbTextLbl withFrame:CGRectMake(0, bNumPartHeight, bCountSmallCellWidth, bTextPartHeight) andTitle:@"Statuses" withFontSize:13.f];
     UILabel *followTextLbl = nil;
     [self initCellLabel:followTextLbl withFrame:CGRectMake(bCountSmallCellWidth, bNumPartHeight, bCountSmallCellWidth, bTextPartHeight) andTitle:@"Follows" withFontSize:13.f];
     
