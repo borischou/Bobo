@@ -255,9 +255,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
                 [_waterfallView.statuses addObject:tmp_status];
             }
             NSDictionary *lastone = historyStatuses.lastObject;
-            _max_id = lastone[@"idstr"];
-            
-            [self shouldSaveStatusesToPlist];
+            _max_id = lastone[@"idstr"];            
         }
         [_waterfallView.footer endRefreshing];
     }
