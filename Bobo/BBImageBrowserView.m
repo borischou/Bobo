@@ -84,9 +84,14 @@
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
     [imageView setContentMode:UIViewContentModeScaleAspectFit];
     [imageView setUserInteractionEnabled:YES];
+    
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDoubleTapped:)];
     [doubleTap setNumberOfTapsRequired:2];
     [imageView addGestureRecognizer:doubleTap];
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewLongPressed:)];
+    [longPress setMinimumPressDuration:1.0];
+    [imageView addGestureRecognizer:longPress];
     
     //单击双击共存时优先检测双击，若无双击则执行单击回调方法
     [_singleTap requireGestureRecognizerToFail:doubleTap];
@@ -163,6 +168,27 @@
     UIScrollView *scrollView = (UIScrollView *)tap.view.superview;
     CGRect zoomRect = CGRectMake(pt.x-tap.view.frame.size.width/4, pt.y-tap.view.frame.size.height/4, tap.view.frame.size.width/2, tap.view.frame.size.height/2);
     [scrollView zoomToRect:zoomRect animated:YES];
+}
+
+-(void)imageViewLongPressed:(UILongPressGestureRecognizer *)tap
+{
+//    if (tap.state == UIGestureRecognizerStateEnded) {
+//        UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否保存图片至本地相册？" preferredStyle:UIAlertControllerStyleActionSheet];
+//        UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            //保存图片
+//        }];
+//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//            //取消动作
+//        }];
+//        [alertcontroller addAction:saveAction];
+//        [alertcontroller addAction:cancelAction];
+//        
+//        UITabBarController *tbc = (UITabBarController *)self.window.rootViewController;
+//        UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
+//        UIViewController *vc = nvc.topViewController;
+//        
+//        [vc.navigationController presentViewController:alertcontroller animated:YES completion:^{}];
+//    }
 }
 
 #pragma mark - UIScrollViewDelegate

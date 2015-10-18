@@ -258,7 +258,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         originUrls = cell.status.retweeted_status.pic_urls;
     }
     for (NSString *str in originUrls) {
-        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
+        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:0];
 }

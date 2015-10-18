@@ -577,7 +577,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
     for (NSString *str in cell.status.pic_urls) {
-        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
+        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
@@ -586,7 +586,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
     for (NSString *str in cell.status.retweeted_status.pic_urls) {
-        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
+        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
