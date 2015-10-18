@@ -22,6 +22,8 @@
 @property (nonatomic) NSInteger count;
 @property (nonatomic) NSInteger imageTag;
 
+@property (strong, nonatomic) UITapGestureRecognizer *singleTap;
+
 @end
 
 @implementation BBImageBrowserView
@@ -58,7 +60,8 @@
     _scrollView.alwaysBounceVertical = NO;
     _scrollView.alwaysBounceHorizontal = YES;
     
-    [_scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
+    _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapped:)];
+    [_scrollView addGestureRecognizer:_singleTap];
     [self addSubview:_scrollView];
     
     //第一个UIImageView放最后一张图
@@ -80,6 +83,13 @@
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
     [imageView setContentMode:UIViewContentModeScaleAspectFit];
+    [imageView setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDoubleTapped:)];
+    [doubleTap setNumberOfTapsRequired:2];
+    [imageView addGestureRecognizer:doubleTap];
+    
+    //单击双击共存时优先检测双击，若无双击则执行单击回调方法
+    [_singleTap requireGestureRecognizerToFail:doubleTap];
     
     if (_imageTag == originX/bWidth-1) {
         NSLog(@"initial index: %ld", _imageTag);
@@ -136,7 +146,7 @@
     [self addSubview:_pageControl];
 }
 
--(void)tapAction
+-(void)singleTapped:(UITapGestureRecognizer *)tap
 {
     [_imageView sd_cancelCurrentImageLoad];
     
@@ -145,6 +155,11 @@
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
+}
+
+-(void)imageViewDoubleTapped:(UITapGestureRecognizer *)tap
+{
+    NSLog(@"double tapped");
 }
 
 #pragma mark - UIScrollViewDelegate
