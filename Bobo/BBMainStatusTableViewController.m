@@ -221,6 +221,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             NSDictionary *firstone = downloadedStatuses.firstObject;
             _since_id = firstone[@"idstr"];
             [Utils presentNotificationWithText:[NSString stringWithFormat:@"更新了%ld条微博", downloadedStatuses.count]];
+            
+            [self shouldSaveStatusesToPlist];
         }
         [self.tableView.header endRefreshing];
     }
@@ -234,17 +236,37 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             }
             NSDictionary *lastone = historyStatuses.lastObject;
             _max_id = lastone[@"idstr"];
+            
+            [self shouldSaveStatusesToPlist];
         }
         [self.tableView.footer endRefreshing];
     }
     [self.tableView reloadData];
+}
+
+-(void)shouldSaveStatusesToPlist
+{
     if (_statuses.count > 0) {
         __weak BBMainStatusTableViewController *weakSelf = self;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            //只写入最新20条微博数据
             NSMutableArray *plistarray = @[].mutableCopy;
-            for (Status *status in _statuses) {
-                [plistarray addObject:[status convertToDictionary]];
+            if (_statuses.count <= 20)
+            {
+                for (Status *status in _statuses)
+                {
+                    [plistarray addObject:[status convertToDictionary]];
+                }
             }
+            else
+            {
+                for (int i = 0; i < 20; i ++)
+                {
+                    Status *status = _statuses[i];
+                    [plistarray addObject:[status convertToDictionary]];
+                }
+            }
+            
             [weakSelf saveStatusesToPlist:plistarray];
         });
     }

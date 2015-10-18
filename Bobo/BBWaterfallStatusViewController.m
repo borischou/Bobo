@@ -215,13 +215,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type
 {
-    if (!_waterfallView.statuses) {
+    if (!_waterfallView.statuses)
+    {
         _waterfallView.statuses = @[].mutableCopy;
     }
-    if (type == FetchResultTypeRefresh) { //下拉刷新最新微博
+    if (type == FetchResultTypeRefresh)
+    { //下拉刷新最新微博
         NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
-        if (downloadedStatuses.count > 0) {
-            for (int i = 0; i < [downloadedStatuses count]; i ++) {
+        if (downloadedStatuses.count > 0)
+        {
+            for (int i = 0; i < [downloadedStatuses count]; i ++)
+            {
                 Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
                 [_waterfallView.statuses insertObject:tmp_status atIndex:i];
             }
@@ -230,32 +234,57 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             NSDictionary *firstone = downloadedStatuses.firstObject;
             _since_id = firstone[@"idstr"];
             [Utils presentNotificationWithText:[NSString stringWithFormat:@"更新了%ld条微博", downloadedStatuses.count]];
+            
+            [self shouldSaveStatusesToPlist];
         }
-        if (_waterfallView.statuses.count <= 8) {
+        if (_waterfallView.statuses.count <= 8)
+        {
             [self fetchHistoryStatuses];
         }
         [_waterfallView.header endRefreshing];
     }
     
-    if (type == FetchResultTypeHistory) { //上拉刷新历史微博
+    if (type == FetchResultTypeHistory)
+    { //上拉刷新历史微博
         NSArray *historyStatuses = [result objectForKey:@"statuses"];
-        if (historyStatuses.count > 0) {
-            for (int i = 1; i < [historyStatuses count]; i ++) {
+        if (historyStatuses.count > 0)
+        {
+            for (int i = 1; i < [historyStatuses count]; i ++)
+            {
                 Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
                 [_waterfallView.statuses addObject:tmp_status];
             }
             NSDictionary *lastone = historyStatuses.lastObject;
             _max_id = lastone[@"idstr"];
+            
+            [self shouldSaveStatusesToPlist];
         }
         [_waterfallView.footer endRefreshing];
     }
     [_waterfallView reloadData];
-    if (_waterfallView.statuses.count > 0) {
+}
+
+-(void)shouldSaveStatusesToPlist
+{
+    if (_waterfallView.statuses.count > 0)
+    {
         __weak BBWaterfallStatusViewController *weakSelf = self;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSMutableArray *plistarray = @[].mutableCopy;
-            for (Status *status in _waterfallView.statuses) {
-                [plistarray addObject:[status convertToDictionary]];
+            if (_waterfallView.statuses.count <= 20)
+            {
+                for (Status *status in _waterfallView.statuses)
+                {
+                    [plistarray addObject:[status convertToDictionary]];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 20; i ++)
+                {
+                    Status *status = _waterfallView.statuses[i];
+                    [plistarray addObject:[status convertToDictionary]];
+                }
             }
             [weakSelf saveStatusesToPlist:plistarray];
         });
