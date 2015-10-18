@@ -159,7 +159,10 @@
 
 -(void)imageViewDoubleTapped:(UITapGestureRecognizer *)tap
 {
-    NSLog(@"double tapped");
+    CGPoint pt = [tap locationInView:tap.view];
+    UIScrollView *scrollView = (UIScrollView *)tap.view.superview;
+    CGRect zoomRect = CGRectMake(pt.x-tap.view.frame.size.width/4, pt.y-tap.view.frame.size.height/4, tap.view.frame.size.width/2, tap.view.frame.size.height/2);
+    [scrollView zoomToRect:zoomRect animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate
