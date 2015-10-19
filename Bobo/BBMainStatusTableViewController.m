@@ -76,12 +76,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         _url = bilateralTimeline;
     }
     [self setNavBarBtn];
-    [self setMJRefresh];
     
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     _statuses = [self readStatusesFromPlist];
+    [self setMJRefresh];
     if (_statuses.count > 0)
     {
+        _since_id = [self firstIdFromStatuses:_statuses];
         _max_id = [self lastIdFromStatuses:_statuses];
         [self.tableView reloadData];
     }
@@ -113,6 +114,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     Status *lastOne = statuses.lastObject;
     return lastOne.idstr;
+}
+
+-(NSString *)firstIdFromStatuses:(NSMutableArray *)statuses
+{
+    Status *firstOne = statuses.firstObject;
+    return firstOne.idstr;
 }
 
 -(NSMutableArray *)readStatusesFromPlist

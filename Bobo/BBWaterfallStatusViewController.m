@@ -74,6 +74,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     _waterfallView.statuses = [self readStatusesFromPlist];
     if (_waterfallView.statuses.count > 0) {
         _max_id = [self lastIdFromStatuses:_waterfallView.statuses];
+        _since_id = [self firstIdFromStatuses:_waterfallView.statuses];
         [_waterfallView reloadData];
     } else {
         [_waterfallView.header beginRefreshing];
@@ -117,6 +118,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     Status *lastOne = statuses.lastObject;
     return lastOne.idstr;
+}
+
+-(NSString *)firstIdFromStatuses:(NSMutableArray *)statuses
+{
+    Status *firstOne = statuses.firstObject;
+    return firstOne.idstr;
 }
 
 -(NSMutableArray *)readStatusesFromPlist
