@@ -565,8 +565,9 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 #pragma mark - BBStatusTableViewCellDelegate & support
 
 //个人页无需重复进入个人页
-//-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapAvatar:(UIImageView *)avatar
-//{
+-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapAvatar:(UIImageView *)avatar
+{
+    return;
 //    NSLog(@"didTapAvatar");
 //    NSDictionary *params = @{@"uid": cell.status.user.idstr};
 //    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
@@ -596,7 +597,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 //             [Utils presentNotificationWithText:@"访问失败"];
 //         });
 //     }];
-//}
+}
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
 {
