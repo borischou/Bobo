@@ -75,19 +75,44 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     if (_groupNumber == 1) { //朋友微博
         _url = bilateralTimeline;
     }
-    _weiboAccount = [[AppDelegate delegate] defaultAccount];
     [self setNavBarBtn];
     [self setMJRefresh];
+    
+    _weiboAccount = [[AppDelegate delegate] defaultAccount];
     _statuses = [self readStatusesFromPlist];
-    if (_statuses.count > 0) {
+    if (_statuses.count > 0)
+    {
         _max_id = [self lastIdFromStatuses:_statuses];
         [self.tableView reloadData];
-    } else {
-        [self.tableView.header beginRefreshing];
+    }
+    else
+    {
+        if ([self validWeiboAccount:_weiboAccount])
+        {
+            [self.tableView.header beginRefreshing];
+        }
+        else
+        {
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请进入系统设置登录后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"进入设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            [ac addAction:settingsAction];
+            [ac addAction:cancelAction];
+            [self.navigationController presentViewController:ac animated:YES completion:^{}];
+        }
     }
 }
 
 #pragma mark - Helpers
+
+-(BOOL)validWeiboAccount:(ACAccount *)account
+{
+    return account.username.length > 0? YES: NO;
+}
 
 -(NSString *)lastIdFromStatuses:(NSMutableArray *)statuses
 {
