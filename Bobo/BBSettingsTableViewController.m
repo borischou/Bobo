@@ -31,6 +31,11 @@
 
 #pragma mark - Table view data source
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }
@@ -40,17 +45,25 @@
     [cell setBackgroundColor:bCellBGColor];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     [cell.textLabel setTextColor:[UIColor customGray]];
-    [cell.textLabel setText:@"草稿箱"];
+    if (indexPath.section == 0) {
+        [cell.textLabel setText:@"草稿箱"];
+    }
+    if (indexPath.section == 1) {
+        [cell.textLabel setText:@"清除缓存"];
+    }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (indexPath.section == 0) {
         BBDraftboxTableViewController *dbtvc = [[BBDraftboxTableViewController alloc] initWithStyle:UITableViewStylePlain];
         [dbtvc setTitle:@"Draftbox"];
         [Utils setupNavigationController:nil withUIViewController:dbtvc];
         [self.navigationController pushViewController:dbtvc animated:YES];
+    }
+    if (indexPath.section == 1) {
+        //计算缓存大小并询问是否清除
     }
 }
 
