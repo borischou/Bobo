@@ -535,38 +535,39 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 #pragma mark - BBStatusTableViewCellDelegate & support
 
--(void)tableViewCell:(BBStatusTableViewCell *)cell didTapAvatar:(UIImageView *)avatar
-{
-    NSLog(@"didTapAvatar");
-    NSDictionary *params = @{@"uid": cell.status.user.idstr};
-    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-                                      URL:@"statuses/user_timeline.json"
-                      SLRequestHTTPMethod:SLRequestMethodGET
-                               parameters:params
-               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-     {
-         NSMutableArray *statuses = [Utils statusesWith:responseObject];
-         Status *status = statuses.firstObject;
-         User *user = status.user;
-         
-         BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-         profiletvc.uid = user.idstr;
-         profiletvc.statuses = statuses;
-         profiletvc.user = user;
-         profiletvc.shouldNavBtnShown = NO;
-         profiletvc.title = @"Profile";
-         profiletvc.hidesBottomBarWhenPushed = YES;
-         [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
-         [self.navigationController pushViewController:profiletvc animated:YES];
-     }
-               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         NSLog(@"error %@", error);
-         dispatch_async(dispatch_get_main_queue(), ^{
-             [Utils presentNotificationWithText:@"访问失败"];
-         });
-     }];
-}
+//个人页无需重复进入个人页
+//-(void)tableViewCell:(BBStatusTableViewCell *)cell didTapAvatar:(UIImageView *)avatar
+//{
+//    NSLog(@"didTapAvatar");
+//    NSDictionary *params = @{@"uid": cell.status.user.idstr};
+//    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
+//                                      URL:@"statuses/user_timeline.json"
+//                      SLRequestHTTPMethod:SLRequestMethodGET
+//                               parameters:params
+//               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+//     {
+//         NSMutableArray *statuses = [Utils statusesWith:responseObject];
+//         Status *status = statuses.firstObject;
+//         User *user = status.user;
+//         
+//         BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+//         profiletvc.uid = user.idstr;
+//         profiletvc.statuses = statuses;
+//         profiletvc.user = user;
+//         profiletvc.shouldNavBtnShown = NO;
+//         profiletvc.title = @"Profile";
+//         profiletvc.hidesBottomBarWhenPushed = YES;
+//         [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
+//         [self.navigationController pushViewController:profiletvc animated:YES];
+//     }
+//               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+//     {
+//         NSLog(@"error %@", error);
+//         dispatch_async(dispatch_get_main_queue(), ^{
+//             [Utils presentNotificationWithText:@"访问失败"];
+//         });
+//     }];
+//}
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
 {

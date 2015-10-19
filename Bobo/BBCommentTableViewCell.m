@@ -81,6 +81,9 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
     _avatarView.clipsToBounds = YES;
     _avatarView.userInteractionEnabled = YES;
+    _avatarView.layer.masksToBounds = YES;
+    _avatarView.layer.cornerRadius = _avatarView.bounds.size.width*0.5;
+    _avatarView.layer.borderWidth = 0.1;
     [_avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapped)]];
     [self.contentView addSubview:_avatarView];
     
