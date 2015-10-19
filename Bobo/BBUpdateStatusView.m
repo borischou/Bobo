@@ -350,13 +350,24 @@ static NSString *filepath = @"draft.plist";
                     [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                         NSString *notificationText = nil;
                         if (!error) {
-                            notificationText = @"微博发布成功";
-                            if (_draft) {
-                                [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                            if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300)
+                            {
+                                notificationText = @"微博发布成功";
+                                if (_draft)
+                                {
+                                    [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                                }
                             }
+                            else
+                            {
+                                notificationText = @"微博发布失败";
+                                [self saveToDraft];
+                            }
+                            
                         } else {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
+                            [self saveToDraft];
                         }
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self callbackForUpdateCompletionWithNotificationText:notificationText];
