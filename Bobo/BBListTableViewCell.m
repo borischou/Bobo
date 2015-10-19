@@ -65,6 +65,9 @@ static float nameHeight = 20;
 {
     //头像
     _avatar = [[UIImageView alloc] initWithFrame:CGRectMake(lBigGap, lBigGap, avatarLength, avatarLength)];
+    _avatar.clipsToBounds = YES;
+    _avatar.layer.masksToBounds = YES;
+    _avatar.layer.cornerRadius = _avatar.bounds.size.width*0.5;
     [self.contentView addSubview:_avatar];
     
     //状态

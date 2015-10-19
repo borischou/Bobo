@@ -110,6 +110,9 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     //profile image
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, bAvatarWidth, bAvatarHeight)];
     _avatarView.userInteractionEnabled = YES;
+    _avatarView.clipsToBounds = YES;
+    _avatarView.layer.masksToBounds = YES;
+    _avatarView.layer.cornerRadius = _avatarView.bounds.size.width*0.5;
     [_avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapped)]];
     [self.contentView addSubview:_avatarView];
     
