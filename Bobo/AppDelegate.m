@@ -33,8 +33,6 @@
 
 @interface AppDelegate ()
 
-@property (strong, nonatomic) ACAccount *weiboAccount;
-
 @end
 
 @implementation AppDelegate

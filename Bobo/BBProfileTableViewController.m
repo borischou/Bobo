@@ -184,8 +184,16 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self fetchUserProfile];
-        [self fetchUserLatestStatuses];
+        if (![self validWeiboAccount:_weiboAccount])
+        {
+            [self.tableView.header endRefreshing];
+            [self navigateToSettings];
+        }
+        else
+        {
+            [self fetchUserProfile];
+            [self fetchUserLatestStatuses];
+        }
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchUserHistoryStatuses)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];
@@ -301,6 +309,27 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 }
 
 #pragma mark - Helpers
+
+-(BOOL)validWeiboAccount:(ACAccount *)account
+{
+    return account.username.length > 0? YES: NO;
+}
+
+-(void)navigateToSettings
+{
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                     {
+                                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:"]];
+                                     }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                   {
+                                       //取消
+                                   }];
+    [ac addAction:settingsAction];
+    [ac addAction:cancelAction];
+    [self.navigationController presentViewController:ac animated:YES completion:^{}];
+}
 
 -(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type
 {

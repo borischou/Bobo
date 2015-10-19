@@ -87,31 +87,34 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     }
     else
     {
-        if ([self validWeiboAccount:_weiboAccount])
-        {
-            [self.tableView.header beginRefreshing];
-        }
-        else
-        {
-            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请进入系统设置登录后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"进入设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                
-            }];
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                
-            }];
-            [ac addAction:settingsAction];
-            [ac addAction:cancelAction];
-            [self.navigationController presentViewController:ac animated:YES completion:^{}];
-        }
+        [self.tableView.header beginRefreshing];
     }
 }
 
 #pragma mark - Helpers
 
--(BOOL)validWeiboAccount:(ACAccount *)account
+-(BOOL)validWeiboAccount
 {
-    return account.username.length > 0? YES: NO;
+    AppDelegate *delegate = [AppDelegate delegate];
+    delegate.weiboAccount = [Utils systemAccounts].firstObject;
+    [delegate accessWeiboSystemAccount];
+    return delegate.weiboAccount.username.length > 0? YES: NO;
+}
+
+-(void)navigateToSettings
+{
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                     {
+                                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:"]];
+                                     }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                   {
+                                       //取消
+                                   }];
+    [ac addAction:settingsAction];
+    [ac addAction:cancelAction];
+    [self.navigationController presentViewController:ac animated:YES completion:^{}];
 }
 
 -(NSString *)lastIdFromStatuses:(NSMutableArray *)statuses
@@ -220,7 +223,15 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self fetchLatestStatuses];
+        if (![self validWeiboAccount])
+        {
+            [self.tableView.header endRefreshing];
+            [self navigateToSettings];
+        }
+        else
+        {
+            [self fetchLatestStatuses];
+        }
     }];
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchHistoryStatuses)];
     [footer setTitle:@"上拉以获取更早微博" forState:MJRefreshStateIdle];

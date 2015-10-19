@@ -16,8 +16,10 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) User *user;
 @property (copy, nonatomic) NSString *uid;
+@property (strong, nonatomic) ACAccount *weiboAccount;
 
 -(ACAccount *)defaultAccount;
+-(void)accessWeiboSystemAccount;
 +(id)delegate;
 
 @end
