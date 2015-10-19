@@ -281,15 +281,12 @@
 
 +(NSArray *)systemAccounts
 {
-    static dispatch_once_t onceToken;
-    static ACAccountStore *store;
-    static ACAccountType *type;
-    static NSArray *accounts;
-    dispatch_once(&onceToken, ^{
-        store = [[ACAccountStore alloc] init];
-        type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
-        accounts = [store accountsWithAccountType:type];
-    });
+    ACAccountStore *store;
+    ACAccountType *type;
+    NSArray *accounts;
+    store = [[ACAccountStore alloc] init];
+    type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
+    accounts = [store accountsWithAccountType:type];
     return accounts;
 }
 

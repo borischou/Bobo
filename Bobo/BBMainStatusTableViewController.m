@@ -93,14 +93,6 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 #pragma mark - Helpers
 
--(BOOL)validWeiboAccount
-{
-    AppDelegate *delegate = [AppDelegate delegate];
-    delegate.weiboAccount = [Utils systemAccounts].firstObject;
-    [delegate accessWeiboSystemAccount];
-    return delegate.weiboAccount.username.length > 0? YES: NO;
-}
-
 -(void)navigateToSettings
 {
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
@@ -130,8 +122,6 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
     NSData *data = [NSData dataWithContentsOfFile:plistPath];
     NSDictionary *dict = (NSDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:data];
-    
-    //NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
     
     NSMutableArray *statuses = @[].mutableCopy;
     if (![dict[@"statuses"] isEqual:[NSNull null]]) {
@@ -223,10 +213,16 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        if (![self validWeiboAccount])
+        if (!_weiboAccount)
         {
-            [self.tableView.header endRefreshing];
-            [self navigateToSettings];
+            _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
+            if (_weiboAccount) {
+                [self fetchLatestStatuses];
+            } else {
+                [self.tableView.header endRefreshing];
+                [self navigateToSettings];
+                [Utils presentNotificationWithText:@"更新失败"];
+            }
         }
         else
         {

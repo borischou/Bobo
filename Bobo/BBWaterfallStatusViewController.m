@@ -97,11 +97,6 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 #pragma mark - Helpers
 
--(BOOL)validWeiboAccount:(ACAccount *)account
-{
-    return account.username.length > 0? YES: NO;
-}
-
 -(void)navigateToSettings
 {
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
@@ -224,10 +219,16 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)setMJRefresh
 {
     _waterfallView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        if (![self validWeiboAccount:_weiboAccount])
+        if (!_weiboAccount)
         {
-            [_waterfallView.header endRefreshing];
-            [self navigateToSettings];
+            _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
+            if (_weiboAccount) {
+                [self fetchLatestStatuses];
+            } else {
+                [_waterfallView.header endRefreshing];
+                [self navigateToSettings];
+                [Utils presentNotificationWithText:@"更新失败"];
+            }
         }
         else
         {

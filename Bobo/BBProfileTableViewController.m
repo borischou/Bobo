@@ -82,25 +82,6 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
 }
 
-#pragma mark - Helpers
-
--(void)setNavBarBtn
-{
-    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    loginBtn.frame = CGRectMake(0, 0, 23, 23);
-    [loginBtn setImage:[UIImage imageNamed:@"iconfont-denglu"] forState:UIControlStateNormal];
-    [loginBtn addTarget:self action:@selector(loginBtnPressed) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *loginbarbtn = [[UIBarButtonItem alloc] initWithCustomView:loginBtn];
-    self.navigationItem.leftBarButtonItem = loginbarbtn;
-    
-    UIButton *postBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    postBtn.frame = CGRectMake(0, 0, 23, 23);
-    [postBtn setImage:[UIImage imageNamed:@"barbutton_icon_post"] forState:UIControlStateNormal];
-    [postBtn addTarget:self action:@selector(postBarbuttonPressed) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *postBarBtn = [[UIBarButtonItem alloc] initWithCustomView:postBtn];
-    self.navigationItem.rightBarButtonItem = postBarBtn;
-}
-
 #pragma mark - UIButtons
 
 -(void)postBarbuttonPressed
@@ -184,10 +165,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        if (![self validWeiboAccount:_weiboAccount])
+        if (!_weiboAccount)
         {
-            [self.tableView.header endRefreshing];
-            [self navigateToSettings];
+            _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
+            if (_weiboAccount) {
+                [self fetchUserProfile];
+                [self fetchUserLatestStatuses];
+            } else {
+                [self.tableView.header endRefreshing];
+                [self navigateToSettings];
+                [Utils presentNotificationWithText:@"更新失败"];
+            }
         }
         else
         {
@@ -310,11 +298,6 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 #pragma mark - Helpers
 
--(BOOL)validWeiboAccount:(ACAccount *)account
-{
-    return account.username.length > 0? YES: NO;
-}
-
 -(void)navigateToSettings
 {
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
@@ -329,6 +312,23 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     [ac addAction:settingsAction];
     [ac addAction:cancelAction];
     [self.navigationController presentViewController:ac animated:YES completion:^{}];
+}
+
+-(void)setNavBarBtn
+{
+    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    loginBtn.frame = CGRectMake(0, 0, 23, 23);
+    [loginBtn setImage:[UIImage imageNamed:@"iconfont-denglu"] forState:UIControlStateNormal];
+    [loginBtn addTarget:self action:@selector(loginBtnPressed) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *loginbarbtn = [[UIBarButtonItem alloc] initWithCustomView:loginBtn];
+    self.navigationItem.leftBarButtonItem = loginbarbtn;
+    
+    UIButton *postBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    postBtn.frame = CGRectMake(0, 0, 23, 23);
+    [postBtn setImage:[UIImage imageNamed:@"barbutton_icon_post"] forState:UIControlStateNormal];
+    [postBtn addTarget:self action:@selector(postBarbuttonPressed) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *postBarBtn = [[UIBarButtonItem alloc] initWithCustomView:postBtn];
+    self.navigationItem.rightBarButtonItem = postBarBtn;
 }
 
 -(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type

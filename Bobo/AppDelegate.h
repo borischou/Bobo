@@ -19,7 +19,7 @@
 @property (strong, nonatomic) ACAccount *weiboAccount;
 
 -(ACAccount *)defaultAccount;
--(void)accessWeiboSystemAccount;
+-(ACAccount *)validWeiboAccount;
 +(id)delegate;
 
 @end

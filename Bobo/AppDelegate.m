@@ -84,6 +84,13 @@
     return _weiboAccount;
 }
 
+-(ACAccount *)validWeiboAccount
+{
+    _weiboAccount = [Utils systemAccounts].firstObject;
+    [self accessWeiboSystemAccount];
+    return _weiboAccount;
+}
+
 //每次启动app检查是否通过用户的系统级授权以及账号uid
 -(void)accessWeiboSystemAccount
 {
@@ -91,7 +98,7 @@
     _uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     
     //若未授权则向用户申请授权
-    if (_weiboAccount.accountType.accessGranted == NO) {
+    if (_weiboAccount.accountType.accessGranted == NO || !_weiboAccount) {
         ACAccountStore *store = [[ACAccountStore alloc] init];
         ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
         [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
@@ -115,6 +122,7 @@
                 }
             } else {
                 NSLog(@"授权失败, 错误: %@", error);
+                
             }
         }];
     }
