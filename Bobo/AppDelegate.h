@@ -19,6 +19,7 @@
 @property (strong, nonatomic) ACAccount *weiboAccount;
 
 @property (nonatomic) NSInteger currentIndex;
+@property (nonatomic) NSInteger toMeIncrement, atMeIncrement;
 
 -(ACAccount *)defaultAccount;
 -(ACAccount *)validWeiboAccount;

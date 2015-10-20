@@ -39,7 +39,6 @@ typedef NS_ENUM(NSInteger, MessageType) {
 @interface AppDelegate ()
 
 @property (strong, nonatomic) UITabBarController *tabBarController;
-@property (nonatomic) NSInteger toMeIncrement, atMeIncrement;
 
 @end
 
@@ -212,7 +211,7 @@ typedef NS_ENUM(NSInteger, MessageType) {
 {
     //创建分线程在后台进行消息定时读取
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSTimer *timer = [NSTimer timerWithTimeInterval:60.0 target:self selector:@selector(messageTimerStarted:) userInfo:nil repeats:YES];
+        NSTimer *timer = [NSTimer timerWithTimeInterval:30.0 target:self selector:@selector(messageTimerStarted:) userInfo:nil repeats:YES];
         
         //在分线程创建一个runloop保证分线程的生命周期并添加定时器在默认模式下定时触发
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
@@ -256,23 +255,29 @@ typedef NS_ENUM(NSInteger, MessageType) {
     NSInteger count = [result[@"total_number"] integerValue];
     switch (type) {
         case MessageTypeToMe:
-            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"message_to_me"]) { //首次获取消息
-                [[NSUserDefaults standardUserDefaults] setObject:@(count) forKey:@"message_to_me"];
+            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"count_to_me"])
+            { //首次获取消息
+                [[NSUserDefaults standardUserDefaults] setObject:@(count) forKey:@"count_to_me"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 _toMeIncrement = 0;
-            } else {
-                NSInteger toMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"message_to_me"] integerValue];
-                _toMeIncrement = toMeCount - count;
+            }
+            else
+            {
+                NSInteger toMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"count_to_me"] integerValue];
+                _toMeIncrement = labs(toMeCount-count);
             }
             break;
         case MessageTypeAtMe:
-            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"message_at_me"]) { //首次获取消息
-                [[NSUserDefaults standardUserDefaults] setObject:@(count) forKey:@"message_at_me"];
+            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"count_at_me"])
+            {
+                [[NSUserDefaults standardUserDefaults] setObject:@(count) forKey:@"count_at_me"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 _atMeIncrement = 0;
-            } else {
-                NSInteger atMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"message_at_me"] integerValue];
-                _atMeIncrement = atMeCount - count;
+            }
+            else
+            {
+                NSInteger atMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"count_at_me"] integerValue];
+                _atMeIncrement = labs(atMeCount-count);
             }
             break;
         default:

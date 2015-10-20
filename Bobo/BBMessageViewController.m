@@ -121,7 +121,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     AppDelegate *delegate = [AppDelegate delegate];
-    if (delegate.currentIndex == tabBarController.selectedIndex) {
+    if (delegate.currentIndex == tabBarController.selectedIndex)
+    {
         [_currentTableView.header beginRefreshing];
     }
     delegate.currentIndex = tabBarController.selectedIndex;
@@ -148,10 +149,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(void)loadTableViewInScrollView:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.x == 0) { //to_me
+    if (scrollView.contentOffset.x == 0)
+    { //to_me
         [_menuView moveLineAccordingToFlag:0];
         _uri = @"to_me";
-        if (!_messageTableView) {
+        if (!_messageTableView)
+        {
             _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
             [scrollView addSubview:_messageTableView];
             [self setMJRefreshWithTableView:_messageTableView flag:0];
@@ -159,10 +162,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             _currentTableView = _messageTableView;
         }
     }
-    if (scrollView.contentOffset.x == bWidth) { //by_me
+    if (scrollView.contentOffset.x == bWidth)
+    { //by_me
         [_menuView moveLineAccordingToFlag:1];
         _uri = @"by_me";
-        if (!_byMeTableView) {
+        if (!_byMeTableView)
+        {
             _byMeTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
             [scrollView addSubview:_byMeTableView];
             [self setMJRefreshWithTableView:_byMeTableView flag:1];
@@ -170,10 +175,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             _currentTableView = _byMeTableView;
         }
     }
-    if (scrollView.contentOffset.x == bWidth*2) { //mentions
+    if (scrollView.contentOffset.x == bWidth*2)
+    { //mentions
         [_menuView moveLineAccordingToFlag:2];
         _uri = @"mentions";
-        if (!_mentionTableView) {
+        if (!_mentionTableView)
+        {
             _mentionTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*2, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
             [scrollView addSubview:_mentionTableView];
             [self setMJRefreshWithTableView:_mentionTableView flag:2];
@@ -181,10 +188,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             _currentTableView = _mentionTableView;
         }
     }
-    if (scrollView.contentOffset.x == bWidth*3) { //timeline
+    if (scrollView.contentOffset.x == bWidth*3)
+    { //timeline
         [_menuView moveLineAccordingToFlag:3];
         _uri = @"timeline";
-        if (!_allTableView) {
+        if (!_allTableView)
+        {
             _allTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*3, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
             [scrollView addSubview:_allTableView];
             [self setMJRefreshWithTableView:_allTableView flag:3];
@@ -202,9 +211,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         if (!_weiboAccount)
         {
             _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
-            if (_weiboAccount) {
+            if (_weiboAccount)
+            {
                 [self fetchLatestCommentsWithTableView:tableView flag:flag];
-            } else {
+            }
+            else
+            {
                 [tableView.header endRefreshing];
                 [self navigateToSettings];
                 [Utils presentNotificationWithText:@"更新失败"];
@@ -268,16 +280,26 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:url SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
-        if ([_uri isEqualToString:@"to_me"]) {
+        if ([_uri isEqualToString:@"to_me"])
+        {
+            NSInteger toMeCount = [result[@"total_number"] integerValue];
+            [[NSUserDefaults standardUserDefaults] setObject:@(toMeCount) forKey:@"count_to_me"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_messageTableView flag:0];
         }
-        if ([_uri isEqualToString:@"by_me"]) {
+        if ([_uri isEqualToString:@"by_me"])
+        {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_byMeTableView flag:1];
         }
-        if ([_uri isEqualToString:@"mentions"]) {
+        if ([_uri isEqualToString:@"mentions"])
+        {
+            NSInteger atMeCount = [result[@"total_number"] integerValue];
+            [[NSUserDefaults standardUserDefaults] setObject:@(atMeCount) forKey:@"count_at_me"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_mentionTableView flag:2];
         }
-        if ([_uri isEqualToString:@"timeline"]) {
+        if ([_uri isEqualToString:@"timeline"])
+        {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_allTableView flag:3];
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -295,16 +317,20 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"comments/%@.json?max_id=%@&count=20", _uri, _maxids[flag]] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
-        if ([_uri isEqualToString:@"to_me"]) {
+        if ([_uri isEqualToString:@"to_me"])
+        {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_messageTableView flag:0];
         }
-        if ([_uri isEqualToString:@"by_me"]) {
+        if ([_uri isEqualToString:@"by_me"])
+        {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_byMeTableView flag:1];
         }
-        if ([_uri isEqualToString:@"mentions"]) {
+        if ([_uri isEqualToString:@"mentions"])
+        {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_mentionTableView flag:2];
         }
-        if ([_uri isEqualToString:@"timeline"]) {
+        if ([_uri isEqualToString:@"timeline"])
+        {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_allTableView flag:3];
         }
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
