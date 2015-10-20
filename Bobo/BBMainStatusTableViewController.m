@@ -45,7 +45,6 @@ static NSString *reuseBarCellId = @"barCell";
 static NSString *homeTimeline = @"statuses/home_timeline.json";
 static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
 
-static NSString *filename = @"wbdata";
 static NSString *filepath = @"wbdata.plist";
 
 typedef NS_ENUM(NSInteger, FetchResultType) {
@@ -124,9 +123,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(NSMutableArray *)readStatusesFromPlist
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cachesDirectory = [paths objectAtIndex:0];
-    NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
+    NSString *plistPath = [Utils plistPathForFilename:filepath];
     NSData *data = [NSData dataWithContentsOfFile:plistPath];
     NSDictionary *dict = (NSDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:data];
     
@@ -149,12 +146,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
     
     //获取Library/Caches目录
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cachesDirectory = [paths objectAtIndex:0];
-    
     //将文件名拼在目录后面形成完整文件路径
-    NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:filepath];
-    NSLog(@"PATH: %@", plistPath);
+    NSString *plistPath = [Utils plistPathForFilename:filepath];
     
     //将字典数据写入文件
     NSFileManager *manager = [NSFileManager defaultManager];
