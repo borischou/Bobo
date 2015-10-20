@@ -31,7 +31,14 @@
 #define uSmallGap 5
 #define uBigGap 10
 
+typedef NS_ENUM(NSInteger, MessageType) {
+    MessageTypeToMe,
+    MessageTypeAtMe
+};
+
 @interface AppDelegate ()
+
+@property (strong, nonatomic) UITabBarController *tabBarController;
 
 @end
 
@@ -46,6 +53,7 @@
     [self accessWeiboSystemAccount];
     [self fetchUserProfile];
     [self initControllers];
+    [self startMessagingTimer];
     [_window makeKeyAndVisible];
     return YES;
 }
@@ -188,13 +196,88 @@
     [Utils setupNavigationController:messagenvc withUIViewController:messagevc];
 
     //Tabbar
-    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    tabBarController.tabBar.layer.shadowOpacity = 0.2;
-    tabBarController.tabBar.layer.shadowColor = [UIColor blackColor].CGColor;
-    [tabBarController setViewControllers:@[weiboListNvc, messagenvc, waterfallnvc, profileNvc, collectionNvc] animated:YES];
-    tabBarController.tabBar.barTintColor = kBarColor;
+    _tabBarController = [[UITabBarController alloc] init];
+    _tabBarController.tabBar.layer.shadowOpacity = 0.2;
+    _tabBarController.tabBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    [_tabBarController setViewControllers:@[weiboListNvc, messagenvc, waterfallnvc, profileNvc, collectionNvc] animated:YES];
+    _tabBarController.tabBar.barTintColor = kBarColor;
     
-    self.window.rootViewController = tabBarController;
+    self.window.rootViewController = _tabBarController;
+}
+
+#pragma mark - Messaging support
+
+-(void)startMessagingTimer
+{
+    //创建分线程在后台进行消息定时读取
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSTimer *timer = [NSTimer timerWithTimeInterval:60.0 target:self selector:@selector(messageTimerStarted:) userInfo:nil repeats:YES];
+        
+        //在分线程创建一个runloop保证分线程的生命周期并添加定时器在默认模式下定时触发
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+        [[NSRunLoop currentRunLoop] run];
+    });
+}
+
+-(void)messageTimerStarted:(NSTimer *)timer
+{
+    //读取微博消息数量
+    [self fetchUserMessageCounts];
+}
+
+-(void)fetchUserMessageCounts
+{
+    if (!_weiboAccount) {
+        return; //若还未获取到本地系统账号授权则等待下一轮触发
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"comments/to_me.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                NSError *error;
+                NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
+                [self handleResponseObject:result messageType:MessageTypeToMe];
+            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"error: %@", error);
+            }];
+            [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"comments/mentions.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                NSError *error;
+                NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
+                [self handleResponseObject:result messageType:MessageTypeAtMe];
+            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"error: %@", error);
+            }];
+        });
+    }
+}
+
+-(void)handleResponseObject:(id)responseObject messageType:(NSInteger)type
+{
+    NSDictionary *result = responseObject;
+    NSInteger count = [result[@"total_number"] integerValue];
+    NSInteger toMeIncrement, atMeIncrement;
+    switch (type) {
+        case MessageTypeToMe:
+            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"message_to_me"]) { //首次获取消息
+                [[NSUserDefaults standardUserDefaults] setObject:@(count) forKey:@"message_to_me"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            } else {
+                NSInteger toMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"message_to_me"] integerValue];
+                toMeIncrement = toMeCount - count;
+            }
+            break;
+        case MessageTypeAtMe:
+            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"message_at_me"]) { //首次获取消息
+                [[NSUserDefaults standardUserDefaults] setObject:@(count) forKey:@"message_at_me"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            } else {
+                NSInteger atMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"message_at_me"] integerValue];
+                atMeIncrement = atMeCount - count;
+            }
+            break;
+        default:
+            break;
+    }
+    UITabBarItem *messageTab = _tabBarController.tabBar.items[1];
+    messageTab.badgeValue = [NSString stringWithFormat:@"%ld", toMeIncrement+atMeIncrement];
 }
 
 #pragma mark - Weibo support
