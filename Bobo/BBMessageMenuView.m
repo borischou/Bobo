@@ -26,7 +26,8 @@ static CGFloat lineHeight = 3;
 -(instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         [self initLayout];
     }
     return self;
@@ -86,28 +87,32 @@ static CGFloat lineHeight = 3;
 
 -(void)buttonPressed:(UIButton *)sender
 {
-    if ([sender.titleLabel.text isEqualToString:@"我收到的评论"]) {
+    if ([sender.titleLabel.text isEqualToString:@"我收到的评论"])
+    {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_bgImgView setCenter:CGPointMake(mButtonWidth/2, height-lineHeight/2)];
         } completion:^(BOOL finished) {
             [self.delegate didClickMenuButtonAtIndex:0];
         }];
     }
-    if ([sender.titleLabel.text isEqualToString:@"我发出的评论"]) {
+    if ([sender.titleLabel.text isEqualToString:@"我发出的评论"])
+    {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_bgImgView setCenter:CGPointMake(mButtonWidth+mButtonWidth/2, height-lineHeight/2)];
         } completion:^(BOOL finished) {
             [self.delegate didClickMenuButtonAtIndex:1];
         }];
     }
-    if ([sender.titleLabel.text isEqualToString:@"@我的评论"]) {
+    if ([sender.titleLabel.text isEqualToString:@"@我的评论"])
+    {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_bgImgView setCenter:CGPointMake(mButtonWidth*2+mButtonWidth/2, height-lineHeight/2)];
         } completion:^(BOOL finished) {
             [self.delegate didClickMenuButtonAtIndex:2];
         }];
     }
-    if ([sender.titleLabel.text isEqualToString:@"所有的评论"]) {
+    if ([sender.titleLabel.text isEqualToString:@"所有的评论"])
+    {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_bgImgView setCenter:CGPointMake(mButtonWidth*3+mButtonWidth/2, height-lineHeight/2)];
         } completion:^(BOOL finished) {
