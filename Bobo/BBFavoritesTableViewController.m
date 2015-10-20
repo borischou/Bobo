@@ -35,7 +35,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBFavoritesTableViewController () <BBStatusTableViewCellDelegate, TTTAttributedLabelDelegate>
+@interface BBFavoritesTableViewController () <BBStatusTableViewCellDelegate, TTTAttributedLabelDelegate, UITabBarControllerDelegate>
 {
     int _page;
 }
@@ -57,6 +57,18 @@
     [self setNavBarBtn];
     [self setMJRefresh];
     [self.tableView.header beginRefreshing];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.tabBarController.delegate = self;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.tabBarController.delegate = nil;
 }
 
 #pragma mark - Helpers
@@ -174,6 +186,17 @@
     [self.tableView.header endRefreshing];
     [self.tableView.footer endRefreshing];
     [self.tableView reloadData];
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    AppDelegate *delegate = [AppDelegate delegate];
+    if (delegate.currentIndex == tabBarController.selectedIndex) {
+        [self.tableView.header beginRefreshing];
+    }
+    delegate.currentIndex = tabBarController.selectedIndex;
 }
 
 #pragma mark - UIScrollViewDelegate

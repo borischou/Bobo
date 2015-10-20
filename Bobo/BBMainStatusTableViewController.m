@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     FetchResultTypeHistory
 };
 
-@interface BBMainStatusTableViewController () <BBStatusTableViewCellDelegate, TTTAttributedLabelDelegate, BBGroupSelectViewDelegate>
+@interface BBMainStatusTableViewController () <BBStatusTableViewCellDelegate, TTTAttributedLabelDelegate, BBGroupSelectViewDelegate, UITabBarControllerDelegate>
 
 @property (copy, nonatomic) NSString *max_id;
 @property (copy, nonatomic) NSString *since_id;
@@ -63,6 +63,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 @end
 
 @implementation BBMainStatusTableViewController
+
+#pragma mark - Life cycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -89,6 +91,18 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     {
         [self.tableView.header beginRefreshing];
     }
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.tabBarController.delegate = self;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.tabBarController.delegate = nil;
 }
 
 #pragma mark - Helpers
@@ -337,6 +351,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             [self.tableView.header endRefreshing];
         });
     }];
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{    
+    AppDelegate *delegate = [AppDelegate delegate];
+    if (delegate.currentIndex == tabBarController.selectedIndex) {
+        [self.tableView.header beginRefreshing];
+    }
+    delegate.currentIndex = tabBarController.selectedIndex;
 }
 
 #pragma mark - UIScrollViewDelegate

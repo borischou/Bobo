@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     FetchResultTypeCounts
 };
 
-@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate, TTTAttributedLabelDelegate, BBProfileMenuHeaderViewDelegate, BBAlbumCollectionViewControllerDelegate>
+@interface BBProfileTableViewController () <BBStatusTableViewCellDelegate, BBCountTableViewCellDelegate, TTTAttributedLabelDelegate, BBProfileMenuHeaderViewDelegate, BBAlbumCollectionViewControllerDelegate, UITabBarControllerDelegate>
 
 @property (copy, nonatomic) NSString *currentLastStatusId;
 @property (strong, nonatomic) ACAccount *weiboAccount;
@@ -62,6 +62,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 @end
 
 @implementation BBProfileTableViewController
+
+#pragma mark - Life cycle
 
 -(void)viewDidLoad
 {
@@ -80,6 +82,18 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         [self.tableView.header beginRefreshing];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.tabBarController.delegate = self;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.tabBarController.delegate = nil;
 }
 
 #pragma mark - UIButtons
@@ -405,6 +419,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     Status *lastOne = statuses.lastObject;
     return lastOne.idstr;
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    AppDelegate *delegate = [AppDelegate delegate];
+    if (delegate.currentIndex == tabBarController.selectedIndex) {
+        [self.tableView.header beginRefreshing];
+    }
+    delegate.currentIndex = tabBarController.selectedIndex;
 }
 
 #pragma mark - UITableView delegate & data source & Helpers

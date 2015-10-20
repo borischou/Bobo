@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     FetchResultTypeHistory
 };
 
-@interface BBWaterfallStatusViewController () <UICollectionViewDelegate, BBGroupSelectViewDelegate>
+@interface BBWaterfallStatusViewController () <UICollectionViewDelegate, UITabBarControllerDelegate, BBGroupSelectViewDelegate>
 
 @property (strong, nonatomic) BBWaterfallCollectionView *waterfallView;
 @property (copy, nonatomic) NSString *max_id;
@@ -91,9 +91,16 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    self.tabBarController.delegate = self;
     if (_waterfallView.statuses.count <= 0) {
         [_waterfallView.header beginRefreshing];
     }
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.tabBarController.delegate = nil;
 }
 
 #pragma mark - Helpers
@@ -357,6 +364,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             [_waterfallView.footer endRefreshing];
         });
     }];
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    AppDelegate *delegate = [AppDelegate delegate];
+    if (delegate.currentIndex == tabBarController.selectedIndex) {
+        [_waterfallView.header beginRefreshing];
+    }
+    delegate.currentIndex = tabBarController.selectedIndex;
 }
 
 #pragma mark - BBGroupSelectViewDelegate & Support

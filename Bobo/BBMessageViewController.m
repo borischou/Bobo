@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     FetchResultTypeHistory
 };
 
-@interface BBMessageViewController () <UIScrollViewDelegate, BBMessageMenuViewDelegate>
+@interface BBMessageViewController () <UIScrollViewDelegate, UITabBarControllerDelegate, BBMessageMenuViewDelegate>
 
 @property (strong, nonatomic) UIScrollView *scrollView;
 
@@ -37,6 +37,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 @property (strong, nonatomic) BBMessageTableView *byMeTableView;
 @property (strong, nonatomic) BBMessageTableView *mentionTableView;
 @property (strong, nonatomic) BBMessageTableView *allTableView;
+
+@property (strong, nonatomic) BBMessageTableView *currentTableView;
 
 @property (strong, nonatomic) NSMutableArray *maxids;
 @property (strong, nonatomic) NSMutableArray *sinceids;
@@ -76,11 +78,24 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     
     [self setMJRefreshWithTableView:_messageTableView flag:0];
     [_messageTableView.header beginRefreshing];
+    _currentTableView = _messageTableView;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.tabBarController.delegate = self;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.tabBarController.delegate = nil;
 }
 
 #pragma mark - Helpers
@@ -99,6 +114,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     [ac addAction:settingsAction];
     [ac addAction:cancelAction];
     [self.navigationController presentViewController:ac animated:YES completion:^{}];
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    AppDelegate *delegate = [AppDelegate delegate];
+    if (delegate.currentIndex == tabBarController.selectedIndex) {
+        [_currentTableView.header beginRefreshing];
+    }
+    delegate.currentIndex = tabBarController.selectedIndex;
 }
 
 #pragma mark - BBMessageMenuViewDelegate
@@ -130,6 +156,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             [scrollView addSubview:_messageTableView];
             [self setMJRefreshWithTableView:_messageTableView flag:0];
             [_messageTableView.header beginRefreshing];
+            _currentTableView = _messageTableView;
         }
     }
     if (scrollView.contentOffset.x == bWidth) { //by_me
@@ -140,6 +167,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             [scrollView addSubview:_byMeTableView];
             [self setMJRefreshWithTableView:_byMeTableView flag:1];
             [_byMeTableView.header beginRefreshing];
+            _currentTableView = _byMeTableView;
         }
     }
     if (scrollView.contentOffset.x == bWidth*2) { //mentions
@@ -150,6 +178,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             [scrollView addSubview:_mentionTableView];
             [self setMJRefreshWithTableView:_mentionTableView flag:2];
             [_mentionTableView.header beginRefreshing];
+            _currentTableView = _mentionTableView;
         }
     }
     if (scrollView.contentOffset.x == bWidth*3) { //timeline
@@ -160,6 +189,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             [scrollView addSubview:_allTableView];
             [self setMJRefreshWithTableView:_allTableView flag:3];
             [_allTableView.header beginRefreshing];
+            _currentTableView = _allTableView;
         }
     }
 }

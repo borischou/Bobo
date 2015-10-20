@@ -18,6 +18,8 @@
 @property (copy, nonatomic) NSString *uid;
 @property (strong, nonatomic) ACAccount *weiboAccount;
 
+@property (nonatomic) NSInteger currentIndex;
+
 -(ACAccount *)defaultAccount;
 -(ACAccount *)validWeiboAccount;
 +(id)delegate;
