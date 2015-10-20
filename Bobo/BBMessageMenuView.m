@@ -77,12 +77,15 @@ static CGFloat lineHeight = 3;
     [button4.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [button4 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button4];
-
+    
     _badge = [[UILabel alloc] initWithFrame:CGRectZero];
-    [_badge setTextColor:[UIColor lightTextColor]];
+    [_badge setTextColor:[UIColor whiteColor]];
+    [_badge setNumberOfLines:1];
+    [_badge setTextAlignment:NSTextAlignmentCenter];
     [_badge setBackgroundColor:[UIColor redColor]];
-    [_badge setFont:[UIFont systemFontOfSize:5.0]];
-    [_badge.layer setCornerRadius:5.0];
+    [_badge setFont:[UIFont systemFontOfSize:12.0]];
+    [_badge.layer setCornerRadius:9.0];
+    [_badge.layer setMasksToBounds:YES];
     [button3 addSubview:_badge];
 }
 
@@ -96,8 +99,8 @@ static CGFloat lineHeight = 3;
     {
         [_badge setHidden:NO];
         [_badge setText:[NSString stringWithFormat:@"%ld", value]];
-        CGSize badgeSize = CGSizeMake(MAXFLOAT, 5);
-        [_badge setFrame:CGRectMake(mButtonWidth-badgeSize.width, 0, badgeSize.width, 5)];
+        CGSize badgeSize = [_badge sizeThatFits:CGSizeMake(MAXFLOAT, 18)];
+        [_badge setFrame:CGRectMake(mButtonWidth-badgeSize.width-10, (height-lineHeight)/2-9, badgeSize.width+9, 18)];
     }
     [self setNeedsLayout];
 }
