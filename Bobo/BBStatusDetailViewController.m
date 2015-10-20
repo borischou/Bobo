@@ -143,6 +143,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     if (_page == 1) {
         _comments = nil;
         _comments = @[].mutableCopy;
+        [self.tableView reloadData];
     }
     
     if (![[result objectForKey:@"comments"] isEqual:[NSNull null]]) {
