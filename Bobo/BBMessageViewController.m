@@ -54,7 +54,9 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    _weiboAccount = [[AppDelegate delegate] defaultAccount];
+    AppDelegate *delegate = [AppDelegate delegate];
+    
+    _weiboAccount = [delegate defaultAccount];
     
     _uri = @"to_me";
     _maxids = @[[NSNull null], [NSNull null], [NSNull null], [NSNull null]].mutableCopy;
@@ -90,6 +92,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     [super viewDidAppear:animated];
     self.tabBarController.delegate = self;
+    AppDelegate *delegate = [AppDelegate delegate];
+    [_menuView setBadgeValue:delegate.atMeIncrement];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -277,14 +281,24 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     } else {
         url = [NSString stringWithFormat:@"comments/%@.json?since_id=%@", _uri, _sinceids[flag]];
     }
+    
+    UITabBarItem *messageTab = self.tabBarController.tabBar.items[1];
+    
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:url SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
         if ([_uri isEqualToString:@"to_me"])
         {
             NSInteger toMeCount = [result[@"total_number"] integerValue];
+            
+            NSInteger oldToMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"count_to_me"] integerValue];
+            NSInteger increment = labs(toMeCount-oldToMeCount);
+            
+            messageTab.badgeValue = messageTab.badgeValue.integerValue-increment > 0? [NSString stringWithFormat:@"%ld", messageTab.badgeValue.integerValue-increment]: nil;
+            
             [[NSUserDefaults standardUserDefaults] setObject:@(toMeCount) forKey:@"count_to_me"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_messageTableView flag:0];
         }
         if ([_uri isEqualToString:@"by_me"])
@@ -294,8 +308,15 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         if ([_uri isEqualToString:@"mentions"])
         {
             NSInteger atMeCount = [result[@"total_number"] integerValue];
+            
+            NSInteger oldAtMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"count_at_me"] integerValue];
+            NSInteger increment = labs(atMeCount-oldAtMeCount);
+            
+            messageTab.badgeValue = messageTab.badgeValue.integerValue-increment > 0? [NSString stringWithFormat:@"%ld", messageTab.badgeValue.integerValue-increment]: nil;
+            
             [[NSUserDefaults standardUserDefaults] setObject:@(atMeCount) forKey:@"count_at_me"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [_menuView setBadgeValue:0];
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_mentionTableView flag:2];
         }
         if ([_uri isEqualToString:@"timeline"])

@@ -18,6 +18,7 @@ static CGFloat lineHeight = 3;
 @interface BBMessageMenuView ()
 
 @property (strong, nonatomic) UIImageView *bgImgView;
+@property (strong, nonatomic) UILabel *badge;
 
 @end
 
@@ -76,6 +77,29 @@ static CGFloat lineHeight = 3;
     [button4.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
     [button4 addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button4];
+
+    _badge = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_badge setTextColor:[UIColor lightTextColor]];
+    [_badge setBackgroundColor:[UIColor redColor]];
+    [_badge setFont:[UIFont systemFontOfSize:5.0]];
+    [_badge.layer setCornerRadius:5.0];
+    [button3 addSubview:_badge];
+}
+
+-(void)setBadgeValue:(NSInteger)value
+{
+    if (!value || value == 0)
+    {
+        [_badge setHidden:YES];
+    }
+    else
+    {
+        [_badge setHidden:NO];
+        [_badge setText:[NSString stringWithFormat:@"%ld", value]];
+        CGSize badgeSize = CGSizeMake(MAXFLOAT, 5);
+        [_badge setFrame:CGRectMake(mButtonWidth-badgeSize.width, 0, badgeSize.width, 5)];
+    }
+    [self setNeedsLayout];
 }
 
 -(void)moveLineAccordingToFlag:(NSInteger)flag
