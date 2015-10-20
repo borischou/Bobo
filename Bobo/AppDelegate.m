@@ -39,6 +39,7 @@ typedef NS_ENUM(NSInteger, MessageType) {
 @interface AppDelegate ()
 
 @property (strong, nonatomic) UITabBarController *tabBarController;
+@property (nonatomic) NSInteger toMeIncrement, atMeIncrement;
 
 @end
 
@@ -253,31 +254,33 @@ typedef NS_ENUM(NSInteger, MessageType) {
 {
     NSDictionary *result = responseObject;
     NSInteger count = [result[@"total_number"] integerValue];
-    NSInteger toMeIncrement, atMeIncrement;
     switch (type) {
         case MessageTypeToMe:
             if (![[NSUserDefaults standardUserDefaults] objectForKey:@"message_to_me"]) { //首次获取消息
                 [[NSUserDefaults standardUserDefaults] setObject:@(count) forKey:@"message_to_me"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
+                _toMeIncrement = 0;
             } else {
                 NSInteger toMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"message_to_me"] integerValue];
-                toMeIncrement = toMeCount - count;
+                _toMeIncrement = toMeCount - count;
             }
             break;
         case MessageTypeAtMe:
             if (![[NSUserDefaults standardUserDefaults] objectForKey:@"message_at_me"]) { //首次获取消息
                 [[NSUserDefaults standardUserDefaults] setObject:@(count) forKey:@"message_at_me"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
+                _atMeIncrement = 0;
             } else {
                 NSInteger atMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"message_at_me"] integerValue];
-                atMeIncrement = atMeCount - count;
+                _atMeIncrement = atMeCount - count;
             }
             break;
         default:
             break;
     }
     UITabBarItem *messageTab = _tabBarController.tabBar.items[1];
-    messageTab.badgeValue = [NSString stringWithFormat:@"%ld", toMeIncrement+atMeIncrement];
+    NSInteger totalIncrement = _toMeIncrement + _atMeIncrement;
+    messageTab.badgeValue = totalIncrement > 0? [NSString stringWithFormat:@"%ld", totalIncrement]: nil;
 }
 
 #pragma mark - Weibo support
