@@ -12,7 +12,9 @@
 @class BBReplyCommentView;
 @protocol BBReplyCommentViewDelegate <NSObject>
 
+@optional
 -(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didPressDeleteButton:(UIButton *)sender;
+-(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didDisplayComment:(Comment *)comment;
 
 @end
 

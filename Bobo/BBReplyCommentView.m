@@ -24,7 +24,7 @@
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-@interface BBReplyCommentView ()
+@interface BBReplyCommentView () <BBUpdateStatusViewDelegate>
 
 @property (strong, nonatomic) UIView *mask;
 @property (nonatomic) CGFloat rBtnHeight;
@@ -157,8 +157,8 @@
                 dtvc.hidesBottomBarWhenPushed = YES;
                 dtvc.status = _comment.status;
                 UITabBarController *tbc = (UITabBarController *)self.window.rootViewController;
-                UINavigationController *uinc = (UINavigationController *)tbc.selectedViewController;
-                [uinc pushViewController:dtvc animated:YES];
+                UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
+                [nvc pushViewController:dtvc animated:YES];
             }
             [self removeFromSuperview];
         }
@@ -176,6 +176,9 @@
     updateStatusView.comment = _comment;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
+    
+    updateStatusView.delegate = self;
+    
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _mask.alpha = 0;
         updateStatusView.frame = CGRectMake(bSmallGap, statusBarHeight+bSmallGap, bWidth-2*bSmallGap, bHeight/2-5);
@@ -185,7 +188,7 @@
         if (finished) {
             [_mask removeFromSuperview];
             _mask = nil;
-            [self removeFromSuperview];
+            //[self removeFromSuperview];
         }
     }];
 }
@@ -193,8 +196,6 @@
 -(void)repostButtonPressed:(UIButton *)sender
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发评论
-    //updateStatusView.idStr = _comment.status.idstr;
-    //updateStatusView.cidStr = _comment.idstr;
     updateStatusView.comment = _comment;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
@@ -238,6 +239,13 @@
             [notificationView removeFromSuperview];
         }];
     }];
+}
+
+#pragma mark - BBUpdateStatusViewDelegate
+
+-(void)updateStatusView:(BBUpdateStatusView *)updateStatusView shouldDisplayComment:(Comment *)comment
+{
+    [self.delegate replyView:self mask:_mask didDisplayComment:comment];
 }
 
 @end

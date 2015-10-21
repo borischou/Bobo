@@ -40,7 +40,7 @@
 static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
-@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBStatusTableViewCellDelegate, BBCommentTableViewCellDelegate, BBReplyCommentViewDelegate, TTTAttributedLabelDelegate, BBUpdateStatusViewDelegate>
+@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBStatusTableViewCellDelegate, BBCommentTableViewCellDelegate, BBReplyCommentViewDelegate, TTTAttributedLabelDelegate>
 {
     int _page;
 }
@@ -280,7 +280,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
-    //updateStatusView.idStr = cell.status.idstr;
     updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = cell.status.user.screen_name;
     AppDelegate *delegate = [AppDelegate delegate];
@@ -336,7 +335,6 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetIcon:(UIImageView *)retweetIcon
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
-    //updateStatusView.idStr = cell.status.idstr;
     updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = @"转发";
     if (_status.retweeted_status.text.length > 0) {
@@ -498,6 +496,13 @@ static NSString *reuseCMCell = @"reuseCMCell";
     } completion:^(BOOL finished) {}];
     
     [self presentViewController:alertController animated:YES completion:^{}];
+}
+
+-(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didDisplayComment:(Comment *)comment
+{
+    [_comments insertObject:comment atIndex:0];
+    [replyView removeFromSuperview];
+    [self.tableView reloadData];
 }
 
 #pragma mark - TTTAttributedLabelDelegate & support
