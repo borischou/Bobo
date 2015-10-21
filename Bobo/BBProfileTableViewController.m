@@ -863,7 +863,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     }
     if ([imageView.image isEqual:[UIImage imageNamed:@"follow_icon"]])
     {
-        if ([delegate.user.idstr isEqualToString:cell.user.idstr])
+        if ([delegate.user.idstr isEqualToString:cell.user.idstr] || [delegate.uid isEqualToString:cell.user.idstr])
         {
             return;
         }
