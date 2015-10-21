@@ -38,7 +38,8 @@
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         _count = 2;
         [self setupScrollViewWithFrame:frame];
         [self loadPageControlWithFrame:frame];
@@ -131,9 +132,12 @@
     _location.attributedText = loc;
     
     NSString *urlDesc = nil;
-    if ([_user.gender isEqualToString:@"m"]) {
+    if ([_user.gender isEqualToString:@"m"])
+    {
         urlDesc = @"His site: ";
-    } else if ([_user.gender isEqualToString:@"f"]) {
+    }
+    else if ([_user.gender isEqualToString:@"f"])
+    {
         urlDesc = @"Her site: ";
     }
     NSMutableAttributedString *url = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", urlDesc, _user.url] attributes:@{NSForegroundColorAttributeName: [UIColor customGray], NSFontAttributeName: [UIFont systemFontOfSize:fontSize]}];
@@ -169,11 +173,14 @@
         _name.attributedText = [[NSAttributedString alloc] initWithString:_user.screen_name attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:20.0], NSForegroundColorAttributeName: [UIColor customGray]}];
     }
     CGSize nameSize = [_name sizeThatFits:CGSizeMake(MAXFLOAT, 30)];
-    if (_user.verified) {
+    if (_user.verified)
+    {
         [_vipView setFrame:CGRectMake(self.center.x+nameSize.width*.5, 15+bWidth/5+10, 15, 15)];
         _vipView.image = [UIImage imageNamed:@"icon_vip"];
         _introduction.attributedText = [[NSAttributedString alloc] initWithString:_user.verified_reason attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:[Utils fontSizeForStatus]], NSForegroundColorAttributeName: [UIColor customGray]}];
-    } else {
+    }
+    else
+    {
         _vipView.image = nil;
         [_vipView setFrame:CGRectZero];
         _introduction.attributedText = [[NSAttributedString alloc] initWithString:_user.user_description attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:[Utils fontSizeForStatus]], NSForegroundColorAttributeName: [UIColor customGray]}];

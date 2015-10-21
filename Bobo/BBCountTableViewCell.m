@@ -39,6 +39,7 @@
 @property (strong, nonatomic) UILabel *wbcounts;
 @property (strong, nonatomic) UILabel *friendcounts;
 @property (strong, nonatomic) UILabel *followercounts;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
 @end
 
@@ -47,11 +48,13 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+    if (self)
+    {
         self.contentView.backgroundColor = bCellBGColor;
         self.layer.shadowColor = [UIColor blackColor].CGColor;
         self.layer.shadowOpacity = .2;
         self.layer.shadowOffset = CGSizeMake(0, -2);
+        _appDelegate = [AppDelegate delegate];
         [self initCountLayout];
     }
     return self;
@@ -113,19 +116,28 @@
     _wbcounts.text = [NSString formatNum:_user.statuses_count];
     _followercounts.text = [NSString formatNum:_user.followers_count];
     _friendcounts.text = [NSString formatNum:_user.friends_count];
-    AppDelegate *delegate = [AppDelegate delegate];
-    if ([_user.idstr isEqualToString:delegate.user.idstr]) {
+    
+    if (!_appDelegate.user)
+    {
+        [_appDelegate fetchUserProfile];
+    }
+    
+    if ([_user.idstr isEqualToString:_appDelegate.uid] || [_user.idstr isEqualToString:_appDelegate.user.idstr])
+    {
         [_todoImgView setImage:[UIImage imageNamed:@"settings_icon"]];
     }
     else
     {
-        if (_user.following && !_user.follow_me) {
+        if (_user.following && !_user.follow_me)
+        {
             [_todoImgView setImage:[UIImage imageNamed:@"following_icon"]];
         }
-        if (_user.following && _user.follow_me) {
+        if (_user.following && _user.follow_me)
+        {
             [_todoImgView setImage:[UIImage imageNamed:@"friend_icon"]];
         }
-        if (!_user.following) {
+        if (!_user.following)
+        {
             [_todoImgView setImage:[UIImage imageNamed:@"follow_icon"]];
         }
     }

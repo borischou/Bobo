@@ -66,9 +66,11 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    if (!_avatarUrl) {
+    if (!_avatarUrl)
+    {
         AppDelegate *delegate = [AppDelegate delegate];
-        if (!delegate.user) {
+        if (!delegate.user)
+        {
             [delegate fetchUserProfile];
         }
         _avatarUrl = delegate.user.avatar_large;

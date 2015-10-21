@@ -131,13 +131,16 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     _uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     
     //若未授权则向用户申请授权
-    if (_weiboAccount.accountType.accessGranted == NO) {
+    if (_weiboAccount.accountType.accessGranted == NO)
+    {
         [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
-            if (granted == YES) { //授权成功
+            if (granted == YES)
+            { //授权成功
                 NSLog(@"授权成功。");
                 
                 //本地尚未保存授权账号uid
-                if (!_uid) {
+                if (!_uid)
+                {
                     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
                         //获取本账号uid并保存在本地
                         NSError *error = nil;
@@ -149,7 +152,9 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
                         NSLog(@"error: %@", error);
                     }];
                 }
-            } else {
+            }
+            else
+            {
                 NSLog(@"授权失败, 错误: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"授权失败"];
@@ -160,7 +165,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     //用户已授权
     else
     {
-        if (!_uid) {
+        if (!_uid)
+        {
             [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
                 //获取本账号uid并保存在本地
                 NSError *error = nil;
@@ -174,7 +180,9 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
                     [Utils presentNotificationWithText:@"更新失败"];
                 });
             }];
-        } else {
+        }
+        else
+        {
             UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"已登录" message:@"您已授权并登录微博" preferredStyle:UIAlertControllerStyleActionSheet];
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 NSLog(@"OK action triggered.");
@@ -440,7 +448,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     AppDelegate *delegate = [AppDelegate delegate];
-    if (delegate.currentIndex == tabBarController.selectedIndex) {
+    if (delegate.currentIndex == tabBarController.selectedIndex)
+    {
         [self.tableView.header beginRefreshing];
     }
     delegate.currentIndex = tabBarController.selectedIndex;
@@ -658,7 +667,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         [favoriteIcon setImage:[UIImage imageNamed:@"fav_icon_3"]];
         NSDictionary *params = @{@"id": cell.status.idstr};
         [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-            if (!error) {
+            if (!error)
+            {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
                 dispatch_async(dispatch_get_main_queue(), ^{
