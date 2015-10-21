@@ -125,7 +125,6 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     if (downloadedStatuses.count > 0)
     {
-        
         for (int i = 0; i < downloadedStatuses.count; i ++)
         {
             Status *status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
