@@ -200,8 +200,10 @@ static NSString *messageCell = @"messageCell";
 
 -(void)deleteRowForComment:(Comment *)comment
 {
-    [self deleteRowsAtIndexPaths:@[[NSIndexPath indexPathWithIndex:[_comments indexOfObject:comment]]] withRowAnimation:UITableViewRowAnimationFade];
+    NSInteger index = [_comments indexOfObject:comment];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:1];
     [_comments removeObject:comment];
+    [self deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     [self reloadData];
 }
 

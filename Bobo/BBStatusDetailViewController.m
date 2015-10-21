@@ -456,8 +456,10 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)deleteRowForComment:(Comment *)comment
 {
-    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathWithIndex:[_comments indexOfObject:comment]]] withRowAnimation:UITableViewRowAnimationFade];
+    NSInteger index = [_comments indexOfObject:comment];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:1];
     [_comments removeObject:comment];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView reloadData];
 }
 
