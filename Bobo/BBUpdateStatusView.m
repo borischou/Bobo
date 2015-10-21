@@ -335,6 +335,8 @@ static NSString *filepath = @"draft.plist";
     NSDictionary *params = nil;
     NSDictionary *draftParams = _draft.params;
     NSString *idstr, *cid;
+    Comment *comment = [[Comment alloc] init];
+    AppDelegate *appDelegate = [AppDelegate delegate];
     switch (_flag) {
         case 0: //发微博
             {
@@ -417,6 +419,12 @@ static NSString *filepath = @"draft.plist";
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
+                    
+                    comment.user = appDelegate.user;
+                    comment.created_at = [self stringFromDate:[NSDate date]];
+                    comment.text = _statusTextView.text;
+                    [self.delegate updateStatusView:self shouldDisplayComment:comment];
+                    
                     if (!error) {
                         if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) { //2xx
                             notificationText = @"评论发布成功";
@@ -485,6 +493,12 @@ static NSString *filepath = @"draft.plist";
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
+                    
+                    comment.user = appDelegate.user;
+                    comment.created_at = [self stringFromDate:[NSDate date]];
+                    comment.text = [NSString stringWithFormat:@"Reply@%@:%@", _comment.user.screen_name, _statusTextView.text];
+                    [self.delegate updateStatusView:self shouldDisplayComment:comment];
+                    
                     if (!error) {
                         if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) {
                             notificationText = @"评论发布成功";

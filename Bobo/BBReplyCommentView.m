@@ -173,8 +173,6 @@
 -(void)replyButtonPressed:(UIButton *)sender
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:3]; //回复评论
-    //updateStatusView.idStr = _comment.status.idstr;
-    //updateStatusView.cidStr = _comment.idstr;
     updateStatusView.comment = _comment;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
