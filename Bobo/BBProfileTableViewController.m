@@ -68,19 +68,28 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
     _originalTurnedOn = NO;
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
-    if (_shouldNavBtnShown) {
+    
+    if (_shouldNavBtnShown)
+    {
         [self setNavBarBtn];
     }
-    if (_user) {
+    
+    if (_user)
+    {
         self.tableView.tableHeaderView = [self getAvatarView];
     }
+    
     _currentLastStatusId = [self lastIdFromStatuses:_statuses];
     [self setMJRefresh];
-    if (!_statuses || _statuses.count <= 0) {
+    
+    if (!_statuses || _statuses.count <= 0)
+    {
         [self.tableView.header beginRefreshing];
     }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
 }
 
@@ -182,10 +191,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         if (!_weiboAccount)
         {
             _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
-            if (_weiboAccount) {
+            if (_weiboAccount)
+            {
                 [self fetchUserProfile];
                 [self fetchUserLatestStatuses];
-            } else {
+            }
+            else
+            {
                 [self.tableView.header endRefreshing];
                 [self navigateToSettings];
                 [Utils presentNotificationWithText:@"更新失败"];
@@ -222,7 +234,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 //https://api.weibo.com/2/users/show.json?uid=id_string
 -(void)fetchUserProfile
 {
-    if (!_uid || _uid.length < 1) {
+    if (!_uid || _uid.length < 1)
+    {
         AppDelegate *delegate = [AppDelegate delegate];
         if (delegate.uid || delegate.user.idstr)
         {
@@ -241,7 +254,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         else
         {
             [self.tableView.header endRefreshing];
-            NSLog(@"没有有效的uid。");
+            [Utils presentNotificationWithText:@"没有有效的uid"];
+            [[AppDelegate delegate] fetchUserProfile];
         }
     }
     else

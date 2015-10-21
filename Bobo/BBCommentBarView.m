@@ -28,6 +28,8 @@
 
 @interface BBCommentBarView () <BBUpdateStatusViewDelegate>
 
+@property (strong, nonatomic) NSString *avatarUrl;
+
 @end
 
 @implementation BBCommentBarView
@@ -61,6 +63,19 @@
     return self;
 }
 
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    if (!_avatarUrl) {
+        AppDelegate *delegate = [AppDelegate delegate];
+        if (!delegate.user) {
+            [delegate fetchUserProfile];
+        }
+        _avatarUrl = delegate.user.avatar_large;
+        [_avatarView sd_setImageWithURL:[NSURL URLWithString:_avatarUrl] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
+    }
+}
+
 -(void)setupBarViews
 {
     self.backgroundColor = [UIColor whiteColor];
@@ -68,9 +83,10 @@
     self.layer.shadowOpacity = 0.2;
 
     AppDelegate *delegate = [AppDelegate delegate];
+    _avatarUrl = delegate.user.avatar_large;
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:delegate.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
+    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_avatarUrl] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
     _avatarView.clipsToBounds = YES;
     _avatarView.layer.masksToBounds = YES;
     _avatarView.layer.cornerRadius = _avatarView.bounds.size.width*0.5;

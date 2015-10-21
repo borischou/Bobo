@@ -21,6 +21,7 @@
 @property (nonatomic) NSInteger currentIndex;
 @property (nonatomic) NSInteger toMeIncrement, atMeIncrement;
 
+-(void)fetchUserProfile;
 -(ACAccount *)defaultAccount;
 -(ACAccount *)validWeiboAccount;
 +(id)delegate;
