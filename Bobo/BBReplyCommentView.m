@@ -167,7 +167,7 @@
 
 -(void)deleteButtonPressed:(UIButton *)sender
 {
-    [self.delegate replyView:self mask:_mask didPressDeleteButton:sender];
+    [self.delegate replyView:self mask:_mask didDeleteComment:_comment];
 }
 
 -(void)replyButtonPressed:(UIButton *)sender

@@ -329,6 +329,14 @@ static NSString *filepath = @"draft.plist";
     //Post成功后刷新评论区以显示发表的评论
 }
 
+-(void)assembleComment:(Comment *)comment user:(User *)user text:(NSString *)text
+{
+    comment.user = user;
+    comment.created_at = [self stringFromDate:[NSDate date]];
+    comment.text = text;
+    [comment calculateHeights];
+}
+
 -(void)sendButtonPressed:(UIButton *)sender
 {
     ACAccount *weiboAccount = [[AppDelegate delegate] defaultAccount];
@@ -409,6 +417,10 @@ static NSString *filepath = @"draft.plist";
             break;
         case 1: //写评论
             {
+                //不管后续成功与否，本地立即显示内容
+                [self assembleComment:comment user:appDelegate.user text:_statusTextView.text];
+                [self.delegate updateStatusView:self shouldDisplayComment:comment];
+                
                 if (_status) {
                     idstr = _status.idstr;
                 } else {
@@ -419,12 +431,6 @@ static NSString *filepath = @"draft.plist";
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
-                    
-                    comment.user = appDelegate.user;
-                    comment.created_at = [self stringFromDate:[NSDate date]];
-                    comment.text = _statusTextView.text;
-                    [self.delegate updateStatusView:self shouldDisplayComment:comment];
-                    
                     if (!error) {
                         if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) { //2xx
                             notificationText = @"评论发布成功";
@@ -480,6 +486,10 @@ static NSString *filepath = @"draft.plist";
             break;
         case 3: //回复评论
             {
+                //不管后续成功与否，本地立即显示内容
+                [self assembleComment:comment user:appDelegate.user text:[NSString stringWithFormat:@"Reply@%@:%@", _comment.user.screen_name, _statusTextView.text]];
+                [self.delegate updateStatusView:self shouldDisplayComment:comment];
+                
                 if (_comment) {
                     idstr = _comment.status.idstr;
                     cid = _comment.idstr;
@@ -493,12 +503,6 @@ static NSString *filepath = @"draft.plist";
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
-                    
-                    comment.user = appDelegate.user;
-                    comment.created_at = [self stringFromDate:[NSDate date]];
-                    comment.text = [NSString stringWithFormat:@"Reply@%@:%@", _comment.user.screen_name, _statusTextView.text];
-                    [self.delegate updateStatusView:self shouldDisplayComment:comment];
-                    
                     if (!error) {
                         if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) {
                             notificationText = @"评论发布成功";

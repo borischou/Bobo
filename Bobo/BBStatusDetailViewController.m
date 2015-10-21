@@ -40,7 +40,7 @@
 static NSString *reuseWBCell = @"reuseWBCell";
 static NSString *reuseCMCell = @"reuseCMCell";
 
-@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBStatusTableViewCellDelegate, BBCommentTableViewCellDelegate, BBReplyCommentViewDelegate, TTTAttributedLabelDelegate>
+@interface BBStatusDetailViewController () <UITableViewDataSource, UITableViewDelegate, BBStatusTableViewCellDelegate, BBCommentTableViewCellDelegate, BBReplyCommentViewDelegate, TTTAttributedLabelDelegate, BBCommentBarViewDelegate>
 {
     int _page;
 }
@@ -89,6 +89,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [_barView setFrame:CGRectMake(0, bHeight, bWidth, dComntBarViewHeight)];
     } completion:^(BOOL finished) {
+        _barView.delegate = nil;
         _barView = nil;
         [_barView removeFromSuperview];
     }];
@@ -100,6 +101,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 {
     if (!_barView) {
         _barView = [[BBCommentBarView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, dComntBarViewHeight) status:_status];
+        _barView.delegate = self;
         [self.view addSubview:_barView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_barView setFrame:CGRectMake(0, bHeight-dComntBarViewHeight, bWidth, dComntBarViewHeight)];
@@ -452,12 +454,22 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 #pragma mark - BBReplyCommentViewDelegate & support
 
--(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didPressDeleteButton:(UIButton *)sender
+-(void)deleteRowForComment:(Comment *)comment
+{
+    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathWithIndex:[_comments indexOfObject:comment]]] withRowAnimation:UITableViewRowAnimationFade];
+    [_comments removeObject:comment];
+    [self.tableView reloadData];
+}
+
+-(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didDeleteComment:(Comment *)comment
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除评论" message:@"是否删除此评论？" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //不管成败，先本地删除
+        [self deleteRowForComment:comment];
+        
         //调用删除接口
-        NSDictionary *params = @{@"cid": replyView.comment.idstr};
+        NSDictionary *params = @{@"cid": comment.idstr? comment.idstr: @""};
         [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"comments/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
             NSString *notificationText = nil;
             if (!error) {
@@ -501,7 +513,15 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didDisplayComment:(Comment *)comment
 {
     [_comments insertObject:comment atIndex:0];
+    [self.tableView reloadData];
     [replyView removeFromSuperview];
+}
+
+#pragma mark - BBCommentBarViewDelegate
+
+-(void)commentBarView:(BBCommentBarView *)commentBarView didDisplayComment:(Comment *)comment
+{
+    [_comments insertObject:comment atIndex:0];
     [self.tableView reloadData];
 }
 

@@ -8,8 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "Status.h"
+#import "Comment.h"
+
+@class BBCommentBarView;
+@protocol BBCommentBarViewDelegate <NSObject>
+
+@optional
+-(void)commentBarView:(BBCommentBarView *)commentBarView didDisplayComment:(Comment *)comment;
+
+@end
 
 @interface BBCommentBarView : UIView
+
+@property (weak, nonatomic) id <BBCommentBarViewDelegate> delegate;
 
 @property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UITextView *textView;

@@ -27,5 +27,6 @@
 @property (nonatomic) CGFloat heightForMessageCell;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+-(void)calculateHeights;
 
 @end

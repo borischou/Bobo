@@ -26,6 +26,10 @@
 
 #define cPlaceholder @"想说就说吧"
 
+@interface BBCommentBarView () <BBUpdateStatusViewDelegate>
+
+@end
+
 @implementation BBCommentBarView
 
 -(instancetype)init
@@ -102,7 +106,7 @@
 {
     AppDelegate *delegate = [AppDelegate delegate];
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
-    //updateStatusView.idStr = _status.idstr;
+    updateStatusView.delegate = self;
     updateStatusView.status = _status;
     updateStatusView.nameLabel.text = _status.user.screen_name;
     [delegate.window addSubview:updateStatusView];
@@ -110,10 +114,15 @@
         updateStatusView.frame = CGRectMake(cSmallGap, statusBarHeight+cSmallGap, bWidth-2*cSmallGap, bHeight/2-5);
         [updateStatusView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {
-        if (finished) {
-            //what are you gonna do
-        }
+        if (finished) {}
     }];
+}
+
+#pragma mark - BBUpdateStatusViewDelegate
+
+-(void)updateStatusView:(BBUpdateStatusView *)updateStatusView shouldDisplayComment:(Comment *)comment
+{
+    [self.delegate commentBarView:self didDisplayComment:comment];
 }
 
 @end

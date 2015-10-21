@@ -196,14 +196,24 @@ static NSString *messageCell = @"messageCell";
     }
 }
 
-#pragma mark - BBReplyCommentViewDelegate
+#pragma mark - BBReplyCommentViewDelegate & support
 
--(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didPressDeleteButton:(UIButton *)sender
+-(void)deleteRowForComment:(Comment *)comment
+{
+    [self deleteRowsAtIndexPaths:@[[NSIndexPath indexPathWithIndex:[_comments indexOfObject:comment]]] withRowAnimation:UITableViewRowAnimationFade];
+    [_comments removeObject:comment];
+    [self reloadData];
+}
+
+-(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didDeleteComment:(Comment *)comment
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除评论" message:@"是否删除此评论？" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //不论成败，先本地删除
+        [self deleteRowForComment:comment];
+        
         //调用删除接口
-        NSDictionary *params = @{@"cid": replyView.comment.idstr};
+        NSDictionary *params = @{@"cid": comment.idstr};
         [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"comments/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
             NSString *notificationText = nil;
             if (!error) {
