@@ -561,6 +561,21 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     [nc removeObserver:self];
 }
 
+#pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat distance = scrollView.contentOffset.y;
+    CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
+    [self.navigationController.navigationBar setAlpha:1-distance/navHeight];
+}
+
+-(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidScrollToTop: %f", scrollView.contentOffset.y);
+    [self.navigationController.navigationBar setAlpha:1.0];
+}
+
 #pragma mark - BBProfileMenuHeaderViewDelegate & support
 
 -(void)didClickMenuButtonAtIndex:(NSInteger)index

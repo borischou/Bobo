@@ -165,17 +165,20 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if (section == 0) {
         return 1;
     }
     else
     {
-        if (_comments.count) {
+        if (_comments.count)
+        {
             return _comments.count;
         }
         else
@@ -187,9 +190,12 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         return _status.height;
-    } else {
+    }
+    else
+    {
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         return comment.height;
     }
@@ -244,6 +250,31 @@ static NSString *reuseCMCell = @"reuseCMCell";
             [replyCommentView setFrame:CGRectMake(0, bHeight-(3*50+param*50), bWidth, 3*50+param*50)];
         } completion:^(BOOL finished) {}];
     }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 2;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 2;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat distance = scrollView.contentOffset.y;
+    CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
+    [self.navigationController.navigationBar setAlpha:1-distance/navHeight];
+}
+
+-(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidScrollToTop: %f", scrollView.contentOffset.y);
+    [self.navigationController.navigationBar setAlpha:1.0];
 }
 
 #pragma mark - BBStatusTableViewCellDelegate & support
