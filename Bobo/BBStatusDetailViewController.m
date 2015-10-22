@@ -95,6 +95,12 @@ static NSString *reuseCMCell = @"reuseCMCell";
     }];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.navigationController.navigationBar setAlpha:1.0];
+}
+
 #pragma mark - Helpers
 
 -(void)initCommentBarView

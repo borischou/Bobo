@@ -103,6 +103,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     [super viewDidDisappear:animated];
     self.tabBarController.delegate = nil;
+    [self.navigationController.navigationBar setAlpha:1.0];
 }
 
 #pragma mark - UIButtons
