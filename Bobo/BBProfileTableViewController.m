@@ -93,17 +93,23 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController.navigationBar setAlpha:1.0];
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     self.tabBarController.delegate = self;
+    [self setNavBarAlphaByYcord:self.tableView.contentOffset.y];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     self.tabBarController.delegate = nil;
-    [self.navigationController.navigationBar setAlpha:1.0];
 }
 
 #pragma mark - UIButtons
@@ -334,6 +340,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 }
 
 #pragma mark - Helpers
+
+-(void)setNavBarAlphaByYcord:(CGFloat)y
+{
+    CGFloat distance = y;
+    CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
+    [self.navigationController.navigationBar setAlpha:1-distance/navHeight];
+}
 
 -(void)navigateToSettings
 {
@@ -566,9 +579,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGFloat distance = scrollView.contentOffset.y;
-    CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
-    [self.navigationController.navigationBar setAlpha:1-distance/navHeight];
+    [self setNavBarAlphaByYcord:scrollView.contentOffset.y];
 }
 
 -(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView

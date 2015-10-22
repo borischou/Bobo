@@ -81,11 +81,13 @@ static NSString *reuseCMCell = @"reuseCMCell";
 {
     [super viewDidAppear:animated];
     [self initCommentBarView];
+    [self setNavBarAlphaByYcord:self.tableView.contentOffset.y];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [self.navigationController.navigationBar setAlpha:1.0];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [_barView setFrame:CGRectMake(0, bHeight, bWidth, dComntBarViewHeight)];
     } completion:^(BOOL finished) {
@@ -95,13 +97,14 @@ static NSString *reuseCMCell = @"reuseCMCell";
     }];
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [self.navigationController.navigationBar setAlpha:1.0];
-}
-
 #pragma mark - Helpers
+
+-(void)setNavBarAlphaByYcord:(CGFloat)y
+{
+    CGFloat distance = y;
+    CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
+    [self.navigationController.navigationBar setAlpha:1-distance/navHeight];
+}
 
 -(void)initCommentBarView
 {
@@ -233,7 +236,8 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1)
+    {
         AppDelegate *delegate = [AppDelegate delegate];
 
         BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 150)];
@@ -272,9 +276,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGFloat distance = scrollView.contentOffset.y;
-    CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
-    [self.navigationController.navigationBar setAlpha:1-distance/navHeight];
+    [self setNavBarAlphaByYcord:scrollView.contentOffset.y];
 }
 
 -(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
