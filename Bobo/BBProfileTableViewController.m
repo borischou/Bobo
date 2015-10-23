@@ -71,12 +71,10 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     
     _originalTurnedOn = NO;
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
-    
     if (_shouldNavBtnShown)
     {
         [self setNavBarBtn];
     }
-    
     if (_user)
     {
         self.tableView.tableHeaderView = [self getAvatarView];
@@ -96,14 +94,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.navigationController.navigationBar setAlpha:1.0];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     self.tabBarController.delegate = self;
-    [self setNavBarAlphaByYcord:self.tableView.contentOffset.y];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -341,12 +342,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 #pragma mark - Helpers
 
--(void)setNavBarAlphaByYcord:(CGFloat)y
-{
-    CGFloat distance = y;
-    CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
-    [self.navigationController.navigationBar setAlpha:1-distance/navHeight];
-}
+//-(void)setNavBarAlphaByYcord:(CGFloat)y
+//{
+//    CGFloat distance = y;
+//    CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
+//    [self.navigationController.navigationBar setAlpha:1-distance/navHeight];
+//}
 
 -(void)navigateToSettings
 {
@@ -577,16 +578,16 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 #pragma mark - UIScrollViewDelegate
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self setNavBarAlphaByYcord:scrollView.contentOffset.y];
-}
-
--(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
-{
-    NSLog(@"scrollViewDidScrollToTop: %f", scrollView.contentOffset.y);
-    [self.navigationController.navigationBar setAlpha:1.0];
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    [self setNavBarAlphaByYcord:scrollView.contentOffset.y];
+//}
+//
+//-(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+//{
+//    NSLog(@"scrollViewDidScrollToTop: %f", scrollView.contentOffset.y);
+//    [self.navigationController.navigationBar setAlpha:1.0];
+//}
 
 #pragma mark - BBProfileMenuHeaderViewDelegate & support
 
