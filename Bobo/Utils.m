@@ -85,13 +85,13 @@
     height += bBigGap+[Utils heightForString:text width:bWidth-bBigGap*2 fontSize:fontSize]; //微博正文
     
     if (count > 0) {
-        height += bSmallGap+[self heightForImgsWithCount:count]; //微博配图
+        height += bSmallGap+[Utils heightForImgsWithCount:count]; //微博配图
     }
     
     if (retweetedScreenName != nil) { //转发微博
         height += bBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] width:bWidth-bBigGap*2 fontSize:fontSize]; //转发微博正文
         if (retweetImgCount > 0) {
-            height += bSmallGap+[self heightForImgsWithCount:retweetImgCount]; //转发微博配图
+            height += bSmallGap+[Utils heightForImgsWithCount:retweetImgCount]; //转发微博配图
         }
     }
     
