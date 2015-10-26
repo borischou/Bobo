@@ -819,8 +819,10 @@ static NSString *filepath = @"draft.plist";
         _sendBtn.enabled = NO;
         if (textView.text.length > 0) {
             _statusChanged = YES;
+            _sendBtn.enabled = YES;
         } else {
             _statusChanged = NO;
+            _sendBtn.enabled = NO;
         }
     }
 }

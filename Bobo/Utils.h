@@ -32,9 +32,6 @@ typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLRespo
 +(CGFloat)maxHeightForWaterfallCoverPicture;
 +(NSDictionary *)genericAttributesWithFontSize:(CGFloat)fontSize fontColor:(UIColor *)color;
 
-+(NSString *)appKey;
-+(NSString *)accessToken;
-
 +(void)genericWeiboRequestWithAccount:(ACAccount *)weiboAccount URL:(NSString *)url SLRequestHTTPMethod:(SLRequestMethod)method parameters:(NSDictionary *)params completionBlockWithSuccess:(AFHTTPRequestOperationSuccessCompletionHandler)success completionBlockWithFailure:(AFHTTPRequestOperationFailureCompletionHandler)failure;
 +(NSArray *)systemAccounts;
 +(void)weiboPostRequestWithAccount:(ACAccount *)weiboAccount URL:(NSString *)url parameters:(NSDictionary *)params completionHandler:(SLRequestCompletionHandler)completion;
