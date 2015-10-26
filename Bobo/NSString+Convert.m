@@ -39,7 +39,7 @@
         numStr = [NSString stringWithFormat:@"%.1fw", (float)num/10000];
     }
     if (num >= 10000 * 100) {
-        numStr = [NSString stringWithFormat:@"%dm", (int)num/10000*100];
+        numStr = [NSString stringWithFormat:@"%dm", (int)num/(10000*100)];
     }
     return numStr;
 }
