@@ -40,19 +40,24 @@
 +(CGFloat)heightForImgsWithCount:(NSInteger)count
 {
     CGFloat height = 0;
-    if (count == 1 || count == 2) {
+    if (count == 1 || count == 2)
+    {
         height = bPostImgHeightForTwo;
     }
-    if (count == 3) {
+    if (count == 3)
+    {
         height = bPostImgHeight;
     }
-    if (count == 4) {
+    if (count == 4)
+    {
         height = bPostImgHeightForTwo*2+bSmallGap;
     }
-    if (count > 4 && count <= 6) {
+    if (count > 4 && count <= 6)
+    {
         height = bPostImgHeight*2+bSmallGap;
     }
-    if (count >= 7 && count <= 9) {
+    if (count >= 7 && count <= 9)
+    {
         height = bPostImgHeight*3+bSmallGap*2;
     }
     return height;
@@ -60,7 +65,8 @@
 
 +(CGFloat)heightForString:(NSString *)str width:(CGFloat)width fontSize:(CGFloat)size
 {
-    if (!str) {
+    if (!str)
+    {
         return 0;
     }
     NSMutableParagraphStyle *parastyle = [[NSMutableParagraphStyle alloc] init];
@@ -84,13 +90,16 @@
     height += bBigGap+bHeadImgHeight; //头像
     height += bBigGap+[Utils heightForString:text width:bWidth-bBigGap*2 fontSize:fontSize]; //微博正文
     
-    if (count > 0) {
+    if (count > 0)
+    {
         height += bSmallGap+[Utils heightForImgsWithCount:count]; //微博配图
     }
     
-    if (retweetedScreenName != nil) { //转发微博
+    if (retweetedScreenName != nil)
+    { //转发微博
         height += bBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", retweetedScreenName, retweetText] width:bWidth-bBigGap*2 fontSize:fontSize]; //转发微博正文
-        if (retweetImgCount > 0) {
+        if (retweetImgCount > 0)
+        {
             height += bSmallGap+[Utils heightForImgsWithCount:retweetImgCount]; //转发微博配图
         }
     }
@@ -101,7 +110,8 @@
 
 +(CGFloat)layoutImgViews:(NSMutableArray *)views withImageCount:(NSInteger)count fromTopHeight:(CGFloat)height
 {
-    for (int i = 0; i < 9; i ++) {
+    for (int i = 0; i < 9; i ++)
+    {
         [views[i] setFrame:CGRectZero];
     }
     
@@ -111,44 +121,55 @@
         return bSmallGap+bPostImgHeightForTwo;
     }
     
-    if (count == 2) {
+    if (count == 2)
+    {
         [views[0] setFrame:CGRectMake(0, height+bSmallGap, bPostImgWidthForTwo, bPostImgHeightForTwo)];
         [views[1] setFrame:CGRectMake(bPostImgWidthForTwo+bSmallGap, height+bSmallGap, bPostImgWidthForTwo, bPostImgHeightForTwo)];
         return bSmallGap+bPostImgHeightForTwo;
     }
     
-    if (count == 3) {
-        for (int i = 0; i < count; i ++) {
+    if (count == 3)
+    {
+        for (int i = 0; i < count; i ++)
+        {
             [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
         return bSmallGap+bPostImgHeight;
     }
     
-    if (count == 4) {
+    if (count == 4)
+    {
         [views[0] setFrame:CGRectMake(0, height+bSmallGap, bPostImgWidthForTwo, bPostImgHeightForTwo)];
         [views[1] setFrame:CGRectMake(bPostImgWidthForTwo+bSmallGap, height+bSmallGap, bPostImgWidthForTwo, bPostImgHeightForTwo)];
         [views[2] setFrame:CGRectMake(0, height+2*bSmallGap+bPostImgHeightForTwo, bPostImgWidthForTwo, bPostImgHeightForTwo)];
         [views[3] setFrame:CGRectMake(bPostImgWidthForTwo+bSmallGap, height+2*bSmallGap+bPostImgHeightForTwo, bPostImgWidthForTwo, bPostImgHeightForTwo)];
     }
     
-    if (count > 4 && count <= 6) {
-        for (int i = 0; i < 3; i ++) {
+    if (count > 4 && count <= 6)
+    {
+        for (int i = 0; i < 3; i ++)
+        {
             [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
-        for (int j = 0; j < count - 3; j ++) {
+        for (int j = 0; j < count - 3; j ++)
+        {
             [views[3 + j] setFrame:CGRectMake(j * (bPostImgWidth + bSmallGap), height + bSmallGap + bPostImgHeight + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
         return bSmallGap*2+bPostImgHeight*2;
     }
     
-    if (count >= 7 && count <= 9) {
-        for (int i = 0; i < 3; i ++) {
+    if (count >= 7 && count <= 9)
+    {
+        for (int i = 0; i < 3; i ++)
+        {
             [views[i] setFrame:CGRectMake(i * (bPostImgWidth + bSmallGap), height + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
-        for (int j = 0; j < 3; j ++) {
+        for (int j = 0; j < 3; j ++)
+        {
             [views[3 + j] setFrame:CGRectMake(j * (bPostImgWidth + bSmallGap), height + bSmallGap + bPostImgHeight + bSmallGap, bPostImgWidth, bPostImgHeight)];
         }
-        for (int k = 0; k < count - 6; k ++) {
+        for (int k = 0; k < count - 6; k ++)
+        {
             [views[6 + k] setFrame:CGRectMake(k * (bPostImgWidth + bSmallGap), height + bSmallGap + (bPostImgHeight + bSmallGap) * 2, bPostImgWidth, bPostImgHeight)];
         }
         return bSmallGap*3+bPostImgHeight*3;
@@ -181,13 +202,6 @@
 +(CGFloat)cellWidthForWaterfall
 {
     return ([UIScreen mainScreen].bounds.size.width-8.0)*.5;
-}
-
-+(CGFloat)heightForWaterfallCoverPicture
-{
-    CGFloat height = 0;
-    
-    return height;
 }
 
 +(CGFloat)heightForWaterfallBottom
