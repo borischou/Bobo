@@ -37,19 +37,13 @@
 #define bTopPadding 10.0
 #define bSmallGap 5
 #define bBigGap 10
+#define sbGap 15
 #define bDeleteBtnWidth 20
 #define bTextFontSize 14.f
 #define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
 
-#define bPostImgHeight ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/3
-#define bPostImgHeightForTwo ([UIScreen mainScreen].bounds.size.width-2*bSmallGap)/2
-#define bPostImgWidth bPostImgHeight
-#define bPostImgWidthForTwo bPostImgHeightForTwo
-
 #define bBarHeight bHeight/25
 #define bBarSmallGap 7
-#define bImageHeight [UIScreen mainScreen].bounds.size.height/25-2*bBarSmallGap
-#define bImageWidth bImageHeight
 #define bFontSize 12.0
 
 #define bRetweetBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
@@ -416,10 +410,11 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 
 -(void)loadLayout
 {
+    
     //vip
     if (_status.user.verified) {
         CGSize nameSize = [_nicknameLbl sizeThatFits:CGSizeMake(MAXFLOAT, bNicknameHeight)];
-        [_vipView setFrame:CGRectMake(10+bAvatarWidth+10+nameSize.width, 10+5, 15, 15)];
+        [_vipView setFrame:CGRectMake(bBigGap*2+bAvatarWidth+nameSize.width, sbGap, 15, 15)];
         [_vipView setImage:[UIImage imageNamed:@"icon_vip"]];
     } else {
         [_vipView setFrame:CGRectZero];
@@ -428,11 +423,11 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     
     //时间
     CGSize timeSize = [_postTimeLbl sizeThatFits:CGSizeMake(MAXFLOAT, bPostTimeHeight)];
-    [_postTimeLbl setFrame:CGRectMake(10+bAvatarWidth+10, 10+5+bNicknameHeight+3, timeSize.width, bPostTimeHeight)];
+    [_postTimeLbl setFrame:CGRectMake(bBigGap*2+bAvatarWidth, sbGap+bNicknameHeight+3, timeSize.width, bPostTimeHeight)];
     
     //来源
     CGSize sourceSize = [_sourceLbl sizeThatFits:CGSizeMake(MAXFLOAT, bPostTimeHeight)];
-    [_sourceLbl setFrame:CGRectMake(10+bAvatarWidth+10+timeSize.width+10, 10+5+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
+    [_sourceLbl setFrame:CGRectMake(bBigGap*3+bAvatarWidth+timeSize.width, sbGap+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
     
     //删除
     AppDelegate *delegate = [AppDelegate delegate];
@@ -445,7 +440,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     
     //微博正文
     CGSize postSize = [_tweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
-    [_tweetTextLabel setFrame:CGRectMake(bBigGap, bBigGap+bAvatarHeight+bBigGap, bWidth-bBigGap*2, postSize.height)];
+    [_tweetTextLabel setFrame:CGRectMake(bBigGap, bBigGap*2+bAvatarHeight, bWidth-bBigGap*2, postSize.height)];
     
     _repostView.hidden = YES;
     if (_status.retweeted_status) {
@@ -456,35 +451,38 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [_retweetTextLabel setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
         [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
         
-        [_repostView setFrame:CGRectMake(0, bBigGap+bAvatarHeight+bBigGap+postSize.height+bBigGap, bWidth, repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];        
+        [_repostView setFrame:CGRectMake(0, bBigGap*3+bAvatarHeight+postSize.height, bWidth, repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
     }
     else
     {
         //微博配图
         _repostView.hidden = YES;
-        [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap+bAvatarHeight+bBigGap+postSize.height];
+        [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap*2+bAvatarHeight+postSize.height];
     }
     [self layoutBarButtonsWithTop:_status.height-bBarHeight];
 }
 
 -(void)layoutBarButtonsWithTop:(CGFloat)top
 {
+    float bImageHeight = [UIScreen mainScreen].bounds.size.height/25-2*bBarSmallGap;
+    float bImageWidth = bImageHeight;
+    
     [_retweetImageView setFrame:CGRectMake(bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
     
     CGSize rsize = [_retweetCountLabel sizeThatFits:CGSizeMake(MAXFLOAT, bImageHeight)];
-    [_retweetCountLabel setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap, top+bBarSmallGap, rsize.width, bImageHeight)];
+    [_retweetCountLabel setFrame:CGRectMake(sbGap+bImageWidth, top+bBarSmallGap, rsize.width, bImageHeight)];
     
-    [_commentImageView setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
+    [_commentImageView setFrame:CGRectMake(sbGap+bImageWidth+_retweetCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
     
     CGSize csize = [_commentCountLabel sizeThatFits:CGSizeMake(MAXFLOAT, bImageHeight)];
-    [_commentCountLabel setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap, top+bBarSmallGap, csize.width, bImageHeight)];
+    [_commentCountLabel setFrame:CGRectMake(sbGap*2+bImageWidth+_retweetCountLabel.frame.size.width+bImageWidth, top+bBarSmallGap, csize.width, bImageHeight)];
     
-    [_likeImageView setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_commentCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
+    [_likeImageView setFrame:CGRectMake(sbGap*2+bImageWidth+_retweetCountLabel.frame.size.width+bImageWidth+_commentCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
     
     CGSize lsize = [_likeCountLabel sizeThatFits:CGSizeMake(MAXFLOAT, bImageHeight)];
-    [_likeCountLabel setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_commentCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap, top+bBarSmallGap, lsize.width, bImageHeight)];
+    [_likeCountLabel setFrame:CGRectMake(sbGap*3+bImageWidth+_retweetCountLabel.frame.size.width+bImageWidth+_commentCountLabel.frame.size.width+bImageWidth, top+bBarSmallGap, lsize.width, bImageHeight)];
     
-    [_favoritesImageView setFrame:CGRectMake(bBigGap+bImageWidth+bSmallGap+_retweetCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_commentCountLabel.frame.size.width+bBigGap+bImageWidth+bSmallGap+_likeCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
+    [_favoritesImageView setFrame:CGRectMake(sbGap*3+bImageWidth+_retweetCountLabel.frame.size.width+bImageWidth+_commentCountLabel.frame.size.width+bImageWidth+_likeCountLabel.frame.size.width+bBigGap, top+bBarSmallGap, bImageWidth, bImageHeight)];
 }
 
 -(void)resetImageViews:(NSMutableArray *)views

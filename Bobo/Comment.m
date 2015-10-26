@@ -53,7 +53,7 @@
     CGFloat messageFontSize = [Utils fontSizeForStatus];
     CGFloat textHeight = [Utils heightForString:_text width:cTextWidth fontSize:[Utils fontSizeForComment]];
     _height = cAvatarHeight > cNameHeight+cSmallGap+textHeight? cBigGap*2+cAvatarHeight: cBigGap*2+cNameHeight+cSmallGap+textHeight;
-    _heightForMessageCell = cBigGap+cAvatarHeight+cBigGap+[Utils heightForString:_text width:mTextWidth fontSize:messageFontSize]+cBigGap+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text] width:mTextWidth fontSize:messageFontSize]+cBigGap+replyHeight;
+    _heightForMessageCell = cBigGap*4+cAvatarHeight+[Utils heightForString:_text width:mTextWidth fontSize:messageFontSize]+[Utils heightForString:[NSString stringWithFormat:@"@%@:%@", _status.user.screen_name, _status.text] width:mTextWidth fontSize:messageFontSize]+replyHeight;
 }
 
 @end
