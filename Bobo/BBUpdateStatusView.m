@@ -111,10 +111,16 @@ static NSString *filepath = @"draft.plist";
     [self addSubview:_sendBtn];
     
     //标题
-    _nameLabel = [[UILabel alloc] init];
+    _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _nameLabel.textColor = [UIColor lightTextColor];
     _nameLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_nameLabel];
+    
+    //字数
+    _countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    [_countLabel setTextColor:[UIColor lightTextColor]];
+    [_countLabel setTextAlignment:NSTextAlignmentRight];
+    [self addSubview:_countLabel];
     
     //文本输入框
     _statusTextView = [[UITextView alloc] initWithFrame:CGRectZero];
@@ -137,9 +143,13 @@ static NSString *filepath = @"draft.plist";
     [self addSubview:_collectionView];
     
     [_cancelBtn setFrame:CGRectMake(uBigGap, uBigGap, uBtnWidth, uBtnHeight)];
+    
     [_sendBtn setFrame:CGRectMake(self.frame.size.width-uBigGap-uBtnWidth, uBigGap, uBtnWidth, uBtnHeight)];
+    
     [_nameLabel setFrame:CGRectMake(0, 0, self.frame.size.width/2, uBtnHeight)];
     [_nameLabel setCenter:CGPointMake(self.frame.size.width/2, uSmallGap+uBtnHeight/2)];
+    
+    [_countLabel setFrame:CGRectMake(self.frame.size.width-uBigGap-(self.frame.size.width-2*uBigGap)/2 , self.frame.size.height-uBigGap-uBtnHeight, (self.frame.size.width-2*uBigGap)/2, uBtnHeight)];
     
     _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -156,7 +166,7 @@ static NSString *filepath = @"draft.plist";
     else //评论转发无法使用图片上传功能
     {
         _statusTextView.inputAccessoryView = nil;
-        _todoLabel = [[UILabel alloc] initWithFrame:CGRectMake(uBigGap, self.frame.size.height-uBigGap-uBtnHeight, self.frame.size.width, uBtnHeight)];
+        _todoLabel = [[UILabel alloc] initWithFrame:CGRectMake(uBigGap, self.frame.size.height-uBigGap-uBtnHeight, (self.frame.size.width-2*uBigGap)/2, uBtnHeight)];
         _todoLabel.textColor = [UIColor lightTextColor];
         _todoLabel.font = [UIFont systemFontOfSize:14.0];
         _todoLabel.userInteractionEnabled = YES;
@@ -876,10 +886,30 @@ static NSString *filepath = @"draft.plist";
     [_statusTextView becomeFirstResponder];
 }
 
-#pragma mark - UITextViewDelegate
+#pragma mark - UITextViewDelegate & support
+
+-(void)updateCountLabelWith:(UITextView *)textView
+{
+    [_countLabel setText:[NSString stringWithFormat:@"%ld(一条微博最多可发140字)", textView.text.length]];
+    
+    if (textView.text.length == 140)
+    {
+        [_countLabel setTextColor:[UIColor orangeColor]];
+    }
+    if (textView.text.length > 140)
+    {
+        [_countLabel setTextColor:[UIColor firebrick]];
+    }
+    if (textView.text.length < 140)
+    {
+        [_countLabel setTextColor:[UIColor lightTextColor]];
+    }
+}
 
 -(void)textViewDidChange:(UITextView *)textView
 {
+    [self updateCountLabelWith:textView];
+    
     if (_draft)
     {
         if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0)
@@ -915,6 +945,8 @@ static NSString *filepath = @"draft.plist";
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
+    [self updateCountLabelWith:textView];
+    
     if (_draft)
     {
         if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0)
