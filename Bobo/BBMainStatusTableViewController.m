@@ -47,7 +47,8 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
 
 static NSString *filepath = @"wbdata.plist";
 
-typedef NS_ENUM(NSInteger, FetchResultType) {
+typedef NS_ENUM(NSInteger, FetchResultType)
+{
     FetchResultTypeRefresh,
     FetchResultTypeHistory
 };
@@ -66,21 +67,30 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 #pragma mark - Life cycle
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     _max_id = nil;
     _since_id = nil;
-    if (!_groupNumber || _groupNumber == 0) { //所有微博
+    
+    //从沙盒获取上一次保存的分组枚举
+    _groupNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"group"];
+    if (!_groupNumber || _groupNumber == 0)
+    { //所有微博
         _url = homeTimeline;
     }
-    if (_groupNumber == 1) { //朋友微博
+    if (_groupNumber == 1)
+    { //朋友微博
         _url = bilateralTimeline;
     }
+    
     [self setNavBarBtn];
     
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     _statuses = [self readStatusesFromPlist];
+    
     [self setMJRefresh];
+    
     if (_statuses.count > 0)
     {
         _since_id = [self firstIdFromStatuses:_statuses];
@@ -142,10 +152,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     NSDictionary *dict = (NSDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:data];
     
     NSMutableArray *statuses = @[].mutableCopy;
-    if (![dict[@"statuses"] isEqual:[NSNull null]]) {
+    if (![dict[@"statuses"] isEqual:[NSNull null]])
+    {
         NSArray *results = [dict objectForKey:@"statuses"];
-        if (results.count > 0) {
-            for (NSDictionary *tmp_dict in results) {
+        if (results.count > 0)
+        {
+            for (NSDictionary *tmp_dict in results)
+            {
                 [statuses addObject:[[Status alloc] initWithDictionary:tmp_dict]];
             }
         }
@@ -165,7 +178,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     
     //将字典数据写入文件
     NSFileManager *manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:plistPath]) {
+    if (![manager fileExistsAtPath:plistPath])
+    {
         BOOL isCreated = [manager createFileAtPath:plistPath contents:nil attributes:nil];
         NSLog(@"创建结果：%@", isCreated? @"成功": @"失败");
     }
@@ -202,24 +216,20 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
         [updateStatusView.statusTextView becomeFirstResponder];
-    } completion:^(BOOL finished) {
-        if (finished) {
-            //what are you gonna do
-        }
-    }];
+    } completion:nil];
 }
 
 -(void)groupBarbuttonPressed
 {
     AppDelegate *delegate = [AppDelegate delegate];
-    BBGroupSelectView *groupView = [[BBGroupSelectView alloc] init];
+    BBGroupSelectView *groupView = [[BBGroupSelectView alloc] initWithGroupNumber:_groupNumber];
     groupView.groups = @[@"所有微博", @"朋友微博"];
     groupView.delegate = self;
     [delegate.window addSubview:groupView];
     
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [groupView setFrame:CGRectMake(50, statusBarHeight, bWidth*0.6, bHeight/2)];
-    } completion:^(BOOL finished) {}];
+    } completion:nil];
 }
 
 #pragma mark - Weibo support
@@ -230,9 +240,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         if (!_weiboAccount)
         {
             _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
-            if (_weiboAccount) {
+            if (_weiboAccount)
+            {
                 [self fetchLatestStatuses];
-            } else {
+            }
+            else
+            {
                 [self.tableView.header endRefreshing];
                 [self navigateToSettings];
                 [Utils presentNotificationWithText:@"更新失败"];
@@ -252,13 +265,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type
 {
-    if (!_statuses) {
+    if (!_statuses)
+    {
         _statuses = @[].mutableCopy;
     }
-    if (type == FetchResultTypeRefresh) { //下拉刷新最新微博
+    if (type == FetchResultTypeRefresh)
+    { //下拉刷新最新微博
         NSArray *downloadedStatuses = [result objectForKey:@"statuses"];
-        if (downloadedStatuses.count > 0) {
-            for (int i = 0; i < [downloadedStatuses count]; i ++) {
+        if (downloadedStatuses.count > 0)
+        {
+            for (int i = 0; i < [downloadedStatuses count]; i ++)
+            {
                 Status *tmp_status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
                 [_statuses insertObject:tmp_status atIndex:i];
             }
@@ -273,10 +290,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         [self.tableView.header endRefreshing];
     }
     
-    if (type == FetchResultTypeHistory) { //上拉刷新历史微博
+    if (type == FetchResultTypeHistory)
+    { //上拉刷新历史微博
         NSArray *historyStatuses = [result objectForKey:@"statuses"];
         if (historyStatuses.count > 0) {
-            for (int i = 1; i < [historyStatuses count]; i ++) {
+            for (int i = 1; i < [historyStatuses count]; i ++)
+            {
                 Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
                 [_statuses addObject:tmp_status];
             }
@@ -320,7 +339,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     NSString *requestUrl = _url;
     NSDictionary *param = nil;
-    if (_since_id) {
+    if (_since_id)
+    {
         param = @{@"since_id": _since_id};
     }
     
@@ -358,7 +378,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {    
     AppDelegate *delegate = [AppDelegate delegate];
-    if (delegate.currentIndex == tabBarController.selectedIndex) {
+    if (delegate.currentIndex == tabBarController.selectedIndex)
+    {
         [self.tableView.header beginRefreshing];
     }
     delegate.currentIndex = tabBarController.selectedIndex;
@@ -370,7 +391,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
                     withVelocity:(CGPoint)velocity
              targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (fabs(targetContentOffset->y+bHeight-self.tableView.contentSize.height) <= 250) {
+    if (fabs(targetContentOffset->y+bHeight-self.tableView.contentSize.height) <= 250)
+    {
         [self fetchHistoryStatuses];
     }
 }
@@ -380,31 +402,38 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)groupView:(BBGroupSelectView *)groupView didSelectGroupAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger selected = indexPath.row;
-    switch (selected) {
+    _groupNumber = selected;
+    switch (selected)
+    {
         case 0:
-            if ([_url isEqualToString:homeTimeline]) {
-                return;
-            } else {
+            if (![_url isEqualToString:homeTimeline])
+            {
+                [self saveGroupNumber:0];
                 _url = homeTimeline;
                 [self clearStatuses];
                 [self.tableView reloadData];
                 [self.tableView.header beginRefreshing];
             }
-            [groupView maskViewTapped];
             break;
         case 1:
-            if ([_url isEqualToString:bilateralTimeline]) {
-                return;
-            } else {
+            if (![_url isEqualToString:bilateralTimeline])
+            {
+                [self saveGroupNumber:1];
                 _url = bilateralTimeline;
                 [self clearStatuses];
                 [self.tableView reloadData];
                 [self.tableView.header beginRefreshing];
             }
-            [groupView maskViewTapped];
         default:
             break;
     }
+    [groupView maskViewTapped];
+}
+
+-(void)saveGroupNumber:(NSInteger)num
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:num forKey:@"group"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(void)clearStatuses
@@ -425,23 +454,32 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     return 2;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     // Return the number of sections.
-    if ([_statuses count]) {
+    if ([_statuses count])
+    {
         return [_statuses count];
-    } else return 0;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     // Return the number of rows in the section.
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:reuseIdentifier];
     BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if ([_statuses count]) {
+    if ([_statuses count])
+    {
         Status *status = [self.statuses objectAtIndex:indexPath.section];
         cell.status = status;
         cell.tweetTextLabel.delegate = self;
@@ -453,7 +491,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([_statuses count]) {
+    if ([_statuses count])
+    {
         Status *status = [_statuses objectAtIndex:indexPath.section];
         return status.height;
     }
@@ -523,18 +562,21 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapFavoriteIcon:(UIImageView *)favoriteIcon
 {
-    if (cell.status.favorited) {
+    if (cell.status.favorited)
+    {
         [favoriteIcon setImage:[UIImage imageNamed:@"fav_icon_3"]];
         NSDictionary *params = @{@"id": cell.status.idstr};
         [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-            if (!error) {
+            if (!error)
+            {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"删除成功"];
                 });
             }
-            else {
+            else
+            {
                 NSLog(@"收藏删除失败: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"删除失败"];
@@ -547,14 +589,16 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         [favoriteIcon setImage:[UIImage imageNamed:@"faved_icon"]];
         NSDictionary *params = @{@"id": cell.status.idstr};
         [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-            if (!error) {
+            if (!error)
+            {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:YES];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"收藏成功"];
                 });
             }
-            else {
+            else
+            {
                 NSLog(@"收藏失败: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"收藏失败"];
@@ -569,7 +613,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
     updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = @"转发";
-    if (cell.status.retweeted_status.text.length > 0) {
+    if (cell.status.retweeted_status.text.length > 0)
+    {
         updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", cell.status.user.screen_name, cell.status.text];
     }
     updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
@@ -595,23 +640,27 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     //delete the status
     AppDelegate *delegate = [AppDelegate delegate];
-    if ([cell.status.user.idstr isEqualToString:delegate.user.idstr]) {
+    if ([cell.status.user.idstr isEqualToString:delegate.user.idstr])
+    {
         UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"删除微博" message:@"是否删除此微博？" preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             NSDictionary *params = @{@"id": cell.status.idstr};
             [Utils weiboPostRequestWithAccount:_weiboAccount URL:@"statuses/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                if (!error) {
+                if (!error)
+                {
                     NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-                        if (_statuses[indexPath.section]) {
+                        if (_statuses[indexPath.section])
+                        {
                             [_statuses removeObjectAtIndex:indexPath.section];
                         }
                         [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
                         [Utils presentNotificationWithText:@"删除成功"];
                     });
                 }
-                else {
+                else
+                {
                     NSLog(@"收藏失败: %@", error);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [Utils presentNotificationWithText:@"删除失败"];
@@ -631,7 +680,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapStatusPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in cell.status.pic_urls) {
+    for (NSString *str in cell.status.pic_urls)
+    {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
@@ -640,7 +690,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in cell.status.retweeted_status.pic_urls) {
+    for (NSString *str in cell.status.retweeted_status.pic_urls)
+    {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
@@ -669,7 +720,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(void)presentDetailViewWithHotword:(NSString *)hotword
 {
-    if ([hotword hasPrefix:@"@"]) {
+    if ([hotword hasPrefix:@"@"])
+    {
         NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
         [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
                                           URL:@"statuses/user_timeline.json"
@@ -699,12 +751,14 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
              });
          }];
     }
-    if ([hotword hasPrefix:@"http"]) {
+    if ([hotword hasPrefix:@"http"])
+    {
         //打开webview
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
         [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
-    if ([hotword hasPrefix:@"#"]) {
+    if ([hotword hasPrefix:@"#"])
+    {
         //热门话题
     }
 }

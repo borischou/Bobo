@@ -19,6 +19,7 @@
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UIView *mask;
+@property (nonatomic) NSInteger groupnumber;
 
 @end
 
@@ -27,7 +28,8 @@
 -(instancetype)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         self.alpha = 1.0;
         self.layer.cornerRadius = 8.0;
         [self setFrame:CGRectMake(50, -bHeight/2, bWidth*0.6, bHeight/2)];
@@ -36,9 +38,16 @@
     return self;
 }
 
+-(instancetype)initWithGroupNumber:(NSInteger)num
+{
+    _groupnumber = num;
+    return [self init];
+}
+
 -(void)initMaskView
 {
-    if (!_mask) {
+    if (!_mask)
+    {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
         _mask.alpha = 0;
@@ -56,17 +65,19 @@
 
 -(void)initSubViews
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) style:UITableViewStyleGrouped];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.layer.cornerRadius = 8.0;
+    _tableView.layer.cornerRadius = 3.0;
     _tableView.backgroundColor = [UIColor seaGreen];
     [self addSubview:_tableView];
 }
 
 -(void)layoutSubviews
 {
-    if (!_mask) {
+    if (!_mask)
+    {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
         _mask.alpha = 0.0;
@@ -88,12 +99,15 @@
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.frame = CGRectMake(50, -bHeight/2, bWidth*0.6, bHeight/2);
-        if (_mask) {
+        if (_mask)
+        {
             _mask.alpha = 0;
         }
     } completion:^(BOOL finished) {
-        if (finished) {
-            if (_mask) {
+        if (finished)
+        {
+            if (_mask)
+            {
                 [_mask removeFromSuperview];
                 _mask = nil;
             }
@@ -114,12 +128,28 @@
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.backgroundColor = [UIColor seaGreen];
+    [cell.textLabel setTextAlignment:NSTextAlignmentCenter];
     [cell.textLabel setTextColor:[UIColor customGray]];
-    if (_groups) {
+    if (indexPath.row == _groupnumber)
+    {
+        [cell setBackgroundColor:[UIColor lightTextColor]];
+        [cell.textLabel setTextColor:[UIColor seaGreen]];
+    }
+    else
+    {
+        [cell setBackgroundColor:[UIColor seaGreen]];
+        [cell.textLabel setTextColor:[UIColor lightTextColor]];
+    }
+    if (_groups)
+    {
         [cell.textLabel setText:[_groups objectAtIndex:indexPath.row]];
     }
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"didDeselectRowAtIndexPath");
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

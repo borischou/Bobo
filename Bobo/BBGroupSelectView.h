@@ -22,5 +22,6 @@
 @property (copy, nonatomic) NSArray *groups;
 
 -(void)maskViewTapped;
+-(instancetype)initWithGroupNumber:(NSInteger)num;
 
 @end
