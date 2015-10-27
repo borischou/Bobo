@@ -120,6 +120,7 @@ static NSString *filepath = @"draft.plist";
     _countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [_countLabel setTextColor:[UIColor lightTextColor]];
     [_countLabel setTextAlignment:NSTextAlignmentRight];
+    [_countLabel setFont:[UIFont systemFontOfSize:14.0]];
     [self addSubview:_countLabel];
     
     //文本输入框
@@ -890,7 +891,7 @@ static NSString *filepath = @"draft.plist";
 
 -(void)updateCountLabelWith:(UITextView *)textView
 {
-    [_countLabel setText:[NSString stringWithFormat:@"%ld(一条微博最多可发140字)", textView.text.length]];
+    [_countLabel setText:[NSString stringWithFormat:@"%ld字", textView.text.length]];
     
     if (textView.text.length == 140)
     {
@@ -933,7 +934,7 @@ static NSString *filepath = @"draft.plist";
         }
     }
 
-    if (textView.text.length >= 140)
+    if (textView.text.length > 140)
     {
         _sendBtn.enabled = NO;
     }
