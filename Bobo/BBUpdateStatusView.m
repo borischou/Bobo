@@ -61,7 +61,8 @@ static NSString *filepath = @"draft.plist";
 -(instancetype)initWithFlag:(NSInteger)flag
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         _flag = flag;
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
         [self setupViewLayout];
@@ -77,7 +78,8 @@ static NSString *filepath = @"draft.plist";
     self.layer.borderWidth = 0.2;
     self.layer.borderColor = [UIColor blackColor].CGColor;
     
-    if (!_mask) {
+    if (!_mask)
+    {
         _mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
         _mask.backgroundColor = [UIColor blackColor];
         _mask.alpha = 0;
@@ -144,7 +146,8 @@ static NSString *filepath = @"draft.plist";
     _imageView.clipsToBounds = YES;
     [self addSubview:_imageView];
     
-    if (_flag == 0) { //发微博
+    if (_flag == 0)
+    { //发微博
         _keyboardInputView = [[BBKeyboardInputAccessoryView alloc] init];
         _statusTextView.inputAccessoryView = _keyboardInputView;
         [_keyboardInputView.addPictureBtn addTarget:self action:@selector(addPictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -159,10 +162,12 @@ static NSString *filepath = @"draft.plist";
         _todoLabel.userInteractionEnabled = YES;
         [_todoLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(todoLabelTapped)]];
         [self addSubview:_todoLabel];
-        if (_flag == 1 || _flag == 3) { // 写评论(1)或回复评论(3)
+        if (_flag == 1 || _flag == 3)
+        { // 写评论(1)或回复评论(3)
             _todoLabel.text = @"同时发微博";
         }
-        if (_flag == 2) { //转发(2)
+        if (_flag == 2)
+        { //转发(2)
             _todoLabel.text = @"评论给作者";
         }
     }
@@ -345,7 +350,8 @@ static NSString *filepath = @"draft.plist";
     NSString *idstr, *cid;
     Comment *comment = [[Comment alloc] init];
     AppDelegate *appDelegate = [AppDelegate delegate];
-    switch (_flag) {
+    switch (_flag)
+    {
         case 0: //发微博
             {
                 if (_pickedOnes.count == 1)
@@ -371,13 +377,19 @@ static NSString *filepath = @"draft.plist";
                             else
                             {
                                 notificationText = @"微博发布失败";
-                                [self saveToDraft];
+                                if (!_draft)
+                                {
+                                    [self saveToDraft];
+                                }
                             }
                             
                         } else {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
-                            [self saveToDraft];
+                            if (!_draft)
+                            {
+                                [self saveToDraft];
+                            }
                         }
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self callbackForUpdateCompletionWithNotificationText:notificationText];
@@ -393,20 +405,33 @@ static NSString *filepath = @"draft.plist";
                     params = @{@"status": _statusTextView.text};
                     [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/update.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                         NSString *notificationText = nil;
-                        if (!error) {
-                            if (urlResponse.statusCode < 300 && urlResponse.statusCode > 0) {
+                        if (!error)
+                        {
+                            if (urlResponse.statusCode < 300 && urlResponse.statusCode > 0)
+                            {
                                 notificationText = @"微博发布成功";
-                                if (_draft) {
+                                if (_draft)
+                                {
                                     [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
                                 }
-                            } else {
-                                notificationText = @"微博发布失败";
-                                [self saveToDraft];
                             }
-                        } else {
+                            else
+                            {
+                                notificationText = @"微博发布失败";
+                                if (!_draft)
+                                {
+                                    [self saveToDraft];
+                                }
+                            }
+                        }
+                        else
+                        {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
-                            [self saveToDraft];
+                            if (!_draft)
+                            {
+                                [self saveToDraft];
+                            }
                         }
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self callbackForUpdateCompletionWithNotificationText:notificationText];
@@ -431,21 +456,32 @@ static NSString *filepath = @"draft.plist";
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
-                    if (!error) {
-                        if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) { //2xx
+                    if (!error)
+                    {
+                        if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300)
+                        { //2xx
                             notificationText = @"评论发布成功";
-                            if (_draft) {
+                            if (_draft)
+                            {
                                 [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
                             }
-                        } else {
-                            [self saveToDraft];
                         }
-                        
+                        else
+                        {
+                            if (!_draft)
+                            {
+                                [self saveToDraft];
+                            }
+                        }
                     }
-                    if (error) {
+                    if (error)
+                    {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
-                        [self saveToDraft];
+                        if (!_draft)
+                        {
+                            [self saveToDraft];
+                        }
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self callbackForUpdateCompletionWithNotificationText:notificationText];
@@ -455,9 +491,12 @@ static NSString *filepath = @"draft.plist";
             break;
         case 2: //转发微博
             {
-                if (_status) {
+                if (_status)
+                {
                     idstr = _status.idstr;
-                } else {
+                }
+                else
+                {
                     idstr = draftParams[@"id"];
                 }
                 params = @{@"status": _statusTextView.text,
@@ -465,18 +504,32 @@ static NSString *filepath = @"draft.plist";
                            @"is_comment": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/repost.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
-                    if (!error) {
-                        if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) {
+                    if (!error)
+                    {
+                        if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300)
+                        {
                             notificationText = @"转发发布成功";
-                            if (_draft) {
+                            if (_draft)
+                            {
                                 [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
                             }
-                        } else {
-                            [self saveToDraft];
                         }
-                    } else {
+                        else
+                        {
+                            if (!_draft)
+                            {
+                                [self saveToDraft];
+                            }
+                        }
+                    }
+                    else
+                    {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
+                        if (!_draft)
+                        {
+                            [self saveToDraft];
+                        }
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self callbackForUpdateCompletionWithNotificationText:notificationText];
@@ -490,10 +543,13 @@ static NSString *filepath = @"draft.plist";
                 [self assembleComment:comment user:appDelegate.user text:[NSString stringWithFormat:@"Reply@%@:%@", _comment.user.screen_name, _statusTextView.text]];
                 [self.delegate updateStatusView:self shouldDisplayComment:comment];
                 
-                if (_comment) {
+                if (_comment)
+                {
                     idstr = _comment.status.idstr;
                     cid = _comment.idstr;
-                } else {
+                }
+                else
+                {
                     idstr = draftParams[@"id"];
                     cid = draftParams[@"cid"];
                 }
@@ -503,17 +559,31 @@ static NSString *filepath = @"draft.plist";
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
-                    if (!error) {
-                        if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300) {
+                    if (!error)
+                    {
+                        if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300)
+                        {
                             notificationText = @"评论发布成功";
-                            if (_draft) {
+                            if (_draft)
+                            {
                                 [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
                             }
-                        } else {
+                        }
+                        else
+                        {
+                            if (!_draft)
+                            {
+                                [self saveToDraft];
+                            }
+                        }
+                    }
+                    else
+                    {
+                        NSLog(@"发布失败：%@", error);
+                        if (!_draft)
+                        {
                             [self saveToDraft];
                         }
-                    } else {
-                        NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -525,12 +595,15 @@ static NSString *filepath = @"draft.plist";
     }
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
-        if (_mask) {
+        if (_mask)
+        {
             _mask.alpha = 0;
         }
     } completion:^(BOOL finished) {
-        if (finished) {
-            if (_mask) {
+        if (finished)
+        {
+            if (_mask)
+            {
                 [_mask removeFromSuperview];
                 _mask = nil; //引用计数减一
             }
@@ -566,7 +639,8 @@ static NSString *filepath = @"draft.plist";
 
 -(void)pickFromCamera
 {
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
         _picker = [[UIImagePickerController alloc] init];
         _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         _picker.delegate = self;
@@ -614,16 +688,20 @@ static NSString *filepath = @"draft.plist";
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
-        if (_mask) {
+        if (_mask)
+        {
             _mask.alpha = 0;
         }
     } completion:^(BOOL finished) {
-        if (finished) {
-            if (_mask) {
+        if (finished)
+        {
+            if (_mask)
+            {
                 [_mask removeFromSuperview];
                 _mask = nil;
             }
-            if (_pickedOnes.count > 0) {
+            if (_pickedOnes.count > 0)
+            {
                 [_pickedOnes removeAllObjects];
             }
             _pickedOnes = nil;
@@ -639,19 +717,24 @@ static NSString *filepath = @"draft.plist";
     NSMutableArray *images = @[].mutableCopy;
     NSMutableDictionary *params = @{}.mutableCopy;
     
-    switch (_flag) {
+    switch (_flag)
+    {
         case 0:
-            if (_pickedOnes.count == 1) { //一张配图
+            if (_pickedOnes.count == 1)
+            { //一张配图
                 url = @"https://api.weibo.com/2/statuses/upload.json";
                 [images addObject:_pickedOnes.firstObject];
             }
-            if (_pickedOnes.count > 1) { //多张配图
+            if (_pickedOnes.count > 1)
+            { //多张配图
                 url = @"";
-                for (NSData *data in _pickedOnes) {
+                for (NSData *data in _pickedOnes)
+                {
                     [images addObject:data];
                 }
             }
-            if (!_pickedOnes || _pickedOnes.count == 0) {
+            if (!_pickedOnes || _pickedOnes.count == 0)
+            {
                 url = @"https://api.weibo.com/2/statuses/update.json";
             }
             break;
@@ -718,6 +801,8 @@ static NSString *filepath = @"draft.plist";
     
     //将字典数据写入文件
     NSFileManager *manager = [NSFileManager defaultManager];
+    
+    BOOL flag;
     if (![manager fileExistsAtPath:plistPath])
     { //若plist不存在则创建一个
         BOOL isCreated = [manager createFileAtPath:plistPath contents:nil attributes:nil];
@@ -727,7 +812,7 @@ static NSString *filepath = @"draft.plist";
         [array addObject:draft];
         NSMutableDictionary *drafts = @{@"draft": array}.mutableCopy;
         
-        BOOL flag = [drafts writeToFile:plistPath atomically:YES];
+        flag = [drafts writeToFile:plistPath atomically:YES];
         NSLog(@"写入结果：%@", flag? @"成功": @"失败");
     }
     else
@@ -735,8 +820,14 @@ static NSString *filepath = @"draft.plist";
         NSMutableDictionary *drafts = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
         NSMutableArray *array = drafts[@"draft"];
         [array addObject:draft];
-        BOOL flag = [drafts writeToFile:plistPath atomically:YES];
+        flag = [drafts writeToFile:plistPath atomically:YES];
         NSLog(@"写入结果：%@", flag? @"成功": @"失败");
+    }
+    if (flag)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [Utils presentNotificationWithText:@"已存入草稿"];
+        });
     }
 }
 

@@ -134,7 +134,8 @@ static NSString *filepath = @"draft.plist";
         ACAccount *weiboAccount = [[AppDelegate delegate] defaultAccount];
         NSDictionary *cellParams = cell.draft.params;
         NSDictionary *params = nil;
-        switch (cell.draft.draftType) {
+        switch (cell.draft.draftType)
+        {
             case 0: //发微博
             {
                 if (cell.draft.images.count == 1)
@@ -148,13 +149,16 @@ static NSString *filepath = @"draft.plist";
                     [request addMultipartData:imgData withName:@"pic" type:@"multipart/form-data" filename:@"pic"];
                     [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                         NSString *notificationText = nil;
-                        if (!error) {
+                        if (!error)
+                        {
                             notificationText = @"微博发布成功";
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
                                 [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
                             });
-                        } else {
+                        }
+                        else
+                        {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
                         }
