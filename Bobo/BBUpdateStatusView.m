@@ -880,38 +880,71 @@ static NSString *filepath = @"draft.plist";
 
 -(void)textViewDidChange:(UITextView *)textView
 {
-    if (_draft) {
-        if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0) {
+    if (_draft)
+    {
+        if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0)
+        {
             _statusChanged = NO;
-        } else _statusChanged = YES;
-    } else {
-        if (textView.text.length > 0) {
+        }
+        else
+        {
             _statusChanged = YES;
-        } else _statusChanged = NO;
+        }
     }
-    
-    if (textView.text.length >= 140) {
+    else
+    {
+        if (textView.text.length > 0)
+        {
+            _statusChanged = YES;
+        }
+        else
+        {
+            _statusChanged = NO;
+        }
+    }
+
+    if (textView.text.length >= 140)
+    {
         _sendBtn.enabled = NO;
-    } else {
+    }
+    else
+    {
         _sendBtn.enabled = YES;
     }
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    if (_draft) {
-        _sendBtn.enabled = YES;
-        if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0) {
+    if (_draft)
+    {
+        if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0)
+        {
             _statusChanged = NO;
-        } else {
-            _statusChanged = YES;
+            _sendBtn.enabled = NO;
         }
-    } else {
+        else
+        {
+            _statusChanged = YES;
+            if (textView.text.length > 140)
+            {
+                _sendBtn.enabled = NO;
+            }
+            else
+            {
+                _sendBtn.enabled = YES;
+            }
+        }
+    }
+    else
+    {
         _sendBtn.enabled = NO;
-        if (textView.text.length > 0) {
+        if (textView.text.length > 0 && textView.text.length <= 140)
+        {
             _statusChanged = YES;
             _sendBtn.enabled = YES;
-        } else {
+        }
+        else
+        {
             _statusChanged = NO;
             _sendBtn.enabled = NO;
         }
