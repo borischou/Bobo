@@ -891,8 +891,12 @@ static NSString *filepath = @"draft.plist";
 
 -(void)updateCountLabelWith:(UITextView *)textView
 {
-    [_countLabel setText:[NSString stringWithFormat:@"%ld字", textView.text.length]];
-    
+    if (textView.text.length == 0)
+    {
+        [_countLabel setText:@"写点什么呢?"];
+    } else {
+        [_countLabel setText:[NSString stringWithFormat:@"%ld字", textView.text.length]];
+    }
     if (textView.text.length == 140)
     {
         [_countLabel setTextColor:[UIColor orangeColor]];
