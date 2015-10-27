@@ -192,10 +192,12 @@ static NSString *filepath = @"draft.plist";
 
 -(void)loadData
 {
-    if (_draft) {
+    if (_draft)
+    {
         NSDictionary *params = _draft.params;
         [_statusTextView setText:_draft.text];
-        switch (_draft.draftType) {
+        switch (_draft.draftType)
+        {
             case DraftTypeOriginal:
                 [_nameLabel setText:@"微博草稿"];
                 [_todoLabel setHidden:YES];
@@ -393,8 +395,9 @@ static NSString *filepath = @"draft.plist";
                                     [self saveToDraft];
                                 }
                             }
-                            
-                        } else {
+                        }
+                        else
+                        {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
                             if (!_draft)
@@ -457,9 +460,12 @@ static NSString *filepath = @"draft.plist";
                 [self assembleComment:comment user:appDelegate.user text:_statusTextView.text];
                 [self.delegate updateStatusView:self shouldDisplayComment:comment];
                 
-                if (_status) {
+                if (_status)
+                {
                     idstr = _status.idstr;
-                } else {
+                }
+                else
+                {
                     idstr = draftParams[@"id"];
                 }
                 params = @{@"comment": _statusTextView.text,
@@ -855,7 +861,8 @@ static NSString *filepath = @"draft.plist";
 
 -(void)didCancelPhotoSelection
 {
-    if (_pickedOnes.count > 0) {
+    if (_pickedOnes.count > 0)
+    {
         [_pickedOnes removeAllObjects];
     }
     [self shouldHideMaskAndView:NO];
@@ -869,7 +876,8 @@ static NSString *filepath = @"draft.plist";
     NSLog(@"didFinishPickingMediaWithInfo");
     [self shouldHideMaskAndView:NO];
     UIImage *takenImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    if (!_pickedOnes) {
+    if (!_pickedOnes)
+    {
         _pickedOnes = @[].mutableCopy;
     }
     NSData *imageData = UIImageJPEGRepresentation(takenImage, compressionQuality);
@@ -894,17 +902,22 @@ static NSString *filepath = @"draft.plist";
     if (textView.text.length == 0)
     {
         [_countLabel setText:@"写点什么呢?"];
-    } else {
+    }
+    else
+    {
         [_countLabel setText:[NSString stringWithFormat:@"%ld字", textView.text.length]];
     }
+    
     if (textView.text.length == 140)
     {
         [_countLabel setTextColor:[UIColor orangeColor]];
     }
+    
     if (textView.text.length > 140)
     {
         [_countLabel setTextColor:[UIColor firebrick]];
     }
+    
     if (textView.text.length < 140)
     {
         [_countLabel setTextColor:[UIColor lightTextColor]];
@@ -1000,7 +1013,8 @@ static NSString *filepath = @"draft.plist";
     //借用PhotoSelectionCollectionViewCell先用着
     [collectionView registerClass:[BBPhotoSelectionCollectionViewCell class] forCellWithReuseIdentifier:reuseCell];
     BBPhotoSelectionCollectionViewCell *cell = (BBPhotoSelectionCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseCell forIndexPath:indexPath];
-    if (![_pickedOnes[indexPath.item] isEqual:[NSNull null]]) {
+    if (![_pickedOnes[indexPath.item] isEqual:[NSNull null]])
+    {
         NSData *imageData = _pickedOnes[indexPath.item];
         UIImage *image = [UIImage imageWithData:imageData];
         [cell.imageView setImage:image];
