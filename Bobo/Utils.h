@@ -13,6 +13,9 @@
 #import <Accounts/Accounts.h>
 #import "Status.h"
 
+#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
+#define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
+
 typedef void (^AFHTTPRequestOperationSuccessCompletionHandler) (AFHTTPRequestOperation *operation, id responseObject);
 typedef void (^AFHTTPRequestOperationFailureCompletionHandler) (AFHTTPRequestOperation *operation, NSError *error);
 typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error);

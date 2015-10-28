@@ -30,7 +30,6 @@
 #define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
 #define uSmallGap 5
 #define uBigGap 10
-#define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
 #define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
 
 #define bWeiboDomain @"https://api.weibo.com/2/"

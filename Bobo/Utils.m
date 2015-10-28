@@ -33,9 +33,6 @@
 #define wBottomLabelHeight 15
 #define wTextFontSize 10.f
 
-#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
-#define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
-
 @implementation Utils
 
 +(CGFloat)heightForImgsWithCount:(NSInteger)count

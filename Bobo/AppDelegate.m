@@ -44,6 +44,18 @@ typedef NS_ENUM(NSInteger, MessageType)
 
 @implementation AppDelegate
 
++(void)load
+{
+    [super load];
+    NSLog(@"loaded");
+}
+
++(void)initialize
+{
+    [super initialize];
+    NSLog(@"initialized");
+}
+
 #pragma mark - Life Cycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

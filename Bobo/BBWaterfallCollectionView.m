@@ -30,8 +30,6 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-#define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
-
 static NSString *reuseCellId = @"reuseCell";
 
 @interface BBWaterfallCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout, BBWaterfallCollectionViewCellDelegate, TTTAttributedLabelDelegate>
