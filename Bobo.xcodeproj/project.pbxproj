@@ -11,11 +11,11 @@
 		0060CCC41BA5C660005F3E20 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0060CCC31BA5C660005F3E20 /* UIColor+Custom.m */; };
 		006E2F651B949FD2008AB6DF /* BBNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006E2F641B949FD2008AB6DF /* BBNotificationView.m */; };
 		0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007194391B861C4B004DE9E7 /* comntbar_icon@3x.png */; };
-		008B7E5A1BD149CC007A353E /* BBSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 008B7E591BD149CC007A353E /* BBSettingsTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		0094A0851BC5585A00C96D67 /* delete_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0094A0841BC5585A00C96D67 /* delete_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		008B7E5A1BD149CC007A353E /* BBSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 008B7E591BD149CC007A353E /* BBSettingsTableViewController.m */; };
+		0094A0851BC5585A00C96D67 /* delete_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0094A0841BC5585A00C96D67 /* delete_icon@3x.png */; };
 		009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */; };
-		009FE62D1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009FE62C1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m */; settings = {ASSET_TAGS = (); }; };
-		00D8AA081BBC1EB700EFE208 /* ReplyComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D8AA071BBC1EB700EFE208 /* ReplyComment.m */; settings = {ASSET_TAGS = (); }; };
+		009FE62D1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009FE62C1BBEDCB800BE4665 /* BBProfileMenuHeaderView.m */; };
+		00D8AA081BBC1EB700EFE208 /* ReplyComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D8AA071BBC1EB700EFE208 /* ReplyComment.m */; };
 		00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */; };
 		00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */; };
 		00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */; };
@@ -32,9 +32,9 @@
 		4514421D1B2963F4000532DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4514421C1B2963F4000532DD /* UIKit.framework */; };
 		4514421F1B2963FA000532DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4514421E1B2963FA000532DD /* Foundation.framework */; };
 		451442211B296401000532DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442201B296401000532DD /* CoreGraphics.framework */; };
-		451673C71BC914A90078ACA3 /* faved_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451673C61BC914A90078ACA3 /* faved_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
-		451F30241BCB74D200668561 /* BBDraftboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30231BCB74D200668561 /* BBDraftboxTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		451F30271BCB74EE00668561 /* BBDraftboxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30261BCB74EE00668561 /* BBDraftboxTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		451673C71BC914A90078ACA3 /* faved_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451673C61BC914A90078ACA3 /* faved_icon@3x.png */; };
+		451F30241BCB74D200668561 /* BBDraftboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30231BCB74D200668561 /* BBDraftboxTableViewController.m */; };
+		451F30271BCB74EE00668561 /* BBDraftboxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30261BCB74EE00668561 /* BBDraftboxTableViewCell.m */; };
 		454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+Convert.m */; };
 		4553E4011B54CAEB0020989C /* BBCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */; };
 		4553E4041B54D73D0020989C /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553E4031B54D73D0020989C /* Comment.m */; };
@@ -67,15 +67,15 @@
 		4572787D1B53894F00AC0C9C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572787C1B53894F00AC0C9C /* User.m */; };
 		457278841B53900D00AC0C9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 457278831B53900D00AC0C9C /* Utils.m */; };
 		4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4572E1C21B3C59F900348866 /* BBImageBrowserView.m */; };
-		4579AA021BBB9F2E001A2927 /* group_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
-		4579AA051BBBA06B001A2927 /* BBGroupSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */; settings = {ASSET_TAGS = (); }; };
+		4579AA021BBB9F2E001A2927 /* group_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */; };
+		4579AA051BBBA06B001A2927 /* BBGroupSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4579AA041BBBA06B001A2927 /* BBGroupSelectView.m */; };
 		457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C60EA1B7301F500B10D53 /* BBProfileHeaderView.m */; };
 		457C60ED1B7332E400B10D53 /* bb_holder_profile_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 457C60EC1B7332E400B10D53 /* bb_holder_profile_image@3x.png */; };
 		457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C9E3B1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m */; };
 		457CE31B1BA812D200D3926B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457CE31A1BA812D200D3926B /* Social.framework */; };
 		457CE31D1BA812E600D3926B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457CE31C1BA812E600D3926B /* Accounts.framework */; };
-		458239771BC60A5B0065B4D2 /* BBListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458239761BC60A5B0065B4D2 /* BBListTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		4582397A1BC60CDA0065B4D2 /* BBListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 458239791BC60CDA0065B4D2 /* BBListTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		458239771BC60A5B0065B4D2 /* BBListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458239761BC60A5B0065B4D2 /* BBListTableViewController.m */; };
+		4582397A1BC60CDA0065B4D2 /* BBListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 458239791BC60CDA0065B4D2 /* BBListTableViewCell.m */; };
 		458393531B7B4B98005B1766 /* BBUpdateStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 458393521B7B4B98005B1766 /* BBUpdateStatusView.m */; };
 		458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 458393571B7B54E4005B1766 /* post_tab_icon@3x.png */; };
 		4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588F7321B3B9B5A00EE32D0 /* Counts.m */; };
@@ -85,21 +85,22 @@
 		459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459232501B969A490006A123 /* BBMessageTableViewCell.m */; };
 		459232531B96BE530006A123 /* tab_icon_message@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459232521B96BE530006A123 /* tab_icon_message@3x.png */; };
 		45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A052151B3A898200A1488D /* BBCountTableViewCell.m */; };
-		45A183E01BB9301B00FE9890 /* settings_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183DF1BB9301B00FE9890 /* settings_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
-		45A183E41BB9319B00FE9890 /* following_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E31BB9319B00FE9890 /* following_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
-		45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E51BB931A800FE9890 /* follow_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
-		45A183E81BB931BF00FE9890 /* friend_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E71BB931BF00FE9890 /* friend_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		45A183E01BB9301B00FE9890 /* settings_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183DF1BB9301B00FE9890 /* settings_icon@3x.png */; };
+		45A183E41BB9319B00FE9890 /* following_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E31BB9319B00FE9890 /* following_icon@3x.png */; };
+		45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E51BB931A800FE9890 /* follow_icon@3x.png */; };
+		45A183E81BB931BF00FE9890 /* friend_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A183E71BB931BF00FE9890 /* friend_icon@3x.png */; };
 		45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BBDA591B902FA200BABEDD /* BBPhotoPickerCollectionView.m */; };
-		45BE63EA1BD0CB4100FBA95E /* Draft.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BE63E91BD0CB4100FBA95E /* Draft.m */; settings = {ASSET_TAGS = (); }; };
-		45BE63EC1BD1085C00FBA95E /* resend_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45BE63EB1BD1085C00FBA95E /* resend_icon@3x.png */; settings = {ASSET_TAGS = (); }; };
+		45BE63EA1BD0CB4100FBA95E /* Draft.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BE63E91BD0CB4100FBA95E /* Draft.m */; };
+		45BE63EC1BD1085C00FBA95E /* resend_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45BE63EB1BD1085C00FBA95E /* resend_icon@3x.png */; };
 		45BEC75B1B9EB62500001DAE /* BBMessageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BEC75A1B9EB62500001DAE /* BBMessageMenuView.m */; };
 		45C57B451B9FE97000FE040E /* barbutton_icon_post@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B441B9FE97000FE040E /* barbutton_icon_post@3x.png */; };
 		45C57B471B9FEC6D00FE040E /* tab_waterfall@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B461B9FEC6D00FE040E /* tab_waterfall@3x.png */; };
 		45C57B4D1B9FFDC700FE040E /* bobo_tab_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C57B4C1B9FFDC700FE040E /* bobo_tab_icon@3x.png */; };
-		45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7D1F41BB3908D0034B659 /* BBLoadingView.m */; settings = {ASSET_TAGS = (); }; };
+		45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7D1F41BB3908D0034B659 /* BBLoadingView.m */; };
 		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
+		45EE7A321BE06197002B2D13 /* BBProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A311BE06197002B2D13 /* BBProgressView.m */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
-		45F9CE9D1BC750170095133D /* BBAlbumCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */; settings = {ASSET_TAGS = (); }; };
+		45F9CE9D1BC750170095133D /* BBAlbumCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -257,6 +258,8 @@
 		45D7D1F31BB3908D0034B659 /* BBLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBLoadingView.h; sourceTree = "<group>"; };
 		45D7D1F41BB3908D0034B659 /* BBLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBLoadingView.m; sourceTree = "<group>"; };
 		45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_placeholder@3x.png"; sourceTree = "<group>"; };
+		45EE7A301BE06197002B2D13 /* BBProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProgressView.h; sourceTree = "<group>"; };
+		45EE7A311BE06197002B2D13 /* BBProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProgressView.m; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		45F9CE9B1BC750170095133D /* BBAlbumCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAlbumCollectionViewController.h; sourceTree = "<group>"; };
 		45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAlbumCollectionViewController.m; sourceTree = "<group>"; };
@@ -470,6 +473,8 @@
 				006E2F641B949FD2008AB6DF /* BBNotificationView.m */,
 				45D7D1F31BB3908D0034B659 /* BBLoadingView.h */,
 				45D7D1F41BB3908D0034B659 /* BBLoadingView.m */,
+				45EE7A301BE06197002B2D13 /* BBProgressView.h */,
+				45EE7A311BE06197002B2D13 /* BBProgressView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -846,6 +851,7 @@
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,
 				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
+				45EE7A321BE06197002B2D13 /* BBProgressView.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,
 				4579AA051BBBA06B001A2927 /* BBGroupSelectView.m in Sources */,
 				456C77E81B2AC5B90055FBE8 /* BBStatusTableViewCell.m in Sources */,

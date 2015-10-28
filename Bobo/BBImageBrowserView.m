@@ -10,6 +10,7 @@
 #import <UIImageView+WebCache.h>
 #import "Utils.h"
 #import "UIColor+Custom.h"
+#import "BBProgressView.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -41,11 +42,34 @@
         _imageTag = tag;
         _count = [urls count];
         [self loadMainScrollViewWithImages:urls viewTag:tag];
+        
         if (urls.count <= 9 && urls.count > 1) {
             [self loadPageControl];
         }
     }
     return self;
+}
+
+-(void)loadProgressView:(UIImageView *)imageView url:(NSString *)url originX:(CGFloat)originX scrollView:(UIScrollView *)scrollView
+{
+    BBProgressView *progressView = [[BBProgressView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    progressView.center = CGPointMake(bWidth/2, bHeight/2);
+    [scrollView addSubview:progressView];
+    
+    [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil options:SDWebImageLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize)
+     {
+         //转换为百分比进度传入progress view
+         float progress = fabsf((float)receivedSize/(float)expectedSize);
+         [progressView setPercent:progress];
+     }
+                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+     {
+         if (!error)
+         {
+             [progressView removeFromSuperview];
+             [self resizeImage:image imageView:imageView originX:originX scrollView:scrollView];
+         }
+     }];
 }
 
 -(void)loadMainScrollViewWithImages:(NSMutableArray *)urls viewTag:(NSInteger)tag
@@ -65,7 +89,7 @@
     [self addSubview:_scrollView];
     
     //第一个UIImageView放最后一张图
-    [self loadSubScrollViewWithImage:[urls lastObject] originX:0];
+    [self loadSubScrollViewWithImage:urls.lastObject originX:0];
     
     //第二个UIImageView开始顺序放图
     for (int i = 0; i < [urls count]; i ++)
@@ -74,7 +98,7 @@
     }
     
     //最后一个UIImageView放第一张图
-    [self loadSubScrollViewWithImage:[urls firstObject] originX:bWidth*(1+urls.count)];
+    [self loadSubScrollViewWithImage:urls.firstObject originX:bWidth*(1+urls.count)];
 }
 
 -(void)loadSubScrollViewWithImage:(NSString *)url originX:(CGFloat)originX
@@ -96,7 +120,8 @@
     //单击双击共存时优先检测双击，若无双击则执行单击回调方法
     [_singleTap requireGestureRecognizerToFail:doubleTap];
     
-    if (_imageTag == originX/bWidth-1) {
+    if (_imageTag == originX/bWidth-1)
+    {
         NSLog(@"initial index: %ld", _imageTag);
         _imageView = imageView;
     }
@@ -109,16 +134,18 @@
     [scrollView addSubview:imageView];
     [_scrollView addSubview:scrollView];
     
-    [imageView sd_setImageWithURL:[NSURL URLWithString:url]
-                 placeholderImage:[UIImage imageNamed:@"pic_placeholder@3x"]
-                          options:SDWebImageCacheMemoryOnly
-                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
-    {
-        if (!error)
-        {
-            [self resizeImage:image imageView:imageView originX:originX scrollView:scrollView];
-        }
-    }];
+    [self loadProgressView:imageView url:url originX:originX scrollView:scrollView];
+    
+//    [imageView sd_setImageWithURL:[NSURL URLWithString:url]
+//                 placeholderImage:[UIImage imageNamed:@"pic_placeholder"]
+//                          options:SDWebImageCacheMemoryOnly
+//                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+//    {
+//        if (!error)
+//        {
+//            [self resizeImage:image imageView:imageView originX:originX scrollView:scrollView];
+//        }
+//    }];
 }
 
 -(void)resizeImage:(UIImage *)image imageView:(UIImageView *)imageView originX:(CGFloat)originX scrollView:(UIScrollView *)scrollView

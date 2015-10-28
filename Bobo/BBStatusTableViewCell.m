@@ -100,28 +100,34 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 
 @implementation BBStatusTableViewCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     // Initialization code
 }
 
 -(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
     [super setHighlighted:highlighted animated:animated];
-    if (self.highlighted) {
+    if (self.highlighted)
+    {
         self.contentView.alpha = 0.9;
-    } else {
+    }
+    else
+    {
         self.contentView.alpha = 1.0;
     }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 }
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+    if (self)
+    {
         [self initCellLayout];
         [self setupBarButtonsLayout];
     }
@@ -184,7 +190,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     
     //img views for status
     _statusImgViews = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 9; i ++) {
+    for (int i = 0; i < 9; i ++)
+    {
         UIImageView *sImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
         sImgView.clipsToBounds = YES;
         sImgView.tag = i;
@@ -216,7 +223,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     
     //img views for retweeted_status
     _imgViews = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 9; i ++) {
+    for (int i = 0; i < 9; i ++)
+    {
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectZero];
         imgView.clipsToBounds = YES;
         imgView.tag = i;
@@ -346,51 +354,68 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     [_avatarView sd_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
     
     _nicknameLbl.text = _status.user.screen_name;
-    if ([_status.user.gender isEqualToString:@"m"]) {
+    if ([_status.user.gender isEqualToString:@"m"])
+    {
         [_nicknameLbl setTextColor:bMaleColor];
     }
-    if ([_status.user.gender isEqualToString:@"f"]) {
+    if ([_status.user.gender isEqualToString:@"f"])
+    {
         [_nicknameLbl setTextColor:bFemaleColor];
     }
-    if ([_status.user.gender isEqualToString:@"n"]) {
+    if ([_status.user.gender isEqualToString:@"n"])
+    {
         [_nicknameLbl setTextColor:[UIColor lightTextColor]];
     }
     
     _postTimeLbl.text = [NSString formatPostTime:_status.created_at];
     _sourceLbl.text = [NSString trim:_status.source];
 
-    if (_status.text) {
+    if (_status.text)
+    {
         [_tweetTextLabel setText:_status.text];
         NSArray *tweetLinkRanges = [regex matchesInString:_status.text options:0 range:NSMakeRange(0, _status.text.length)];
-        for (NSTextCheckingResult *result in tweetLinkRanges) {
+        for (NSTextCheckingResult *result in tweetLinkRanges)
+        {
             [_tweetTextLabel addLinkWithTextCheckingResult:result];
         }
     }
     
-    if (_status.pic_urls.count > 0) {
-        for (int i = 0; i < [_status.pic_urls count]; i ++) {
-            if ([_status.pic_urls[i] hasSuffix:@"gif"]) {
+    if (_status.pic_urls.count > 0)
+    {
+        for (int i = 0; i < [_status.pic_urls count]; i ++)
+        {
+            if ([_status.pic_urls[i] hasSuffix:@"gif"])
+            {
                 [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
-            } else {
+            }
+            else
+            {
                 [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
             }
         }
     }
     
     //repost status
-    if (_status.retweeted_status.text) {
+    if (_status.retweeted_status.text)
+    {
         [_retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text]];
         NSArray *retweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", _status.retweeted_status.user.screen_name, _status.retweeted_status.text] length])];
-        for (NSTextCheckingResult *result in retweetLinkRanges) {
+        for (NSTextCheckingResult *result in retweetLinkRanges)
+        {
             [_retweetTextLabel addLinkWithTextCheckingResult:result];
         }
     }
     
-    if (_status.retweeted_status.pic_urls.count > 0) {
-        for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++) {
-            if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"]) {
+    if (_status.retweeted_status.pic_urls.count > 0)
+    {
+        for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++)
+        {
+            if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"])
+            {
                 [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
-            } else {
+            }
+            else
+            {
                 [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
             }
         }
@@ -401,9 +426,12 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     _commentCountLabel.text = [NSString formatNum:_status.comments_count];
     _likeCountLabel.text = [NSString formatNum:_status.attitudes_count];
     
-    if (_status.favorited) {
+    if (_status.favorited)
+    {
         _favoritesImageView.image = [UIImage imageNamed:@"faved_icon"];
-    } else {
+    }
+    else
+    {
         _favoritesImageView.image = [UIImage imageNamed:@"fav_icon_3"];
     }
 }
@@ -412,11 +440,14 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 {
     
     //vip
-    if (_status.user.verified) {
+    if (_status.user.verified)
+    {
         CGSize nameSize = [_nicknameLbl sizeThatFits:CGSizeMake(MAXFLOAT, bNicknameHeight)];
         [_vipView setFrame:CGRectMake(bBigGap*2+bAvatarWidth+nameSize.width, sbGap, 15, 15)];
         [_vipView setImage:[UIImage imageNamed:@"icon_vip"]];
-    } else {
+    }
+    else
+    {
         [_vipView setFrame:CGRectZero];
         [_vipView setImage:nil];
     }
@@ -432,9 +463,12 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     //删除
     AppDelegate *delegate = [AppDelegate delegate];
     [_deleteButton setFrame:CGRectMake(bWidth-bBigGap-bDeleteBtnWidth, 10+5, bDeleteBtnWidth, bDeleteBtnWidth)];
-    if ([_status.user.idstr isEqualToString:delegate.user.idstr]) {
+    if ([_status.user.idstr isEqualToString:delegate.user.idstr])
+    {
         [_deleteButton setHidden:NO];
-    } else {
+    }
+    else
+    {
         [_deleteButton setHidden:YES];
     }
     
@@ -443,7 +477,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     [_tweetTextLabel setFrame:CGRectMake(bBigGap, bBigGap*2+bAvatarHeight, bWidth-bBigGap*2, postSize.height)];
     
     _repostView.hidden = YES;
-    if (_status.retweeted_status) {
+    if (_status.retweeted_status)
+    {
         //转发微博
         _repostView.hidden = NO;
         [self resetImageViews:_statusImgViews];
@@ -487,7 +522,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 
 -(void)resetImageViews:(NSMutableArray *)views
 {
-    for (int i = 0; i < [views count]; i ++) {
+    for (int i = 0; i < [views count]; i ++)
+    {
         [views[i] setFrame:CGRectZero];
     }
 }
