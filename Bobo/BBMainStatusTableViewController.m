@@ -280,7 +280,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 
 -(void)shouldSaveStatusesToPlist
 {
-    if (_statuses.count > 0) {
+    if (_statuses.count > 0)
+    {
         __weak BBMainStatusTableViewController *weakSelf = self;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             //只写入最新20条微博数据
@@ -315,10 +316,12 @@ typedef NS_ENUM(NSInteger, FetchResultType)
         param = @{@"since_id": _since_id};
     }
     
-    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeRefresh];
-    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
         NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"更新失败"];
@@ -332,10 +335,12 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     NSString *requestUrl = _url;
     NSDictionary *param = @{@"max_id": _max_id, @"count": @"20"};
     
-    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeHistory];
-    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
         NSLog(@"main footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"更新失败"];
