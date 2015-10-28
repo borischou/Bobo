@@ -84,6 +84,9 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    NSLog(@"净化吧");
+    [Utils clearImageCache];
+    [Utils clearDiskImages];
     [_waterfallView.statuses removeAllObjects];
     [_waterfallView.header beginRefreshing];
 }

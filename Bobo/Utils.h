@@ -43,4 +43,8 @@ typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLRespo
 
 +(NSString *)plistPathForFilename:(NSString *)file;
 
++(void)clearDiskImages;
++(void)cleanDiskImages;
++(void)clearImageCache;
+
 @end

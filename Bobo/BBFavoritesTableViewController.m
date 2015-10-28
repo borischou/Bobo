@@ -71,6 +71,14 @@
     self.tabBarController.delegate = nil;
 }
 
+-(void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    NSLog(@"净化吧");
+    [Utils clearImageCache];
+    [Utils clearDiskImages];
+}
+
 #pragma mark - Helpers
 
 -(void)navigateToSettings

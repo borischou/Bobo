@@ -97,6 +97,14 @@ static NSString *reuseCMCell = @"reuseCMCell";
     }];
 }
 
+-(void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    NSLog(@"净化吧");
+    [Utils clearImageCache];
+    [Utils clearDiskImages];
+}
+
 #pragma mark - Helpers
 
 -(void)setNavBarAlphaByYcord:(CGFloat)y

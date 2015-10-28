@@ -21,12 +21,14 @@ static NSString *filepath = @"wbdata.plist";
 
 @implementation BBSettingsTableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -38,19 +40,23 @@ static NSString *filepath = @"wbdata.plist";
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     [cell setBackgroundColor:bCellBGColor];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     [cell.textLabel setTextColor:[UIColor customGray]];
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         [cell.textLabel setText:@"草稿箱"];
     }
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1)
+    {
         [cell.textLabel setText:@"清除缓存"];
     }
     return cell;
@@ -58,13 +64,15 @@ static NSString *filepath = @"wbdata.plist";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         BBDraftboxTableViewController *dbtvc = [[BBDraftboxTableViewController alloc] initWithStyle:UITableViewStylePlain];
         [dbtvc setTitle:@"Draftbox"];
         [Utils setupNavigationController:nil withUIViewController:dbtvc];
         [self.navigationController pushViewController:dbtvc animated:YES];
     }
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1)
+    {
         NSString *plistPath = [Utils plistPathForFilename:filepath];
         //计算缓存大小并询问是否清除
         unsigned long long fileSize = [self fileSizeAtPath:plistPath];
@@ -93,15 +101,18 @@ static NSString *filepath = @"wbdata.plist";
 -(BOOL)clearPlistFileAt:(NSString *)path
 {
     NSFileManager *manager = [NSFileManager defaultManager];
-    if ([manager fileExistsAtPath:path]) {
+    if ([manager fileExistsAtPath:path])
+    {
         NSData *data = [NSData dataWithContentsOfFile:path];
         NSDictionary *dict = (NSDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:data];
-        if (![dict[@"statuses"] isEqual:[NSNull null]]) {
+        if (![dict[@"statuses"] isEqual:[NSNull null]])
+        {
             NSMutableDictionary *mDict = dict.mutableCopy;
             [mDict setValue:[NSNull null] forKey:@"statuses"];
             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:mDict];
             BOOL flag = [data writeToFile:path atomically:YES];
-            if (!flag) {
+            if (!flag)
+            {
                 return NO;
             }
         }
@@ -113,7 +124,8 @@ static NSString *filepath = @"wbdata.plist";
 -(unsigned long long)fileSizeAtPath:(NSString *)path
 {
     NSFileManager *manager = [NSFileManager defaultManager];
-    if ([manager fileExistsAtPath:path]) {
+    if ([manager fileExistsAtPath:path])
+    {
         return [[manager attributesOfItemAtPath:path error:nil] fileSize];
     }
     return 0;

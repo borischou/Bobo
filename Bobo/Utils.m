@@ -9,6 +9,7 @@
 #import "Utils.h"
 #import "AppDelegate.h"
 #import "BBNotificationView.h"
+#import <UIImageView+WebCache.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -354,6 +355,21 @@
     
     //将文件名拼在目录后面形成完整文件路径
     return [cachesDirectory stringByAppendingPathComponent:file];
+}
+
++(void)clearDiskImages
+{
+    [[SDImageCache sharedImageCache] clearDisk];
+}
+
++(void)cleanDiskImages
+{
+    [[SDImageCache sharedImageCache] cleanDisk];
+}
+
++(void)clearImageCache
+{
+    [[SDImageCache sharedImageCache] clearMemory];
 }
 
 @end
