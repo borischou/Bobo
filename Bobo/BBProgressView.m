@@ -41,7 +41,7 @@
 //先绘制大圆饼
 -(void)addArcBackColor
 {
-    CGColorRef color = (_arcBackColor == nil)? [UIColor blackColor].CGColor: _arcBackColor.CGColor;
+    CGColorRef color = (_arcBackColor == nil)? [UIColor lightTextColor].CGColor: _arcBackColor.CGColor;
     
     //拿到绘图上下文
     CGContextRef contextRef = UIGraphicsGetCurrentContext();
