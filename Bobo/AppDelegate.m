@@ -30,7 +30,8 @@
 #define uSmallGap 5
 #define uBigGap 10
 
-typedef NS_ENUM(NSInteger, MessageType) {
+typedef NS_ENUM(NSInteger, MessageType)
+{
     MessageTypeToMe,
     MessageTypeAtMe
 };
@@ -45,7 +46,8 @@ typedef NS_ENUM(NSInteger, MessageType) {
 
 #pragma mark - Life Cycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _weiboAccount = [Utils systemAccounts].firstObject;
@@ -105,16 +107,21 @@ typedef NS_ENUM(NSInteger, MessageType) {
     _uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     
     //若未授权则向用户申请授权
-    if (_weiboAccount.accountType.accessGranted == NO || !_weiboAccount) {
+    if (_weiboAccount.accountType.accessGranted == NO || !_weiboAccount)
+    {
         ACAccountStore *store = [[ACAccountStore alloc] init];
         ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierSinaWeibo];
-        [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
-            if (granted == YES) { //授权成功
+        [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error)
+         {
+            if (granted == YES)
+            { //授权成功
                 NSLog(@"授权成功。");
                 
                 //本地尚未保存授权账号uid
-                if (!_uid) {
-                    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                if (!_uid)
+                {
+                    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+                     {
                         //获取本账号uid并保存在本地
                         NSError *error = nil;
                         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
@@ -127,7 +134,9 @@ typedef NS_ENUM(NSInteger, MessageType) {
                         NSLog(@"error: %@", error);
                     }];
                 }
-            } else {
+            }
+            else
+            {
                 NSLog(@"授权失败, 错误: %@", error);
                 
             }
@@ -136,8 +145,10 @@ typedef NS_ENUM(NSInteger, MessageType) {
     //用户已授权
     else
     {
-        if (!_uid) {
-            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (!_uid)
+        {
+            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+             {
                 //获取本账号uid并保存在本地
                 NSError *error = nil;
                 NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
@@ -226,22 +237,30 @@ typedef NS_ENUM(NSInteger, MessageType) {
 
 -(void)fetchUserMessageCounts
 {
-    if (!_weiboAccount) {
+    if (!_weiboAccount)
+    {
         return; //若还未获取到本地系统账号授权则等待下一轮触发
-    } else {
+    }
+    else
+    {
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"comments/to_me.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error;
                 NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
                 [self handleResponseObject:result messageType:MessageTypeToMe];
-            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            }
+                       completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+            {
                 NSLog(@"error: %@", error);
             }];
-            [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"comments/mentions.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [Utils genericWeiboRequestWithAccount:[Utils systemAccounts].firstObject URL:@"comments/mentions.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+             {
                 NSError *error;
                 NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
                 [self handleResponseObject:result messageType:MessageTypeAtMe];
-            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            }
+                       completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+            {
                 NSLog(@"error: %@", error);
             }];
         });
@@ -252,7 +271,8 @@ typedef NS_ENUM(NSInteger, MessageType) {
 {
     NSDictionary *result = responseObject;
     NSInteger count = [result[@"total_number"] integerValue];
-    switch (type) {
+    switch (type)
+    {
         case MessageTypeToMe:
             if (![[NSUserDefaults standardUserDefaults] objectForKey:@"count_to_me"])
             { //首次获取消息
@@ -293,8 +313,10 @@ typedef NS_ENUM(NSInteger, MessageType) {
 -(void)fetchUserProfile
 {
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-    if (!uid) {
-        [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    if (!uid)
+    {
+        [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
             //获取本账号uid并保存在本地
             NSError *error = nil;
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
