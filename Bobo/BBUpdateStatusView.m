@@ -33,8 +33,6 @@
 #define bHeight [UIScreen mainScreen].bounds.size.height
 #define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
 
-#define bBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
-
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
 static CGFloat compressionQuality = 0.7;

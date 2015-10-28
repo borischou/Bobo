@@ -14,8 +14,6 @@
 #import "AppDelegate.h"
 #import "Utils.h"
 
-#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
-
 @interface BBListTableViewController () <BBListTableViewCellDelegate>
 
 @property (nonatomic) NSInteger listType;

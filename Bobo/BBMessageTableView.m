@@ -16,8 +16,6 @@
 #import "AppDelegate.h"
 #import "Utils.h"
 
-#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
-
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 

@@ -21,7 +21,6 @@
 #define kAppKey @"916936343"
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
-#define bBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
 #define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
