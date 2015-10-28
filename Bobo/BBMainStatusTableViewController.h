@@ -11,6 +11,30 @@
 #import <Accounts/Accounts.h>
 #import <MJRefresh/MJRefresh.h>
 
+#import "BBProfileTableViewController.h"
+#import "BBStatusDetailViewController.h"
+#import "BBButtonbarTableViewCell.h"
+#import "BBStatusTableViewCell.h"
+#import "BBUpdateStatusView.h"
+#import "AppDelegate.h"
+#import "BBImageBrowserView.h"
+#import "UIButton+Bobtn.h"
+#import "NSString+Convert.h"
+#import "Status.h"
+#import "User.h"
+#import "Utils.h"
+#import "BBGroupSelectView.h"
+
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
+#define bBtnHeight bHeight/25
+#define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
+#define uSmallGap 5
+#define uBigGap 10
+
+#define bBGColor [UIColor colorWithRed:0 green:128.f/255 blue:128.0/255 alpha:1.f]
+#define bBtnBGColor [UIColor colorWithRed:47.f/255 green:79.f/255 blue:79.f/255 alpha:1.f]
+
 @interface BBMainStatusTableViewController : UITableViewController
 
 @property (nonatomic) NSInteger groupNumber;

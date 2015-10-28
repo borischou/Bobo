@@ -101,6 +101,9 @@
 		45EE7A321BE06197002B2D13 /* BBProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A311BE06197002B2D13 /* BBProgressView.m */; };
 		45EE7A351BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A341BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.m */; };
 		45EE7A3B1BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A3A1BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.m */; };
+		45EE7A3E1BE08162002B2D13 /* BBProfileTableViewController+Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A3D1BE08162002B2D13 /* BBProfileTableViewController+Cell.m */; };
+		45EE7A441BE08380002B2D13 /* BBStatusDetailViewController+Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A431BE08380002B2D13 /* BBStatusDetailViewController+Cell.m */; };
+		45EE7A471BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A461BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.m */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		45F9CE9D1BC750170095133D /* BBAlbumCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
@@ -266,6 +269,12 @@
 		45EE7A341BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBMainStatusTableViewController+Cell.m"; sourceTree = "<group>"; };
 		45EE7A391BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBMainStatusTableViewController+TTLabel.h"; sourceTree = "<group>"; };
 		45EE7A3A1BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBMainStatusTableViewController+TTLabel.m"; sourceTree = "<group>"; };
+		45EE7A3C1BE08162002B2D13 /* BBProfileTableViewController+Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBProfileTableViewController+Cell.h"; sourceTree = "<group>"; };
+		45EE7A3D1BE08162002B2D13 /* BBProfileTableViewController+Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBProfileTableViewController+Cell.m"; sourceTree = "<group>"; };
+		45EE7A421BE08380002B2D13 /* BBStatusDetailViewController+Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBStatusDetailViewController+Cell.h"; sourceTree = "<group>"; };
+		45EE7A431BE08380002B2D13 /* BBStatusDetailViewController+Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBStatusDetailViewController+Cell.m"; sourceTree = "<group>"; };
+		45EE7A451BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBStatusDetailViewController+TTLabel.h"; sourceTree = "<group>"; };
+		45EE7A461BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBStatusDetailViewController+TTLabel.m"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		45F9CE9B1BC750170095133D /* BBAlbumCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAlbumCollectionViewController.h; sourceTree = "<group>"; };
 		45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAlbumCollectionViewController.m; sourceTree = "<group>"; };
@@ -609,6 +618,8 @@
 				45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */,
 				008B7E581BD149CC007A353E /* BBSettingsTableViewController.h */,
 				008B7E591BD149CC007A353E /* BBSettingsTableViewController.m */,
+				45EE7A3C1BE08162002B2D13 /* BBProfileTableViewController+Cell.h */,
+				45EE7A3D1BE08162002B2D13 /* BBProfileTableViewController+Cell.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -652,6 +663,10 @@
 				45688A121B85BB810015461E /* BBCommentBarView.m */,
 				45688A141B85D0E20015461E /* BBStatusDetailViewController.h */,
 				45688A151B85D0E20015461E /* BBStatusDetailViewController.m */,
+				45EE7A421BE08380002B2D13 /* BBStatusDetailViewController+Cell.h */,
+				45EE7A431BE08380002B2D13 /* BBStatusDetailViewController+Cell.m */,
+				45EE7A451BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.h */,
+				45EE7A461BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.m */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -852,14 +867,17 @@
 				45A052161B3A898200A1488D /* BBCountTableViewCell.m in Sources */,
 				457278841B53900D00AC0C9C /* Utils.m in Sources */,
 				4572E1C31B3C59F900348866 /* BBImageBrowserView.m in Sources */,
+				45EE7A3E1BE08162002B2D13 /* BBProfileTableViewController+Cell.m in Sources */,
 				45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */,
 				4582397A1BC60CDA0065B4D2 /* BBListTableViewCell.m in Sources */,
 				459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */,
 				45704DB01B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */,
+				45EE7A471BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.m in Sources */,
 				454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */,
 				4553E4041B54D73D0020989C /* Comment.m in Sources */,
 				4566BC4B1B37ACD5008CF8D5 /* BBProfileTableViewController.m in Sources */,
+				45EE7A441BE08380002B2D13 /* BBStatusDetailViewController+Cell.m in Sources */,
 				4569202F1B745ECA00E2C204 /* BBFavoritesTableViewController.m in Sources */,
 				45EE7A321BE06197002B2D13 /* BBProgressView.m in Sources */,
 				455FFAE51B33F4480007B883 /* UIButton+Bobtn.m in Sources */,

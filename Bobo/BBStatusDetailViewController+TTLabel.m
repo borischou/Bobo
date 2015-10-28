@@ -1,14 +1,14 @@
 //
-//  BBMainStatusTableViewController+TTLabel.m
+//  BBStatusDetailViewController+TTLabel.m
 //  Bobo
 //
 //  Created by Zhouboli on 15/10/28.
 //  Copyright © 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBMainStatusTableViewController+TTLabel.h"
+#import "BBStatusDetailViewController+TTLabel.h"
 
-@implementation BBMainStatusTableViewController (TTLabel)
+@implementation BBStatusDetailViewController (TTLabel)
 
 #pragma mark - TTTAttributedLabelDelegate & support
 
@@ -26,8 +26,7 @@
 
 -(void)presentDetailViewWithHotword:(NSString *)hotword
 {
-    if ([hotword hasPrefix:@"@"])
-    {
+    if ([hotword hasPrefix:@"@"]) {
         NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
         [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
                                           URL:@"statuses/user_timeline.json"
@@ -57,14 +56,13 @@
              });
          }];
     }
-    if ([hotword hasPrefix:@"http"])
-    {
+    if ([hotword hasPrefix:@"http"]) {
         //打开webview
+        NSLog(@"encoded url: %@", [hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]);
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
         [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
-    if ([hotword hasPrefix:@"#"])
-    {
+    if ([hotword hasPrefix:@"#"]) {
         //热门话题
     }
 }

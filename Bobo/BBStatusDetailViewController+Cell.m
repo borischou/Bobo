@@ -1,14 +1,14 @@
 //
-//  BBMainStatusTableViewController+Cell.m
+//  BBStatusDetailViewController+Cell.m
 //  Bobo
 //
 //  Created by Zhouboli on 15/10/28.
 //  Copyright © 2015年 Zhouboli. All rights reserved.
 //
 
-#import "BBMainStatusTableViewController+Cell.h"
+#import "BBStatusDetailViewController+Cell.h"
 
-@implementation BBMainStatusTableViewController (Cell)
+@implementation BBStatusDetailViewController (Cell)
 
 #pragma mark - BBStatusTableViewCellDelegate & support
 
@@ -39,9 +39,7 @@
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"error %@", error);
-         dispatch_async(dispatch_get_main_queue(), ^{
-             [Utils presentNotificationWithText:@"访问失败"];
-         });
+         [Utils presentNotificationWithText:@"访问失败"];
      }];
 }
 
@@ -60,21 +58,18 @@
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapFavoriteIcon:(UIImageView *)favoriteIcon
 {
-    if (cell.status.favorited)
-    {
+    if (cell.status.favorited) {
         [favoriteIcon setImage:[UIImage imageNamed:@"fav_icon_3"]];
         NSDictionary *params = @{@"id": cell.status.idstr};
         [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-            if (!error)
-            {
+            if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"删除成功"];
                 });
             }
-            else
-            {
+            else {
                 NSLog(@"收藏删除失败: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"删除失败"];
@@ -87,16 +82,13 @@
         [favoriteIcon setImage:[UIImage imageNamed:@"faved_icon"]];
         NSDictionary *params = @{@"id": cell.status.idstr};
         [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-            if (!error)
-            {
+            if (!error) {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:YES];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"收藏成功"];
-                });
-            }
-            else
-            {
+                });            }
+            else {
                 NSLog(@"收藏失败: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"收藏失败"];
@@ -111,9 +103,8 @@
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
     updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = @"转发";
-    if (cell.status.retweeted_status.text.length > 0)
-    {
-        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", cell.status.user.screen_name, cell.status.text];
+    if (self.status.retweeted_status.text.length > 0) {
+        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", self.status.user.screen_name, self.status.text];
     }
     updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
     AppDelegate *delegate = [AppDelegate delegate];
@@ -138,27 +129,18 @@
 {
     //delete the status
     AppDelegate *delegate = [AppDelegate delegate];
-    if ([cell.status.user.idstr isEqualToString:delegate.user.idstr])
-    {
+    if ([cell.status.user.idstr isEqualToString:delegate.user.idstr]) {
         UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"删除微博" message:@"是否删除此微博？" preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             NSDictionary *params = @{@"id": cell.status.idstr};
             [Utils weiboPostRequestWithAccount:self.weiboAccount URL:@"statuses/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                if (!error)
-                {
+                if (!error) {
                     NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-                        if (self.statuses[indexPath.section])
-                        {
-                            [self.statuses removeObjectAtIndex:indexPath.section];
-                        }
-                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
                         [Utils presentNotificationWithText:@"删除成功"];
                     });
                 }
-                else
-                {
+                else {
                     NSLog(@"收藏失败: %@", error);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [Utils presentNotificationWithText:@"删除失败"];
@@ -178,9 +160,8 @@
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapStatusPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in cell.status.pic_urls)
-    {
-        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
+    for (NSString *str in cell.status.pic_urls) {
+        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
@@ -188,9 +169,8 @@
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in cell.status.retweeted_status.pic_urls)
-    {
-        [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
+    for (NSString *str in cell.status.retweeted_status.pic_urls) {
+        [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
 }
