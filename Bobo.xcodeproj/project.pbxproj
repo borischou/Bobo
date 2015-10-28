@@ -99,6 +99,8 @@
 		45D7D1F51BB3908D0034B659 /* BBLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7D1F41BB3908D0034B659 /* BBLoadingView.m */; };
 		45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */; };
 		45EE7A321BE06197002B2D13 /* BBProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A311BE06197002B2D13 /* BBProgressView.m */; };
+		45EE7A351BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A341BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.m */; };
+		45EE7A3B1BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A3A1BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.m */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		45F9CE9D1BC750170095133D /* BBAlbumCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
@@ -260,6 +262,10 @@
 		45ECC8811B8B095F0076212B /* pic_placeholder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_placeholder@3x.png"; sourceTree = "<group>"; };
 		45EE7A301BE06197002B2D13 /* BBProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProgressView.h; sourceTree = "<group>"; };
 		45EE7A311BE06197002B2D13 /* BBProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProgressView.m; sourceTree = "<group>"; };
+		45EE7A331BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBMainStatusTableViewController+Cell.h"; sourceTree = "<group>"; };
+		45EE7A341BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBMainStatusTableViewController+Cell.m"; sourceTree = "<group>"; };
+		45EE7A391BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBMainStatusTableViewController+TTLabel.h"; sourceTree = "<group>"; };
+		45EE7A3A1BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBMainStatusTableViewController+TTLabel.m"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		45F9CE9B1BC750170095133D /* BBAlbumCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAlbumCollectionViewController.h; sourceTree = "<group>"; };
 		45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAlbumCollectionViewController.m; sourceTree = "<group>"; };
@@ -580,6 +586,10 @@
 				456C77E71B2AC5B90055FBE8 /* BBStatusTableViewCell.m */,
 				451442041B295E8B000532DD /* BBMainStatusTableViewController.h */,
 				451442051B295E8B000532DD /* BBMainStatusTableViewController.m */,
+				45EE7A331BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.h */,
+				45EE7A341BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.m */,
+				45EE7A391BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.h */,
+				45EE7A3A1BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.m */,
 			);
 			name = Homeline;
 			sourceTree = "<group>";
@@ -862,6 +872,7 @@
 				45688A131B85BB810015461E /* BBCommentBarView.m in Sources */,
 				45BE63EA1BD0CB4100FBA95E /* Draft.m in Sources */,
 				456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */,
+				45EE7A351BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.m in Sources */,
 				000AE6CE1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
@@ -872,6 +883,7 @@
 				451442061B295E8B000532DD /* BBMainStatusTableViewController.m in Sources */,
 				457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */,
 				4572787A1B53887A00AC0C9C /* Status.m in Sources */,
+				45EE7A3B1BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.m in Sources */,
 				0060CCC41BA5C660005F3E20 /* UIColor+Custom.m in Sources */,
 				451441D31B295CA9000532DD /* main.m in Sources */,
 				45688A161B85D0E20015461E /* BBStatusDetailViewController.m in Sources */,
