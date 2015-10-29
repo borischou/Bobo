@@ -13,7 +13,8 @@
 typedef NS_ENUM(NSInteger, detailFetchResult)
 {
     detailFetchResultRepost,
-    detailFetchResultComment
+    detailFetchResultComment,
+    detailFetchResultFeedback
 };
 
 static NSString *reuseWBCell = @"reuseWBCell";
@@ -109,6 +110,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self fetchFeedback];
         if (_commentTurnedOn)
         {
             _page = 1;
@@ -128,6 +130,20 @@ static NSString *reuseCMCell = @"reuseCMCell";
 }
 
 #pragma mark - Fetch Comments
+
+-(void)fetchFeedback
+{
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"statuses/count.json?ids=%@", _status.idstr] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
+        NSError *error = nil;
+        [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] type:detailFetchResultFeedback];
+    }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
+        NSLog(@"detail error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
+        [Utils presentNotificationWithText:@"更新反馈失败"];
+    }];
+}
 
 -(void)fetchLatestReposts
 {
@@ -163,6 +179,19 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)handleWeiboResult:(id)result type:(NSInteger)type
 {
+    if (type == detailFetchResultFeedback)
+    {
+        if ([result isKindOfClass:[NSArray class]])
+        {
+            Feedback *feed = [[Feedback alloc] initWithDictionary:result[0]];
+            _status.reposts_count = feed.reposts;
+            _status.comments_count = feed.comments;
+            if (feed.attitudes > 0 || feed.attitudes)
+            {
+                _status.attitudes_count = feed.attitudes;
+            }
+        }
+    }
     if (type == detailFetchResultComment)
     {
         if (!_comments)
