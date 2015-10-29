@@ -422,6 +422,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         else
         {
             _commentTurnedOn = YES;
+            self.tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchLatestComments)];
             if (_comments.count == 0)
             {
                 [self.tableView.header beginRefreshing];
@@ -435,6 +436,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
     if (index == detailMenuButtonIndexRepost)
     {
         _commentTurnedOn = NO;
+        self.tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchLatestReposts)];
         if (_statuses.count == 0 || !_statuses)
         {
             [self.tableView.header beginRefreshing];
