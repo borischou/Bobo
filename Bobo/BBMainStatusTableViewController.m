@@ -81,7 +81,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 -(void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    NSLog(@"净化吧");
+    NSLog(@"让圣光净化一切！");
     [Utils clearImageCache];
     [Utils clearDiskImages];
 }

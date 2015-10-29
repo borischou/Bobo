@@ -11,6 +11,14 @@
 #import "Comment.h"
 #import "Draft.h"
 
+typedef NS_ENUM(NSInteger, updateStatusType)
+{
+    updateStatusTypePost,
+    updateStatusTypeComment,
+    updateStatusTypeRepost,
+    updateStatusTypeReply
+};
+
 @class BBUpdateStatusView;
 @protocol BBUpdateStatusViewDelegate <NSObject>
 

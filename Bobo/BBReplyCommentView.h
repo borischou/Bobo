@@ -14,6 +14,7 @@
 
 @optional
 -(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didDeleteComment:(Comment *)comment;
+-(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didDeleteStatus:(Status *)status;
 -(void)replyView:(BBReplyCommentView *)replyView mask:(UIView *)mask didDisplayComment:(Comment *)comment;
 
 @end
@@ -33,5 +34,6 @@
 @property (nonatomic) BOOL shouldShowDeleteOption;
 
 @property (strong, nonatomic) Comment *comment;
+@property (strong, nonatomic) Status *status;
 
 @end

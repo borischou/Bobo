@@ -22,6 +22,7 @@
 		451204DF1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m in Sources */ = {isa = PBXBuildFile; fileRef = 451204DE1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m */; };
 		451204E21BE1C1B2001B855D /* BBDetailMenuHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451204E11BE1C1B2001B855D /* BBDetailMenuHeaderView.m */; };
 		451204E51BE1D67B001B855D /* Feedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 451204E41BE1D67B001B855D /* Feedback.m */; };
+		451204EB1BE20B35001B855D /* BBFavoritesTableViewController+Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 451204EA1BE20B35001B855D /* BBFavoritesTableViewController+Cell.m */; };
 		451441D31B295CA9000532DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D21B295CA9000532DD /* main.m */; };
 		451441D61B295CA9000532DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.m */; };
 		451441DE1B295CA9000532DD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 451441DD1B295CA9000532DD /* Images.xcassets */; };
@@ -152,6 +153,8 @@
 		451204E11BE1C1B2001B855D /* BBDetailMenuHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDetailMenuHeaderView.m; sourceTree = "<group>"; };
 		451204E31BE1D67B001B855D /* Feedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feedback.h; sourceTree = "<group>"; };
 		451204E41BE1D67B001B855D /* Feedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feedback.m; sourceTree = "<group>"; };
+		451204E91BE20B35001B855D /* BBFavoritesTableViewController+Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBFavoritesTableViewController+Cell.h"; sourceTree = "<group>"; };
+		451204EA1BE20B35001B855D /* BBFavoritesTableViewController+Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBFavoritesTableViewController+Cell.m"; sourceTree = "<group>"; };
 		451441CD1B295CA9000532DD /* Bobo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bobo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		451441D11B295CA9000532DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		451441D21B295CA9000532DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -640,6 +643,8 @@
 			children = (
 				4569202D1B745ECA00E2C204 /* BBFavoritesTableViewController.h */,
 				4569202E1B745ECA00E2C204 /* BBFavoritesTableViewController.m */,
+				451204E91BE20B35001B855D /* BBFavoritesTableViewController+Cell.h */,
+				451204EA1BE20B35001B855D /* BBFavoritesTableViewController+Cell.m */,
 			);
 			name = Favorite;
 			sourceTree = "<group>";
@@ -916,6 +921,7 @@
 				009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */,
 				00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */,
 				45F9CE9D1BC750170095133D /* BBAlbumCollectionViewController.m in Sources */,
+				451204EB1BE20B35001B855D /* BBFavoritesTableViewController+Cell.m in Sources */,
 				4592324B1B969A170006A123 /* BBMessageViewController.m in Sources */,
 				451442061B295E8B000532DD /* BBMainStatusTableViewController.m in Sources */,
 				457C60EB1B7301F500B10D53 /* BBProfileHeaderView.m in Sources */,

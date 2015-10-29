@@ -58,7 +58,7 @@
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
     updateStatusView.status = cell.status;
-    updateStatusView.nameLabel.text = cell.status.user.screen_name;
+    //updateStatusView.nameLabel.text = cell.status.user.screen_name;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -119,12 +119,12 @@
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
     updateStatusView.status = cell.status;
-    if (cell.status.retweeted_status.text.length > 0)
-    {
-        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", cell.status.user.screen_name, cell.status.text];
-    }
-    updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
-    updateStatusView.nameLabel.text = @"转发";
+//    if (cell.status.retweeted_status.text.length > 0)
+//    {
+//        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", cell.status.user.screen_name, cell.status.text];
+//    }
+    //updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
+    //updateStatusView.nameLabel.text = @"转发";
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{

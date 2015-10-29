@@ -155,7 +155,7 @@ static NSString *filepath = @"draft.plist";
     _imageView.clipsToBounds = YES;
     [self addSubview:_imageView];
     
-    if (_flag == 0)
+    if (_flag == updateStatusTypePost)
     { //发微博
         _keyboardInputView = [[BBKeyboardInputAccessoryView alloc] init];
         _statusTextView.inputAccessoryView = _keyboardInputView;
@@ -171,11 +171,11 @@ static NSString *filepath = @"draft.plist";
         _todoLabel.userInteractionEnabled = YES;
         [_todoLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(todoLabelTapped)]];
         [self addSubview:_todoLabel];
-        if (_flag == 1 || _flag == 3)
+        if (_flag == updateStatusTypeComment || _flag == updateStatusTypeReply)
         { // 写评论(1)或回复评论(3)
             _todoLabel.text = @"同时发微博";
         }
-        if (_flag == 2)
+        if (_flag == updateStatusTypeRepost)
         { //转发(2)
             _todoLabel.text = @"评论给作者";
         }
@@ -190,6 +190,18 @@ static NSString *filepath = @"draft.plist";
 
 -(void)loadData
 {
+    if (_comment)
+    {
+        _statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", _comment.user.screen_name, _comment.text];
+        _nameLabel.text = _comment.user.screen_name;
+        [_todoLabel setHidden:NO];
+    }
+    if (_status)
+    {
+        _statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", self.status.user.screen_name, self.status.text];
+        _nameLabel.text = _status.user.screen_name;
+        [_todoLabel setHidden:NO];
+    }
     if (_draft)
     {
         NSDictionary *params = _draft.params;
@@ -226,8 +238,10 @@ static NSString *filepath = @"draft.plist";
 
 -(void)loadSubviews
 {
+    _statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
+
     //铺文本输入框
-    if (_flag == 0)
+    if (_flag == updateStatusTypePost)
     { //发微博时不考虑下方标签
         NSInteger num = _pickedOnes.count;
         if (num == 0)
@@ -332,17 +346,11 @@ static NSString *filepath = @"draft.plist";
 
 -(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
 {
-    [self refreshComments];
     if (_pickedOnes.count > 0)
     {
         [_pickedOnes removeAllObjects];
     }
     [Utils presentNotificationWithText:text];
-}
-
--(void)refreshComments
-{
-    //Post成功后刷新评论区以显示发表的评论
 }
 
 -(void)assembleComment:(Comment *)comment user:(User *)user text:(NSString *)text
@@ -363,7 +371,7 @@ static NSString *filepath = @"draft.plist";
     AppDelegate *appDelegate = [AppDelegate delegate];
     switch (_flag)
     {
-        case 0: //发微博
+        case updateStatusTypePost: //发微博
             {
                 if (_pickedOnes.count == 1)
                 { //有一张配图
@@ -452,7 +460,7 @@ static NSString *filepath = @"draft.plist";
                 }
             }
             break;
-        case 1: //写评论
+        case updateStatusTypeComment: //写评论
             {
                 //不管后续成功与否，本地立即显示内容
                 [self assembleComment:comment user:appDelegate.user text:_statusTextView.text];
@@ -504,15 +512,18 @@ static NSString *filepath = @"draft.plist";
                 }];
             }
             break;
-        case 2: //转发微博
+        case updateStatusTypeRepost: //转发微博
             {
                 if (_status)
                 {
                     idstr = _status.idstr;
                 }
-                else
+                if (_draft)
                 {
                     idstr = draftParams[@"id"];
+                }
+                if (_comment) {
+                    idstr = _comment.status.idstr;
                 }
                 params = @{@"status": _statusTextView.text,
                            @"id": idstr,
@@ -552,7 +563,7 @@ static NSString *filepath = @"draft.plist";
                 }];
             }
             break;
-        case 3: //回复评论
+        case updateStatusTypeReply: //回复评论
             {
                 //不管后续成功与否，本地立即显示内容
                 [self assembleComment:comment user:appDelegate.user text:[NSString stringWithFormat:@"Reply@%@:%@", _comment.user.screen_name, _statusTextView.text]];

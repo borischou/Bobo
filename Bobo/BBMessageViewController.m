@@ -50,7 +50,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 @implementation BBMessageViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -83,9 +84,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     _currentTableView = _messageTableView;
 }
 
-- (void)didReceiveMemoryWarning {
+-(void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    NSLog(@"让圣光净化一切！");
+    [Utils clearImageCache];
+    [Utils clearDiskImages];
 }
 
 -(void)viewDidAppear:(BOOL)animated

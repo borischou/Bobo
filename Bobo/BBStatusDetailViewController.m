@@ -80,7 +80,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 -(void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    NSLog(@"净化吧");
+    NSLog(@"让圣光净化一切！");
     [Utils clearImageCache];
     [Utils clearDiskImages];
 }
@@ -368,20 +368,49 @@ static NSString *reuseCMCell = @"reuseCMCell";
         AppDelegate *delegate = [AppDelegate delegate];
 
         BBReplyCommentView *replyCommentView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 150)];
-        Comment *comment = [_comments objectAtIndex:indexPath.row];
-        replyCommentView.comment = comment;
-        replyCommentView.delegate = self;
-        replyCommentView.shouldShowViewStatusOption = NO;
+        
+        Comment *comment;
+        Status *status;
         int param = 0;
-        if ([comment.user.idstr isEqualToString:delegate.user.idstr]
-            || [comment.status.user.idstr isEqualToString:delegate.user.idstr])
+
+        if (_commentTurnedOn)
         {
-            replyCommentView.shouldShowDeleteOption = YES;
-            param = 1;
-        } else {
-            replyCommentView.shouldShowDeleteOption = NO;
-            param = 0;
+            comment = [_comments objectAtIndex:indexPath.row];
+            replyCommentView.comment = comment;
+            replyCommentView.status = nil;
+            if ([comment.user.idstr isEqualToString:delegate.user.idstr]
+                || [comment.status.user.idstr isEqualToString:delegate.user.idstr])
+            {
+                replyCommentView.shouldShowDeleteOption = YES;
+                param = 1;
+            }
+            else
+            {
+                replyCommentView.shouldShowDeleteOption = NO;
+                param = 0;
+            }
+            replyCommentView.shouldShowViewStatusOption = NO;
         }
+        else
+        {
+            status = [_statuses objectAtIndex:indexPath.row];
+            replyCommentView.status = status;
+            replyCommentView.comment = nil;
+            if ([status.user.idstr isEqualToString:delegate.user.idstr]) //自己的转发
+            {
+                replyCommentView.shouldShowDeleteOption = YES;
+                param = 2;
+            }
+            else
+            {
+                replyCommentView.shouldShowDeleteOption = NO;
+                param = 1;
+            }
+            replyCommentView.shouldShowViewStatusOption = YES;
+        }
+        
+        replyCommentView.delegate = self;
+        
         [delegate.window addSubview:replyCommentView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [replyCommentView setFrame:CGRectMake(0, bHeight-(3*50+param*50), bWidth, 3*50+param*50)];
@@ -481,7 +510,16 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)commentTableViewCell:(BBCommentTableViewCell *)cell didTapAvatarView:(UIImageView *)avatarView
 {
-    NSDictionary *params = @{@"uid": cell.comment.user.idstr};
+    NSString *uid;
+    if (_commentTurnedOn)
+    {
+        uid = cell.comment.user.idstr;
+    }
+    else
+    {
+        uid = cell.status.user.idstr;
+    }
+    NSDictionary *params = @{@"uid": uid};
     [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
                                       URL:@"statuses/user_timeline.json"
                       SLRequestHTTPMethod:SLRequestMethodGET

@@ -102,11 +102,12 @@
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
     updateStatusView.status = cell.status;
-    updateStatusView.nameLabel.text = @"转发";
-    if (self.status.retweeted_status.text.length > 0) {
-        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", self.status.user.screen_name, self.status.text];
-    }
-    updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
+//    updateStatusView.nameLabel.text = @"转发";
+//    if (self.status.retweeted_status.text.length > 0)
+//    {
+//        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", self.status.user.screen_name,  self.status.text];
+//    }
+//    updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{

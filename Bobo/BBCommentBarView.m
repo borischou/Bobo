@@ -47,7 +47,8 @@
 -(instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         [self setupBarViews];
     }
     return self;
@@ -56,7 +57,8 @@
 -(instancetype)initWithFrame:(CGRect)frame status:(Status *)status
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         _status = status;
         [self setupBarViews];
     }
@@ -123,10 +125,10 @@
 -(void)presentUpdateView
 {
     AppDelegate *delegate = [AppDelegate delegate];
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:updateStatusTypeComment]; //写评论
     updateStatusView.delegate = self;
     updateStatusView.status = _status;
-    updateStatusView.nameLabel.text = _status.user.screen_name;
+    //updateStatusView.nameLabel.text = _status.user.screen_name;
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         updateStatusView.frame = CGRectMake(cSmallGap, statusBarHeight+cSmallGap, bWidth-2*cSmallGap, bHeight/2-5);

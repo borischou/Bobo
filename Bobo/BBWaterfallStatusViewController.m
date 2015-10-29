@@ -27,7 +27,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 #pragma mark - Life Cycle
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
@@ -38,21 +39,26 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     _waterfallView = [[BBWaterfallCollectionView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight) collectionViewLayout:layout];
     self.view = _waterfallView;
     
-    if (!_groupNumber || _groupNumber == 0) { //所有微博
+    if (!_groupNumber || _groupNumber == 0)
+    { //所有微博
         _url = homeTimeline;
     }
-    if (_groupNumber == 1) { //朋友微博
+    if (_groupNumber == 1)
+    { //朋友微博
         _url = bilateralTimeline;
     }
     
     [self setNavBarBtn];
     [self setMJRefresh];
     _waterfallView.statuses = [self readStatusesFromPlist];
-    if (_waterfallView.statuses.count > 0) {
+    if (_waterfallView.statuses.count > 0)
+    {
         _max_id = [self lastIdFromStatuses:_waterfallView.statuses];
         _since_id = [self firstIdFromStatuses:_waterfallView.statuses];
         [_waterfallView reloadData];
-    } else {
+    }
+    else
+    {
         [_waterfallView.header beginRefreshing];
     }
 }
@@ -60,7 +66,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    NSLog(@"净化吧");
+    NSLog(@"让圣光净化一切！");
     [Utils clearImageCache];
     [Utils clearDiskImages];
     [_waterfallView.statuses removeAllObjects];
@@ -71,7 +77,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     [super viewDidAppear:animated];
     self.tabBarController.delegate = self;
-    if (_waterfallView.statuses.count <= 0) {
+    if (_waterfallView.statuses.count <= 0)
+    {
         [_waterfallView.header beginRefreshing];
     }
 }
@@ -88,13 +95,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                     {
-                                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:"]];
-                                     }];
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:"]];
+    }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                   {
-                                       //取消
-                                   }];
+    {
+        //取消
+    }];
     [ac addAction:settingsAction];
     [ac addAction:cancelAction];
     [self.navigationController presentViewController:ac animated:YES completion:^{}];
