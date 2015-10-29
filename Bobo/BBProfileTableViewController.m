@@ -309,13 +309,6 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 #pragma mark - Helpers
 
-//-(void)setNavBarAlphaByYcord:(CGFloat)y
-//{
-//    CGFloat distance = y;
-//    CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
-//    [self.navigationController.navigationBar setAlpha:1-distance/navHeight];
-//}
-
 -(void)navigateToSettings
 {
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];

@@ -264,7 +264,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     if (type == FetchResultTypeHistory)
     { //上拉刷新历史微博
         NSArray *historyStatuses = [result objectForKey:@"statuses"];
-        if (historyStatuses.count > 0) {
+        if (historyStatuses.count > 0)
+        {
             for (int i = 1; i < [historyStatuses count]; i ++)
             {
                 Status *tmp_status = [[Status alloc] initWithDictionary:historyStatuses[i]];
@@ -301,7 +302,6 @@ typedef NS_ENUM(NSInteger, FetchResultType)
                     [plistarray addObject:[status convertToDictionary]];
                 }
             }
-            
             [weakSelf saveStatusesToPlist:plistarray];
         });
     }
@@ -320,7 +320,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeRefresh];
-    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+    }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
         NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -339,7 +340,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeHistory];
-    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+    }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
         NSLog(@"main footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{

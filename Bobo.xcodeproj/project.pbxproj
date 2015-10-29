@@ -19,6 +19,8 @@
 		00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0B1B8CC22500736E6A /* BBWaterfallStatusViewController.m */; };
 		00E63A0F1B8CC24A00736E6A /* BBWaterfallCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A0E1B8CC24A00736E6A /* BBWaterfallCollectionView.m */; };
 		00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */; };
+		451204DF1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m in Sources */ = {isa = PBXBuildFile; fileRef = 451204DE1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m */; };
+		451204E21BE1C1B2001B855D /* BBDetailMenuHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451204E11BE1C1B2001B855D /* BBDetailMenuHeaderView.m */; };
 		451441D31B295CA9000532DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D21B295CA9000532DD /* main.m */; };
 		451441D61B295CA9000532DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.m */; };
 		451441DE1B295CA9000532DD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 451441DD1B295CA9000532DD /* Images.xcassets */; };
@@ -143,6 +145,10 @@
 		00E63A131B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBWaterfallCollectionViewCell.h; sourceTree = "<group>"; };
 		00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBWaterfallCollectionViewCell.m; sourceTree = "<group>"; };
 		380F8FFC25F72949CFA80BAC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		451204DD1BE1BF93001B855D /* BBStatusDetailViewController+Reply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBStatusDetailViewController+Reply.h"; sourceTree = "<group>"; };
+		451204DE1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBStatusDetailViewController+Reply.m"; sourceTree = "<group>"; };
+		451204E01BE1C1B2001B855D /* BBDetailMenuHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDetailMenuHeaderView.h; sourceTree = "<group>"; };
+		451204E11BE1C1B2001B855D /* BBDetailMenuHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDetailMenuHeaderView.m; sourceTree = "<group>"; };
 		451441CD1B295CA9000532DD /* Bobo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bobo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		451441D11B295CA9000532DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		451441D21B295CA9000532DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -659,6 +665,8 @@
 				009B0C421B8376EF00B221E0 /* BBReplyCommentView.m */,
 				4553E3FF1B54CAEB0020989C /* BBCommentTableViewCell.h */,
 				4553E4001B54CAEB0020989C /* BBCommentTableViewCell.m */,
+				451204E01BE1C1B2001B855D /* BBDetailMenuHeaderView.h */,
+				451204E11BE1C1B2001B855D /* BBDetailMenuHeaderView.m */,
 				45688A111B85BB810015461E /* BBCommentBarView.h */,
 				45688A121B85BB810015461E /* BBCommentBarView.m */,
 				45688A141B85D0E20015461E /* BBStatusDetailViewController.h */,
@@ -667,6 +675,8 @@
 				45EE7A431BE08380002B2D13 /* BBStatusDetailViewController+Cell.m */,
 				45EE7A451BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.h */,
 				45EE7A461BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.m */,
+				451204DD1BE1BF93001B855D /* BBStatusDetailViewController+Reply.h */,
+				451204DE1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -870,6 +880,7 @@
 				45EE7A3E1BE08162002B2D13 /* BBProfileTableViewController+Cell.m in Sources */,
 				45BBDA5A1B902FA200BABEDD /* BBPhotoPickerCollectionView.m in Sources */,
 				4582397A1BC60CDA0065B4D2 /* BBListTableViewCell.m in Sources */,
+				451204E21BE1C1B2001B855D /* BBDetailMenuHeaderView.m in Sources */,
 				459232511B969A490006A123 /* BBMessageTableViewCell.m in Sources */,
 				45704DB01B7DCBF500DC1C8B /* BBPhotoSelectionCollectionViewCell.m in Sources */,
 				4588F7331B3B9B5A00EE32D0 /* Counts.m in Sources */,
@@ -887,6 +898,7 @@
 				451F30271BCB74EE00668561 /* BBDraftboxTableViewCell.m in Sources */,
 				00E63A0C1B8CC22500736E6A /* BBWaterfallStatusViewController.m in Sources */,
 				457C9E3C1B8F13CF00932B37 /* CHTCollectionViewWaterfallLayout.m in Sources */,
+				451204DF1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m in Sources */,
 				45688A131B85BB810015461E /* BBCommentBarView.m in Sources */,
 				45BE63EA1BD0CB4100FBA95E /* Draft.m in Sources */,
 				456DA1B51B7C86FE0091D8A7 /* BBKeyboardInputAccessoryView.m in Sources */,

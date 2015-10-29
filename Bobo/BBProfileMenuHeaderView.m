@@ -8,11 +8,6 @@
 
 #import "BBProfileMenuHeaderView.h"
 
-#define buttonWidth self.frame.size.width/3
-#define buttonHeight self.frame.size.height
-
-#define menuColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
-
 static CGFloat lineHeight = 3;
 
 @interface BBProfileMenuHeaderView ()
