@@ -42,6 +42,8 @@
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) ACAccount *weiboAccount;
 @property (strong, nonatomic) NSMutableArray *comments;
+@property (strong, nonatomic) NSMutableArray *statuses;
 @property (strong, nonatomic) BBCommentBarView *barView;
+@property (assign, nonatomic) BOOL commentTurnedOn;
 
 @end

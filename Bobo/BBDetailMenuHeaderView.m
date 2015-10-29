@@ -103,14 +103,20 @@ static CGFloat lineHeight = 3;
     {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_lineView setCenter:CGPointMake(buttonWidth/2, buttonHeight-lineHeight/2)];
-        } completion:^(BOOL finished) {
+        }
+                         completion:^(BOOL finished)
+        {
+            [self.delegate didClickMenuButtonAtIndex:detailMenuButtonIndexRepost];
         }];
     }
     if ([pressedButton.titleLabel.text isEqualToString:@"Comment"])
     {
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_lineView setCenter:CGPointMake(buttonWidth+buttonWidth/2, buttonHeight-lineHeight/2)];
-        } completion:^(BOOL finished) {
+        }
+                         completion:^(BOOL finished)
+         {
+             [self.delegate didClickMenuButtonAtIndex:detailMenuButtonIndexComment];
         }];
     }
 }

@@ -26,5 +26,6 @@
 @property (strong, nonatomic) UILabel *timeLbl;
 @property (strong, nonatomic) TTTAttributedLabel *commentTextLabel;
 @property (strong, nonatomic) Comment *comment;
+@property (strong, nonatomic) Status *status;
 
 @end

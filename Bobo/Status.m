@@ -9,6 +9,16 @@
 #import "Status.h"
 #import "Utils.h"
 
+#define cAvatarHeight 40
+#define cAvatarWidth cAvatarHeight
+#define cBigGap 10
+#define cSmallGap 5
+#define cNameHeight 15
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
+#define cTextFontSize 13.f
+#define mTextWidth bWidth-2*cBigGap
+
 @implementation Status
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary
@@ -71,6 +81,7 @@
         }
         [self calculateStatusHeight];
         [self calculateWaterfallHeight];
+        [self calculateRepostHeight];
     }
     return self;
 }
@@ -98,6 +109,14 @@
     [dict setObject:_retweeted_status? [_retweeted_status convertToDictionary]: sNull forKey:@"retweeted_status"];
     
     return dict;
+}
+
+-(void)calculateRepostHeight
+{
+    if (_retweeted_status) {
+        CGFloat textHeight = [Utils heightForString:_text width:cTextWidth fontSize:[Utils fontSizeForComment]];
+        _heightForRepost = cAvatarHeight > cNameHeight+cSmallGap+textHeight? cBigGap*2+cAvatarHeight: cBigGap*2+cNameHeight+cSmallGap+textHeight;
+    }
 }
 
 -(void)calculateStatusHeight

@@ -21,6 +21,7 @@
 		00E63A151B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E63A141B8CC4BB00736E6A /* BBWaterfallCollectionViewCell.m */; };
 		451204DF1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m in Sources */ = {isa = PBXBuildFile; fileRef = 451204DE1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m */; };
 		451204E21BE1C1B2001B855D /* BBDetailMenuHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451204E11BE1C1B2001B855D /* BBDetailMenuHeaderView.m */; };
+		451204E51BE1D67B001B855D /* Feedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 451204E41BE1D67B001B855D /* Feedback.m */; };
 		451441D31B295CA9000532DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D21B295CA9000532DD /* main.m */; };
 		451441D61B295CA9000532DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451441D51B295CA9000532DD /* AppDelegate.m */; };
 		451441DE1B295CA9000532DD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 451441DD1B295CA9000532DD /* Images.xcassets */; };
@@ -149,6 +150,8 @@
 		451204DE1BE1BF93001B855D /* BBStatusDetailViewController+Reply.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBStatusDetailViewController+Reply.m"; sourceTree = "<group>"; };
 		451204E01BE1C1B2001B855D /* BBDetailMenuHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDetailMenuHeaderView.h; sourceTree = "<group>"; };
 		451204E11BE1C1B2001B855D /* BBDetailMenuHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDetailMenuHeaderView.m; sourceTree = "<group>"; };
+		451204E31BE1D67B001B855D /* Feedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feedback.h; sourceTree = "<group>"; };
+		451204E41BE1D67B001B855D /* Feedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feedback.m; sourceTree = "<group>"; };
 		451441CD1B295CA9000532DD /* Bobo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bobo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		451441D11B295CA9000532DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		451441D21B295CA9000532DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -515,6 +518,8 @@
 				4588F7321B3B9B5A00EE32D0 /* Counts.m */,
 				00D8AA061BBC1EB700EFE208 /* ReplyComment.h */,
 				00D8AA071BBC1EB700EFE208 /* ReplyComment.m */,
+				451204E31BE1D67B001B855D /* Feedback.h */,
+				451204E41BE1D67B001B855D /* Feedback.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -905,6 +910,7 @@
 				45EE7A351BE07DAD002B2D13 /* BBMainStatusTableViewController+Cell.m in Sources */,
 				45EE7A3B1BE08029002B2D13 /* BBMainStatusTableViewController+TTLabel.m in Sources */,
 				000AE6CE1B89AD4F00679EC9 /* BBKIAccessoryNoImageView.m in Sources */,
+				451204E51BE1D67B001B855D /* Feedback.m in Sources */,
 				451441D61B295CA9000532DD /* AppDelegate.m in Sources */,
 				4572787D1B53894F00AC0C9C /* User.m in Sources */,
 				009B0C431B8376EF00B221E0 /* BBReplyCommentView.m in Sources */,

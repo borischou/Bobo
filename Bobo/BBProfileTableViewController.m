@@ -38,7 +38,6 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     {
         self.tableView.tableHeaderView = [self getAvatarView];
     }
-    
     _currentLastStatusId = [self lastIdFromStatuses:_statuses];
     [self setMJRefresh];
     
@@ -46,7 +45,6 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     {
         [self.tableView.header beginRefreshing];
     }
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSomething) name:@"bobo" object:nil];
 }
 
@@ -108,7 +106,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     //若未授权则向用户申请授权
     if (_weiboAccount.accountType.accessGranted == NO)
     {
-        [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
+        [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error)
+        {
             if (granted == YES)
             { //授权成功
                 NSLog(@"授权成功。");
@@ -142,14 +141,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     {
         if (!_uid)
         {
-            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"account/get_uid.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+            {
                 //获取本账号uid并保存在本地
                 NSError *error = nil;
                 NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
                 NSString *uid = [NSString stringWithFormat:@"%@", dict[@"uid"]];
                 [[NSUserDefaults standardUserDefaults] setObject:uid forKey:@"uid"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
-            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            }
+                       completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+            {
                 NSLog(@"error: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"更新失败"];
@@ -159,7 +161,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         else
         {
             UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"已登录" message:@"您已授权并登录微博" preferredStyle:UIAlertControllerStyleActionSheet];
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+            {
                 NSLog(@"OK action triggered.");
             }];
             [alertcontroller addAction:action];
@@ -222,10 +225,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         AppDelegate *delegate = [AppDelegate delegate];
         if (delegate.uid || delegate.user.idstr)
         {
-            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": delegate.uid? delegate.uid: delegate.user.idstr} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": delegate.uid? delegate.uid: delegate.user.idstr} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+             {
                 NSError *error = nil;
                 [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeCounts];
-            } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            }
+                       completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+             {
                 NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [Utils presentNotificationWithText:@"更新失败"];
@@ -243,7 +249,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     }
     else
     {
-        [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [Utils genericWeiboRequestWithAccount:_weiboAccount URL:@"users/show.json" SLRequestHTTPMethod:SLRequestMethodGET parameters:@{@"uid": _uid} completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
             NSError *error = nil;
             [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeCounts];
         }
@@ -266,7 +273,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     {
         AppDelegate *delegate = [AppDelegate delegate];
         _uid = delegate.uid? delegate.uid: delegate.user.idstr;
-        if (!_uid || _uid.length == 0) {
+        if (!_uid || _uid.length == 0)
+        {
             return;
         }
     }
@@ -313,13 +321,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                     {
-                                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:"]];
-                                     }];
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:"]];
+    }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                   {
-                                       //取消
-                                   }];
+    {
+        //取消
+    }];
     [ac addAction:settingsAction];
     [ac addAction:cancelAction];
     [self.navigationController presentViewController:ac animated:YES completion:^{}];
@@ -465,7 +473,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         BBProfileMenuHeaderView *headerView = nil;
         if (_originalTurnedOn)
         {
@@ -757,12 +766,14 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
              });
          }];
     }
-    if ([hotword hasPrefix:@"http"]) {
+    if ([hotword hasPrefix:@"http"])
+    {
         //打开webview
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
         [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
-    if ([hotword hasPrefix:@"#"]) {
+    if ([hotword hasPrefix:@"#"])
+    {
         //热门话题
     }
 }

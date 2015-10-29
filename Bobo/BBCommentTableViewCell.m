@@ -117,29 +117,54 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 
 -(void)loadCommentData
 {
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_comment.user.profile_image_url] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
-
-    _nameLbl.text = _comment.user.screen_name;
-    if ([_comment.user.gender isEqualToString:@"m"]) {
+    NSRegularExpression *regex = HotwordRegularExpression();
+    NSString *url, *screen_name, *gender, *created_at, *text;
+    
+    if (_comment)
+    {
+        url = _comment.user.profile_image_url;
+        screen_name = _comment.user.screen_name;
+        gender = _comment.user.gender;
+        created_at = _comment.created_at;
+        text = _comment.text;
+    }
+    if (_status)
+    {
+        url = _status.user.profile_image_url;
+        screen_name = _status.user.screen_name;
+        gender = _status.user.gender;
+        created_at = _status.created_at;
+        text = _status.text;
+    }
+    
+    [_avatarView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
+    
+    _nameLbl.text = screen_name;
+    if ([gender isEqualToString:@"m"])
+    {
         [_nameLbl setTextColor:bMaleColor];
     }
-    if ([_comment.user.gender isEqualToString:@"f"]) {
+    if ([gender isEqualToString:@"f"])
+    {
         [_nameLbl setTextColor:bFemaleColor];
     }
-    if ([_comment.user.gender isEqualToString:@"n"]) {
+    if ([gender isEqualToString:@"n"])
+    {
         [_nameLbl setTextColor:[UIColor lightTextColor]];
     }
     
-    _timeLbl.text = [NSString formatPostTime:_comment.created_at];
-    NSRegularExpression *regex = HotwordRegularExpression();
-
-    if (_comment.text) {
-        [_commentTextLabel setText:_comment.text];
-        NSArray *tweetLinkRanges = [regex matchesInString:_comment.text options:0 range:NSMakeRange(0, _comment.text.length)];
-        for (NSTextCheckingResult *result in tweetLinkRanges) {
+    _timeLbl.text = [NSString formatPostTime:created_at];
+    
+    if (text)
+    {
+        [_commentTextLabel setText:text];
+        NSArray *tweetLinkRanges = [regex matchesInString:text options:0 range:NSMakeRange(0, text.length)];
+        for (NSTextCheckingResult *result in tweetLinkRanges)
+        {
             [_commentTextLabel addLinkWithTextCheckingResult:result];
         }
     }
+    
 }
 
 -(void)loadCommentLayout

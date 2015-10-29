@@ -14,13 +14,15 @@ typedef NS_ENUM(NSInteger, detailMenuButtonIndex)
     detailMenuButtonIndexComment
 };
 
-@protocol BBDetailMenuHeaderView <NSObject>
+@protocol BBDetailMenuHeaderViewDelegate <NSObject>
 
 -(void)didClickMenuButtonAtIndex:(NSInteger)index;
 
 @end
 
 @interface BBDetailMenuHeaderView : UITableViewHeaderFooterView
+
+@property (weak, nonatomic) id <BBDetailMenuHeaderViewDelegate> delegate;
 
 -(void)moveLineAccordingToFlag:(NSInteger)flag; //0-Repost, 1-Comment
 -(instancetype)initWithFrame:(CGRect)frame flag:(NSInteger)flag;

@@ -9,12 +9,12 @@
 #import "Comment.h"
 #import "Utils.h"
 
+#define bWidth [UIScreen mainScreen].bounds.size.width
 #define cAvatarHeight 40
 #define cAvatarWidth cAvatarHeight
 #define cBigGap 10
 #define cSmallGap 5
 #define cNameHeight 15
-#define bWidth [UIScreen mainScreen].bounds.size.width
 #define cTextWidth bWidth-2*cBigGap-cSmallGap-cAvatarWidth
 #define cTextFontSize 13.f
 #define mTextWidth bWidth-2*cBigGap
@@ -32,7 +32,9 @@
         _idstr = [dictionary objectForKey:@"idstr"];
         _comnt_id = [[dictionary objectForKey:@"id"] integerValue];
         _user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];
-        _status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"status"]];
+        if (![dictionary[@"status"] isEqual:[NSNull null]]) {
+            _status = [[Status alloc] initWithDictionary:[dictionary objectForKey:@"status"]];
+        }
         if (![dictionary[@"reply_comment"] isEqual:[NSNull null]]) {
             _reply_comment = [[ReplyComment alloc] initWithDictionary:dictionary[@"reply_comment"]];
         }
