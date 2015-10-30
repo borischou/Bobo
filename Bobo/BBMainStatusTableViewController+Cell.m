@@ -136,6 +136,9 @@
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didPressDeleteButton:(UIButton *)sender
 {
+    //先禁用删除按钮，若失败再激活
+    sender.enabled = NO;
+    
     //delete the status
     AppDelegate *delegate = [AppDelegate delegate];
     if ([cell.status.user.idstr isEqualToString:delegate.user.idstr])
@@ -161,6 +164,8 @@
                 {
                     NSLog(@"收藏失败: %@", error);
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        //激活删除按钮
+                        sender.enabled = YES;
                         [Utils presentNotificationWithText:@"删除失败"];
                     });
                 }
