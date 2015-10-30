@@ -27,7 +27,7 @@
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
 {
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:updateStatusTypeComment]; //写评论
     updateStatusView.status = cell.status;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
@@ -95,7 +95,7 @@
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetIcon:(UIImageView *)retweetIcon
 {
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:updateStatusTypeRepost]; //转发
     updateStatusView.status = cell.status;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];

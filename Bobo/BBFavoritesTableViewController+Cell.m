@@ -50,7 +50,7 @@
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
 {
-    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
+    BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:updateStatusTypeComment]; //写评论
     //updateStatusView.idStr = cell.status.idstr;
     updateStatusView.status = cell.status;
     updateStatusView.nameLabel.text = cell.status.user.screen_name;
