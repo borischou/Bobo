@@ -183,4 +183,129 @@
     [delegate.window addSubview:browserView];
 }
 
+#pragma mark - BBCountTableViewCellDelegate
+
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapTodoImageView:(UITapGestureRecognizer *)tap
+{
+    UIImageView *imageView = (UIImageView *)tap.view;
+    imageView.userInteractionEnabled = NO;
+    
+    AppDelegate *delegate = [AppDelegate delegate];
+    ACAccount *account = [delegate defaultAccount];
+    
+    if ([imageView.image isEqual:[NSNull null]] || imageView.image == nil)
+    {
+        //do nothing
+    }
+    
+    if ([imageView.image isEqual:[UIImage imageNamed:@"settings_icon"]])
+    {
+        NSLog(@"settings");
+        imageView.userInteractionEnabled = YES;
+        //个人设置
+        BBSettingsTableViewController *stvc = [[BBSettingsTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        [stvc setTitle:@"Settings"];
+        stvc.hidesBottomBarWhenPushed = YES;
+        [Utils setupNavigationController:nil withUIViewController:stvc];
+        [self.navigationController pushViewController:stvc animated:YES];
+    }
+    
+    if ([imageView.image isEqual:[UIImage imageNamed:@"following_icon"]]
+        || [imageView.image isEqual:[UIImage imageNamed:@"friend_icon"]])
+    {
+        if ([delegate.user.idstr isEqualToString:cell.user.idstr])
+        {
+            return;
+        }
+        NSLog(@"following");
+        //取关
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"取消关注" message:@"您是否确定取消关注此用户？" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消关注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSDictionary *params = @{@"uid": self.user.idstr};
+            [Utils weiboPostRequestWithAccount:account URL:@"friendships/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                if (!error)
+                {
+                    NSLog(@"success");
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        imageView.userInteractionEnabled = YES;
+                        [self.user setFollowing:NO];
+                        [Utils presentNotificationWithText:@"成功取关"];
+                        [cell setNeedsLayout];
+                    });
+                }
+                else
+                {
+                    NSLog(@"error: %@", error);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        imageView.userInteractionEnabled = YES;
+                        [Utils presentNotificationWithText:@"取关失败"];
+                    });
+                }
+            }];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"继续关注" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action)
+        {
+            imageView.userInteractionEnabled = YES;
+        }];
+        [alertController addAction:action];
+        [alertController addAction:cancelAction];
+        [self presentViewController:alertController animated:YES completion:^{}];
+    }
+    if ([imageView.image isEqual:[UIImage imageNamed:@"follow_icon"]])
+    {
+        if ([delegate.user.idstr isEqualToString:cell.user.idstr] || [delegate.uid isEqualToString:cell.user.idstr])
+        {
+            return;
+        }
+        NSLog(@"follow");
+        //关注
+        NSDictionary *params = @{@"uid": self.user.idstr? self.user.idstr: @""};
+        [Utils weiboPostRequestWithAccount:account URL:@"friendships/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error)
+        {
+            if (!error)
+            {
+                NSLog(@"success");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    imageView.userInteractionEnabled = YES;
+                    [self.user setFollowing:YES];
+                    [Utils presentNotificationWithText:@"关注成功"];
+                    [cell setNeedsLayout];
+                });
+            }
+            else
+            {
+                NSLog(@"error: %@", error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    imageView.userInteractionEnabled = YES;
+                    [Utils presentNotificationWithText:@"关注失败"];
+                });
+            }
+        }];
+    }
+}
+
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowerCountLabel:(UITapGestureRecognizer *)tap
+{
+    //跳转获取粉丝数列表
+    BBListTableViewController *ltvc = [[BBListTableViewController alloc] initWithStyle:UITableViewStylePlain listType:listTypeFollower];
+    ltvc.hidesBottomBarWhenPushed = YES;
+    ltvc.user = self.user;
+    [self.navigationController pushViewController:ltvc animated:YES];
+}
+
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapFollowingCountLabel:(UITapGestureRecognizer *)tap
+{
+    //跳转获取关注列表
+    BBListTableViewController *ltvc = [[BBListTableViewController alloc] initWithStyle:UITableViewStylePlain listType:listTypeFollowing];
+    ltvc.hidesBottomBarWhenPushed = YES;
+    ltvc.user = self.user;
+    [self.navigationController pushViewController:ltvc animated:YES];
+}
+
+-(void)tableViewCell:(BBCountTableViewCell *)cell didTapWeiboCountLabel:(UITapGestureRecognizer *)tap
+{
+    //刷新个人微博列表
+    [self.tableView.header beginRefreshing];
+}
+
 @end
