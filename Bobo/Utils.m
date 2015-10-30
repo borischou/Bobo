@@ -227,13 +227,15 @@
     CGFloat height = 0;
     CGFloat fontSize = [Utils fontSizeForWaterfall];
     
-    if (status.pic_urls.count > 0 || status.retweeted_status.pic_urls.count > 0) {
+    if (status.pic_urls.count > 0 || status.retweeted_status.pic_urls.count > 0)
+    {
         height += [Utils maxHeightForWaterfallCoverPicture];
     }
     height += wSmallGap;
     height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] width:width fontSize:fontSize];
     
-    if (status.retweeted_status && status.retweeted_status.pic_urls.count <= 0) {
+    if (status.retweeted_status && status.retweeted_status.pic_urls.count <= 0)
+    {
         height += wSmallGap;
         height += [Utils heightForString:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] width:width fontSize:fontSize];
     }
@@ -269,9 +271,12 @@
     NSURLRequest *urlrequest = [request preparedURLRequest];
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:urlrequest];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
         success(operation, responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
         failure(operation, error);
     }];
     [operation start];
@@ -281,7 +286,8 @@
 {
     SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeSinaWeibo requestMethod:SLRequestMethodPOST URL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.weibo.com/2/%@", url]] parameters:params];
     [request setAccount:weiboAccount];
-    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error)
+    {
         completion(responseData, urlResponse, error);
     }];
 }
@@ -299,7 +305,8 @@
 
 +(void)setupNavigationController:(UINavigationController *)uinvc withUIViewController:(UIViewController *)uivc
 {
-    if (uinvc) {
+    if (uinvc)
+    {
         uinvc.navigationBar.barTintColor = kBarColor;
         uinvc.navigationBar.tintColor = [UIColor whiteColor];
         uinvc.navigationBar.layer.shadowOpacity = 0.2;
@@ -310,7 +317,8 @@
     uivc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     uivc.view.backgroundColor = bBGColor;
     
-    if ([uivc isKindOfClass:[UITableViewController class]]) {
+    if ([uivc isKindOfClass:[UITableViewController class]])
+    {
         UITableViewController *uitvc = (UITableViewController *)uivc;
         uitvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
@@ -321,9 +329,11 @@
     NSMutableArray *statuses = @[].mutableCopy;
     NSError *error = nil;
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    if (![[dict objectForKey:@"statuses"] isEqual:[NSNull null]]) {
+    if (![[dict objectForKey:@"statuses"] isEqual:[NSNull null]])
+    {
         NSArray *status_dicts = [dict objectForKey:@"statuses"];
-        for (NSDictionary *status_dict in status_dicts) {
+        for (NSDictionary *status_dict in status_dicts)
+        {
             Status *status = [[Status alloc] initWithDictionary:status_dict];
             [statuses addObject:status];
         }
@@ -340,10 +350,14 @@
     [delegate.window bringSubviewToFront:notificationView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [notificationView setFrame:CGRectMake(0, 0, bWidth, 2*statusBarHeight)];
-    } completion:^(BOOL finished) {
+    }
+                     completion:^(BOOL finished)
+    {
         [UIView animateWithDuration:0.2 delay:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [notificationView setFrame:CGRectMake(0, -2*statusBarHeight, bWidth, 2*statusBarHeight)];
-        } completion:^(BOOL finished) {
+        }
+                         completion:^(BOOL finished)
+        {
             [notificationView removeFromSuperview];
         }];
     }];
