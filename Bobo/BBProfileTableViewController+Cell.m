@@ -45,7 +45,8 @@
     {
         [favoriteIcon setImage:[UIImage imageNamed:@"fav_icon_3"]];
         NSDictionary *params = @{@"id": cell.status.idstr};
-        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error)
+        {
             if (!error)
             {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
@@ -69,7 +70,8 @@
     {
         [favoriteIcon setImage:[UIImage imageNamed:@"faved_icon"]];
         NSDictionary *params = @{@"id": cell.status.idstr};
-        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"favorites/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error)
+        {
             if (!error)
             {
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
@@ -121,7 +123,8 @@
     if ([cell.status.user.idstr isEqualToString:delegate.user.idstr])
     {
         UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"删除微博" message:@"是否删除此微博？" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+        {
             NSDictionary *params = @{@"id": cell.status.idstr};
             [Utils weiboPostRequestWithAccount:self.weiboAccount URL:@"statuses/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                 if (!error) {
@@ -146,7 +149,8 @@
                 }
             }];
         }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action)
+        {
             //取消
             sender.enabled = YES;
         }];
@@ -251,6 +255,7 @@
         [alertController addAction:cancelAction];
         [self presentViewController:alertController animated:YES completion:^{}];
     }
+    
     if ([imageView.image isEqual:[UIImage imageNamed:@"follow_icon"]])
     {
         if ([delegate.user.idstr isEqualToString:cell.user.idstr] || [delegate.uid isEqualToString:cell.user.idstr])
