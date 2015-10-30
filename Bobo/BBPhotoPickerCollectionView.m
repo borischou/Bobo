@@ -22,7 +22,8 @@ static CGFloat scale = 1.0;
 -(instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout
 {
     self = [super initWithFrame:frame collectionViewLayout:layout];
-    if (self) {
+    if (self)
+    {
         self.delegate = self;
         self.dataSource = self;
         _layout = (UICollectionViewFlowLayout *)layout;
@@ -36,9 +37,11 @@ static CGFloat scale = 1.0;
 -(void)preparePhotoDataWithLayout:(UICollectionViewFlowLayout *)layout
 {
     PHFetchResult *fetchResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-    [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL *stop) {
+    [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL *stop)
+     {
         NSLog(@"ALBUM NAME: %@", collection.localizedTitle);
-        if ([collection.localizedTitle isEqualToString:@"Camera Roll"]) {
+        if ([collection.localizedTitle isEqualToString:@"Camera Roll"])
+        {
             PHFetchOptions *options  = [[PHFetchOptions alloc] init];
             options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
             
@@ -47,10 +50,12 @@ static CGFloat scale = 1.0;
             _pickedStatuses = nil;
             _pickedStatuses = @[].mutableCopy;
             
-            for (int i = 0; i < _fetchedPhotos.count; i ++) {
+            for (int i = 0; i < _fetchedPhotos.count; i ++)
+            {
                 [_pickedStatuses addObject:@"0"];
             }
-            if (!_manager) {
+            if (!_manager)
+            {
                 _manager = [[PHCachingImageManager alloc] init];
             }
             
@@ -81,17 +86,20 @@ static CGFloat scale = 1.0;
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BBPhotoSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseCell" forIndexPath:indexPath];
-    if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"0"]) {
+    if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"0"])
+    {
         cell.layer.borderWidth = 0.0;
     }
-    if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"1"]) {
+    if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"1"])
+    {
         cell.layer.borderWidth = 2.0;
         cell.layer.borderColor = UIColor.greenColor.CGColor;
     }
     
     CGSize targetSize = CGSizeMake(_layout.itemSize.width*scale, _layout.itemSize.height*scale);
     PHAsset *asset = _fetchedPhotos[indexPath.item];
-    [_manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage *result, NSDictionary *info) {
+    [_manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage *result, NSDictionary *info)
+    {
         cell.imageView.image = result;
     }];
     
@@ -101,14 +109,19 @@ static CGFloat scale = 1.0;
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BBPhotoSelectionCollectionViewCell *cell = (BBPhotoSelectionCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"1"]) {
+    if ([[_pickedStatuses objectAtIndex:indexPath.item] isEqualToString:@"1"])
+    {
         cell.layer.borderWidth = 0.0;
-        if (_pickedOnes.count) {
+        if (_pickedOnes.count)
+        {
             [_pickedStatuses setObject:@"0" atIndexedSubscript:indexPath.item];
             [_pickedOnes removeObject:_fetchedPhotos[indexPath.item]];
         }
-    } else {
-        if (_pickedOnes.count == 9) {
+    }
+    else
+    {
+        if (_pickedOnes.count == 9)
+        {
             return;
         }
         [_pickedOnes addObject:_fetchedPhotos[indexPath.item]];

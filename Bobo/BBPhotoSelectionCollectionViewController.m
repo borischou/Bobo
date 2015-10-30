@@ -56,9 +56,11 @@
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.synchronous = YES;
     NSInteger pickedNum = _photoPickerCollectionView.pickedOnes.count;
-    for (int i = 0; i < pickedNum; i ++) {
+    for (int i = 0; i < pickedNum; i ++)
+    {
         PHAsset *asset = _photoPickerCollectionView.pickedOnes[i];
-        [manager requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        [manager requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
+        {
             [images addObject:imageData];
         }];
     }

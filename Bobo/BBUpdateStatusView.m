@@ -687,14 +687,17 @@ static NSString *filepath = @"draft.plist";
 -(void)alertForDraft
 {
     UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"草稿" message:@"是否保存为草稿?" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"保存草稿" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"保存草稿" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+    {
         [self saveToDraft];
         [self removeViewAnimation];
     }];
-    UIAlertAction *unsaveAction = [UIAlertAction actionWithTitle:@"不保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *unsaveAction = [UIAlertAction actionWithTitle:@"不保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+    {
         [self removeViewAnimation];
     }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action)
+    {
         [self resignTextViewAndMask:NO];
     }];
     [alertcontroller addAction:saveAction];
@@ -718,7 +721,9 @@ static NSString *filepath = @"draft.plist";
         {
             _mask.alpha = 0;
         }
-    } completion:^(BOOL finished) {
+    }
+                     completion:^(BOOL finished)
+    {
         if (finished)
         {
             if (_mask)
