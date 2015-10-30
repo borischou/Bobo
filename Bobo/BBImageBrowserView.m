@@ -20,8 +20,9 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIPageControl *pageControl; //图片数量不超过9张时显示page control
-@property (nonatomic) NSInteger count;
-@property (nonatomic) NSInteger imageTag;
+@property (assign, nonatomic) NSInteger count;
+@property (assign, nonatomic) NSInteger imageTag;
+@property (assign, nonatomic) BOOL saved;
 
 @property (strong, nonatomic) UITapGestureRecognizer *singleTap;
 
@@ -41,6 +42,7 @@
         } completion:^(BOOL finished) {}];
         _imageTag = tag;
         _count = [urls count];
+        _saved = NO;
         [self loadMainScrollViewWithImages:urls viewTag:tag];
         
         if (urls.count <= 9 && urls.count > 1) {
@@ -216,6 +218,31 @@
 //        
 //        [vc.navigationController presentViewController:alertcontroller animated:YES completion:^{}];
 //    }
+    if (!_saved)
+    {
+        [self saveImageToSystemAlbum:_imageView.image];
+    }
+}
+
+-(void)saveImageToSystemAlbum:(UIImage *)image
+{
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+}
+
+-(void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    NSString *msg;
+    if (!error)
+    {
+        msg = @"图片保存成功";
+        _saved = YES;
+    }
+    else
+    {
+        msg = @"图片保存失败";
+        _saved = NO;
+    }
+    [Utils presentNotificationWithText:msg];
 }
 
 #pragma mark - UIScrollViewDelegate

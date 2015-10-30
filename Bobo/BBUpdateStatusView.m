@@ -883,13 +883,17 @@ static NSString *filepath = @"draft.plist";
     [_statusTextView becomeFirstResponder];
 }
 
-#pragma mark - UIImagePickerControllerDelegate
+#pragma mark - UIImagePickerControllerDelegate & support
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     NSLog(@"didFinishPickingMediaWithInfo");
-    [self shouldHideMaskAndView:NO];
     UIImage *takenImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    
+    //此处进行拍照保存
+    [self saveImageToSystemAlbum:takenImage];
+    
+    [self shouldHideMaskAndView:NO];
     if (!_pickedOnes)
     {
         _pickedOnes = @[].mutableCopy;
@@ -907,6 +911,19 @@ static NSString *filepath = @"draft.plist";
     [self shouldHideMaskAndView:NO];
     [_picker dismissViewControllerAnimated:YES completion:^{}];
     [_statusTextView becomeFirstResponder];
+}
+
+-(void)saveImageToSystemAlbum:(UIImage *)image
+{
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+}
+
+-(void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if (!error)
+    {
+        NSLog(@"图片保存成功");
+    }
 }
 
 #pragma mark - UITextViewDelegate & support
