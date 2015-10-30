@@ -50,4 +50,6 @@ typedef void (^SLRequestCompletionHandler) (NSData *responseData, NSHTTPURLRespo
 +(void)cleanDiskImages;
 +(void)clearImageCache;
 
++(NSString *)preferenceSinaWeiboURL;
+
 @end

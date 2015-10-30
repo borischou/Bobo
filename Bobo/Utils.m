@@ -35,6 +35,11 @@
 
 @implementation Utils
 
++(NSString *)preferenceSinaWeiboURL
+{
+    return @"prefs:";
+}
+
 +(CGFloat)heightForImgsWithCount:(NSInteger)count
 {
     CGFloat height = 0;

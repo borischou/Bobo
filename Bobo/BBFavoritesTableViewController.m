@@ -65,13 +65,13 @@
 {
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                     {
-                                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:"]];
-                                     }];
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[Utils preferenceSinaWeiboURL]]];
+    }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                   {
-                                       //取消
-                                   }];
+    {
+        //取消
+    }];
     [ac addAction:settingsAction];
     [ac addAction:cancelAction];
     [self.navigationController presentViewController:ac animated:YES completion:^{}];
@@ -83,10 +83,13 @@
         if (!_weiboAccount)
         {
             _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
-            if (_weiboAccount) {
+            if (_weiboAccount)
+            {
                 _page = 1;
                 [self fetchFavoriteStatuses];
-            } else {
+            }
+            else
+            {
                 [self.tableView.header endRefreshing];
                 [self navigateToSettings];
                 [Utils presentNotificationWithText:@"更新失败"];
@@ -135,10 +138,13 @@
 //https://api.weibo.com/2/favorites.json?count=count_num&page=page_num
 -(void)fetchFavoriteStatuses
 {
-    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"favorites.json?count=20&page=%d", _page] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"favorites.json?count=20&page=%d", _page] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error]];
-    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
         NSLog(@"favoristes error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"更新失败"];
@@ -152,9 +158,11 @@
 -(void)handleWeiboResult:(id)result
 {
     NSDictionary *resultDict = result;
-    if (![[resultDict objectForKey:@"favorites"] isEqual:[NSNull null]]) {
+    if (![[resultDict objectForKey:@"favorites"] isEqual:[NSNull null]])
+    {
         NSArray *favArray = [resultDict objectForKey:@"favorites"];
-        if (favArray.count > 0) {
+        if (favArray.count > 0)
+        {
             if (!_statuses) {
                 _statuses = @[].mutableCopy;
             }
@@ -162,8 +170,10 @@
                 _statuses = nil;
                 _statuses = @[].mutableCopy;
             }
-            for (int i = 0; i < favArray.count; i ++) {
-                if (![[favArray[i] objectForKey:@"status"] isEqual:[NSNull null]]) {
+            for (int i = 0; i < favArray.count; i ++)
+            {
+                if (![[favArray[i] objectForKey:@"status"] isEqual:[NSNull null]])
+                {
                     Status *status = [[Status alloc] initWithDictionary:[favArray[i] objectForKey:@"status"]];
                     [_statuses addObject:status];
                 }
@@ -181,7 +191,8 @@
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     AppDelegate *delegate = [AppDelegate delegate];
-    if (delegate.currentIndex == tabBarController.selectedIndex) {
+    if (delegate.currentIndex == tabBarController.selectedIndex)
+    {
         [self.tableView.header beginRefreshing];
     }
     delegate.currentIndex = tabBarController.selectedIndex;
@@ -193,7 +204,8 @@
                     withVelocity:(CGPoint)velocity
              targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (fabs(targetContentOffset->y+bHeight-self.tableView.contentSize.height) <= 250) {
+    if (fabs(targetContentOffset->y+bHeight-self.tableView.contentSize.height) <= 250)
+    {
         [self fetchFavoriteStatuses];
     }
 }
@@ -202,9 +214,12 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([_statuses count]) {
+    if ([_statuses count])
+    {
         return [_statuses count];
-    } else {
+    }
+    else
+    {
         return 0;
     }
 }
@@ -226,10 +241,13 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([_statuses count]) {
+    if ([_statuses count])
+    {
         Status *status = [_statuses objectAtIndex:indexPath.section];
         return status.height;
-    } else {
+    }
+    else
+    {
         return 0;
     }
 }
@@ -239,8 +257,10 @@
     [tableView registerClass:[BBStatusTableViewCell class] forCellReuseIdentifier:@"home"];
     BBStatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if ([_statuses count]) {
-        if ([_statuses count]) {
+    if ([_statuses count])
+    {
+        if ([_statuses count])
+        {
             Status *status = [self.statuses objectAtIndex:indexPath.section];
             cell.status = status;
             cell.delegate = self;
@@ -307,12 +327,14 @@
              });
          }];
     }
-    if ([hotword hasPrefix:@"http"]) {
+    if ([hotword hasPrefix:@"http"])
+    {
         //打开webview
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
         [self.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
-    if ([hotword hasPrefix:@"#"]) {
+    if ([hotword hasPrefix:@"#"])
+    {
         //热门话题
     }
 }
