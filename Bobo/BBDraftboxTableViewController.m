@@ -30,18 +30,25 @@ static NSString *filepath = @"draft.plist";
 
 @implementation BBDraftboxTableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self.tableView registerClass:[BBDraftboxTableViewCell class] forCellReuseIdentifier:reuseId];
     _drafts = [self readDraftsFromPlist];
-    if (_drafts && _drafts.count > 0) {
+    if (_drafts && _drafts.count > 0)
+    {
         [self.tableView reloadData];
     }
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [super didReceiveMemoryWarning];
+    NSLog(@"让圣光净化一切！");
+    [Utils clearImageCache];
+    [Utils clearDiskImages];
 }
 
 #pragma mark - Helpers
@@ -51,13 +58,15 @@ static NSString *filepath = @"draft.plist";
     NSString *plistPath = [Utils plistPathForFilename:filepath];
     
     NSFileManager *manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:plistPath]) {
+    if (![manager fileExistsAtPath:plistPath])
+    {
         return nil;
     }
     NSDictionary *draftDict = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     NSMutableArray *drafts = @[].mutableCopy;
     NSArray *draftArray = draftDict[@"draft"];
-    for (NSDictionary *tmp_draft in draftArray) {
+    for (NSDictionary *tmp_draft in draftArray)
+    {
         [drafts addObject:[[Draft alloc] initWithDictionary:tmp_draft]];
     }
     return drafts;
@@ -65,11 +74,13 @@ static NSString *filepath = @"draft.plist";
 
 #pragma mark - Table view data source & delegate
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return _drafts.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     BBDraftboxTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId forIndexPath:indexPath];
     Draft *draft = _drafts[indexPath.row];
     cell.draft = draft;
@@ -79,7 +90,8 @@ static NSString *filepath = @"draft.plist";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_drafts.count > 0) {
+    if (_drafts.count > 0)
+    {
         Draft *draft = _drafts[indexPath.row];
         return draft.height;
     } else return 0;
@@ -168,25 +180,31 @@ static NSString *filepath = @"draft.plist";
                     }];
                 }
                 else if (cell.draft.images.count > 1)
-                { //有多张配图
-                    
+                {
+                    //有多张配图
                 }
                 else
                 { //无配图
                     params = @{@"status": cell.draft.text};
                     [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/update.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                         NSString *notificationText = nil;
-                        if (!error) {
-                            if (urlResponse.statusCode < 300 && urlResponse.statusCode > 0) {
+                        if (!error)
+                        {
+                            if (urlResponse.statusCode < 300 && urlResponse.statusCode > 0)
+                            {
                                 notificationText = @"微博发布成功";
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
                                     [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
                                 });
-                            } else {
+                            }
+                            else
+                            {
                                 notificationText = @"微博发布失败";
                             }
-                        } else {
+                        }
+                        else
+                        {
                             NSLog(@"发布失败：%@", error);
                             notificationText = [NSString stringWithFormat:@"微博发布失败: %@", error];
                         }
@@ -204,7 +222,8 @@ static NSString *filepath = @"draft.plist";
                            @"comment_ori": cellParams[@"comment_ori"]};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
-                    if (!error) {
+                    if (!error)
+                    {
                         NSLog(@"发布成功。");
                         notificationText = @"评论发布成功";
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -212,7 +231,8 @@ static NSString *filepath = @"draft.plist";
                             [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
                         });
                     }
-                    if (error) {
+                    if (error)
+                    {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
                     }
@@ -229,13 +249,16 @@ static NSString *filepath = @"draft.plist";
                            @"is_comment": cellParams[@"is_comment"]};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/repost.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
-                    if (!error) {
+                    if (!error)
+                    {
                         notificationText = @"转发发布成功";
                         dispatch_async(dispatch_get_main_queue(), ^{
                             NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
                             [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
                         });
-                    } else {
+                    }
+                    else
+                    {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"转发发布失败: %@", error];
                     }
@@ -253,13 +276,16 @@ static NSString *filepath = @"draft.plist";
                            @"comment_ori": cellParams[@"comment_ori"]};
                 [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/reply.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *notificationText = nil;
-                    if (!error) {
+                    if (!error)
+                    {
                         notificationText = @"评论发布成功";
                         dispatch_async(dispatch_get_main_queue(), ^{
                             NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
                             [self tableViewCell:cell shouldDeleteDraftAtIndexPath:indexPath];
                         });
-                    } else {
+                    }
+                    else
+                    {
                         NSLog(@"发布失败：%@", error);
                         notificationText = [NSString stringWithFormat:@"评论发布失败: %@", error];
                     }
@@ -287,7 +313,8 @@ static NSString *filepath = @"draft.plist";
     //将新数据重新覆盖写入文件
     BOOL flag = [drafts writeToFile:plistPath atomically:YES];
     NSLog(@"写入结果：%@", flag? @"成功": @"失败");
-    if (flag) {
+    if (flag)
+    {
         [_drafts removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -304,9 +331,11 @@ static NSString *filepath = @"draft.plist";
     NSMutableArray *array = drafts[@"draft"];
     
     NSInteger index;
-    for (int i = 0; i < array.count; i ++) {
+    for (int i = 0; i < array.count; i ++)
+    {
         NSDictionary *dict = array[i];
-        if ([dict[@"time"] isEqualToString:time]) {
+        if ([dict[@"time"] isEqualToString:time])
+        {
             index = i;
             break;
         }
@@ -317,7 +346,8 @@ static NSString *filepath = @"draft.plist";
     //将新数据重新覆盖写入文件
     BOOL flag = [drafts writeToFile:plistPath atomically:YES];
     NSLog(@"写入结果：%@", flag? @"成功": @"失败");
-    if (flag) {
+    if (flag)
+    {
         [_drafts removeObjectAtIndex:index];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];

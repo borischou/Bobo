@@ -37,7 +37,8 @@
 -(instancetype)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         [self setFrame:CGRectMake(0, 0, bWidth, cSelfHeight)];
         [self setupBarViews];
     }

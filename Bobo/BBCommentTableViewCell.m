@@ -51,14 +51,18 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 -(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
     [super setHighlighted:highlighted animated:animated];
-    if (self.highlighted) {
+    if (self.highlighted)
+    {
         self.contentView.alpha = 0.9;
-    } else {
+    }
+    else
+    {
         self.contentView.alpha = 1.0;
     }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
@@ -67,7 +71,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+    if (self)
+    {
         [self initCellLayout];
     }
     return self;
@@ -164,7 +169,6 @@ static inline NSRegularExpression * HotwordRegularExpression() {
             [_commentTextLabel addLinkWithTextCheckingResult:result];
         }
     }
-    
 }
 
 -(void)loadCommentLayout

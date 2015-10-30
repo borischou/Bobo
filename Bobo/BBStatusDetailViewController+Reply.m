@@ -22,7 +22,8 @@
         indexPath = [NSIndexPath indexPathForRow:index inSection:1];
         [self.comments removeObject:data];
     }
-    if ([data isKindOfClass:[Status class]]) {
+    if ([data isKindOfClass:[Status class]])
+    {
         index = [self.statuses indexOfObject:data];
         indexPath = [NSIndexPath indexPathForRow:index inSection:1];
         [self.statuses removeObject:data];
@@ -82,7 +83,8 @@
         
         //调用删除接口
         NSDictionary *params = @{@"cid": comment.idstr? comment.idstr: @""};
-        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"comments/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        [Utils weiboPostRequestWithAccount:[[AppDelegate delegate] defaultAccount] URL:@"comments/destroy.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error)
+        {
             NSString *notificationText = nil;
             if (!error)
             {
@@ -98,8 +100,11 @@
                 [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                     mask.alpha = 0;
                     [replyView setFrame:CGRectMake(0, bHeight, bWidth, replyView.viewHeight)];
-                } completion:^(BOOL finished) {
-                    if (finished) {
+                }
+                                 completion:^(BOOL finished)
+                 {
+                    if (finished)
+                    {
                         [Utils presentNotificationWithText:notificationText];
                         [mask removeFromSuperview];
                         [replyView removeFromSuperview];

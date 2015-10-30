@@ -179,7 +179,8 @@
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapStatusPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in cell.status.pic_urls) {
+    for (NSString *str in cell.status.pic_urls)
+    {
         [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls tappedViewTag:tap.view.tag];
@@ -188,7 +189,8 @@
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetPicture:(UITapGestureRecognizer *)tap
 {
     NSMutableArray *largeUrls = @[].mutableCopy;
-    for (NSString *str in cell.status.retweeted_status.pic_urls) {
+    for (NSString *str in cell.status.retweeted_status.pic_urls)
+    {
         [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls tappedViewTag:tap.view.tag];

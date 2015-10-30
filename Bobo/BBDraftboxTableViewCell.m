@@ -33,11 +33,13 @@ static CGFloat bigHeight = 20;
 
 @implementation BBDraftboxTableViewCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
@@ -46,7 +48,8 @@ static CGFloat bigHeight = 20;
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+    if (self)
+    {
         [self setupSubviews];
     }
     return self;
@@ -109,7 +112,8 @@ static CGFloat bigHeight = 20;
     NSDictionary *params = _draft.params;
     NSData *imageData = _draft.images.firstObject;
     
-    switch (type) {
+    switch (type)
+    {
         case DraftTypeOriginal:
             [_type setText:@"微博草稿"];
             break;
@@ -126,7 +130,8 @@ static CGFloat bigHeight = 20;
             break;
     }
     
-    if (type != DraftTypeOriginal) {
+    if (type != DraftTypeOriginal)
+    {
         [_repostContent setText:params[@"original"]];
     }
     [_content setText:_draft.text];
