@@ -170,6 +170,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     _deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_deleteButton setFrame:CGRectZero];
     [_deleteButton setBackgroundImage:[UIImage imageNamed:@"delete_icon"] forState:UIControlStateNormal];
+    [_deleteButton setBackgroundImage:[UIImage imageNamed:@"delete-disable"] forState:UIControlStateDisabled];
+    [_deleteButton setBackgroundImage:[UIImage imageNamed:@"delete-selected"] forState:UIControlStateHighlighted];
     [_deleteButton addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_deleteButton];
     

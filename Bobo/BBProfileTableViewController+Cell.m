@@ -23,42 +23,12 @@
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapAvatar:(UIImageView *)avatar
 {
     return;
-    //    NSLog(@"didTapAvatar");
-    //    NSDictionary *params = @{@"uid": cell.status.user.idstr};
-    //    [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
-    //                                      URL:@"statuses/user_timeline.json"
-    //                      SLRequestHTTPMethod:SLRequestMethodGET
-    //                               parameters:params
-    //               completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-    //     {
-    //         NSMutableArray *statuses = [Utils statusesWith:responseObject];
-    //         Status *status = statuses.firstObject;
-    //         User *user = status.user;
-    //
-    //         BBProfileTableViewController *profiletvc = [[BBProfileTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    //         profiletvc.uid = user.idstr;
-    //         profiletvc.statuses = statuses;
-    //         profiletvc.user = user;
-    //         profiletvc.shouldNavBtnShown = NO;
-    //         profiletvc.title = @"Profile";
-    //         profiletvc.hidesBottomBarWhenPushed = YES;
-    //         [Utils setupNavigationController:self.navigationController withUIViewController:profiletvc];
-    //         [self.navigationController pushViewController:profiletvc animated:YES];
-    //     }
-    //               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
-    //     {
-    //         NSLog(@"error %@", error);
-    //         dispatch_async(dispatch_get_main_queue(), ^{
-    //             [Utils presentNotificationWithText:@"访问失败"];
-    //         });
-    //     }];
 }
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:1]; //写评论
     updateStatusView.status = cell.status;
-    //updateStatusView.nameLabel.text = cell.status.user.screen_name;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -69,6 +39,8 @@
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapFavoriteIcon:(UIImageView *)favoriteIcon
 {
+    favoriteIcon.userInteractionEnabled = NO;
+    
     if (cell.status.favorited)
     {
         [favoriteIcon setImage:[UIImage imageNamed:@"fav_icon_3"]];
@@ -79,6 +51,7 @@
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    favoriteIcon.userInteractionEnabled = YES;
                     [Utils presentNotificationWithText:@"删除成功"];
                 });
             }
@@ -86,6 +59,7 @@
             {
                 NSLog(@"收藏删除失败: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    favoriteIcon.userInteractionEnabled = YES;
                     [Utils presentNotificationWithText:@"删除失败"];
                 });
             }
@@ -101,6 +75,7 @@
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:YES];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    favoriteIcon.userInteractionEnabled = YES;
                     [Utils presentNotificationWithText:@"收藏成功"];
                 });
             }
@@ -108,6 +83,7 @@
             {
                 NSLog(@"收藏失败: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    favoriteIcon.userInteractionEnabled = YES;
                     [Utils presentNotificationWithText:@"收藏失败"];
                 });
             }
@@ -119,12 +95,6 @@
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:2]; //转发
     updateStatusView.status = cell.status;
-//    if (cell.status.retweeted_status.text.length > 0)
-//    {
-//        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", cell.status.user.screen_name, cell.status.text];
-//    }
-    //updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
-    //updateStatusView.nameLabel.text = @"转发";
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -144,6 +114,8 @@
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didPressDeleteButton:(UIButton *)sender
 {
+    sender.enabled = NO;
+    
     //delete the status
     AppDelegate *delegate = [AppDelegate delegate];
     if ([cell.status.user.idstr isEqualToString:delegate.user.idstr])
@@ -168,6 +140,7 @@
                 {
                     NSLog(@"收藏失败: %@", error);
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        sender.enabled = YES;
                         [Utils presentNotificationWithText:@"删除失败"];
                     });
                 }
@@ -175,6 +148,7 @@
         }];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             //取消
+            sender.enabled = YES;
         }];
         [alertcontroller addAction:deleteAction];
         [alertcontroller addAction:cancelAction];
@@ -189,7 +163,7 @@
     {
         [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
     }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self setImageBrowserWithImageUrls:largeUrls tappedViewTag:tap.view.tag];
 }
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetPicture:(UITapGestureRecognizer *)tap
@@ -199,10 +173,10 @@
     {
         [largeUrls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:str]];
     }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self setImageBrowserWithImageUrls:largeUrls tappedViewTag:tap.view.tag];
 }
 
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
+-(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls tappedViewTag:(NSInteger)tag
 {
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds imageUrls:urls imageTag:tag];
     AppDelegate *delegate = [AppDelegate delegate];

@@ -14,6 +14,9 @@
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapAvatar:(UIImageView *)avatar
 {
+    //先禁用，失败后开启
+    avatar.userInteractionEnabled = NO;
+    
     NSLog(@"didTapAvatar");
     NSDictionary *params = @{@"uid": cell.status.user.idstr};
     [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
@@ -40,6 +43,7 @@
      {
          NSLog(@"error %@", error);
          dispatch_async(dispatch_get_main_queue(), ^{
+             avatar.userInteractionEnabled = YES;
              [Utils presentNotificationWithText:@"访问失败"];
          });
      }];
@@ -48,8 +52,6 @@
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapCommentIcon:(UIImageView *)commentIcon
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:updateStatusTypeComment]; //写评论
-    //updateStatusView.status = cell.status;
-    //updateStatusView.nameLabel.text = cell.status.user.screen_name;
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -60,6 +62,9 @@
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapFavoriteIcon:(UIImageView *)favoriteIcon
 {
+    //先禁用，回调再激活
+    favoriteIcon.userInteractionEnabled = NO;
+    
     if (cell.status.favorited)
     {
         [favoriteIcon setImage:[UIImage imageNamed:@"fav_icon_3"]];
@@ -70,6 +75,7 @@
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:NO];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    favoriteIcon.userInteractionEnabled = YES;
                     [Utils presentNotificationWithText:@"删除成功"];
                 });
             }
@@ -77,6 +83,7 @@
             {
                 NSLog(@"收藏删除失败: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    favoriteIcon.userInteractionEnabled = YES;
                     [Utils presentNotificationWithText:@"删除失败"];
                 });
             }
@@ -92,6 +99,7 @@
                 NSLog(@"response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
                 [cell.status setFavorited:YES];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    favoriteIcon.userInteractionEnabled = YES;
                     [Utils presentNotificationWithText:@"收藏成功"];
                 });
             }
@@ -99,6 +107,7 @@
             {
                 NSLog(@"收藏失败: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    favoriteIcon.userInteractionEnabled = YES;
                     [Utils presentNotificationWithText:@"收藏失败"];
                 });
             }
@@ -110,12 +119,6 @@
 {
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:updateStatusTypeRepost]; //转发
     updateStatusView.status = cell.status;
-//    updateStatusView.nameLabel.text = @"转发";
-//    if (cell.status.retweeted_status.text.length > 0)
-//    {
-//        updateStatusView.statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", cell.status.user.screen_name, cell.status.text];
-//    }
-//    updateStatusView.statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -162,7 +165,7 @@
                 }
                 else
                 {
-                    NSLog(@"收藏失败: %@", error);
+                    NSLog(@"删除失败: %@", error);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         //激活删除按钮
                         sender.enabled = YES;
@@ -173,6 +176,7 @@
         }];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             //取消
+            sender.enabled = YES;
         }];
         [alertcontroller addAction:deleteAction];
         [alertcontroller addAction:cancelAction];
@@ -187,7 +191,7 @@
     {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self setImageBrowserWithImageUrls:largeUrls tappedViewTag:tap.view.tag];
 }
 
 -(void)tableViewCell:(BBStatusTableViewCell *)cell didTapRetweetPicture:(UITapGestureRecognizer *)tap
@@ -197,10 +201,10 @@
     {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:tap.view.tag];
+    [self setImageBrowserWithImageUrls:largeUrls tappedViewTag:tap.view.tag];
 }
 
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
+-(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls tappedViewTag:(NSInteger)tag
 {
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds imageUrls:urls imageTag:tag];
     AppDelegate *delegate = [AppDelegate delegate];

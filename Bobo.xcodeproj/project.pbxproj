@@ -108,6 +108,8 @@
 		45EE7A3E1BE08162002B2D13 /* BBProfileTableViewController+Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A3D1BE08162002B2D13 /* BBProfileTableViewController+Cell.m */; };
 		45EE7A441BE08380002B2D13 /* BBStatusDetailViewController+Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A431BE08380002B2D13 /* BBStatusDetailViewController+Cell.m */; };
 		45EE7A471BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE7A461BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.m */; };
+		45EF131C1BE35A3E00007EB8 /* delete-disable@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45EF131B1BE35A3E00007EB8 /* delete-disable@3x.png */; };
+		45EF131E1BE35A8D00007EB8 /* delete-selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45EF131D1BE35A8D00007EB8 /* delete-selected@3x.png */; };
 		45F07DBA1B4985B800327E6D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F07DB91B4985B800327E6D /* OpenGLES.framework */; };
 		45F9CE9D1BC750170095133D /* BBAlbumCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */; };
 		FC097B6414C0C1BA87804A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ADFD39DDA092351BC9F4D9 /* libPods.a */; };
@@ -287,6 +289,8 @@
 		45EE7A431BE08380002B2D13 /* BBStatusDetailViewController+Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBStatusDetailViewController+Cell.m"; sourceTree = "<group>"; };
 		45EE7A451BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBStatusDetailViewController+TTLabel.h"; sourceTree = "<group>"; };
 		45EE7A461BE083F1002B2D13 /* BBStatusDetailViewController+TTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBStatusDetailViewController+TTLabel.m"; sourceTree = "<group>"; };
+		45EF131B1BE35A3E00007EB8 /* delete-disable@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete-disable@3x.png"; sourceTree = "<group>"; };
+		45EF131D1BE35A8D00007EB8 /* delete-selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete-selected@3x.png"; sourceTree = "<group>"; };
 		45F07DB91B4985B800327E6D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		45F9CE9B1BC750170095133D /* BBAlbumCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAlbumCollectionViewController.h; sourceTree = "<group>"; };
 		45F9CE9C1BC750170095133D /* BBAlbumCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAlbumCollectionViewController.m; sourceTree = "<group>"; };
@@ -457,6 +461,8 @@
 			isa = PBXGroup;
 			children = (
 				0094A0841BC5585A00C96D67 /* delete_icon@3x.png */,
+				45EF131B1BE35A3E00007EB8 /* delete-disable@3x.png */,
+				45EF131D1BE35A8D00007EB8 /* delete-selected@3x.png */,
 				45A183E31BB9319B00FE9890 /* following_icon@3x.png */,
 				4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */,
 				45BE63EB1BD1085C00FBA95E /* resend_icon@3x.png */,
@@ -792,6 +798,7 @@
 				45A183E81BB931BF00FE9890 /* friend_icon@3x.png in Resources */,
 				456254DD1B8306200009A332 /* fav_icon_3@3x.png in Resources */,
 				4567C2DC1B9C2BA300C8660B /* icon_album_selected@3x.png in Resources */,
+				45EF131C1BE35A3E00007EB8 /* delete-disable@3x.png in Resources */,
 				451441DE1B295CA9000532DD /* Images.xcassets in Resources */,
 				4567C2DA1B9C2B5E00C8660B /* icon_camera_selected@3x.png in Resources */,
 				45A183E41BB9319B00FE9890 /* following_icon@3x.png in Resources */,
@@ -801,6 +808,7 @@
 				456920411B74758B00E2C204 /* bb_collect_icon@3x.png in Resources */,
 				4567C2D81B9C2AF700C8660B /* icon_camera@3x.png in Resources */,
 				451673C71BC914A90078ACA3 /* faved_icon@3x.png in Resources */,
+				45EF131E1BE35A8D00007EB8 /* delete-selected@3x.png in Resources */,
 				0071943A1B861C4B004DE9E7 /* comntbar_icon@3x.png in Resources */,
 				456920441B7478A800E2C204 /* iconfont-denglu@3x.png in Resources */,
 				45BE63EC1BD1085C00FBA95E /* resend_icon@3x.png in Resources */,
