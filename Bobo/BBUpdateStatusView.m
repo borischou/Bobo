@@ -245,7 +245,9 @@ static NSString *filepath = @"draft.plist";
 -(void)loadSubviews
 {
     _statusTextView.selectedRange = NSMakeRange(0, 0); //光标起始位置
-
+    [self updateCountLabelWith:_statusTextView];
+    [self updateButtonStatusWith:_statusTextView];
+    
     //铺文本输入框
     if (_flag == updateStatusTypePost)
     { //发微博时不考虑下方标签
@@ -745,10 +747,7 @@ static NSString *filepath = @"draft.plist";
                 [_mask removeFromSuperview];
                 _mask = nil;
             }
-            if (_pickedOnes.count > 0)
-            {
-                [_pickedOnes removeAllObjects];
-            }
+            
             _pickedOnes = nil;
             [self removeFromSuperview];
         }
@@ -972,77 +971,60 @@ static NSString *filepath = @"draft.plist";
 -(void)textViewDidChange:(UITextView *)textView
 {
     [self updateCountLabelWith:textView];
-    
-    if (_draft)
-    {
-        if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0)
-        {
-            _statusChanged = NO;
-        }
-        else
-        {
-            _statusChanged = YES;
-        }
-    }
-    else
-    {
-        if (textView.text.length > 0)
-        {
-            _statusChanged = YES;
-        }
-        else
-        {
-            _statusChanged = NO;
-        }
-    }
-
-    if (textView.text.length > 140)
-    {
-        _sendBtn.enabled = NO;
-    }
-    else
-    {
-        _sendBtn.enabled = YES;
-    }
+    [self updateButtonStatusWith:textView];
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    [self updateCountLabelWith:textView];
-    
-    if (_draft)
+    //future plan
+}
+
+-(void)updateButtonStatusWith:(UITextView *)textView
+{
+    NSInteger length = textView.text.length;
+    if (_draft) //如果有草稿
     {
-        if ([textView.text isEqualToString:_draft.text] || textView.text.length == 0)
+        if (!_draft.images) //如果草稿是纯文本
         {
-            _statusChanged = NO;
-            _sendBtn.enabled = NO;
-        }
-        else
-        {
-            _statusChanged = YES;
-            if (textView.text.length > 140)
+            if ([textView.text isEqualToString:_draft.text])
             {
-                _sendBtn.enabled = NO;
+                _statusChanged = NO;
             }
             else
             {
-                _sendBtn.enabled = YES;
+                _statusChanged = YES;
             }
         }
+        else //草稿有图片
+        {
+            if ([textView.text isEqualToString:_draft.text] && [_pickedOnes isEqualToArray:_draft.images]) //图片和文字都没变
+            {
+                _statusChanged = NO;
+            }
+            else
+            {
+                _statusChanged = YES;
+            }
+        }
+    }
+    else //不是草稿
+    {
+        if (length > 0)
+        {
+            _statusChanged = YES;
+        }
+        else
+        {
+            _statusChanged = NO;
+        }
+    }
+    if (length > 0 && length <= 140)
+    {
+        _sendBtn.enabled = YES;
     }
     else
     {
         _sendBtn.enabled = NO;
-        if (textView.text.length > 0 && textView.text.length <= 140)
-        {
-            _statusChanged = YES;
-            _sendBtn.enabled = YES;
-        }
-        else
-        {
-            _statusChanged = NO;
-            _sendBtn.enabled = NO;
-        }
     }
 }
 
