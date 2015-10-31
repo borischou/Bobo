@@ -56,7 +56,8 @@ static NSString *messageCell = @"messageCell";
 {
     BBMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:messageCell forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (_comments.count > 0) {
+    if (_comments.count > 0)
+    {
         Comment *comment = [_comments objectAtIndex:indexPath.row];
         cell.comment = comment;
         cell.delegate = self;
@@ -72,10 +73,13 @@ static NSString *messageCell = @"messageCell";
     BBReplyCommentView *replyView = [[BBReplyCommentView alloc] initWithFrame:CGRectMake(0, bHeight, bWidth, 50*5)];
     replyView.comment = comment;
     replyView.delegate = self;
+    
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:replyView];
     replyView.shouldShowViewStatusOption = YES;
+    
     CGRect replyRect;
+    
     if ([comment.status.user.idstr isEqualToString:delegate.user.idstr]) //评论的微博是自己发的
     {
         replyView.shouldShowDeleteOption = YES;
@@ -91,6 +95,7 @@ static NSString *messageCell = @"messageCell";
         replyView.shouldShowDeleteOption = NO;
         replyRect = CGRectMake(0, bHeight-50*4, bWidth, 50*4);
     }
+    
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [replyView setFrame:replyRect];
     } completion:^(BOOL finished) {}];

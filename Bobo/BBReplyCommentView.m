@@ -43,6 +43,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+        _isTriggeredByDetail = NO;
         [self setupButtonLayout];
     }
     return self;
@@ -208,6 +209,7 @@
 -(void)replyButtonPressed:(UIButton *)sender
 {
     BBUpdateStatusView *updateStatusView;
+    
     if (_comment)
     {
         updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:updateStatusTypeReply]; //回复评论
@@ -219,6 +221,8 @@
         updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:updateStatusTypeComment];
         updateStatusView.status = _status;
     }
+    
+    updateStatusView.isDetail = _isTriggeredByDetail;
     
     AppDelegate *delegate = [AppDelegate delegate];
     [delegate.window addSubview:updateStatusView];

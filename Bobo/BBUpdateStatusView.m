@@ -61,6 +61,7 @@ static NSString *filepath = @"draft.plist";
     self = [super init];
     if (self)
     {
+        _isDetail = NO;
         _flag = flag;
         self.frame = CGRectMake(uSmallGap, -bHeight/2, bWidth-2*uSmallGap, bHeight/2);
         [self setupViewLayout];
@@ -190,18 +191,22 @@ static NSString *filepath = @"draft.plist";
 
 -(void)loadData
 {
-    if (_comment)
+    if (!_draft)
     {
-        _statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", _comment.user.screen_name, _comment.text];
-        _nameLabel.text = _comment.user.screen_name;
-        [_todoLabel setHidden:NO];
+        if (_flag == updateStatusTypeComment)
+        {
+            _statusTextView.text = @"";
+            _nameLabel.text = _comment.user.screen_name;
+            [_todoLabel setHidden:NO];
+        }
+        if (_flag == updateStatusTypeRepost)
+        {
+            _statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", self.status.user.screen_name, self.status.text];
+            _nameLabel.text = _status.user.screen_name;
+            [_todoLabel setHidden:NO];
+        }
     }
-    if (_status)
-    {
-        _statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", self.status.user.screen_name, self.status.text];
-        _nameLabel.text = _status.user.screen_name;
-        [_todoLabel setHidden:NO];
-    }
+    
     if (_draft)
     {
         NSDictionary *params = _draft.params;
@@ -211,7 +216,8 @@ static NSString *filepath = @"draft.plist";
             case DraftTypeOriginal:
                 [_nameLabel setText:@"微博草稿"];
                 [_todoLabel setHidden:YES];
-                if (_draft.images.count > 0) {
+                if (_draft.images.count > 0)
+                {
                     _pickedOnes = _draft.images.copy;
                 }
                 break;
@@ -462,9 +468,12 @@ static NSString *filepath = @"draft.plist";
             break;
         case updateStatusTypeComment: //写评论
             {
-                //不管后续成功与否，本地立即显示内容
-                [self assembleComment:comment user:appDelegate.user text:_statusTextView.text];
-                [self.delegate updateStatusView:self shouldDisplayComment:comment];
+                if (_isDetail)
+                {
+                    //不管后续成功与否，本地立即显示内容
+                    [self assembleComment:comment user:appDelegate.user text:_statusTextView.text];
+                    [self.delegate updateStatusView:self shouldDisplayComment:comment];
+                }
                 
                 if (_status)
                 {
@@ -477,7 +486,8 @@ static NSString *filepath = @"draft.plist";
                 params = @{@"comment": _statusTextView.text,
                            @"id": idstr,
                            @"comment_ori": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
-                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"comments/create.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error)
+                {
                     NSString *notificationText = nil;
                     if (!error)
                     {
@@ -528,7 +538,8 @@ static NSString *filepath = @"draft.plist";
                 params = @{@"status": _statusTextView.text,
                            @"id": idstr,
                            @"is_comment": [_todoLabel.textColor isEqual:[UIColor greenColor]]? @"1": @"0"};
-                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/repost.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                [Utils weiboPostRequestWithAccount:weiboAccount URL:@"statuses/repost.json" parameters:params completionHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error)
+                {
                     NSString *notificationText = nil;
                     if (!error)
                     {
@@ -565,9 +576,12 @@ static NSString *filepath = @"draft.plist";
             break;
         case updateStatusTypeReply: //回复评论
             {
-                //不管后续成功与否，本地立即显示内容
-                [self assembleComment:comment user:appDelegate.user text:[NSString stringWithFormat:@"Reply@%@:%@", _comment.user.screen_name, _statusTextView.text]];
-                [self.delegate updateStatusView:self shouldDisplayComment:comment];
+                if (_isDetail)
+                {
+                    //不管后续成功与否，本地立即显示内容
+                    [self assembleComment:comment user:appDelegate.user text:[NSString stringWithFormat:@"Reply@%@:%@", _comment.user.screen_name, _statusTextView.text]];
+                    [self.delegate updateStatusView:self shouldDisplayComment:comment];
+                }
                 
                 if (_comment)
                 {

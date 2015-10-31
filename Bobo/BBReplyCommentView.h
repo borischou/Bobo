@@ -36,4 +36,6 @@
 @property (strong, nonatomic) Comment *comment;
 @property (strong, nonatomic) Status *status;
 
+@property (assign, nonatomic) BOOL isTriggeredByDetail;
+
 @end

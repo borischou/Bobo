@@ -169,6 +169,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     //delete
     _deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_deleteButton setFrame:CGRectZero];
+    _deleteButton.enabled = YES;
     [_deleteButton setBackgroundImage:[UIImage imageNamed:@"delete_icon"] forState:UIControlStateNormal];
     [_deleteButton setBackgroundImage:[UIImage imageNamed:@"delete-disable"] forState:UIControlStateDisabled];
     [_deleteButton setBackgroundImage:[UIImage imageNamed:@"delete-selected"] forState:UIControlStateHighlighted];

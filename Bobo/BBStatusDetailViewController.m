@@ -410,6 +410,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
         }
         
         replyCommentView.delegate = self;
+        replyCommentView.isTriggeredByDetail = YES;
         
         [delegate.window addSubview:replyCommentView];
         [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{

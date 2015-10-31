@@ -129,7 +129,7 @@
     BBUpdateStatusView *updateStatusView = [[BBUpdateStatusView alloc] initWithFlag:updateStatusTypeComment]; //写评论
     updateStatusView.delegate = self;
     updateStatusView.status = _status;
-    //updateStatusView.nameLabel.text = _status.user.screen_name;
+    updateStatusView.isDetail = YES;
     [delegate.window addSubview:updateStatusView];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         updateStatusView.frame = CGRectMake(cSmallGap, statusBarHeight+cSmallGap, bWidth-2*cSmallGap, bHeight/2-5);
