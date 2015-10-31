@@ -354,10 +354,7 @@ static NSString *filepath = @"draft.plist";
 
 -(void)callbackForUpdateCompletionWithNotificationText:(NSString *)text
 {
-    if (_pickedOnes.count > 0)
-    {
-        [_pickedOnes removeAllObjects];
-    }
+    _pickedOnes = nil;
     [Utils presentNotificationWithText:text];
 }
 
@@ -392,13 +389,16 @@ static NSString *filepath = @"draft.plist";
                     [request addMultipartData:imgData withName:@"pic" type:@"multipart/form-data" filename:@"pic"];
                     [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                         NSString *notificationText = nil;
-                        if (!error) {
+                        if (!error)
+                        {
                             if (urlResponse.statusCode > 0 && urlResponse.statusCode < 300)
                             {
                                 notificationText = @"微博发布成功";
                                 if (_draft)
                                 {
-                                    [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        [self.delegate updateStatusView:self shouldDeleteDraftAt:_draft.time];
+                                    });
                                 }
                             }
                             else
