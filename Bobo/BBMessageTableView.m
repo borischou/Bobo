@@ -101,6 +101,11 @@ static NSString *messageCell = @"messageCell";
     } completion:^(BOOL finished) {}];
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 2.0;
+}
+
 #pragma mark - BBMessageTableViewCellDelegate
 
 -(void)tableViewCell:(BBMessageTableViewCell *)cell didTapAvatarView:(UIImageView *)avatarView
