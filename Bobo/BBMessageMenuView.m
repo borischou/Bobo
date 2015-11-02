@@ -98,7 +98,7 @@ static CGFloat lineHeight = 3;
     else
     {
         [_badge setHidden:NO];
-        [_badge setText:[NSString stringWithFormat:@"%ld", value]];
+        [_badge setText:[NSString stringWithFormat:@"%ld", (long)value]];
         CGSize badgeSize = [_badge sizeThatFits:CGSizeMake(MAXFLOAT, 18)];
         [_badge setFrame:CGRectMake(mButtonWidth-badgeSize.width-10, (height-lineHeight)/2-9, badgeSize.width+9, 18)];
     }

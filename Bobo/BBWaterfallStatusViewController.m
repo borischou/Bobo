@@ -262,7 +262,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             _max_id = lastone[@"idstr"];
             NSDictionary *firstone = downloadedStatuses.firstObject;
             _since_id = firstone[@"idstr"];
-            [Utils presentNotificationWithText:[NSString stringWithFormat:@"更新了%ld条微博", downloadedStatuses.count]];
+            [Utils presentNotificationWithText:[NSString stringWithFormat:@"更新了%ld条微博", (unsigned long)downloadedStatuses.count]];
             
             [self shouldSaveStatusesToPlist];
         }

@@ -79,7 +79,7 @@
     if (_listType == listTypeFollowing) {
         uri = @"friendships/friends.json";
     }
-    params = @{@"uid": _user.idstr, @"cursor": [NSString stringWithFormat:@"%ld", _cursor], @"count": @"200", @"trim_status": @"0"};
+    params = @{@"uid": _user.idstr, @"cursor": [NSString stringWithFormat:@"%ld", (long)_cursor], @"count": @"200", @"trim_status": @"0"};
     [Utils genericWeiboRequestWithAccount:_weiboAccount
                                       URL:uri
                       SLRequestHTTPMethod:SLRequestMethodGET

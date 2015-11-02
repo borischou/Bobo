@@ -30,7 +30,7 @@
 {
     NSString *numStr;
     if (num > 0 && num < 1000) {
-        numStr = [NSString stringWithFormat:@"%ld", num];
+        numStr = [NSString stringWithFormat:@"%ld", (long)num];
     }
     if (num > 999 && num < 10000) {
         numStr = [NSString stringWithFormat:@"%dK", (int)num/1000];

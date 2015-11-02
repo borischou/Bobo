@@ -949,7 +949,7 @@ static NSString *filepath = @"draft.plist";
     }
     else
     {
-        [_countLabel setText:[NSString stringWithFormat:@"%ld字", textView.text.length]];
+        [_countLabel setText:[NSString stringWithFormat:@"%ld字", (unsigned long)textView.text.length]];
     }
     
     if (textView.text.length == 140)

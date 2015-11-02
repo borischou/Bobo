@@ -308,7 +308,7 @@ typedef NS_ENUM(NSInteger, MessageType)
     }
     UITabBarItem *messageTab = _tabBarController.tabBar.items[1];
     NSInteger totalIncrement = _toMeIncrement + _atMeIncrement;
-    messageTab.badgeValue = totalIncrement > 0? [NSString stringWithFormat:@"%ld", totalIncrement]: nil;
+    messageTab.badgeValue = totalIncrement > 0? [NSString stringWithFormat:@"%ld", (long)totalIncrement]: nil;
 }
 
 #pragma mark - Weibo support

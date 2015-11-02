@@ -124,7 +124,7 @@
     
     if (_imageTag == originX/bWidth-1)
     {
-        NSLog(@"initial index: %ld", _imageTag);
+        NSLog(@"initial index: %ld", (long)_imageTag);
         _imageView = imageView;
     }
     

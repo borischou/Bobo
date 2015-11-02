@@ -136,8 +136,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     NSRegularExpression *regex = HotwordRegularExpression();
     
     cell.timeLabel.text = [NSString formatPostTime:status.created_at];
-    cell.retweetNumLabel.text = [NSString stringWithFormat:@"%ld", status.reposts_count];
-    cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", status.comments_count];
+    cell.retweetNumLabel.text = [NSString stringWithFormat:@"%ld", (long)status.reposts_count];
+    cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", (long)status.comments_count];
     cell.nameLabel.text = status.user.screen_name;
     if (status.text) {
         [cell.tweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text]];

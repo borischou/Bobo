@@ -316,8 +316,9 @@ typedef NS_ENUM(NSInteger, messageType)
             
             NSInteger oldToMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"count_to_me"] integerValue];
             NSInteger increment = labs(toMeCount-oldToMeCount);
+            NSInteger badgeValue = messageTab.badgeValue.integerValue-increment;
             
-            messageTab.badgeValue = messageTab.badgeValue.integerValue-increment > 0? [NSString stringWithFormat:@"%ld", messageTab.badgeValue.integerValue-increment]: nil;
+            messageTab.badgeValue = messageTab.badgeValue.integerValue-increment > 0? [NSString stringWithFormat:@"%ld", (long)badgeValue]: nil;
             
             [[NSUserDefaults standardUserDefaults] setObject:@(toMeCount) forKey:@"count_to_me"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -334,8 +335,9 @@ typedef NS_ENUM(NSInteger, messageType)
             
             NSInteger oldAtMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"count_at_me"] integerValue];
             NSInteger increment = labs(atMeCount-oldAtMeCount);
+            NSInteger badgeValue = messageTab.badgeValue.integerValue-increment;
             
-            messageTab.badgeValue = messageTab.badgeValue.integerValue-increment > 0? [NSString stringWithFormat:@"%ld", messageTab.badgeValue.integerValue-increment]: nil;
+            messageTab.badgeValue = messageTab.badgeValue.integerValue-increment > 0? [NSString stringWithFormat:@"%ld", (long)badgeValue]: nil;
             
             [[NSUserDefaults standardUserDefaults] setObject:@(atMeCount) forKey:@"count_at_me"];
             [[NSUserDefaults standardUserDefaults] synchronize];
