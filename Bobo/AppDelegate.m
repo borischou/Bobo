@@ -54,6 +54,10 @@ typedef NS_ENUM(NSInteger, MessageType)
     [self accessWeiboSystemAccount];
     [self fetchUserProfile];
     [self initControllers];
+    
+    //开启计时器之前先直接执行一次
+    [self fetchUserMessageCounts];
+
     [self startMessagingTimer];
     [_window makeKeyAndVisible];
     return YES;
