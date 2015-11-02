@@ -318,7 +318,7 @@ typedef NS_ENUM(NSInteger, messageType)
             NSInteger increment = labs(toMeCount-oldToMeCount);
             NSInteger badgeValue = messageTab.badgeValue.integerValue-increment;
             
-            messageTab.badgeValue = messageTab.badgeValue.integerValue-increment > 0? [NSString stringWithFormat:@"%ld", (long)badgeValue]: nil;
+            messageTab.badgeValue = badgeValue > 0? [NSString stringWithFormat:@"%ld", (long)badgeValue]: nil;
             
             [[NSUserDefaults standardUserDefaults] setObject:@(toMeCount) forKey:@"count_to_me"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -337,7 +337,7 @@ typedef NS_ENUM(NSInteger, messageType)
             NSInteger increment = labs(atMeCount-oldAtMeCount);
             NSInteger badgeValue = messageTab.badgeValue.integerValue-increment;
             
-            messageTab.badgeValue = messageTab.badgeValue.integerValue-increment > 0? [NSString stringWithFormat:@"%ld", (long)badgeValue]: nil;
+            messageTab.badgeValue = badgeValue > 0? [NSString stringWithFormat:@"%ld", (long)badgeValue]: nil;
             
             [[NSUserDefaults standardUserDefaults] setObject:@(atMeCount) forKey:@"count_at_me"];
             [[NSUserDefaults standardUserDefaults] synchronize];
