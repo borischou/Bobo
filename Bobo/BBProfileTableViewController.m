@@ -10,7 +10,8 @@
 
 static NSString *reuseCountsCell = @"countsCell";
 
-typedef NS_ENUM(NSInteger, FetchResultType) {
+typedef NS_ENUM(NSInteger, FetchResultType)
+{
     FetchResultTypeRefresh,
     FetchResultTypeHistory,
     FetchResultTypeCounts
@@ -174,9 +175,9 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
         if (!_weiboAccount)
         {
-            _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
             if (_weiboAccount)
             {
                 [self fetchUserProfile];

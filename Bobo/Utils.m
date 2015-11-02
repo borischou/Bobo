@@ -37,7 +37,7 @@
 
 +(NSString *)preferenceSinaWeiboURL
 {
-    return @"prefs:";
+    return @"prefs:root=SINAWEIBO";
 }
 
 +(CGFloat)heightForImgsWithCount:(NSInteger)count

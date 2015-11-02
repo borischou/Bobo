@@ -208,9 +208,9 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 -(void)setMJRefresh
 {
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
         if (!_weiboAccount)
         {
-            _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
             if (_weiboAccount)
             {
                 [self fetchLatestStatuses];

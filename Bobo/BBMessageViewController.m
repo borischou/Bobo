@@ -225,9 +225,9 @@ typedef NS_ENUM(NSInteger, messageType)
 -(void)setMJRefreshWithTableView:(BBMessageTableView *)tableView flag:(NSInteger)flag
 {
     tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
         if (!_weiboAccount)
         {
-            _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
             if (_weiboAccount)
             {
                 [self fetchLatestCommentsWithTableView:tableView flag:flag];

@@ -219,9 +219,9 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)setMJRefresh
 {
     _waterfallView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
         if (!_weiboAccount)
         {
-            _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
             if (_weiboAccount) {
                 [self fetchLatestStatuses];
             } else {
