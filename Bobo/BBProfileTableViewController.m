@@ -229,7 +229,7 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
              {
                 NSError *error = nil;
                 [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeCounts];
-            }
+             }
                        completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
              {
                 NSLog(@"error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
