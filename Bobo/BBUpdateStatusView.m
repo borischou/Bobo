@@ -201,7 +201,16 @@ static NSString *filepath = @"draft.plist";
         }
         if (_flag == updateStatusTypeRepost)
         {
-            _statusTextView.text = [NSString stringWithFormat:@"//@%@:%@", self.status.user.screen_name, self.status.text];
+            NSString *text;
+            if (_status.retweeted_status) //转发的微博已有转发微博
+            {
+                text = [NSString stringWithFormat:@"//@%@:%@", self.status.user.screen_name, self.status.text];
+            }
+            else
+            {
+                text = @"";
+            }
+            _statusTextView.text = text;
             _nameLabel.text = _status.user.screen_name;
             [_todoLabel setHidden:NO];
         }
