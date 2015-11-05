@@ -1092,7 +1092,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhouboli.Bobo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4be7610c-c777-4612-9e6c-970f309fa840";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -1126,7 +1126,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhouboli.Bobo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4be7610c-c777-4612-9e6c-970f309fa840";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
