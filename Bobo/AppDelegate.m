@@ -50,15 +50,25 @@ typedef NS_ENUM(NSInteger, MessageType)
 {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    //获取系统内置新浪微博账号对象
     _weiboAccount = [Utils systemAccounts].firstObject;
+    
+    //访问新浪微博账号
     [self accessWeiboSystemAccount];
+    
+    //获取授权用户基本信息
     [self fetchUserProfile];
+    
+    //初始化各个试图控制器
     [self initControllers];
     
     //开启计时器之前先直接执行一次
     [self fetchUserMessageCounts];
-
+    
+    //开启请求消息提醒计时器
     [self startMessagingTimer];
+    
     [_window makeKeyAndVisible];
     return YES;
 }
