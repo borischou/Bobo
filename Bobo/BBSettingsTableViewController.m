@@ -10,10 +10,15 @@
 #import "BBDraftboxTableViewController.h"
 #import "UIColor+Custom.h"
 #import "Utils.h"
+#import "UMSocial_Sdk_4.3/Header/UMSocial.h"
+#import "AppDelegate.h"
 
 #define bCellBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
 
+extern NSString *UM_APP_KEY;
+
 static NSString *filepath = @"wbdata.plist";
+static NSString *ShareDescription = @"测试分享";
 
 @interface BBSettingsTableViewController ()
 
@@ -59,19 +64,24 @@ static NSString *filepath = @"wbdata.plist";
     {
         [cell.textLabel setText:@"清除缓存"];
     }
+    if (indexPath.section == 2)
+    {
+        [cell.textLabel setText:@"分享应用"];
+    }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    if (indexPath.section == 0) //草稿箱
     {
         BBDraftboxTableViewController *dbtvc = [[BBDraftboxTableViewController alloc] initWithStyle:UITableViewStylePlain];
         [dbtvc setTitle:@"Draftbox"];
         [Utils setupNavigationController:nil withUIViewController:dbtvc];
         [self.navigationController pushViewController:dbtvc animated:YES];
     }
-    if (indexPath.section == 1)
+    
+    if (indexPath.section == 1) //清理缓存
     {
         NSString *plistPath = [Utils plistPathForFilename:filepath];
         //计算缓存大小并询问是否清除
@@ -95,6 +105,18 @@ static NSString *filepath = @"wbdata.plist";
         [ac addAction:clearAction];
         [ac addAction:cancelAction];
         [self.navigationController presentViewController:ac animated:YES completion:nil];
+    }
+    
+    if (indexPath.section == 2) //应用分享
+    {
+        //对未安装应用进行隐藏
+        [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatTimeline]];
+        
+        //设置屏幕方向
+        [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
+        
+        //触发分享
+        [UMSocialSnsService presentSnsIconSheetView:self appKey:UM_APP_KEY shareText:ShareDescription shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToWechatFavorite, UMShareToQQ, nil] delegate:nil];
     }
 }
 
