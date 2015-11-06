@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Zhouboli. All rights reserved.
 //
 
-#import <UIImageView+WebCache.h>
 #import <SafariServices/SafariServices.h>
 #import <MJRefresh/MJRefresh.h>
+#import <YYWebImage.h>
 
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "BBWaterfallCollectionView.h"
@@ -252,7 +252,9 @@ static inline NSRegularExpression * HotwordRegularExpression()
     {
         sdUrl = [NSString middlePictureUrlConvertedFromThumbUrl:url];
     }
-    [cell.coverImageView sd_setImageWithURL:[NSURL URLWithString:sdUrl] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
+    [cell.coverImageView yy_setImageWithURL:[NSURL URLWithString:sdUrl] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+        //nothing
+    }];
 }
 
 -(void)layoutBottomButtonsWithTop:(CGFloat)top forCell:(BBWaterfallCollectionViewCell *)cell
@@ -294,10 +296,10 @@ static inline NSRegularExpression * HotwordRegularExpression()
     {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
-    [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:0];
+    [self setImageBrowserWithImageUrls:largeUrls tappedViewTag:0];
 }
 
--(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls andTappedViewTag:(NSInteger)tag
+-(void)setImageBrowserWithImageUrls:(NSMutableArray *)urls tappedViewTag:(NSInteger)tag
 {
     BBImageBrowserView *browserView = [[BBImageBrowserView alloc] initWithFrame:[UIScreen mainScreen].bounds imageUrls:urls imageTag:tag];
     [self.window addSubview:browserView];

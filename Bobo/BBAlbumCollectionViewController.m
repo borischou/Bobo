@@ -6,9 +6,9 @@
 //  Copyright © 2015年 Zhouboli. All rights reserved.
 //
 
-#import <UIImageView+WebCache.h>
 #import <Accounts/Accounts.h>
 #import <MJRefresh.h>
+#import <YYWebImage.h>
 
 #import "BBAlbumCollectionViewController.h"
 #import "BBPhotoSelectionCollectionViewCell.h"
@@ -37,7 +37,8 @@ typedef NS_ENUM(NSInteger, fetchResultType) {
 
 static NSString * const reuseIdentifier = @"Cell";
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations
@@ -52,9 +53,13 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView.header beginRefreshing];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    NSLog(@"让圣光净化一切！");
+    [Utils clearImageCache];
+    [Utils clearDiskImages];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -82,10 +87,13 @@ static NSString * const reuseIdentifier = @"Cell";
     NSString *requestUrl = @"statuses/user_timeline.json";
     NSDictionary *param = @{@"uid": _user.idstr};
     
-    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:fetchResultTypeRefresh];
-    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
         NSLog(@"main error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"更新失败"];
@@ -128,12 +136,15 @@ static NSString * const reuseIdentifier = @"Cell";
         for (int i = 0; i < downloadedStatuses.count; i ++)
         {
             Status *status = [[Status alloc] initWithDictionary:downloadedStatuses[i]];
-            if (status.pic_urls.count > 0) {
-                for (NSString *url in status.pic_urls) {
+            if (status.pic_urls.count > 0)
+            {
+                for (NSString *url in status.pic_urls)
+                {
                     [_urls addObject:[NSString middlePictureUrlConvertedFromThumbUrl:url]];
                 }
             }
-            if (i == downloadedStatuses.count-1) {
+            if (i == downloadedStatuses.count-1)
+            {
                 _currentLastStatusId = status.idstr;
             }
         }
@@ -146,14 +157,19 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark <UICollectionViewDataSource>
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
     return _urls.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     BBPhotoSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:_urls[indexPath.item]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
+    [cell.imageView yy_setImageWithURL:[NSURL URLWithString:_urls[indexPath.item]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionSetImageWithFadeAnimation|YYWebImageOptionProgressiveBlur completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+    {
+        //nothing
+    }];
     
     return cell;
 }

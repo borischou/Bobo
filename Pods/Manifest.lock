@@ -20,31 +20,23 @@ PODS:
   - AFNetworking/UIKit (2.6.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - JSONKit-NoWarning (1.2)
   - MBProgressHUD (0.9.1)
   - MJRefresh (2.4.12)
-  - pop (1.0.8)
-  - SDWebImage (3.7.3):
-    - SDWebImage/Core (= 3.7.3)
-  - SDWebImage/Core (3.7.3)
   - TTTAttributedLabel (1.13.4)
+  - YYWebImage (0.9.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
-  - JSONKit-NoWarning (~> 1.1)
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh
-  - pop (~> 1.0)
-  - SDWebImage (~> 3.7)
   - TTTAttributedLabel
+  - YYWebImage
 
 SPEC CHECKSUMS:
   AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
-  JSONKit-NoWarning: 3d27e6f9e6846ecf741e8c64dcadd7d5aa7193cb
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MJRefresh: ca8e9589895977df32d379d46e6b8a5450b3ff44
-  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
-  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
+  YYWebImage: cf110e753398e97e2db110254e1cbc138735a5dc
 
 COCOAPODS: 0.39.0

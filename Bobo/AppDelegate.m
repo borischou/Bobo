@@ -18,6 +18,8 @@
 #import "BBMessageViewController.h"
 #import "ADo_ViewController.h"
 
+#import <YYWebImage.h>
+
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
 #define bWeiboDomain @"https://api.weibo.com/2/"
@@ -122,6 +124,15 @@ typedef NS_ENUM(NSInteger, MessageType)
     
     //开启请求消息提醒计时器
     [self startMessagingTimer];
+    
+    //设置内存缓存机制
+    [self setupImageCache];
+}
+
+-(void)setupImageCache
+{
+    [YYImageCache sharedCache].memoryCache.shouldRemoveAllObjectsOnMemoryWarning = YES;
+    [YYImageCache sharedCache].memoryCache.shouldRemoveAllObjectsWhenEnteringBackground = YES;
 }
 
 +(id)delegate

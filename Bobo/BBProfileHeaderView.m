@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import <UIImageView+WebCache.h>
 #import "BBProfileHeaderView.h"
+#import <YYWebImage.h>
 #import "UIColor+Custom.h"
 #import "BBImageBrowserView.h"
 #import "AppDelegate.h"
@@ -159,7 +159,10 @@
 
 -(void)layoutAvatarPage
 {
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
+    [_avatarView yy_setImageWithURL:[NSURL URLWithString:_user.avatar_large] placeholder:[UIImage imageNamed:@"bb_holder_profile_image"] options:YYWebImageOptionSetImageWithFadeAnimation|YYWebImageOptionProgressiveBlur completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+    {
+        //nothing
+    }];
     if ([_user.gender isEqualToString:@"m"])
     {
         _name.attributedText = [[NSAttributedString alloc] initWithString:_user.screen_name attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:20.0], NSForegroundColorAttributeName: bMaleColor}];

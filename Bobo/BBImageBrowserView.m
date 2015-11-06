@@ -7,7 +7,7 @@
 //
 
 #import "BBImageBrowserView.h"
-#import <UIImageView+WebCache.h>
+#import <YYWebImage.h>
 #import "Utils.h"
 #import "UIColor+Custom.h"
 #import "BBProgressView.h"
@@ -52,19 +52,20 @@
     return self;
 }
 
--(void)loadProgressView:(UIImageView *)imageView url:(NSString *)url originX:(CGFloat)originX scrollView:(UIScrollView *)scrollView
+-(void)loadProgressView:(YYAnimatedImageView *)imageView url:(NSString *)url originX:(CGFloat)originX scrollView:(UIScrollView *)scrollView
 {
     BBProgressView *progressView = [[BBProgressView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     progressView.center = CGPointMake(bWidth/2, bHeight/2);
     [scrollView addSubview:progressView];
     
-    [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil options:SDWebImageLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize)
+    [imageView yy_setImageWithURL:[NSURL URLWithString:url] placeholder:nil options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation progress:^(NSInteger receivedSize, NSInteger expectedSize)
      {
          //转换为百分比进度传入progress view
          float progress = fabsf((float)receivedSize/(float)expectedSize);
          [progressView setPercent:progress];
      }
-                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+                        transform:nil
+                       completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
      {
          if (!error)
          {
@@ -107,7 +108,9 @@
 {
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(originX, 0, bWidth, bHeight)];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+    //傲娇的YY，必须new才正常
+    YYAnimatedImageView *imageView = [YYAnimatedImageView new];
+    [imageView setFrame:CGRectMake(0, 0, bWidth, bHeight)];
     [imageView setContentMode:UIViewContentModeScaleAspectFit];
     [imageView setUserInteractionEnabled:YES];
     
@@ -137,17 +140,6 @@
     [_scrollView addSubview:scrollView];
     
     [self loadProgressView:imageView url:url originX:originX scrollView:scrollView];
-    
-//    [imageView sd_setImageWithURL:[NSURL URLWithString:url]
-//                 placeholderImage:[UIImage imageNamed:@"pic_placeholder"]
-//                          options:SDWebImageCacheMemoryOnly
-//                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
-//    {
-//        if (!error)
-//        {
-//            [self resizeImage:image imageView:imageView originX:originX scrollView:scrollView];
-//        }
-//    }];
 }
 
 -(void)resizeImage:(UIImage *)image imageView:(UIImageView *)imageView originX:(CGFloat)originX scrollView:(UIScrollView *)scrollView
@@ -182,7 +174,7 @@
 
 -(void)singleTapped:(UITapGestureRecognizer *)tap
 {
-    [_imageView sd_cancelCurrentImageLoad];
+    [_imageView yy_cancelCurrentImageRequest];
     
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.alpha = 0.0;
@@ -201,23 +193,6 @@
 
 -(void)imageViewLongPressed:(UILongPressGestureRecognizer *)tap
 {
-//    if (tap.state == UIGestureRecognizerStateEnded) {
-//        UIAlertController *alertcontroller = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否保存图片至本地相册？" preferredStyle:UIAlertControllerStyleActionSheet];
-//        UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            //保存图片
-//        }];
-//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//            //取消动作
-//        }];
-//        [alertcontroller addAction:saveAction];
-//        [alertcontroller addAction:cancelAction];
-//        
-//        UITabBarController *tbc = (UITabBarController *)self.window.rootViewController;
-//        UINavigationController *nvc = (UINavigationController *)tbc.selectedViewController;
-//        UIViewController *vc = nvc.topViewController;
-//        
-//        [vc.navigationController presentViewController:alertcontroller animated:YES completion:^{}];
-//    }
     if (!_saved)
     {
         [self saveImageToSystemAlbum:_imageView.image];

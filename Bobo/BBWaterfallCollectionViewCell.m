@@ -7,7 +7,6 @@
 //
 
 #import "BBWaterfallCollectionViewCell.h"
-#import <UIImageView+WebCache.h>
 #import "Utils.h"
 #import "NSString+Convert.h"
 #import "UIColor+Custom.h"

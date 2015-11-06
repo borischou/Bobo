@@ -7,7 +7,7 @@
 //
 
 #import "BBCommentTableViewCell.h"
-#import <UIImageView+WebCache.h>
+#import <YYWebImage.h>
 #import "Utils.h"
 #import "UIColor+Custom.h"
 #import "NSString+Convert.h"
@@ -142,7 +142,9 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         text = _status.text;
     }
     
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
+    [_avatarView yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"bb_holder_profile_image"] options:YYWebImageOptionSetImageWithFadeAnimation|YYWebImageOptionProgressiveBlur completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+        //nothing
+    }];
     
     _nameLbl.text = screen_name;
     if ([gender isEqualToString:@"m"])

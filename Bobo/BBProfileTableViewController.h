@@ -10,7 +10,6 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import <MJRefresh/MJRefresh.h>
-#import <UIImageView+WebCache.h>
 #import <AFNetworking.h>
 #import <SafariServices/SafariServices.h>
 

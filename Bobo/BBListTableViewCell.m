@@ -7,7 +7,7 @@
 //
 
 #import "BBListTableViewCell.h"
-#import <UIImageView+WebCache.h>
+#import <YYWebImage.h>
 #import "UIColor+Custom.h"
 #import "NSString+Convert.h"
 #import "User.h"
@@ -110,7 +110,10 @@ static float nameHeight = 20;
 
 -(void)loadData
 {
-    [_avatar sd_setImageWithURL:[NSURL URLWithString:_user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
+    [_avatar yy_setImageWithURL:[NSURL URLWithString:_user.avatar_large] placeholder:[UIImage imageNamed:@"bb_holder_profile_image"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+    {
+        //nothing
+    }];
     [_vip setImage:[UIImage imageNamed:@"icon_vip"]];
     if (_user.follow_me && _user.following) //互相关注
     {

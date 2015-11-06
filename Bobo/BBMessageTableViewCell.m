@@ -7,7 +7,8 @@
 //
 
 #import "BBMessageTableViewCell.h"
-#import <UIImageView+WebCache.h>
+#import <YYWebImage.h>
+
 #import "Utils.h"
 #import "AppDelegate.h"
 #import "NSString+Convert.h"
@@ -184,42 +185,54 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     NSRegularExpression *regex = HotwordRegularExpression();
 
     //status
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_comment.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
+    [_avatarView yy_setImageWithURL:[NSURL URLWithString:_comment.user.avatar_large] placeholder:[UIImage imageNamed:@"bb_holder_profile_image"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+    {
+        //nothing
+    }];
     
     _nicknameLbl.text = _comment.user.screen_name;
-    if ([_comment.user.gender isEqualToString:@"m"]) {
+    if ([_comment.user.gender isEqualToString:@"m"])
+    {
         [_nicknameLbl setTextColor:bMaleColor];
     }
-    if ([_comment.user.gender isEqualToString:@"f"]) {
+    if ([_comment.user.gender isEqualToString:@"f"])
+    {
         [_nicknameLbl setTextColor:bFemaleColor];
     }
-    if ([_comment.user.gender isEqualToString:@"n"]) {
+    if ([_comment.user.gender isEqualToString:@"n"])
+    {
         [_nicknameLbl setTextColor:[UIColor lightTextColor]];
     }
     
     _postTimeLbl.text = [NSString formatPostTime:_comment.created_at];
     _sourceLbl.text = [NSString trim:_comment.source];
-    if (_comment.text) {
+    if (_comment.text)
+    {
         [_tweetTextLabel setText:_comment.text];
         NSArray *tweetLinkRanges = [regex matchesInString:_comment.text options:0 range:NSMakeRange(0, _comment.text.length)];
-        for (NSTextCheckingResult *result in tweetLinkRanges) {
+        for (NSTextCheckingResult *result in tweetLinkRanges)
+        {
             [_tweetTextLabel addLinkWithTextCheckingResult:result];
         }
     }
     
-    if (_comment.reply_comment.text) {
+    if (_comment.reply_comment.text)
+    {
         [_lastReplyLabel setText:[NSString stringWithFormat:@"@%@:%@", _comment.reply_comment.user.screen_name, _comment.reply_comment.text]];
         NSArray *tweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", _comment.reply_comment.user.screen_name, _comment.reply_comment.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", _comment.reply_comment.user.screen_name, _comment.reply_comment.text] length])];
-        for (NSTextCheckingResult *result in tweetLinkRanges) {
+        for (NSTextCheckingResult *result in tweetLinkRanges)
+        {
             [_lastReplyLabel addLinkWithTextCheckingResult:result];
         }
     }
     
     //repost status
-    if (_comment.status.text) {
+    if (_comment.status.text)
+    {
         [_retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text]];
         NSArray *retweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", _comment.status.user.screen_name, _comment.status.text] length])];
-        for (NSTextCheckingResult *result in retweetLinkRanges) {
+        for (NSTextCheckingResult *result in retweetLinkRanges)
+        {
             [_retweetTextLabel addLinkWithTextCheckingResult:result];
         }
     }
@@ -228,11 +241,14 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 -(void)loadLayout
 {
     //vip
-    if (_comment.user.verified) {
+    if (_comment.user.verified)
+    {
         CGSize nameSize = [_nicknameLbl sizeThatFits:CGSizeMake(MAXFLOAT, bNicknameHeight)];
         [_vipView setFrame:CGRectMake(10+bAvatarWidth+10+nameSize.width, 10+5, 15, 15)];
         [_vipView setImage:[UIImage imageNamed:@"icon_vip"]];
-    } else {
+    }
+    else
+    {
         [_vipView setFrame:CGRectZero];
         [_vipView setImage:nil];
     }

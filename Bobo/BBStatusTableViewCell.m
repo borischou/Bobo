@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 Zhouboli. All rights reserved.
 //
 
-#import <UIImageView+WebCache.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import <AFNetworking.h>
 #import <WebKit/WebKit.h>
+#import <YYWebImage.h>
 
 #import "BBStatusTableViewCell.h"
 #import "NSString+Convert.h"
@@ -353,7 +353,10 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     NSRegularExpression *regex = HotwordRegularExpression();
     
     //status
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"] options:SDWebImageLowPriority];
+    [_avatarView yy_setImageWithURL:[NSURL URLWithString:_status.user.avatar_large] placeholder:[UIImage imageNamed:@"bb_holder_profile_image"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+    {
+        //nothing
+    }];
     
     _nicknameLbl.text = _status.user.screen_name;
     if ([_status.user.gender isEqualToString:@"m"])
@@ -388,11 +391,17 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         {
             if ([_status.pic_urls[i] hasSuffix:@"gif"])
             {
-                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
+                [_statusImgViews[i] yy_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+                {
+                    //nothing
+                }];
             }
             else
             {
-                [_statusImgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
+                [_statusImgViews[i] yy_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+                 {
+                     //nothing
+                 }];
             }
         }
     }
@@ -414,11 +423,17 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         {
             if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"])
             {
-                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"]];
+                [_imgViews[i] yy_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+                 {
+                     //nothing
+                 }];
             }
             else
             {
-                [_imgViews[i] sd_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
+                [_imgViews[i] yy_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+                 {
+                     //nothing
+                 }];
             }
         }
     }

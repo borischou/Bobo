@@ -9,7 +9,7 @@
 #import "Utils.h"
 #import "AppDelegate.h"
 #import "BBNotificationView.h"
-#import <UIImageView+WebCache.h>
+#import <YYWebImage.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -375,17 +375,17 @@
 
 +(void)clearDiskImages
 {
-    [[SDImageCache sharedImageCache] clearDisk];
+    //[[SDImageCache sharedImageCache] clearDisk];
 }
 
 +(void)cleanDiskImages
 {
-    [[SDImageCache sharedImageCache] cleanDisk];
+    //[[SDImageCache sharedImageCache] cleanDisk];
 }
 
 +(void)clearImageCache
 {
-    [[SDImageCache sharedImageCache] clearMemory];
+    //[[SDImageCache sharedImageCache] clearMemory];
 }
 
 @end

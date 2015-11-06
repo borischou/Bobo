@@ -7,7 +7,7 @@
 //
 
 #import "BBCommentBarView.h"
-#import <UIImageView+WebCache.h>
+#import <YYWebImage.h>
 #import "AppDelegate.h"
 #import "BBUpdateStatusView.h"
 
@@ -77,7 +77,9 @@
             [delegate fetchUserProfile];
         }
         _avatarUrl = delegate.user.avatar_large;
-        [_avatarView sd_setImageWithURL:[NSURL URLWithString:_avatarUrl] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
+        [_avatarView yy_setImageWithURL:[NSURL URLWithString:_avatarUrl] placeholder:[UIImage imageNamed:@"bb_holder_profile_image"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+            //nothing
+        }];
     }
 }
 
@@ -91,7 +93,9 @@
     _avatarUrl = delegate.user.avatar_large;
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(cBigGap, cBigGap, cAvatarWidth, cAvatarHeight)];
-    [_avatarView sd_setImageWithURL:[NSURL URLWithString:_avatarUrl] placeholderImage:[UIImage imageNamed:@"bb_holder_profile_image"]];
+    [_avatarView yy_setImageWithURL:[NSURL URLWithString:_avatarUrl] placeholder:[UIImage imageNamed:@"bb_holder_profile_image"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+        //nothing
+    }];
     _avatarView.clipsToBounds = YES;
     _avatarView.layer.masksToBounds = YES;
     _avatarView.layer.cornerRadius = _avatarView.bounds.size.width*0.5;
