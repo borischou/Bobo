@@ -500,8 +500,8 @@
 		45620D3C1B3706BF00B9F9F2 /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				451EC8301BEC773800E6C283 /* draft_icon@3x.png */,
 				45ECC8B31BEB3BEF0003EE27 /* Guide Images */,
+				451EC8301BEC773800E6C283 /* draft_icon@3x.png */,
 				0094A0841BC5585A00C96D67 /* delete_icon@3x.png */,
 				45EF131B1BE35A3E00007EB8 /* delete-disable@3x.png */,
 				45EF131D1BE35A8D00007EB8 /* delete-selected@3x.png */,
