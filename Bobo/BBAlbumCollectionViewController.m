@@ -20,7 +20,8 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-typedef NS_ENUM(NSInteger, fetchResultType) {
+typedef NS_ENUM(NSInteger, fetchResultType)
+{
     fetchResultTypeRefresh,
     fetchResultTypeHistory
 };
