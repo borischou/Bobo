@@ -515,25 +515,21 @@ static inline NSRegularExpression * HotwordRegularExpression() {
                                          repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
         
         [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
-        [self layoutGifs:_status.retweeted_status.pic_urls imageViews:_imgViews];
+        [self layoutGifsWithUrls:_status.retweeted_status.pic_urls imageViews:_imgViews];
     }
     else
     {
         //微博配图
         _repostView.hidden = YES;
         [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap*2+bAvatarHeight+postSize.height];
-        [self layoutGifs:_status.pic_urls imageViews:_statusImgViews];
+        [self layoutGifsWithUrls:_status.pic_urls imageViews:_statusImgViews];
     }
     [self layoutBarButtonsWithTop:_status.height-bBarHeight];
 }
 
--(void)layoutGifs:(NSMutableArray *)imageUrls imageViews:(NSMutableArray *)imageViews
+-(void)layoutGifsWithUrls:(NSMutableArray *)imageUrls imageViews:(NSMutableArray *)imageViews
 {
-    if (imageUrls == nil)
-    {
-        return;
-    }
-    else
+    if (imageViews != nil)
     {
         for (int i = 0; i < imageViews.count; i ++)
         {
