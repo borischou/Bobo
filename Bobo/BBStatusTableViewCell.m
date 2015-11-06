@@ -389,18 +389,19 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     {
         for (int i = 0; i < [_status.pic_urls count]; i ++)
         {
+            UIImageView *imageView = (UIImageView *)_statusImgViews[i];
             if ([_status.pic_urls[i] hasSuffix:@"gif"])
             {
-                [_statusImgViews[i] yy_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+                [imageView yy_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
                 {
-                    //nothing
+                    
                 }];
             }
             else
             {
-                [_statusImgViews[i] yy_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+                [imageView yy_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.pic_urls[i]]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
                  {
-                     //nothing
+                     
                  }];
             }
         }
@@ -421,18 +422,19 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     {
         for (int i = 0; i < [_status.retweeted_status.pic_urls count]; i ++)
         {
+            UIImageView *imageView = (UIImageView *)_imgViews[i];
             if ([_status.retweeted_status.pic_urls[i] hasSuffix:@"gif"])
             {
-                [_imgViews[i] yy_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+                [imageView yy_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
                  {
-                     //nothing
+                     
                  }];
             }
             else
             {
-                [_imgViews[i] yy_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+                [imageView yy_setImageWithURL:[NSURL URLWithString:[NSString middlePictureUrlConvertedFromThumbUrl:_status.retweeted_status.pic_urls[i]]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
                  {
-                     //nothing
+                     
                  }];
             }
         }

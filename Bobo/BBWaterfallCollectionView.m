@@ -243,18 +243,21 @@ static inline NSRegularExpression * HotwordRegularExpression()
 
 -(void)loadCoverPictureWithUrl:(NSString *)url cell:(BBWaterfallCollectionViewCell *)cell
 {
-    NSString *sdUrl;
     if ([url hasSuffix:@"gif"])
     {
-        sdUrl = url;
+        UIImageView *imageView = cell.coverImageView;
+        [imageView yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
+         {
+             
+         }];
     }
     else
     {
-        sdUrl = [NSString middlePictureUrlConvertedFromThumbUrl:url];
+        NSString *sdUrl = [NSString middlePictureUrlConvertedFromThumbUrl:url];
+        [cell.coverImageView yy_setImageWithURL:[NSURL URLWithString:sdUrl] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+            
+        }];
     }
-    [cell.coverImageView yy_setImageWithURL:[NSURL URLWithString:sdUrl] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-        //nothing
-    }];
 }
 
 -(void)layoutBottomButtonsWithTop:(CGFloat)top forCell:(BBWaterfallCollectionViewCell *)cell

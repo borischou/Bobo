@@ -39,6 +39,7 @@
 		451673C71BC914A90078ACA3 /* faved_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451673C61BC914A90078ACA3 /* faved_icon@3x.png */; };
 		451EC8311BEC773800E6C283 /* draft_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451EC8301BEC773800E6C283 /* draft_icon@3x.png */; };
 		451EC8331BEC774F00E6C283 /* cache_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451EC8321BEC774F00E6C283 /* cache_icon@3x.png */; };
+		451EC8351BECA25400E6C283 /* gif_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451EC8341BECA25400E6C283 /* gif_icon@3x.png */; };
 		451F30241BCB74D200668561 /* BBDraftboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30231BCB74D200668561 /* BBDraftboxTableViewController.m */; };
 		451F30271BCB74EE00668561 /* BBDraftboxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30261BCB74EE00668561 /* BBDraftboxTableViewCell.m */; };
 		454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+Convert.m */; };
@@ -193,6 +194,7 @@
 		451673C61BC914A90078ACA3 /* faved_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "faved_icon@3x.png"; sourceTree = "<group>"; };
 		451EC8301BEC773800E6C283 /* draft_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "draft_icon@3x.png"; sourceTree = "<group>"; };
 		451EC8321BEC774F00E6C283 /* cache_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cache_icon@3x.png"; sourceTree = "<group>"; };
+		451EC8341BECA25400E6C283 /* gif_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gif_icon@3x.png"; sourceTree = "<group>"; };
 		451F30221BCB74D200668561 /* BBDraftboxTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDraftboxTableViewController.h; sourceTree = "<group>"; };
 		451F30231BCB74D200668561 /* BBDraftboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDraftboxTableViewController.m; sourceTree = "<group>"; };
 		451F30251BCB74EE00668561 /* BBDraftboxTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDraftboxTableViewCell.h; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 			children = (
 				45ECC8B31BEB3BEF0003EE27 /* Guide Images */,
 				451EC8301BEC773800E6C283 /* draft_icon@3x.png */,
+				451EC8341BECA25400E6C283 /* gif_icon@3x.png */,
 				0094A0841BC5585A00C96D67 /* delete_icon@3x.png */,
 				45EF131B1BE35A3E00007EB8 /* delete-disable@3x.png */,
 				45EF131D1BE35A8D00007EB8 /* delete-selected@3x.png */,
@@ -884,6 +887,7 @@
 				45A183E01BB9301B00FE9890 /* settings_icon@3x.png in Resources */,
 				45ECC8CB1BEB3BF80003EE27 /* page_top_2.png in Resources */,
 				45A183E61BB931A800FE9890 /* follow_icon@3x.png in Resources */,
+				451EC8351BECA25400E6C283 /* gif_icon@3x.png in Resources */,
 				458393581B7B54E4005B1766 /* post_tab_icon@3x.png in Resources */,
 				45ECC8821B8B095F0076212B /* pic_placeholder@3x.png in Resources */,
 				45ECC8CE1BEB3BF80003EE27 /* guider_pai_35.png in Resources */,
