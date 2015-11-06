@@ -16,6 +16,7 @@
 #import "BBPhotoSelectionCollectionViewController.h"
 #import "BBWaterfallStatusViewController.h"
 #import "BBMessageViewController.h"
+#import "ADo_ViewController.h"
 
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 #define kAppKey @"916936343"
@@ -36,7 +37,7 @@ typedef NS_ENUM(NSInteger, MessageType)
     MessageTypeAtMe
 };
 
-@interface AppDelegate ()
+@interface AppDelegate () <ADoViewControllerDelegate>
 
 @property (strong, nonatomic) UITabBarController *tabBarController;
 
@@ -51,23 +52,16 @@ typedef NS_ENUM(NSInteger, MessageType)
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    //获取系统内置新浪微博账号对象
-    _weiboAccount = [Utils systemAccounts].firstObject;
-    
-    //访问新浪微博账号
-    [self accessWeiboSystemAccount];
-    
-    //获取授权用户基本信息
-    [self fetchUserProfile];
-    
-    //初始化各个试图控制器
-    [self initControllers];
-    
-    //开启计时器之前先直接执行一次
-    [self fetchUserMessageCounts];
-    
-    //开启请求消息提醒计时器
-    [self startMessagingTimer];
+    if ([self checkIfNeedsGuide])
+    {
+        ADo_ViewController *advc = [[ADo_ViewController alloc] init];
+        advc.delegate = self;
+        self.window.rootViewController = advc;
+    }
+    else
+    {
+        [self prepareForLoadingMainApp];
+    }
     
     [_window makeKeyAndVisible];
     return YES;
@@ -96,6 +90,39 @@ typedef NS_ENUM(NSInteger, MessageType)
 }
 
 #pragma mark - Helpers
+
+-(BOOL)checkIfNeedsGuide
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"guided"] == YES)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
+
+-(void)prepareForLoadingMainApp
+{
+    //初始化各个试图控制器
+    [self initControllers];
+    
+    //获取系统内置新浪微博账号对象
+    _weiboAccount = [Utils systemAccounts].firstObject;
+    
+    //访问新浪微博账号
+    [self accessWeiboSystemAccount];
+    
+    //获取授权用户基本信息
+    [self fetchUserProfile];
+    
+    //开启计时器之前先直接执行一次
+    [self fetchUserMessageCounts];
+    
+    //开启请求消息提醒计时器
+    [self startMessagingTimer];
+}
 
 +(id)delegate
 {
@@ -218,7 +245,7 @@ typedef NS_ENUM(NSInteger, MessageType)
     messagevc.tabBarItem.image = [UIImage imageNamed:@"tab_icon_message"];
     UINavigationController *messagenvc = [[UINavigationController alloc] initWithRootViewController:messagevc];
     [Utils setupNavigationController:messagenvc withUIViewController:messagevc];
-
+    
     //Tabbar
     _tabBarController = [[UITabBarController alloc] init];
     _tabBarController.tabBar.layer.shadowOpacity = 0.2;
@@ -227,6 +254,21 @@ typedef NS_ENUM(NSInteger, MessageType)
     _tabBarController.tabBar.barTintColor = kBarColor;
     
     self.window.rootViewController = _tabBarController;
+}
+
+#pragma mark - ADoViewControllerDelegate & support
+
+-(void)guideViewController:(ADo_ViewController *)adoViewController didTransitionToMainApp:(UIButton *)sender
+{
+    //访问微博数据、启动主界面
+    [self prepareForLoadingMainApp];
+    [self saveGuideStatus:YES];
+}
+
+-(void)saveGuideStatus:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"guided"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - Messaging support

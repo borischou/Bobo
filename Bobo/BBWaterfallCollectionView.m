@@ -36,7 +36,8 @@ static NSString *reuseCellId = @"reuseCell";
 
 @end
 
-static inline NSRegularExpression * HotwordRegularExpression() {
+static inline NSRegularExpression * HotwordRegularExpression()
+{
     static NSRegularExpression *_hotwordRegularExpression = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -51,7 +52,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 -(instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout
 {
     self = [super initWithFrame:frame collectionViewLayout:layout];
-    if (self) {
+    if (self)
+    {
         self.dataSource = self;
         self.delegate = self;
         self.backgroundColor = bBGColor;
@@ -67,9 +69,11 @@ static inline NSRegularExpression * HotwordRegularExpression() {
                     withVelocity:(CGPoint)velocity
              targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (fabs(targetContentOffset->y+bHeight-self.contentSize.height) <= 350) {
+    if (fabs(targetContentOffset->y+bHeight-self.contentSize.height) <= 350)
+    {
         id nextResponder = [self nextResponder];
-        if ([nextResponder isKindOfClass:[BBWaterfallStatusViewController class]]) {
+        if ([nextResponder isKindOfClass:[BBWaterfallStatusViewController class]])
+        {
             BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)nextResponder;
             [wsvc fetchHistoryStatuses];
         }
@@ -86,14 +90,16 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BBWaterfallCollectionViewCell *cell = (BBWaterfallCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseCellId forIndexPath:indexPath];
-    if (_statuses.count > 0) {
+    if (_statuses.count > 0)
+    {
         Status *status = [_statuses objectAtIndex:indexPath.item];
         cell.status = status;
         cell.delegate = self;
         cell.tweetTextLabel.delegate = self;
         cell.retweetTextLabel.delegate = self;
         [self loadDataWithStatus:status cell:cell];
-        if (cell.frame.size.height != status.heightForWaterfall) {
+        if (cell.frame.size.height != status.heightForWaterfall)
+        {
             [self loadLayoutWithStatus:status cell:cell];
         }
     }
@@ -110,7 +116,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     Status *status = [_statuses objectAtIndex:indexPath.item];
     dtvc.status = status;
     id nextResponder = [self nextResponder];
-    if ([nextResponder isKindOfClass:[BBWaterfallStatusViewController class]]) {
+    if ([nextResponder isKindOfClass:[BBWaterfallStatusViewController class]])
+    {
         BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)nextResponder;
         [wsvc.navigationController pushViewController:dtvc animated:YES];
     }
@@ -120,11 +127,14 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_statuses.count > 0) {
+    if (_statuses.count > 0)
+    {
         Status *status = [_statuses objectAtIndex:indexPath.item];
         CGSize cellSize = CGSizeMake([Utils cellWidthForWaterfall], status.heightForWaterfall);
         return cellSize;
-    } else {
+    }
+    else
+    {
         return CGSizeZero;
     }
 }
@@ -139,19 +149,23 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     cell.retweetNumLabel.text = [NSString stringWithFormat:@"%ld", (long)status.reposts_count];
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%ld", (long)status.comments_count];
     cell.nameLabel.text = status.user.screen_name;
-    if (status.text) {
+    if (status.text)
+    {
         [cell.tweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text]];
         NSArray *tweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", status.user.screen_name, status.text] length])];
-        for (NSTextCheckingResult *result in tweetLinkRanges) {
+        for (NSTextCheckingResult *result in tweetLinkRanges)
+        {
             [cell.tweetTextLabel addLinkWithTextCheckingResult:result];
         }
     }
     
-    if (status.retweeted_status) {
+    if (status.retweeted_status)
+    {
         [cell.retweetNameLabel setText:status.retweeted_status.user.screen_name];
         [cell.retweetTextLabel setText:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text]];
         NSArray *retweetLinkRanges = [regex matchesInString:[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] options:0 range:NSMakeRange(0, [[NSString stringWithFormat:@"@%@:%@", status.retweeted_status.user.screen_name, status.retweeted_status.text] length])];
-        for (NSTextCheckingResult *result in retweetLinkRanges) {
+        for (NSTextCheckingResult *result in retweetLinkRanges)
+        {
             [cell.retweetTextLabel addLinkWithTextCheckingResult:result];
         }
     }
@@ -164,34 +178,45 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     CGSize textSize = [cell.tweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
     CGSize rSize = [cell.retweetTextLabel sizeThatFits:CGSizeMake(cellWidth-2*wSmallGap, MAXFLOAT)];
   
-    if (status.pic_urls.count > 0 || (status.retweeted_status && status.retweeted_status.pic_urls.count > 0)) {
+    if (status.pic_urls.count > 0 || (status.retweeted_status && status.retweeted_status.pic_urls.count > 0))
+    {
         cell.coverImageView.hidden = NO;
         [cell.coverImageView setFrame:CGRectMake(0, 0, cellWidth, imageHeight)];
-        if (status.pic_urls.count > 0) { //有微博配图
+        if (status.pic_urls.count > 0)
+        { //有微博配图
             [self loadCoverPictureWithUrl:[status.pic_urls firstObject] cell:cell];
         }
-        if (status.retweeted_status.pic_urls.count > 0) { //转发配图
+        if (status.retweeted_status.pic_urls.count > 0)
+        { //转发配图
             [self loadCoverPictureWithUrl:[status.retweeted_status.pic_urls firstObject] cell:cell];
         }
-    } else { //仅有文字
+    }
+    else
+    { //仅有文字
         cell.coverImageView.hidden = YES;
     }
     
     [cell.tweetTextLabel setFrame:CGRectMake(wSmallGap, cell.coverImageView.frame.size.height+wSmallGap, cellWidth-2*wSmallGap, textSize.height)];
     
-    if (status.retweeted_status.text && status.retweeted_status.pic_urls.count <= 0) { //转发无配图
+    if (status.retweeted_status.text && status.retweeted_status.pic_urls.count <= 0)
+    { //转发无配图
         [cell.retweetTextLabel setFrame:CGRectMake(wSmallGap, wSmallGap+textSize.height+wSmallGap, cellWidth-2*wSmallGap, rSize.height)];
         [self layoutBottomButtonsWithTop:wSmallGap+textSize.height+wSmallGap+rSize.height forCell:cell];
     }
-    else if (status.retweeted_status.text && status.retweeted_status.pic_urls.count > 0) { //转发有配图
+    else if (status.retweeted_status.text && status.retweeted_status.pic_urls.count > 0)
+    { //转发有配图
         CGFloat retweetLabelHeight = 0;
-        if (rSize.height > imageHeight/4) {
+        if (rSize.height > imageHeight/4)
+        {
             retweetLabelHeight = imageHeight/4;
-        } else {
+        }
+        else
+        {
             retweetLabelHeight = rSize.height;
         }
         
-        if (!cell.mask) {
+        if (!cell.mask)
+        {
             cell.mask = [[UIView alloc] initWithFrame:CGRectZero];
         }
         [cell.mask setFrame:CGRectMake(0, imageHeight-retweetLabelHeight, cellWidth, retweetLabelHeight)];
@@ -202,10 +227,15 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [cell.retweetTextLabel setFrame:CGRectMake(wSmallGap, imageHeight-retweetLabelHeight, cellWidth-2*wSmallGap, retweetLabelHeight)];
         [cell.contentView bringSubviewToFront:cell.retweetTextLabel];
         [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height forCell:cell];
-    } else {
-        if (status.pic_urls.count > 0) {
+    }
+    else
+    {
+        if (status.pic_urls.count > 0)
+        {
             [self layoutBottomButtonsWithTop:imageHeight+wSmallGap+textSize.height forCell:cell];
-        } else {
+        }
+        else
+        {
             [self layoutBottomButtonsWithTop:wSmallGap+textSize.height forCell:cell];
         }
     }
@@ -214,9 +244,12 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 -(void)loadCoverPictureWithUrl:(NSString *)url cell:(BBWaterfallCollectionViewCell *)cell
 {
     NSString *sdUrl;
-    if ([url hasSuffix:@"gif"]) {
+    if ([url hasSuffix:@"gif"])
+    {
         sdUrl = url;
-    } else {
+    }
+    else
+    {
         sdUrl = [NSString middlePictureUrlConvertedFromThumbUrl:url];
     }
     [cell.coverImageView sd_setImageWithURL:[NSURL URLWithString:sdUrl] placeholderImage:[UIImage imageNamed:@"pic_placeholder"] options:SDWebImageLowPriority];
@@ -249,13 +282,16 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 {
     NSMutableArray *originUrls = nil;
     NSMutableArray *largeUrls = @[].mutableCopy;
-    if (cell.status.pic_urls.count > 0) {
+    if (cell.status.pic_urls.count > 0)
+    {
         originUrls = cell.status.pic_urls;
     }
-    if (cell.status.retweeted_status.pic_urls.count > 0) {
+    if (cell.status.retweeted_status.pic_urls.count > 0)
+    {
         originUrls = cell.status.retweeted_status.pic_urls;
     }
-    for (NSString *str in originUrls) {
+    for (NSString *str in originUrls)
+    {
         [largeUrls addObject:[NSString largePictureUrlConvertedFromThumbUrl:str]];
     }
     [self setImageBrowserWithImageUrls:largeUrls andTappedViewTag:0];
@@ -285,7 +321,8 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 {
     BBWaterfallStatusViewController *wsvc = (BBWaterfallStatusViewController *)self.nextResponder;
     
-    if ([hotword hasPrefix:@"@"]) {
+    if ([hotword hasPrefix:@"@"])
+    {
         NSDictionary *params = @{@"screen_name": [hotword substringFromIndex:1]};
         [Utils genericWeiboRequestWithAccount:[[AppDelegate delegate] defaultAccount]
                                           URL:@"statuses/user_timeline.json"
@@ -315,12 +352,14 @@ static inline NSRegularExpression * HotwordRegularExpression() {
              });
          }];
     }
-    if ([hotword hasPrefix:@"http"]) {
+    if ([hotword hasPrefix:@"http"])
+    {
         //打开webview
         SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[hotword stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
         [wsvc.navigationController presentViewController:sfvc animated:YES completion:^{}];
     }
-    if ([hotword hasPrefix:@"#"]) {
+    if ([hotword hasPrefix:@"#"])
+    {
         //热门话题
     }
 }
