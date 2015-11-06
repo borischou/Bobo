@@ -69,8 +69,6 @@
 @property (strong, nonatomic) UIImageView *vipView;
 @property (strong, nonatomic) NSMutableArray *statusImgViews;
 
-@property (strong, nonatomic) UIButton *deleteButton;
-
 //repost status
 @property (strong, nonatomic) UIView *repostView;
 @property (strong, nonatomic) NSMutableArray *imgViews;
@@ -84,6 +82,9 @@
 @property (strong, nonatomic) UILabel *retweetCountLabel;
 @property (strong, nonatomic) UILabel *commentCountLabel;
 @property (strong, nonatomic) UILabel *likeCountLabel;
+
+//delete buttons
+@property (strong, nonatomic) UIButton *deleteButton;
 
 @end
 
@@ -203,6 +204,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [_statusImgViews addObject:sImgView];
         [self.contentView addSubview:sImgView];
     }
+    
     //retweet view
     _repostView = [[UIView alloc] initWithFrame:CGRectZero];
     _repostView.userInteractionEnabled = YES;
@@ -385,6 +387,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         }
     }
     
+    //status
     if (_status.pic_urls.count > 0)
     {
         for (int i = 0; i < [_status.pic_urls count]; i ++)
@@ -394,7 +397,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
             {
                 [imageView yy_setImageWithURL:[NSURL URLWithString:_status.pic_urls[i]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
                 {
-                    
+                    //gif
                 }];
             }
             else
@@ -427,7 +430,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
             {
                 [imageView yy_setImageWithURL:[NSURL URLWithString:_status.retweeted_status.pic_urls[i]] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
                  {
-                     
+                     //gif
                  }];
             }
             else
@@ -477,7 +480,10 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     
     //来源
     CGSize sourceSize = [_sourceLbl sizeThatFits:CGSizeMake(MAXFLOAT, bPostTimeHeight)];
-    [_sourceLbl setFrame:CGRectMake(bBigGap*3+bAvatarWidth+timeSize.width, sbGap+bNicknameHeight+3, sourceSize.width, bPostTimeHeight)];
+    [_sourceLbl setFrame:CGRectMake(bBigGap*3+bAvatarWidth+timeSize.width,
+                                    sbGap+bNicknameHeight+3,
+                                    sourceSize.width,
+                                    bPostTimeHeight)];
     
     //删除
     AppDelegate *delegate = [AppDelegate delegate];
@@ -503,17 +509,52 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [self resetImageViews:_statusImgViews];
         CGSize repostSize = [_retweetTextLabel sizeThatFits:CGSizeMake(bWidth-2*bBigGap, MAXFLOAT)];
         [_retweetTextLabel setFrame:CGRectMake(bBigGap, 0, bWidth-2*bBigGap, repostSize.height)];
-        [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
+        [_repostView setFrame:CGRectMake(0,
+                                         bBigGap*3+bAvatarHeight+postSize.height,
+                                         bWidth,
+                                         repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
         
-        [_repostView setFrame:CGRectMake(0, bBigGap*3+bAvatarHeight+postSize.height, bWidth, repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
+        [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
+        [self layoutGifs:_status.retweeted_status.pic_urls imageViews:_imgViews];
     }
     else
     {
         //微博配图
         _repostView.hidden = YES;
         [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap*2+bAvatarHeight+postSize.height];
+        [self layoutGifs:_status.pic_urls imageViews:_statusImgViews];
     }
     [self layoutBarButtonsWithTop:_status.height-bBarHeight];
+}
+
+-(void)layoutGifs:(NSMutableArray *)imageUrls imageViews:(NSMutableArray *)imageViews
+{
+    if (imageUrls == nil)
+    {
+        return;
+    }
+    else
+    {
+        for (int i = 0; i < imageViews.count; i ++)
+        {
+            UIImageView *imageView = imageViews[i];
+            UIImageView *gif = [[UIImageView alloc] initWithFrame:CGRectZero];
+            if ([imageUrls[i] hasSuffix:@"gif"]) //是gif类型
+            {
+                [gif setImage:[UIImage imageNamed:@"gif_icon"]];
+                [gif setFrame:CGRectMake(imageView.frame.size.width*5/6,
+                                         imageView.frame.size.height*5/6,
+                                         imageView.frame.size.width/6,
+                                         imageView.frame.size.height/6)];
+                [imageView addSubview:gif];
+            }
+            else
+            {
+                [gif setFrame:CGRectZero];
+                [gif removeFromSuperview];
+            }
+        }
+    }
 }
 
 -(void)layoutBarButtonsWithTop:(CGFloat)top
