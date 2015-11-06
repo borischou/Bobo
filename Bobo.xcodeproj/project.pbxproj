@@ -37,6 +37,8 @@
 		4514421F1B2963FA000532DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4514421E1B2963FA000532DD /* Foundation.framework */; };
 		451442211B296401000532DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451442201B296401000532DD /* CoreGraphics.framework */; };
 		451673C71BC914A90078ACA3 /* faved_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451673C61BC914A90078ACA3 /* faved_icon@3x.png */; };
+		451EC8311BEC773800E6C283 /* draft_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451EC8301BEC773800E6C283 /* draft_icon@3x.png */; };
+		451EC8331BEC774F00E6C283 /* cache_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451EC8321BEC774F00E6C283 /* cache_icon@3x.png */; };
 		451F30241BCB74D200668561 /* BBDraftboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30231BCB74D200668561 /* BBDraftboxTableViewController.m */; };
 		451F30271BCB74EE00668561 /* BBDraftboxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F30261BCB74EE00668561 /* BBDraftboxTableViewCell.m */; };
 		454E93E81B3FCD72001126E4 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 454E93E71B3FCD72001126E4 /* NSString+Convert.m */; };
@@ -177,6 +179,8 @@
 		4514421E1B2963FA000532DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		451442201B296401000532DD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		451673C61BC914A90078ACA3 /* faved_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "faved_icon@3x.png"; sourceTree = "<group>"; };
+		451EC8301BEC773800E6C283 /* draft_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "draft_icon@3x.png"; sourceTree = "<group>"; };
+		451EC8321BEC774F00E6C283 /* cache_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cache_icon@3x.png"; sourceTree = "<group>"; };
 		451F30221BCB74D200668561 /* BBDraftboxTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDraftboxTableViewController.h; sourceTree = "<group>"; };
 		451F30231BCB74D200668561 /* BBDraftboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDraftboxTableViewController.m; sourceTree = "<group>"; };
 		451F30251BCB74EE00668561 /* BBDraftboxTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDraftboxTableViewCell.h; sourceTree = "<group>"; };
@@ -460,9 +464,11 @@
 		45620D3C1B3706BF00B9F9F2 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				451EC8301BEC773800E6C283 /* draft_icon@3x.png */,
 				0094A0841BC5585A00C96D67 /* delete_icon@3x.png */,
 				45EF131B1BE35A3E00007EB8 /* delete-disable@3x.png */,
 				45EF131D1BE35A8D00007EB8 /* delete-selected@3x.png */,
+				451EC8321BEC774F00E6C283 /* cache_icon@3x.png */,
 				45A183E31BB9319B00FE9890 /* following_icon@3x.png */,
 				4579AA011BBB9F2E001A2927 /* group_tab_icon@3x.png */,
 				45BE63EB1BD1085C00FBA95E /* resend_icon@3x.png */,
@@ -800,6 +806,7 @@
 				4567C2DC1B9C2BA300C8660B /* icon_album_selected@3x.png in Resources */,
 				45EF131C1BE35A3E00007EB8 /* delete-disable@3x.png in Resources */,
 				451441DE1B295CA9000532DD /* Images.xcassets in Resources */,
+				451EC8331BEC774F00E6C283 /* cache_icon@3x.png in Resources */,
 				4567C2DA1B9C2B5E00C8660B /* icon_camera_selected@3x.png in Resources */,
 				45A183E41BB9319B00FE9890 /* following_icon@3x.png in Resources */,
 				45C57B471B9FEC6D00FE040E /* tab_waterfall@3x.png in Resources */,
@@ -821,6 +828,7 @@
 				0094A0851BC5585A00C96D67 /* delete_icon@3x.png in Resources */,
 				458B60E01B95A8E8005A1749 /* icon_vip@3x.png in Resources */,
 				4579AA021BBB9F2E001A2927 /* group_tab_icon@3x.png in Resources */,
+				451EC8311BEC773800E6C283 /* draft_icon@3x.png in Resources */,
 				456254D51B82E7E00009A332 /* retwt_icon@3x.png in Resources */,
 				459232531B96BE530006A123 /* tab_icon_message@3x.png in Resources */,
 				456254DF1B8306910009A332 /* like_icon_2@3x.png in Resources */,

@@ -54,10 +54,12 @@ static NSString *filepath = @"wbdata.plist";
     if (indexPath.section == 0)
     {
         [cell.textLabel setText:@"草稿箱"];
+        [cell.imageView setImage:[UIImage imageNamed:@"draft_icon"]];
     }
     if (indexPath.section == 1)
     {
         [cell.textLabel setText:@"清除缓存"];
+        [cell.imageView setImage:[UIImage imageNamed:@"cache_icon"]];
     }
     return cell;
 }
