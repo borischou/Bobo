@@ -529,9 +529,10 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 
 -(void)layoutGifsWithUrls:(NSMutableArray *)imageUrls imageViews:(NSMutableArray *)imageViews
 {
-    if (imageViews != nil)
+    if (imageUrls.count > 0)
     {
-        for (int i = 0; i < imageViews.count; i ++)
+        NSInteger urlCount = imageUrls.count;
+        for (int i = 0; i < urlCount; i ++)
         {
             UIImageView *imageView = imageViews[i];
             UIImageView *gif = [[UIImageView alloc] initWithFrame:CGRectZero];
