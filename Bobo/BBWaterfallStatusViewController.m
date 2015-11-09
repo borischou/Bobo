@@ -14,7 +14,8 @@ static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
 static NSString *filename = @"wbdata";
 static NSString *filepath = @"wbdata.plist";
 
-typedef NS_ENUM(NSInteger, FetchResultType) {
+typedef NS_ENUM(NSInteger, FetchResultType)
+{
     FetchResultTypeRefresh,
     FetchResultTypeHistory
 };
@@ -130,10 +131,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     //NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
     
     NSMutableArray *statuses = @[].mutableCopy;
-    if (![dict[@"statuses"] isEqual:[NSNull null]]) {
+    if (![dict[@"statuses"] isEqual:[NSNull null]])
+    {
         NSArray *results = [dict objectForKey:@"statuses"];
-        if (results.count > 0) {
-            for (NSDictionary *tmp_dict in results) {
+        if (results.count > 0)
+        {
+            for (NSDictionary *tmp_dict in results)
+            {
                 [statuses addObject:[[Status alloc] initWithDictionary:tmp_dict]];
             }
         }
@@ -157,7 +161,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     
     //将字典数据写入文件
     NSFileManager *manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:plistPath]) {
+    if (![manager fileExistsAtPath:plistPath])
+    {
         BOOL isCreated = [manager createFileAtPath:plistPath contents:nil attributes:nil];
         NSLog(@"创建结果：%@", isCreated? @"成功": @"失败");
     }
@@ -195,7 +200,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         updateStatusView.frame = CGRectMake(uSmallGap, statusBarHeight+uSmallGap, bWidth-2*uSmallGap, bHeight/2-5);
         [updateStatusView.statusTextView becomeFirstResponder];
     } completion:^(BOOL finished) {
-        if (finished) {
+        if (finished)
+        {
             //what are you gonna do
         }
     }];
@@ -222,9 +228,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
         if (!_weiboAccount)
         {
-            if (_weiboAccount) {
+            if (_weiboAccount)
+            {
                 [self fetchLatestStatuses];
-            } else {
+            }
+            else
+            {
                 [_waterfallView.header endRefreshing];
                 [self navigateToSettings];
                 [Utils presentNotificationWithText:@"更新失败"];
@@ -322,13 +331,17 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 {
     NSString *requestUrl = _url;
     NSDictionary *param = nil;
-    if (_since_id) {
+    if (_since_id)
+    {
         param = @{@"since_id": _since_id};
     }
-    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeRefresh];
-    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"更新失败"];
             [_waterfallView.header endRefreshing];
@@ -341,10 +354,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     NSString *requestUrl = _url;
     NSDictionary *param = @{@"max_id": _max_id, @"count": @"20"};
     
-    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [Utils genericWeiboRequestWithAccount:_weiboAccount URL:requestUrl SLRequestHTTPMethod:SLRequestMethodGET parameters:param completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
         NSError *error = nil;
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeHistory];
-    } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }
+               completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
         dispatch_async(dispatch_get_main_queue(), ^{
             [Utils presentNotificationWithText:@"访问失败"];
             [_waterfallView.footer endRefreshing];
@@ -357,7 +373,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     AppDelegate *delegate = [AppDelegate delegate];
-    if (delegate.currentIndex == tabBarController.selectedIndex) {
+    if (delegate.currentIndex == tabBarController.selectedIndex)
+    {
         [_waterfallView.header beginRefreshing];
     }
     delegate.currentIndex = tabBarController.selectedIndex;
@@ -370,9 +387,12 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
     NSInteger selected = indexPath.row;
     switch (selected) {
         case 0:
-            if ([_url isEqualToString:homeTimeline]) {
+            if ([_url isEqualToString:homeTimeline])
+            {
                 return;
-            } else {
+            }
+            else
+            {
                 _url = homeTimeline;
                 [self clearStatuses];
                 [_waterfallView.header beginRefreshing];
@@ -380,10 +400,13 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
             [groupView maskViewTapped];
             break;
         case 1:
-            if ([_url isEqualToString:bilateralTimeline]) {
+            if ([_url isEqualToString:bilateralTimeline])
+            {
                 
                 return;
-            } else {
+            }
+            else
+            {
                 _url = bilateralTimeline;
                 [self clearStatuses];
                 [_waterfallView.header beginRefreshing];
