@@ -118,7 +118,8 @@
         [views[i] setFrame:CGRectZero];
     }
     
-    if (count == 1) {
+    if (count == 1)
+    {
         UIImageView *view = [views firstObject];
         [view setFrame:CGRectMake(bBigGap, height+bSmallGap, bPostImgWidthForTwo, bPostImgHeightForTwo)];
         return bSmallGap+bPostImgHeightForTwo;
