@@ -218,8 +218,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
 
 -(void)setMJRefresh
 {
+    _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
     _waterfallView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
         if (!_weiboAccount)
         {
             if (_weiboAccount) {
@@ -346,8 +346,8 @@ typedef NS_ENUM(NSInteger, FetchResultType) {
         [self handleWeiboResult:[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error] fetchResultType:FetchResultTypeHistory];
     } completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [Utils presentNotificationWithText:@"访问失败"];
             [_waterfallView.footer endRefreshing];
+            [Utils presentNotificationWithText:@"更新失败"];
         });
     }];
 }

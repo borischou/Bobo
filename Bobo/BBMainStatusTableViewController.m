@@ -52,8 +52,6 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     _statuses = [self readStatusesFromPlist];
     
-    [self setMJRefresh];
-    
     if (_statuses.count > 0)
     {
         _since_id = [self firstIdFromStatuses:_statuses];
@@ -64,6 +62,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     {
         [self.tableView.header beginRefreshing];
     }
+    
+    [self setMJRefresh];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -92,13 +92,13 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 {
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                     {
-                                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[Utils preferenceSinaWeiboURL]]];
-                                     }];
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[Utils preferenceSinaWeiboURL]]];
+    }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                   {
-                                       //取消
-                                   }];
+    {
+        //取消
+    }];
     [ac addAction:settingsAction];
     [ac addAction:cancelAction];
     [self.navigationController presentViewController:ac animated:YES completion:^{}];
@@ -207,8 +207,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 
 -(void)setMJRefresh
 {
+    _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
         if (!_weiboAccount)
         {
             if (_weiboAccount)
@@ -345,8 +345,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     {
         NSLog(@"main footer error: %@", [[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView.footer endRefreshing];
             [Utils presentNotificationWithText:@"更新失败"];
-            [self.tableView.header endRefreshing];
         });
     }];
 }
