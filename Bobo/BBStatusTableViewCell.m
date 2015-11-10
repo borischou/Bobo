@@ -68,10 +68,12 @@
 @property (strong, nonatomic) UIImageView *avatarView;
 @property (strong, nonatomic) UIImageView *vipView;
 @property (strong, nonatomic) NSMutableArray *statusImgViews;
+@property (strong, nonatomic) NSMutableArray *gifStatusViews;
 
 //repost status
 @property (strong, nonatomic) UIView *repostView;
 @property (strong, nonatomic) NSMutableArray *imgViews;
+@property (strong, nonatomic) NSMutableArray *gifRepostViews;
 
 //barbuttons
 @property (strong, nonatomic) UIImageView *retweetImageView;
@@ -193,6 +195,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     
     //img views for status
     _statusImgViews = [[NSMutableArray alloc] init];
+    _gifStatusViews = [[NSMutableArray alloc] init];
     for (int i = 0; i < 9; i ++)
     {
         UIImageView *sImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -203,6 +206,12 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         sImgView.userInteractionEnabled = YES;
         [_statusImgViews addObject:sImgView];
         [self.contentView addSubview:sImgView];
+        
+        UIImageView *gifView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        gifView.clipsToBounds = YES;
+        gifView.contentMode = UIViewContentModeScaleAspectFill;
+        [_gifStatusViews addObject:gifView];
+        [sImgView addSubview:gifView];
     }
     
     //retweet view
@@ -227,6 +236,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     
     //img views for retweeted_status
     _imgViews = [[NSMutableArray alloc] init];
+    _gifRepostViews = [[NSMutableArray alloc] init];
     for (int i = 0; i < 9; i ++)
     {
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -237,6 +247,12 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         imgView.userInteractionEnabled = YES;
         [_imgViews addObject:imgView];
         [_repostView addSubview:imgView];
+        
+        UIImageView *gifView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        gifView.clipsToBounds = YES;
+        gifView.contentMode = UIViewContentModeScaleAspectFill;
+        [_gifRepostViews addObject:gifView];
+        [imgView addSubview:gifView];
     }
     [self.contentView addSubview:_repostView];
 }
@@ -460,6 +476,9 @@ static inline NSRegularExpression * HotwordRegularExpression() {
 
 -(void)loadLayout
 {
+    //reset gifs
+    [self resetGifViews:_gifStatusViews];
+    [self resetGifViews:_gifRepostViews];
     
     //vip
     if (_status.user.verified)
@@ -515,19 +534,27 @@ static inline NSRegularExpression * HotwordRegularExpression() {
                                          repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
         
         [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
-        [self layoutGifsWithUrls:_status.retweeted_status.pic_urls imageViews:_imgViews];
+        [self layoutGifsWithUrls:_status.retweeted_status.pic_urls imageViews:_imgViews gifViews:_gifRepostViews];
     }
     else
     {
         //微博配图
         _repostView.hidden = YES;
         [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap*2+bAvatarHeight+postSize.height];
-        [self layoutGifsWithUrls:_status.pic_urls imageViews:_statusImgViews];
+        [self layoutGifsWithUrls:_status.pic_urls imageViews:_statusImgViews gifViews:_gifStatusViews];
     }
     [self layoutBarButtonsWithTop:_status.height-bBarHeight];
 }
 
--(void)layoutGifsWithUrls:(NSMutableArray *)imageUrls imageViews:(NSMutableArray *)imageViews
+-(void)resetGifViews:(NSMutableArray *)gifViews
+{
+    for (UIImageView *view in gifViews)
+    {
+        [view setFrame:CGRectZero];
+    }
+}
+
+-(void)layoutGifsWithUrls:(NSMutableArray *)imageUrls imageViews:(NSMutableArray *)imageViews gifViews:(NSMutableArray *)gifViews
 {
     if (imageUrls.count > 0)
     {
@@ -535,7 +562,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         for (int i = 0; i < urlCount; i ++)
         {
             UIImageView *imageView = imageViews[i];
-            UIImageView *gif = [[UIImageView alloc] initWithFrame:CGRectZero];
+            UIImageView *gif = gifViews[i];
             if ([imageUrls[i] hasSuffix:@"gif"]) //是gif类型
             {
                 [gif setImage:[UIImage imageNamed:@"gif_icon"]];
@@ -548,7 +575,6 @@ static inline NSRegularExpression * HotwordRegularExpression() {
             else
             {
                 [gif setFrame:CGRectZero];
-                [gif removeFromSuperview];
             }
         }
     }
