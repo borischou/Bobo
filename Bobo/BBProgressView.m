@@ -162,7 +162,7 @@
     //准备好颜色
     CGColorRef color = (_centerColor == nil) ? [UIColor blackColor].CGColor : _centerColor.CGColor;
     
-    //拿到当前绘图上下文
+    //拿到当前绘图上下文（画布）
     CGContextRef contextRef = UIGraphicsGetCurrentContext();
     
     //确定绘图所在view的大小
@@ -176,7 +176,7 @@
     //确定小圆饼的半径
     CGFloat radius = viewSize.width / 2 - width;
     
-    //新建绘图轨迹
+    //在画布（绘图上下文）上新建绘图轨迹
     CGContextBeginPath(contextRef);
     
     //确定轨迹起始坐标
