@@ -210,6 +210,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         UIImageView *gifView = [[UIImageView alloc] initWithFrame:CGRectZero];
         gifView.clipsToBounds = YES;
         gifView.contentMode = UIViewContentModeScaleAspectFill;
+        [gifView setImage:[UIImage imageNamed:@"gif_icon"]];
         [_gifStatusViews addObject:gifView];
         [sImgView addSubview:gifView];
     }
@@ -251,6 +252,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         UIImageView *gifView = [[UIImageView alloc] initWithFrame:CGRectZero];
         gifView.clipsToBounds = YES;
         gifView.contentMode = UIViewContentModeScaleAspectFill;
+        [gifView setImage:[UIImage imageNamed:@"gif_icon"]];
         [_gifRepostViews addObject:gifView];
         [imgView addSubview:gifView];
     }
@@ -565,12 +567,10 @@ static inline NSRegularExpression * HotwordRegularExpression() {
             UIImageView *gif = gifViews[i];
             if ([imageUrls[i] hasSuffix:@"gif"]) //是gif类型
             {
-                [gif setImage:[UIImage imageNamed:@"gif_icon"]];
                 [gif setFrame:CGRectMake(imageView.frame.size.width*5/6,
                                          imageView.frame.size.height*5/6,
                                          imageView.frame.size.width/6,
                                          imageView.frame.size.height/6)];
-                [imageView addSubview:gif];
             }
             else
             {

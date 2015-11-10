@@ -70,7 +70,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     NSLog(@"让圣光净化一切！");
     [Utils clearImageCache];
     [Utils clearDiskImages];
-    [_waterfallView.statuses removeAllObjects];
+    
+    [self clearStatuses];
     [_waterfallView.header beginRefreshing];
 }
 
@@ -419,8 +420,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 
 -(void)clearStatuses
 {
-    _since_id = nil;
     [_waterfallView.statuses removeAllObjects];
+    [_waterfallView reloadData];
 }
 
 @end

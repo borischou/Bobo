@@ -139,7 +139,7 @@ static inline NSRegularExpression * HotwordRegularExpression()
     }
 }
 
-#pragma BBWaterfallCollectionViewCell support
+#pragma mark - BBWaterfallCollectionViewCell support
 
 -(void)loadDataWithStatus:(Status *)status cell:(BBWaterfallCollectionViewCell *)cell
 {
@@ -245,7 +245,9 @@ static inline NSRegularExpression * HotwordRegularExpression()
 {
     if ([url hasSuffix:@"gif"])
     {
+        CGFloat cellWidth = cell.frame.size.width;
         UIImageView *imageView = cell.coverImageView;
+        [cell.gifView setFrame:CGRectMake(cellWidth*4/5, 0, cellWidth/5, cellWidth/5)];
         [imageView yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error)
          {
              
@@ -253,6 +255,7 @@ static inline NSRegularExpression * HotwordRegularExpression()
     }
     else
     {
+        [cell.gifView setFrame:CGRectZero];
         NSString *sdUrl = [NSString middlePictureUrlConvertedFromThumbUrl:url];
         [cell.coverImageView yy_setImageWithURL:[NSURL URLWithString:sdUrl] placeholder:[UIImage imageNamed:@"pic_placeholder"] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
             

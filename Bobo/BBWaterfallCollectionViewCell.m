@@ -52,12 +52,18 @@
     self.contentView.backgroundColor = bCellBGColor;
     
     _coverImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [_coverImageView setFrame:CGRectZero];
     _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     _coverImageView.clipsToBounds = YES;
     _coverImageView.userInteractionEnabled = YES;
     [_coverImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverImageViewTapped)]];
     [self.contentView addSubview:_coverImageView];
+    
+    //gif
+    _gifView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _gifView.contentMode = UIViewContentModeScaleAspectFill;
+    _gifView.clipsToBounds = YES;
+    [_gifView setImage:[UIImage imageNamed:@"gif_icon"]];
+    [_coverImageView addSubview:_gifView];
     
     _avatarView = [[UIImageView alloc] initWithFrame:CGRectZero];
     _avatarView.contentMode = UIViewContentModeScaleAspectFill;
@@ -133,6 +139,7 @@
 -(void)resetCoverImageView
 {
     [_coverImageView setFrame:CGRectZero];
+    [_gifView setFrame:CGRectZero];
     [_retweetTextLabel setFrame:CGRectZero];
     [_mask removeFromSuperview];
 }

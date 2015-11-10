@@ -43,6 +43,7 @@
 @property (strong, nonatomic) UIImageView *retweetIcon;
 @property (strong, nonatomic) UIImageView *commentIcon;
 
+@property (strong, nonatomic) UIImageView *gifView;
 @property (strong, nonatomic) UIView *mask;
 
 @end
