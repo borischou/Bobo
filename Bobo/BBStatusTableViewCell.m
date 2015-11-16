@@ -26,39 +26,6 @@
 #import "BBProfileTableViewController.h"
 #import "BBFavoritesTableViewController.h"
 
-#define bWidth [UIScreen mainScreen].bounds.size.width
-#define bHeight [UIScreen mainScreen].bounds.size.height
-#define bAvatarWidth 45
-#define bAvatarHeight bAvatarWidth
-#define bNicknameWidth [UIScreen mainScreen].bounds.size.width/2
-#define bNicknameHeight 20
-#define bPostTimeWidth bNicknameWidth
-#define bPostTimeHeight 20
-#define bTopPadding 10.0
-#define bSmallGap 5
-#define bBigGap 10
-#define sbGap 15
-#define bDeleteBtnWidth 20
-#define bTextFontSize 14.f
-#define statusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
-
-#define bBarHeight bHeight/25
-#define bBarSmallGap 7
-#define bFontSize 12.0
-
-#define bRetweetBGColor [UIColor colorWithRed:30.f/255 green:30.f/255 blue:30.f/255 alpha:1.f]
-#define bCellBGColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
-
-#define bMaleColor [UIColor colorWithRed:0.0/255 green:154.0/255 blue:205.0/255 alpha:1.0] //light blue
-#define bFemaleColor [UIColor colorWithRed:255.0/255 green:52.0/255 blue:181.0/255 alpha:1.0] //pink
-
-#define kBarColor [UIColor colorWithRed:59.f/255 green:59.f/255 blue:59.f/255 alpha:1.f]
-
-#define tLinkColor [UIColor colorWithRed:106.f/255 green:90.f/255 blue:205.f/255 alpha:1.f]
-#define tActiveLinkColor [UIColor colorWithRed:0.f/255 green:205.f/255 blue:102.f/255 alpha:1.f]
-
-#define bWeiboDomain @"https://api.weibo.com/2/"
-
 @interface BBStatusTableViewCell ()
 
 //status
@@ -534,16 +501,18 @@ static inline NSRegularExpression * HotwordRegularExpression() {
         [_repostView setFrame:CGRectMake(0,
                                          bBigGap*3+bAvatarHeight+postSize.height,
                                          bWidth,
-                                         repostSize.height+bSmallGap+[Utils heightForImgsWithCount:[_status.retweeted_status.pic_urls count]])];
+                                         repostSize.height+bSmallGap+heightForImgsWithCount([_status.retweeted_status.pic_urls count]))];
         
-        [Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
+        //[Utils layoutImgViews:_imgViews withImageCount:[_status.retweeted_status.pic_urls count] fromTopHeight:repostSize.height];
+        layoutImgViews(_imgViews, _status.retweeted_status.pic_urls.count, repostSize.height);
         [self layoutGifsWithUrls:_status.retweeted_status.pic_urls imageViews:_imgViews gifViews:_gifRepostViews];
     }
     else
     {
         //微博配图
         _repostView.hidden = YES;
-        [Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap*2+bAvatarHeight+postSize.height];
+        //[Utils layoutImgViews:_statusImgViews withImageCount:[_status.pic_urls count] fromTopHeight:bBigGap*2+bAvatarHeight+postSize.height];
+        layoutImgViews(_statusImgViews, _status.pic_urls.count, bBigGap*2+bAvatarHeight+postSize.height);
         [self layoutGifsWithUrls:_status.pic_urls imageViews:_statusImgViews gifViews:_gifStatusViews];
     }
     [self layoutBarButtonsWithTop:_status.height-bBarHeight];
