@@ -512,6 +512,7 @@ static inline NSRegularExpression * HotwordRegularExpression() {
     if ([_status.user.idstr isEqualToString:delegate.user.idstr])
     {
         [_deleteButton setHidden:NO];
+        [_deleteButton setEnabled:YES];
     }
     else
     {
