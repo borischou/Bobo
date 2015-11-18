@@ -107,9 +107,6 @@ typedef NS_ENUM(NSInteger, MessageType)
 
 -(void)prepareForLoadingMainApp
 {
-    //初始化各个试图控制器
-    [self initControllers];
-    
     //获取系统内置新浪微博账号对象
     _weiboAccount = [Utils systemAccounts].firstObject;
     
@@ -127,6 +124,9 @@ typedef NS_ENUM(NSInteger, MessageType)
     
     //设置内存缓存机制
     [self setupImageCache];
+    
+    //初始化各个试图控制器
+    [self initControllers];
 }
 
 -(void)setupImageCache

@@ -52,6 +52,8 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     _weiboAccount = [[AppDelegate delegate] defaultAccount];
     _statuses = [self readStatusesFromPlist];
     
+    [self setMJRefresh];
+
     if (_statuses.count > 0)
     {
         _since_id = [self firstIdFromStatuses:_statuses];
@@ -62,8 +64,6 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     {
         [self.tableView.header beginRefreshing];
     }
-    
-    [self setMJRefresh];
 }
 
 -(void)viewDidAppear:(BOOL)animated

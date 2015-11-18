@@ -126,14 +126,14 @@
         }
         else
         {
-            if (0 == i || 1 == i)
-            {
-                topPic.width = [UIScreen mainScreen].bounds.size.width/1.7;
-            }
-            else
-            {
-                topPic.width = [UIScreen mainScreen].bounds.size.width/1.4;
-            }
+            //if (0 == i || 1 == i)
+            //{
+            topPic.width = [UIScreen mainScreen].bounds.size.width/1.7;
+            //}
+//            else
+//            {
+//                topPic.width = [UIScreen mainScreen].bounds.size.width/1.4;
+//            }
             topPic.height = [UIScreen mainScreen].bounds.size.height/6;
             topPic.centerX = i * screenW + screenW / 2;
             topPic.y = 0;
