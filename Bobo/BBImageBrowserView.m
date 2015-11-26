@@ -25,6 +25,7 @@
 @property (assign, nonatomic) BOOL saved;
 
 @property (strong, nonatomic) UITapGestureRecognizer *singleTap;
+@property (strong, nonatomic) UILongPressGestureRecognizer *longPress;
 
 @end
 
@@ -118,9 +119,9 @@
     [doubleTap setNumberOfTapsRequired:2];
     [imageView addGestureRecognizer:doubleTap];
     
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewLongPressed:)];
-    [longPress setMinimumPressDuration:1.0];
-    [imageView addGestureRecognizer:longPress];
+    _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewLongPressed:)];
+    [_longPress setMinimumPressDuration:0.7];
+    [imageView addGestureRecognizer:_longPress];
     
     //单击双击共存时优先检测双击，若无双击则执行单击回调方法
     [_singleTap requireGestureRecognizerToFail:doubleTap];
@@ -191,11 +192,15 @@
     [scrollView zoomToRect:zoomRect animated:YES];
 }
 
--(void)imageViewLongPressed:(UILongPressGestureRecognizer *)tap
+-(void)imageViewLongPressed:(UILongPressGestureRecognizer *)longPress
 {
     if (!_saved)
     {
         [self saveImageToSystemAlbum:_imageView.image];
+    }
+    else
+    {
+        [Utils presentNotificationWithText:@"图片已保存"];
     }
 }
 
