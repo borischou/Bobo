@@ -206,6 +206,10 @@ static NSString *filepath = @"draft.plist";
             {
                 text = [NSString stringWithFormat:@"//@%@:%@", self.status.user.screen_name, self.status.text];
             }
+            else if (_comment)
+            {
+                text = [NSString stringWithFormat:@"//@%@:%@", self.comment.user.screen_name, self.comment.text];
+            }
             else
             {
                 text = @"";
