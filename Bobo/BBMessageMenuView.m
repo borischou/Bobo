@@ -105,7 +105,7 @@ static CGFloat lineHeight = 3;
     [self setNeedsLayout];
 }
 
--(void)moveLineAccordingToFlag:(NSInteger)flag
+-(void)moveLineAccordingToFlag:(BBMessageType)flag
 {
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [_bgImgView setCenter:CGPointMake(flag*mButtonWidth+mButtonWidth/2, height-lineHeight/2)];
