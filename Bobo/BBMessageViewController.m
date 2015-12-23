@@ -29,14 +29,6 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     FetchResultTypeHistory
 };
 
-typedef NS_ENUM(NSInteger, messageType)
-{
-    messageTypeToMe,
-    messageTypeByMe,
-    messageTypeMentionMe,
-    messageTypeAll
-};
-
 @interface BBMessageViewController () <UIScrollViewDelegate, UITabBarControllerDelegate, BBMessageMenuViewDelegate>
 
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -88,7 +80,7 @@ typedef NS_ENUM(NSInteger, messageType)
     _menuView.delegate = self;
     [self.view addSubview:_menuView];
     
-    [self setMJRefreshWithTableView:_messageTableView flag:messageTypeToMe];
+    [self setMJRefreshWithTableView:_messageTableView flag:BBMessageTypeReceived];
     [_messageTableView.header beginRefreshing];
     _currentTableView = _messageTableView;
 }
@@ -168,52 +160,52 @@ typedef NS_ENUM(NSInteger, messageType)
 {
     if (scrollView.contentOffset.x == 0)
     { //to_me
-        [_menuView moveLineAccordingToFlag:messageTypeToMe];
+        [_menuView moveLineAccordingToFlag:BBMessageTypeReceived];
         _uri = @"to_me";
         if (!_messageTableView)
         {
             _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
             [scrollView addSubview:_messageTableView];
-            [self setMJRefreshWithTableView:_messageTableView flag:messageTypeToMe];
+            [self setMJRefreshWithTableView:_messageTableView flag:BBMessageTypeReceived];
             [_messageTableView.header beginRefreshing];
             _currentTableView = _messageTableView;
         }
     }
     if (scrollView.contentOffset.x == bWidth)
     { //by_me
-        [_menuView moveLineAccordingToFlag:messageTypeByMe];
+        [_menuView moveLineAccordingToFlag:BBMessageTypePosted];
         _uri = @"by_me";
         if (!_byMeTableView)
         {
             _byMeTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
             [scrollView addSubview:_byMeTableView];
-            [self setMJRefreshWithTableView:_byMeTableView flag:messageTypeByMe];
+            [self setMJRefreshWithTableView:_byMeTableView flag:BBMessageTypePosted];
             [_byMeTableView.header beginRefreshing];
             _currentTableView = _byMeTableView;
         }
     }
     if (scrollView.contentOffset.x == bWidth*2)
     { //mentions
-        [_menuView moveLineAccordingToFlag:messageTypeMentionMe];
+        [_menuView moveLineAccordingToFlag:BBMessageTypeAtMe];
         _uri = @"mentions";
         if (!_mentionTableView)
         {
             _mentionTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*2, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
             [scrollView addSubview:_mentionTableView];
-            [self setMJRefreshWithTableView:_mentionTableView flag:messageTypeMentionMe];
+            [self setMJRefreshWithTableView:_mentionTableView flag:BBMessageTypeAtMe];
             [_mentionTableView.header beginRefreshing];
             _currentTableView = _mentionTableView;
         }
     }
     if (scrollView.contentOffset.x == bWidth*3)
     { //timeline
-        [_menuView moveLineAccordingToFlag:messageTypeAll];
+        [_menuView moveLineAccordingToFlag:BBMessageTypeAll];
         _uri = @"timeline";
         if (!_allTableView)
         {
             _allTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*3, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
             [scrollView addSubview:_allTableView];
-            [self setMJRefreshWithTableView:_allTableView flag:messageTypeAll];
+            [self setMJRefreshWithTableView:_allTableView flag:BBMessageTypeAll];
             [_allTableView.header beginRefreshing];
             _currentTableView = _allTableView;
         }
@@ -323,11 +315,11 @@ typedef NS_ENUM(NSInteger, messageType)
             [[NSUserDefaults standardUserDefaults] setObject:@(toMeCount) forKey:@"count_to_me"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_messageTableView flag:messageTypeToMe];
+            [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_messageTableView flag:BBMessageTypeReceived];
         }
         if ([_uri isEqualToString:@"by_me"])
         {
-            [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_byMeTableView flag:messageTypeByMe];
+            [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_byMeTableView flag:BBMessageTypePosted];
         }
         if ([_uri isEqualToString:@"mentions"])
         {
@@ -342,11 +334,11 @@ typedef NS_ENUM(NSInteger, messageType)
             [[NSUserDefaults standardUserDefaults] setObject:@(atMeCount) forKey:@"count_at_me"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             [_menuView setBadgeValue:0];
-            [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_mentionTableView flag:messageTypeMentionMe];
+            [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_mentionTableView flag:BBMessageTypeAtMe];
         }
         if ([_uri isEqualToString:@"timeline"])
         {
-            [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_allTableView flag:messageTypeAll];
+            [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_allTableView flag:BBMessageTypeAll];
         }
     }
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -367,19 +359,19 @@ typedef NS_ENUM(NSInteger, messageType)
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
         if ([_uri isEqualToString:@"to_me"])
         {
-            [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_messageTableView flag:messageTypeToMe];
+            [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_messageTableView flag:BBMessageTypeReceived];
         }
         if ([_uri isEqualToString:@"by_me"])
         {
-            [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_byMeTableView flag:messageTypeByMe];
+            [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_byMeTableView flag:BBMessageTypePosted];
         }
         if ([_uri isEqualToString:@"mentions"])
         {
-            [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_mentionTableView flag:messageTypeMentionMe];
+            [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_mentionTableView flag:BBMessageTypeAtMe];
         }
         if ([_uri isEqualToString:@"timeline"])
         {
-            [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_allTableView flag:messageTypeAll];
+            [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_allTableView flag:BBMessageTypeAll];
         }
     }
                completionBlockWithFailure:^(AFHTTPRequestOperation *operation, NSError *error)
