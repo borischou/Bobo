@@ -890,7 +890,7 @@ static NSString *filepath = @"draft.plist";
 
 #pragma mark - BBPhotoSelectionCollectionViewControllerDelegate
 
--(void)didFetchedPickedPhotos:(NSMutableArray *)photos
+-(void)didFetchPickedPhotos:(NSMutableArray *)photos
 {
     _pickedOnes = photos;
     [self shouldHideMaskAndView:NO];

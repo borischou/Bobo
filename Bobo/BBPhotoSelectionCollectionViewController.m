@@ -64,7 +64,7 @@
             [images addObject:imageData];
         }];
     }
-    [self.delegate didFetchedPickedPhotos:images];
+    [self.delegate didFetchPickedPhotos:images];
     [self.navigationController dismissViewControllerAnimated:YES completion:^{}];
 }
 

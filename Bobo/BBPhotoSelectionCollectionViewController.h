@@ -11,7 +11,7 @@
 
 @protocol BBPhotoSelectionCollectionViewControllerDelegate <NSObject>
 
--(void)didFetchedPickedPhotos:(NSMutableArray *)photos;
+-(void)didFetchPickedPhotos:(NSMutableArray *)photos;
 -(void)didCancelPhotoSelection;
 
 @end
