@@ -245,7 +245,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     tableView.footer = footer;
 }
 
--(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type forTableView:(BBMessageTableView *)tableView flag:(NSInteger)flag
+-(void)handleWeiboResult:(id)result fetchResultType:(NSInteger)type forTableView:(BBMessageTableView *)tableView flag:(BBMessageType)flag
 {
     if (type == FetchResultTypeRefresh)
     { //下拉刷新最新消息
