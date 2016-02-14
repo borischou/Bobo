@@ -343,6 +343,7 @@ static NSString *const MSG_ACCOUNT_ALERT = @"您尚未在系统设置中登录�
             
             [[NSUserDefaults standardUserDefaults] setObject:@(atMeCount) forKey:KEY_COUNT_AT_ME];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            
             [_menuView setBadgeValue:0];
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_mentionTableView flag:BBMessageTypeAtMe];
         }

@@ -84,8 +84,9 @@ static CGFloat lineHeight = 3;
     [_badge setTextAlignment:NSTextAlignmentCenter];
     [_badge setBackgroundColor:[UIColor redColor]];
     [_badge setFont:[UIFont systemFontOfSize:12.0]];
-    [_badge.layer setCornerRadius:9.0];
+    [_badge.layer setCornerRadius:12.0];
     [_badge.layer setMasksToBounds:YES];
+    [_badge setClipsToBounds:YES];
     [button3 addSubview:_badge];
 }
 
