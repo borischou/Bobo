@@ -29,6 +29,16 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     FetchResultTypeHistory
 };
 
+static NSString *const URL_TYPE_TO_ME = @"to_me";
+static NSString *const URL_TYPE_BY_ME = @"by_me";
+static NSString *const URL_TYPE_MENTION = @"mentions";
+static NSString *const URL_TYPE_TIMELINE = @"timeline";
+
+static NSString *const KEY_COUNT_TO_ME = @"count_to_me";
+static NSString *const KEY_COUNT_AT_ME = @"count_at_me";
+
+static NSString *const MSG_ACCOUNT_ALERT = @"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？";
+
 @interface BBMessageViewController () <UIScrollViewDelegate, UITabBarControllerDelegate, BBMessageMenuViewDelegate>
 
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -60,7 +70,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     
     _weiboAccount = [delegate defaultAccount];
     
-    _uri = @"to_me";
+    _uri = URL_TYPE_TO_ME;
     _maxids = @[[NSNull null], [NSNull null], [NSNull null], [NSNull null]].mutableCopy;
     _sinceids = @[[NSNull null], [NSNull null], [NSNull null], [NSNull null]].mutableCopy;
     
@@ -111,7 +121,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 
 -(void)navigateToSettings
 {
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"您尚未在系统设置中登录您的新浪微博账号，请在设置中登录您的新浪微博账号后再打开Friends浏览微博内容。是否跳转到系统设置？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:MSG_ACCOUNT_ALERT preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
     {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[Utils preferenceSinaWeiboURL]]];
@@ -161,7 +171,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     if (scrollView.contentOffset.x == 0)
     { //to_me
         [_menuView moveLineAccordingToFlag:BBMessageTypeReceived];
-        _uri = @"to_me";
+        _uri = URL_TYPE_TO_ME;
         if (!_messageTableView)
         {
             _messageTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
@@ -174,7 +184,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     if (scrollView.contentOffset.x == bWidth)
     { //by_me
         [_menuView moveLineAccordingToFlag:BBMessageTypePosted];
-        _uri = @"by_me";
+        _uri = URL_TYPE_BY_ME;
         if (!_byMeTableView)
         {
             _byMeTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
@@ -187,7 +197,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     if (scrollView.contentOffset.x == bWidth*2)
     { //mentions
         [_menuView moveLineAccordingToFlag:BBMessageTypeAtMe];
-        _uri = @"mentions";
+        _uri = URL_TYPE_MENTION;
         if (!_mentionTableView)
         {
             _mentionTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*2, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
@@ -200,7 +210,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     if (scrollView.contentOffset.x == bWidth*3)
     { //timeline
         [_menuView moveLineAccordingToFlag:BBMessageTypeAll];
-        _uri = @"timeline";
+        _uri = URL_TYPE_TIMELINE;
         if (!_allTableView)
         {
             _allTableView = [[BBMessageTableView alloc] initWithFrame:CGRectMake(bWidth*3, 0, bWidth, mTableViewHeight) style:UITableViewStyleGrouped];
@@ -302,41 +312,41 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     {
         NSError *error = nil;
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
-        if ([_uri isEqualToString:@"to_me"])
+        if ([_uri isEqualToString:URL_TYPE_TO_ME])
         {
             NSInteger toMeCount = [result[@"total_number"] integerValue];
             
-            NSInteger oldToMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"count_to_me"] integerValue];
+            NSInteger oldToMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:KEY_COUNT_TO_ME] integerValue];
             NSInteger increment = labs(toMeCount-oldToMeCount);
             NSInteger badgeValue = messageTab.badgeValue.integerValue-increment;
             
             messageTab.badgeValue = badgeValue > 0? [NSString stringWithFormat:@"%ld", (long)badgeValue]: nil;
             
-            [[NSUserDefaults standardUserDefaults] setObject:@(toMeCount) forKey:@"count_to_me"];
+            [[NSUserDefaults standardUserDefaults] setObject:@(toMeCount) forKey:KEY_COUNT_TO_ME];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_messageTableView flag:BBMessageTypeReceived];
         }
-        if ([_uri isEqualToString:@"by_me"])
+        if ([_uri isEqualToString:URL_TYPE_BY_ME])
         {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_byMeTableView flag:BBMessageTypePosted];
         }
-        if ([_uri isEqualToString:@"mentions"])
+        if ([_uri isEqualToString:URL_TYPE_MENTION])
         {
             NSInteger atMeCount = [result[@"total_number"] integerValue];
             
-            NSInteger oldAtMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"count_at_me"] integerValue];
+            NSInteger oldAtMeCount = [[[NSUserDefaults standardUserDefaults] objectForKey:KEY_COUNT_AT_ME] integerValue];
             NSInteger increment = labs(atMeCount-oldAtMeCount);
             NSInteger badgeValue = messageTab.badgeValue.integerValue-increment;
             
             messageTab.badgeValue = badgeValue > 0? [NSString stringWithFormat:@"%ld", (long)badgeValue]: nil;
             
-            [[NSUserDefaults standardUserDefaults] setObject:@(atMeCount) forKey:@"count_at_me"];
+            [[NSUserDefaults standardUserDefaults] setObject:@(atMeCount) forKey:KEY_COUNT_AT_ME];
             [[NSUserDefaults standardUserDefaults] synchronize];
             [_menuView setBadgeValue:0];
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_mentionTableView flag:BBMessageTypeAtMe];
         }
-        if ([_uri isEqualToString:@"timeline"])
+        if ([_uri isEqualToString:URL_TYPE_TIMELINE])
         {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeRefresh forTableView:_allTableView flag:BBMessageTypeAll];
         }
@@ -357,19 +367,19 @@ typedef NS_ENUM(NSInteger, FetchResultType)
     [Utils genericWeiboRequestWithAccount:_weiboAccount URL:[NSString stringWithFormat:@"comments/%@.json?max_id=%@&count=20", _uri, _maxids[flag]] SLRequestHTTPMethod:SLRequestMethodGET parameters:nil completionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
-        if ([_uri isEqualToString:@"to_me"])
+        if ([_uri isEqualToString:URL_TYPE_TO_ME])
         {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_messageTableView flag:BBMessageTypeReceived];
         }
-        if ([_uri isEqualToString:@"by_me"])
+        if ([_uri isEqualToString:URL_TYPE_BY_ME])
         {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_byMeTableView flag:BBMessageTypePosted];
         }
-        if ([_uri isEqualToString:@"mentions"])
+        if ([_uri isEqualToString:URL_TYPE_MENTION])
         {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_mentionTableView flag:BBMessageTypeAtMe];
         }
-        if ([_uri isEqualToString:@"timeline"])
+        if ([_uri isEqualToString:URL_TYPE_TIMELINE])
         {
             [self handleWeiboResult:result fetchResultType:FetchResultTypeHistory forTableView:_allTableView flag:BBMessageTypeAll];
         }
