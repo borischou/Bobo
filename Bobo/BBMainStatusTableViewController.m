@@ -7,6 +7,7 @@
 //
 
 #import "BBMainStatusTableViewController.h"
+#import "BLRefreshGifHeader.h"
 
 static NSString *reuseIdentifier = @"reuseCell";
 static NSString *reuseBarCellId = @"barCell";
@@ -208,7 +209,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 -(void)setMJRefresh
 {
     _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
-    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    self.tableView.header = [BLRefreshGifHeader headerWithRefreshingBlock:^{
         if (!_weiboAccount)
         {
             if (_weiboAccount)

@@ -13,6 +13,7 @@
 #import <Accounts/Accounts.h>
 #import "AppDelegate.h"
 #import "Utils.h"
+#import "BLRefreshGifHeader.h"
 
 @interface BBListTableViewController () <BBListTableViewCellDelegate>
 
@@ -52,7 +53,7 @@
 
 -(void)setMJRefresh
 {
-    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    self.tableView.header = [BLRefreshGifHeader headerWithRefreshingBlock:^{
         [self resetCursor];
         [self fetchListData];
     }];

@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "Comment.h"
 #import "BBMessageMenuView.h"
+#import "BLRefreshGifHeader.h"
 
 #define bWeiboDomain @"https://api.weibo.com/2/"
 
@@ -226,7 +227,7 @@ static NSString *const MSG_ACCOUNT_ALERT = @"您尚未在系统设置中登录�
 
 -(void)setMJRefreshWithTableView:(BBMessageTableView *)tableView flag:(NSInteger)flag
 {
-    tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    tableView.header = [BLRefreshGifHeader headerWithRefreshingBlock:^{
         _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
         if (!_weiboAccount)
         {

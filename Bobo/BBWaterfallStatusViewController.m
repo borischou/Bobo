@@ -7,6 +7,7 @@
 //
 
 #import "BBWaterfallStatusViewController.h"
+#import "BLRefreshGifHeader.h"
 
 static NSString *homeTimeline = @"statuses/home_timeline.json";
 static NSString *bilateralTimeline = @"statuses/bilateral_timeline.json";
@@ -226,7 +227,7 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 -(void)setMJRefresh
 {
     _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
-    _waterfallView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    _waterfallView.header = [BLRefreshGifHeader headerWithRefreshingBlock:^{
         if (!_weiboAccount)
         {
             if (_weiboAccount)

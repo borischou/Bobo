@@ -7,6 +7,7 @@
 //
 
 #import "BBFavoritesTableViewController.h"
+#import "BLRefreshGifHeader.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -79,7 +80,7 @@
 
 -(void)setMJRefresh
 {
-    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    self.tableView.header = [BLRefreshGifHeader headerWithRefreshingBlock:^{
         if (!_weiboAccount)
         {
             _weiboAccount = [[AppDelegate delegate] validWeiboAccount];

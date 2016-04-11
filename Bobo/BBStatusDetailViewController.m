@@ -9,6 +9,7 @@
 #import "BBStatusDetailViewController.h"
 #import "BBDetailMenuHeaderView.h"
 #import "Feedback.h"
+#import "BLRefreshGifHeader.h"
 
 typedef NS_ENUM(NSInteger, detailFetchResult)
 {
@@ -115,7 +116,7 @@ static NSString *reuseCMCell = @"reuseCMCell";
 
 -(void)setMJRefresh
 {
-    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    self.tableView.header = [BLRefreshGifHeader headerWithRefreshingBlock:^{
         [self fetchFeedback];
         if (_commentTurnedOn)
         {
