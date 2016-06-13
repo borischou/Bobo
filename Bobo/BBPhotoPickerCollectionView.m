@@ -102,6 +102,10 @@ static CGFloat scale = 1.0;
     {
         cell.imageView.image = result;
     }];
+    if (indexPath.item == _fetchedPhotos.count)
+    {
+        [_manager stopCachingImagesForAllAssets];
+    }
     
     return cell;
 }
