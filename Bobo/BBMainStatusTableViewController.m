@@ -208,20 +208,13 @@ typedef NS_ENUM(NSInteger, FetchResultType)
 
 -(void)setMJRefresh
 {
-    _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
     self.tableView.header = [BLRefreshGifHeader headerWithRefreshingBlock:^{
+        _weiboAccount = [[AppDelegate delegate] validWeiboAccount];
         if (!_weiboAccount)
         {
-            if (_weiboAccount)
-            {
-                [self fetchLatestStatuses];
-            }
-            else
-            {
-                [self.tableView.header endRefreshing];
-                [self navigateToSettings];
-                [Utils presentNotificationWithText:@"更新失败"];
-            }
+            [self.tableView.header endRefreshing];
+            [self navigateToSettings];
+            [Utils presentNotificationWithText:@"更新失败"];
         }
         else
         {
